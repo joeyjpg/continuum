@@ -44,8 +44,15 @@ public class APIUtils {
     public static final String DURATION_KEY = "duration";
     public static final String DURATION = "permanent";
     public static final String SCOPE_KEY = "scope";
-    public static final String SCOPE = "identity edit flair history modconfig modflair modlog modposts modwiki mysubreddits privatemessages read report" +
-                                        "save submit subscribe vote wikiedit wikiread creddits modcontributors modmail modothers livemanage account modself";
+
+    public static final String[] SCOPE_LIST = {
+        "account", "creddits", "edit", "flair", "history", "identity", "livemanage", "modconfig", "modcontributors",
+        "modflair", "modlog", "modmail", "modothers", "modposts", "modwiki", "modself", "mysubreddits", "privatemessages",
+        "read", "report", "save", "submit", "subscribe", "vote", "wikiedit", "wikiread"
+    };
+
+    public static final String SCOPE = String.join(" ", SCOPE_LIST);
+
     public static final String ACCESS_TOKEN_KEY = "access_token";
 
     public static final String AUTHORIZATION_KEY = "Authorization";
