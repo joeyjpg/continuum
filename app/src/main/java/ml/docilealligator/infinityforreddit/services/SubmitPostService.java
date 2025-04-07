@@ -123,27 +123,27 @@ public class SubmitPostService extends JobService {
     public static JobInfo constructJobInfo(Context context, long contentEstimatedBytes, PersistableBundle extras) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             return new JobInfo.Builder(JOB_ID++, new ComponentName(context, SubmitPostService.class))
-                    .setUserInitiated(true)
-                    .setRequiredNetwork(new NetworkRequest.Builder().clearCapabilities().build())
-                    .setEstimatedNetworkBytes(0, contentEstimatedBytes + 500)
-                    .setExtras(extras)
-                    .build();
+                .setUserInitiated(true)
+                .setRequiredNetwork(new NetworkRequest.Builder().clearCapabilities().build())
+                .setEstimatedNetworkBytes(0, contentEstimatedBytes + 500)
+                .setExtras(extras)
+                .build();
         } else {
             return new JobInfo.Builder(JOB_ID++, new ComponentName(context, SubmitPostService.class))
-                    .setOverrideDeadline(0)
-                    .setExtras(extras)
-                    .build();
+                .setOverrideDeadline(0)
+                .setExtras(extras)
+                .build();
         }
     }
 
     @Override
     public boolean onStartJob(JobParameters params) {
         NotificationChannelCompat serviceChannel =
-                new NotificationChannelCompat.Builder(
-                        NotificationUtils.CHANNEL_SUBMIT_POST,
-                        NotificationManagerCompat.IMPORTANCE_LOW)
-                        .setName(NotificationUtils.CHANNEL_SUBMIT_POST)
-                        .build();
+            new NotificationChannelCompat.Builder(
+                NotificationUtils.CHANNEL_SUBMIT_POST,
+                NotificationManagerCompat.IMPORTANCE_LOW)
+                .setName(NotificationUtils.CHANNEL_SUBMIT_POST)
+                .build();
 
         NotificationManagerCompat manager = NotificationManagerCompat.from(this);
         manager.createNotificationChannel(serviceChannel);
@@ -154,63 +154,39 @@ public class SubmitPostService extends JobService {
 
         if (postType == EXTRA_POST_TEXT_OR_LINK) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                setNotification(params,
-                        NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset,
-                        createNotification(R.string.posting),
-                        JobService.JOB_END_NOTIFICATION_POLICY_REMOVE);
+                setNotification(params, NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset, createNotification(R.string.posting), JobService.JOB_END_NOTIFICATION_POLICY_REMOVE);
             } else {
-                manager.notify(NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset,
-                        createNotification(R.string.posting));
+                manager.notify(NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset, createNotification(R.string.posting));
             }
         } else if (postType == EXTRA_POST_TYPE_CROSSPOST) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                setNotification(params,
-                        NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset,
-                        createNotification(R.string.posting),
-                        JobService.JOB_END_NOTIFICATION_POLICY_REMOVE);
+                setNotification(params, NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset, createNotification(R.string.posting), JobService.JOB_END_NOTIFICATION_POLICY_REMOVE);
             } else {
-                manager.notify(NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset,
-                        createNotification(R.string.posting));
+                manager.notify(NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset, createNotification(R.string.posting));
             }
         } else if (postType == EXTRA_POST_TYPE_IMAGE) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                setNotification(params,
-                        NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset,
-                        createNotification(R.string.posting_image),
-                        JobService.JOB_END_NOTIFICATION_POLICY_REMOVE);
+                setNotification(params, NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset, createNotification(R.string.posting_image), JobService.JOB_END_NOTIFICATION_POLICY_REMOVE);
             } else {
-                manager.notify(NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset,
-                        createNotification(R.string.posting_image));
+                manager.notify(NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset, createNotification(R.string.posting_image));
             }
         } else if (postType == EXTRA_POST_TYPE_VIDEO) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                setNotification(params,
-                        NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset,
-                        createNotification(R.string.posting_video),
-                        JobService.JOB_END_NOTIFICATION_POLICY_REMOVE);
+                setNotification(params, NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset, createNotification(R.string.posting_video), JobService.JOB_END_NOTIFICATION_POLICY_REMOVE);
             } else {
-                manager.notify(NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset,
-                        createNotification(R.string.posting_video));
+                manager.notify(NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset, createNotification(R.string.posting_video));
             }
         } else if (postType == EXTRA_POST_TYPE_GALLERY) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                setNotification(params,
-                        NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset,
-                        createNotification(R.string.posting_gallery),
-                        JobService.JOB_END_NOTIFICATION_POLICY_REMOVE);
+                setNotification(params, NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset, createNotification(R.string.posting_gallery), JobService.JOB_END_NOTIFICATION_POLICY_REMOVE);
             } else {
-                manager.notify(NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset,
-                        createNotification(R.string.posting_gallery));
+                manager.notify(NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset, createNotification(R.string.posting_gallery));
             }
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                setNotification(params,
-                        NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset,
-                        createNotification(R.string.posting_poll),
-                        JobService.JOB_END_NOTIFICATION_POLICY_REMOVE);
+                setNotification(params, NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset, createNotification(R.string.posting_poll), JobService.JOB_END_NOTIFICATION_POLICY_REMOVE);
             } else {
-                manager.notify(NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset,
-                        createNotification(R.string.posting_poll));
+                manager.notify(NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset, createNotification(R.string.posting_poll));
             }
         }
 
@@ -223,13 +199,15 @@ public class SubmitPostService extends JobService {
             boolean isNSFW = bundle.getInt(EXTRA_IS_NSFW, 0) == 1;
             boolean receivePostReplyNotifications = bundle.getInt(EXTRA_RECEIVE_POST_REPLY_NOTIFICATIONS, 1) == 1;
 
-            Retrofit newAuthenticatorOauthRetrofit = mOauthRetrofit.newBuilder().client(new OkHttpClient.Builder().authenticator(new AnyAccountAccessTokenAuthenticator(APIUtils.getClientId(getApplicationContext()), mRetrofit, mRedditDataRoomDatabase, account, mCurrentAccountSharedPreferences))
-                            .connectTimeout(30, TimeUnit.SECONDS)
-                            .readTimeout(30, TimeUnit.SECONDS)
-                            .writeTimeout(30, TimeUnit.SECONDS)
-                            .connectionPool(new ConnectionPool(0, 1, TimeUnit.NANOSECONDS))
-                            .build())
-                    .build();
+            Retrofit newAuthenticatorOauthRetrofit = mOauthRetrofit.newBuilder()
+                .client(new OkHttpClient.Builder()
+                    .authenticator(new AnyAccountAccessTokenAuthenticator(APIUtils.getClientId(getApplicationContext()), mRetrofit, mRedditDataRoomDatabase, account, mCurrentAccountSharedPreferences))
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .writeTimeout(30, TimeUnit.SECONDS)
+                    .connectionPool(new ConnectionPool(0, 1, TimeUnit.NANOSECONDS))
+                    .build())
+                .build();
 
             if (postType == EXTRA_POST_TEXT_OR_LINK) {
                 String content = bundle.getString(EXTRA_CONTENT, "");
@@ -237,6 +215,7 @@ public class SubmitPostService extends JobService {
                 String kind = bundle.getString(EXTRA_KIND);
                 if (isRichTextJSON) {
                     List<UploadedImage> uploadedImages = UploadedImage.fromListJson(bundle.getString(EXTRA_UPLOADED_IMAGES));
+
                     try {
                         content = new RichTextJSONConverter().constructRichTextJSON(SubmitPostService.this, content, uploadedImages);
                     } catch (JSONException e) {
@@ -245,28 +224,26 @@ public class SubmitPostService extends JobService {
                     }
                 }
                 submitTextOrLinkPost(params, manager, randomNotificationIdOffset, newAuthenticatorOauthRetrofit,
-                        account, subredditName, title, content, bundle.getString(EXTRA_URL), flair, isSpoiler, isNSFW,
-                        receivePostReplyNotifications, isRichTextJSON, kind);
+                    account, subredditName, title, content, bundle.getString(EXTRA_URL), flair, isSpoiler, isNSFW,
+                    receivePostReplyNotifications, isRichTextJSON, kind);
             } else if (postType == EXTRA_POST_TYPE_CROSSPOST) {
                 submitCrosspost(params, manager, randomNotificationIdOffset, mExecutor, handler,
-                        newAuthenticatorOauthRetrofit, account, subredditName, title, bundle.getString(EXTRA_CONTENT),
-                        flair, isSpoiler, isNSFW, receivePostReplyNotifications);
+                    newAuthenticatorOauthRetrofit, account, subredditName, title, bundle.getString(EXTRA_CONTENT),
+                    flair, isSpoiler, isNSFW, receivePostReplyNotifications);
             } else if (postType == EXTRA_POST_TYPE_IMAGE) {
                 Uri mediaUri = Uri.parse(bundle.getString(EXTRA_MEDIA_URI));
                 submitImagePost(params, manager, randomNotificationIdOffset, newAuthenticatorOauthRetrofit, account,
-                        mediaUri, subredditName, title, bundle.getString(EXTRA_CONTENT), flair, isSpoiler, isNSFW,
-                        receivePostReplyNotifications);
+                    mediaUri, subredditName, title, bundle.getString(EXTRA_CONTENT), flair, isSpoiler, isNSFW,
+                    receivePostReplyNotifications);
             } else if (postType == EXTRA_POST_TYPE_VIDEO) {
                 Uri mediaUri = Uri.parse(bundle.getString(EXTRA_MEDIA_URI));
                 submitVideoPost(params, manager, randomNotificationIdOffset, newAuthenticatorOauthRetrofit, account,
-                        mediaUri, subredditName, title, bundle.getString(EXTRA_CONTENT), flair, isSpoiler, isNSFW,
-                        receivePostReplyNotifications);
+                    mediaUri, subredditName, title, bundle.getString(EXTRA_CONTENT), flair, isSpoiler, isNSFW,
+                    receivePostReplyNotifications);
             } else if (postType == EXTRA_POST_TYPE_GALLERY) {
-                submitGalleryPost(params, manager, randomNotificationIdOffset, newAuthenticatorOauthRetrofit,
-                        account, bundle.getString(EXTRA_REDDIT_GALLERY_PAYLOAD));
+                submitGalleryPost(params, manager, randomNotificationIdOffset, newAuthenticatorOauthRetrofit, account, bundle.getString(EXTRA_REDDIT_GALLERY_PAYLOAD));
             } else {
-                submitPollPost(params, manager, randomNotificationIdOffset, newAuthenticatorOauthRetrofit, account,
-                        bundle.getString(EXTRA_POLL_PAYLOAD));
+                submitPollPost(params, manager, randomNotificationIdOffset, newAuthenticatorOauthRetrofit, account, bundle.getString(EXTRA_POLL_PAYLOAD));
             }
         });
 
@@ -294,80 +271,83 @@ public class SubmitPostService extends JobService {
     }
 
     private void submitTextOrLinkPost(JobParameters parameters, NotificationManagerCompat manager, int randomNotificationIdOffset,
-                                      Retrofit newAuthenticatorOauthRetrofit, Account selectedAccount,
-                                      String subredditName, String title, String content, @Nullable String url,
-                                      Flair flair, boolean isSpoiler, boolean isNSFW,
-                                      boolean receivePostReplyNotifications, boolean isRichtextJSON,
-                                      String kind) {
+        Retrofit newAuthenticatorOauthRetrofit, Account selectedAccount,
+        String subredditName, String title, String content, @Nullable String url,
+        Flair flair, boolean isSpoiler, boolean isNSFW,
+        boolean receivePostReplyNotifications, boolean isRichtextJSON,
+        String kind) {
+
         SubmitPost.submitTextOrLinkPost(mExecutor, handler, newAuthenticatorOauthRetrofit, selectedAccount.getAccessToken(),
-                subredditName, title, content, url, flair, isSpoiler,
-                isNSFW, receivePostReplyNotifications, isRichtextJSON, kind, new SubmitPost.SubmitPostListener() {
-                    @Override
-                    public void submitSuccessful(Post post) {
-                        handler.post(() -> EventBus.getDefault().post(new SubmitTextOrLinkPostEvent(true, post, null)));
+            subredditName, title, content, url, flair, isSpoiler,
+            isNSFW, receivePostReplyNotifications, isRichtextJSON, kind, new SubmitPost.SubmitPostListener() {
+                @Override
+                public void submitSuccessful(Post post) {
+                    handler.post(() -> EventBus.getDefault().post(new SubmitTextOrLinkPostEvent(true, post, null)));
 
-                        stopJob(parameters, manager, randomNotificationIdOffset);
-                    }
+                    stopJob(parameters, manager, randomNotificationIdOffset);
+                }
 
-                    @Override
-                    public void submitFailed(@Nullable String errorMessage) {
-                        handler.post(() -> EventBus.getDefault().post(new SubmitTextOrLinkPostEvent(false, null, errorMessage)));
+                @Override
+                public void submitFailed(@Nullable String errorMessage) {
+                    handler.post(() -> EventBus.getDefault().post(new SubmitTextOrLinkPostEvent(false, null, errorMessage)));
 
-                        stopJob(parameters, manager, randomNotificationIdOffset);
-                    }
-                });
+                    stopJob(parameters, manager, randomNotificationIdOffset);
+                }
+            });
     }
 
     private void submitCrosspost(JobParameters parameters, NotificationManagerCompat manager, int randomNotificationIdOffset,
-                                 Executor executor, Handler handler, Retrofit newAuthenticatorOauthRetrofit,
-                                 Account selectedAccount, String subredditName,
-                                 String title, String content, Flair flair, boolean isSpoiler, boolean isNSFW,
-                                 boolean receivePostReplyNotifications) {
+        Executor executor, Handler handler, Retrofit newAuthenticatorOauthRetrofit,
+        Account selectedAccount, String subredditName,
+        String title, String content, Flair flair, boolean isSpoiler, boolean isNSFW,
+        boolean receivePostReplyNotifications) {
+
         SubmitPost.submitCrosspost(executor, handler, newAuthenticatorOauthRetrofit, selectedAccount.getAccessToken(), subredditName, title,
-                content, flair, isSpoiler, isNSFW, receivePostReplyNotifications, APIUtils.KIND_CROSSPOST,
+            content, flair, isSpoiler, isNSFW, receivePostReplyNotifications, APIUtils.KIND_CROSSPOST,
+            new SubmitPost.SubmitPostListener() {
+                @Override
+                public void submitSuccessful(Post post) {
+                    handler.post(() -> EventBus.getDefault().post(new SubmitCrosspostEvent(true, post, null)));
+
+                    stopJob(parameters, manager, randomNotificationIdOffset);
+                }
+
+                @Override
+                public void submitFailed(@Nullable String errorMessage) {
+                    handler.post(() -> EventBus.getDefault().post(new SubmitCrosspostEvent(false, null, errorMessage)));
+
+                    stopJob(parameters, manager, randomNotificationIdOffset);
+                }
+            });
+    }
+
+    private void submitImagePost(JobParameters parameters, NotificationManagerCompat manager, int randomNotificationIdOffset,
+        Retrofit newAuthenticatorOauthRetrofit, Account selectedAccount, Uri mediaUri,
+        String subredditName, String title, String content, Flair flair,
+        boolean isSpoiler, boolean isNSFW, boolean receivePostReplyNotifications) {
+
+        try {
+            Bitmap resource = Glide.with(this).asBitmap().load(mediaUri).submit().get();
+            SubmitPost.submitImagePost(mExecutor, handler, newAuthenticatorOauthRetrofit, mUploadMediaRetrofit,
+                selectedAccount.getAccessToken(), subredditName, title, content, resource, flair, isSpoiler, isNSFW, receivePostReplyNotifications,
                 new SubmitPost.SubmitPostListener() {
                     @Override
                     public void submitSuccessful(Post post) {
-                        handler.post(() -> EventBus.getDefault().post(new SubmitCrosspostEvent(true, post, null)));
+                        handler.post(() -> {
+                            EventBus.getDefault().post(new SubmitImagePostEvent(true, null));
+                            Toast.makeText(SubmitPostService.this, R.string.image_is_processing, Toast.LENGTH_SHORT).show();
+                        });
 
                         stopJob(parameters, manager, randomNotificationIdOffset);
                     }
 
                     @Override
                     public void submitFailed(@Nullable String errorMessage) {
-                        handler.post(() -> EventBus.getDefault().post(new SubmitCrosspostEvent(false, null, errorMessage)));
+                        handler.post(() -> EventBus.getDefault().post(new SubmitImagePostEvent(false, errorMessage)));
 
                         stopJob(parameters, manager, randomNotificationIdOffset);
                     }
                 });
-    }
-
-    private void submitImagePost(JobParameters parameters, NotificationManagerCompat manager, int randomNotificationIdOffset,
-                                 Retrofit newAuthenticatorOauthRetrofit, Account selectedAccount, Uri mediaUri,
-                                 String subredditName, String title, String content, Flair flair,
-                                 boolean isSpoiler, boolean isNSFW, boolean receivePostReplyNotifications) {
-        try {
-            Bitmap resource = Glide.with(this).asBitmap().load(mediaUri).submit().get();
-            SubmitPost.submitImagePost(mExecutor, handler, newAuthenticatorOauthRetrofit, mUploadMediaRetrofit,
-                    selectedAccount.getAccessToken(), subredditName, title, content, resource, flair, isSpoiler, isNSFW, receivePostReplyNotifications,
-                    new SubmitPost.SubmitPostListener() {
-                        @Override
-                        public void submitSuccessful(Post post) {
-                            handler.post(() -> {
-                                EventBus.getDefault().post(new SubmitImagePostEvent(true, null));
-                                Toast.makeText(SubmitPostService.this, R.string.image_is_processing, Toast.LENGTH_SHORT).show();
-                            });
-
-                            stopJob(parameters, manager, randomNotificationIdOffset);
-                        }
-
-                        @Override
-                        public void submitFailed(@Nullable String errorMessage) {
-                            handler.post(() -> EventBus.getDefault().post(new SubmitImagePostEvent(false, errorMessage)));
-
-                            stopJob(parameters, manager, randomNotificationIdOffset);
-                        }
-                    });
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
             handler.post(() -> EventBus.getDefault().post(new SubmitImagePostEvent(false, getString(R.string.error_processing_image))));
@@ -376,13 +356,15 @@ public class SubmitPostService extends JobService {
     }
 
     private void submitVideoPost(JobParameters parameters, NotificationManagerCompat manager, int randomNotificationIdOffset,
-                                 Retrofit newAuthenticatorOauthRetrofit, Account selectedAccount, Uri mediaUri,
-                                 String subredditName, String title, String content, Flair flair,
-                                 boolean isSpoiler, boolean isNSFW, boolean receivePostReplyNotifications) {
+        Retrofit newAuthenticatorOauthRetrofit, Account selectedAccount, Uri mediaUri,
+        String subredditName, String title, String content, Flair flair,
+        boolean isSpoiler, boolean isNSFW, boolean receivePostReplyNotifications) {
+
         try {
             InputStream in = getContentResolver().openInputStream(mediaUri);
             String type = getContentResolver().getType(mediaUri);
             String cacheFilePath;
+
             if (type != null && type.contains("gif")) {
                 cacheFilePath = getExternalCacheDir() + "/" + mediaUri.getLastPathSegment() + ".gif";
             } else {
@@ -395,31 +377,32 @@ public class SubmitPostService extends JobService {
 
             if (type != null) {
                 SubmitPost.submitVideoPost(mExecutor, handler, newAuthenticatorOauthRetrofit, mUploadMediaRetrofit,
-                        mUploadVideoRetrofit, selectedAccount.getAccessToken(), subredditName, title, content,
-                        new File(cacheFilePath), type, resource, flair, isSpoiler, isNSFW, receivePostReplyNotifications,
-                        new SubmitPost.SubmitPostListener() {
-                            @Override
-                            public void submitSuccessful(Post post) {
-                                handler.post(() -> {
-                                    EventBus.getDefault().post(new SubmitVideoOrGifPostEvent(true, false, null));
-                                    if (type.contains("gif")) {
-                                        Toast.makeText(SubmitPostService.this, R.string.gif_is_processing, Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(SubmitPostService.this, R.string.video_is_processing, Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                    mUploadVideoRetrofit, selectedAccount.getAccessToken(), subredditName, title, content,
+                    new File(cacheFilePath), type, resource, flair, isSpoiler, isNSFW, receivePostReplyNotifications,
+                    new SubmitPost.SubmitPostListener() {
+                        @Override
+                        public void submitSuccessful(Post post) {
+                            handler.post(() -> {
+                                EventBus.getDefault().post(new SubmitVideoOrGifPostEvent(true, false, null));
+
+                                if (type.contains("gif")) {
+                                    Toast.makeText(SubmitPostService.this, R.string.gif_is_processing, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(SubmitPostService.this, R.string.video_is_processing, Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
 
-                                stopJob(parameters, manager, randomNotificationIdOffset);
-                            }
+                            stopJob(parameters, manager, randomNotificationIdOffset);
+                        }
 
-                            @Override
-                            public void submitFailed(@Nullable String errorMessage) {
-                                handler.post(() -> EventBus.getDefault().post(new SubmitVideoOrGifPostEvent(false, false, errorMessage)));
+                        @Override
+                        public void submitFailed(@Nullable String errorMessage) {
+                            handler.post(() -> EventBus.getDefault().post(new SubmitVideoOrGifPostEvent(false, false, errorMessage)));
 
-                                stopJob(parameters, manager, randomNotificationIdOffset);
-                            }
-                        });
+                            stopJob(parameters, manager, randomNotificationIdOffset);
+                        }
+                    });
             } else {
                 handler.post(() -> EventBus.getDefault().post(new SubmitVideoOrGifPostEvent(false, true, null)));
 
@@ -433,22 +416,22 @@ public class SubmitPostService extends JobService {
         }
     }
 
-    private void submitGalleryPost(JobParameters parameters, NotificationManagerCompat manager, int randomNotificationIdOffset,
-                                   Retrofit newAuthenticatorOauthRetrofit, Account selectedAccount, String payload) {
+    private void submitGalleryPost(JobParameters parameters, NotificationManagerCompat manager, int randomNotificationIdOffset, Retrofit newAuthenticatorOauthRetrofit, Account selectedAccount, String payload) {
         try {
             Response<String> response = newAuthenticatorOauthRetrofit.create(RedditAPI.class).submitGalleryPost(APIUtils.getOAuthHeader(selectedAccount.getAccessToken()), payload).execute();
             if (response.isSuccessful()) {
                 JSONObject responseObject = new JSONObject(response.body()).getJSONObject(JSONUtils.JSON_KEY);
                 if (responseObject.getJSONArray(JSONUtils.ERRORS_KEY).length() != 0) {
-                    JSONArray error = responseObject.getJSONArray(JSONUtils.ERRORS_KEY)
-                            .getJSONArray(responseObject.getJSONArray(JSONUtils.ERRORS_KEY).length() - 1);
+                    JSONArray error = responseObject.getJSONArray(JSONUtils.ERRORS_KEY).getJSONArray(responseObject.getJSONArray(JSONUtils.ERRORS_KEY).length() - 1);
                     if (error.length() != 0) {
                         String errorMessage;
+
                         if (error.length() >= 2) {
                             errorMessage = error.getString(1);
                         } else {
                             errorMessage = error.getString(0);
                         }
+
                         handler.post(() -> EventBus.getDefault().post(new SubmitGalleryPostEvent(false, null, errorMessage)));
                     } else {
                         handler.post(() -> EventBus.getDefault().post(new SubmitGalleryPostEvent(false, null, null)));
@@ -470,22 +453,22 @@ public class SubmitPostService extends JobService {
         }
     }
 
-    private void submitPollPost(JobParameters parameters, NotificationManagerCompat manager, int randomNotificationIdOffset,
-                                Retrofit newAuthenticatorOauthRetrofit, Account selectedAccount, String payload) {
+    private void submitPollPost(JobParameters parameters, NotificationManagerCompat manager, int randomNotificationIdOffset, Retrofit newAuthenticatorOauthRetrofit, Account selectedAccount, String payload) {
         try {
             Response<String> response = newAuthenticatorOauthRetrofit.create(RedditAPI.class).submitPollPost(APIUtils.getOAuthHeader(selectedAccount.getAccessToken()), payload).execute();
             if (response.isSuccessful()) {
                 JSONObject responseObject = new JSONObject(response.body()).getJSONObject(JSONUtils.JSON_KEY);
                 if (responseObject.getJSONArray(JSONUtils.ERRORS_KEY).length() != 0) {
-                    JSONArray error = responseObject.getJSONArray(JSONUtils.ERRORS_KEY)
-                            .getJSONArray(responseObject.getJSONArray(JSONUtils.ERRORS_KEY).length() - 1);
+                    JSONArray error = responseObject.getJSONArray(JSONUtils.ERRORS_KEY).getJSONArray(responseObject.getJSONArray(JSONUtils.ERRORS_KEY).length() - 1);
                     if (error.length() != 0) {
                         String errorMessage;
+
                         if (error.length() >= 2) {
                             errorMessage = error.getString(1);
                         } else {
                             errorMessage = error.getString(0);
                         }
+
                         handler.post(() -> EventBus.getDefault().post(new SubmitPollPostEvent(false, null, errorMessage)));
                     } else {
                         handler.post(() -> EventBus.getDefault().post(new SubmitPollPostEvent(false, null, null)));
@@ -511,6 +494,7 @@ public class SubmitPostService extends JobService {
         OutputStream out = new FileOutputStream(destinationFilePath);
         byte[] buf = new byte[2048];
         int len;
+
         while ((len = fileInputStream.read(buf)) > 0) {
             out.write(buf, 0, len);
         }
@@ -520,6 +504,7 @@ public class SubmitPostService extends JobService {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             notificationManager.cancel(NotificationUtils.SUBMIT_POST_SERVICE_NOTIFICATION_ID + randomNotificationIdOffset);
         }
+
         jobFinished(parameters, false);
     }
 }

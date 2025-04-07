@@ -102,6 +102,7 @@ public class LoginChromeCustomTabActivity extends BaseActivity {
         super.onNewIntent(intent);
 
         Uri uri = intent.getData();
+
         if (uri == null) {
             binding.openWebpageButtonLoginChromeCustomTabActivity.setVisibility(View.VISIBLE);
             return;
@@ -112,6 +113,7 @@ public class LoginChromeCustomTabActivity extends BaseActivity {
         String authCode = uri.getQueryParameter("code");
         if (authCode != null) {
             String state = uri.getQueryParameter("state");
+
             if (APIUtils.STATE.equals(state)) {
                 Map<String, String> params = new HashMap<>();
                 params.put(APIUtils.GRANT_TYPE_KEY, "authorization_code");
@@ -140,15 +142,15 @@ public class LoginChromeCustomTabActivity extends BaseActivity {
                                             @Override
                                             public void onFetchMyInfoSuccess(String name, String profileImageUrl, String bannerImageUrl, int karma) {
                                                 mCurrentAccountSharedPreferences.edit().putString(SharedPreferencesUtils.ACCESS_TOKEN, accessToken)
-                                                        .putString(SharedPreferencesUtils.ACCOUNT_NAME, name)
-                                                        .putString(SharedPreferencesUtils.ACCOUNT_IMAGE_URL, profileImageUrl).apply();
+                                                    .putString(SharedPreferencesUtils.ACCOUNT_NAME, name)
+                                                    .putString(SharedPreferencesUtils.ACCOUNT_IMAGE_URL, profileImageUrl).apply();
                                                 mCurrentAccountSharedPreferences.edit().remove(SharedPreferencesUtils.SUBSCRIBED_THINGS_SYNC_TIME).apply();
                                                 ParseAndInsertNewAccount.parseAndInsertNewAccount(mExecutor, new Handler(), name, accessToken, refreshToken, profileImageUrl, bannerImageUrl,
-                                                        karma, authCode, mRedditDataRoomDatabase.accountDao(),
-                                                        () -> {
-                                                            EventBus.getDefault().post(new NewUserLoggedInEvent());
-                                                            finish();
-                                                        });
+                                                    karma, authCode, mRedditDataRoomDatabase.accountDao(),
+                                                    () -> {
+                                                        EventBus.getDefault().post(new NewUserLoggedInEvent());
+                                                        finish();
+                                                    });
                                             }
 
                                             @Override
@@ -212,6 +214,7 @@ public class LoginChromeCustomTabActivity extends BaseActivity {
         applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(binding.appbarLayoutLoginChromeCustomTabActivity, null, binding.toolbarLoginChromeCustomTabActivity);
         binding.openWebpageButtonLoginChromeCustomTabActivity.setTextColor(mCustomThemeWrapper.getButtonTextColor());
         binding.openWebpageButtonLoginChromeCustomTabActivity.setBackgroundColor(mCustomThemeWrapper.getColorPrimaryLightTheme());
+
         if (typeface != null) {
             binding.openWebpageButtonLoginChromeCustomTabActivity.setTypeface(typeface);
         }
@@ -219,14 +222,15 @@ public class LoginChromeCustomTabActivity extends BaseActivity {
 
     private void openLoginPage() {
         ArrayList<ResolveInfo> resolveInfos = getCustomTabsPackages(getPackageManager());
+
         if (!resolveInfos.isEmpty()) {
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
             // add share action to menu list
             builder.setShareState(CustomTabsIntent.SHARE_STATE_ON);
             builder.setDefaultColorSchemeParams(
-                    new CustomTabColorSchemeParams.Builder()
-                            .setToolbarColor(mCustomThemeWrapper.getColorPrimary())
-                            .build());
+                new CustomTabColorSchemeParams.Builder()
+                    .setToolbarColor(mCustomThemeWrapper.getColorPrimary())
+                    .build());
             CustomTabsIntent customTabsIntent = builder.build();
             customTabsIntent.intent.setPackage(resolveInfos.get(0).activityInfo.packageName);
             customTabsIntent.intent.putExtra("com.google.android.apps.chrome.EXTRA_OPEN_NEW_INCOGNITO_TAB", true);
@@ -252,9 +256,9 @@ public class LoginChromeCustomTabActivity extends BaseActivity {
     private ArrayList<ResolveInfo> getCustomTabsPackages(PackageManager pm) {
         // Get default VIEW intent handler.
         Intent activityIntent = new Intent()
-                .setAction(Intent.ACTION_VIEW)
-                .addCategory(Intent.CATEGORY_BROWSABLE)
-                .setData(Uri.fromParts("http", "", null));
+            .setAction(Intent.ACTION_VIEW)
+            .addCategory(Intent.CATEGORY_BROWSABLE)
+            .setData(Uri.fromParts("http", "", null));
 
         // Get all apps that can handle VIEW intents.
         List<ResolveInfo> resolvedActivityList = pm.queryIntentActivities(activityIntent, 0);
@@ -268,6 +272,7 @@ public class LoginChromeCustomTabActivity extends BaseActivity {
                 packagesSupportingCustomTabs.add(info);
             }
         }
+
         return packagesSupportingCustomTabs;
     }
 }

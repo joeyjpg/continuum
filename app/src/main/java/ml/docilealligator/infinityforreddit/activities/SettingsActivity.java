@@ -74,9 +74,9 @@ public class SettingsActivity extends BaseActivity implements
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.frame_layout_settings_activity, new MainPreferenceFragment())
-                    .commit();
+                .beginTransaction()
+                .replace(R.id.frame_layout_settings_activity, new MainPreferenceFragment())
+                .commit();
         } else {
             setTitle(savedInstanceState.getCharSequence(TITLE_STATE));
         }
@@ -84,9 +84,12 @@ public class SettingsActivity extends BaseActivity implements
         getSupportFragmentManager().addOnBackStackChangedListener(() -> {
             if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
                 setTitle(R.string.settings_activity_label);
+
                 return;
             }
+
             Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout_settings_activity);
+
             if (fragment instanceof AboutPreferenceFragment) {
                 setTitle(R.string.settings_about_master_title);
             } else if (fragment instanceof InterfacePreferenceFragment) {
@@ -132,6 +135,7 @@ public class SettingsActivity extends BaseActivity implements
             onBackPressed();
             return true;
         }
+
         return false;
     }
 
@@ -146,6 +150,7 @@ public class SettingsActivity extends BaseActivity implements
         if (getSupportFragmentManager().popBackStackImmediate()) {
             return true;
         }
+
         return super.onSupportNavigateUp();
     }
 
@@ -153,17 +158,15 @@ public class SettingsActivity extends BaseActivity implements
     public boolean onPreferenceStartFragment(@NonNull PreferenceFragmentCompat caller, Preference pref) {
         // Instantiate the new Fragment
         final Bundle args = pref.getExtras();
-        final Fragment fragment = getSupportFragmentManager().getFragmentFactory().instantiate(
-                getClassLoader(),
-                pref.getFragment());
+        final Fragment fragment = getSupportFragmentManager().getFragmentFactory().instantiate(getClassLoader(), pref.getFragment());
         fragment.setArguments(args);
         fragment.setTargetFragment(caller, 0);
 
         getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                .replace(R.id.frame_layout_settings_activity, fragment)
-                .addToBackStack(null)
-                .commit();
+            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+            .replace(R.id.frame_layout_settings_activity, fragment)
+            .addToBackStack(null)
+            .commit();
         setTitle(pref.getTitle());
         return true;
     }

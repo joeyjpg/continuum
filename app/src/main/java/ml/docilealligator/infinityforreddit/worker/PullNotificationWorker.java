@@ -94,15 +94,14 @@ public class PullNotificationWorker extends Worker {
                 if (response != null && response.isSuccessful() && response.body() != null) {
                     String responseBody = response.body();
                     JSONArray messageArray = new JSONObject(responseBody).getJSONObject(JSONUtils.DATA_KEY).getJSONArray(JSONUtils.CHILDREN_KEY);
-                    ArrayList<Message> messages = ParseMessage.parseMessages(messageArray,
-                            context.getResources().getConfiguration().locale, FetchMessage.MESSAGE_TYPE_NOTIFICATION);
+                    ArrayList<Message> messages = ParseMessage.parseMessages(messageArray, context.getResources().getConfiguration().locale, FetchMessage.MESSAGE_TYPE_NOTIFICATION);
 
                     if (!messages.isEmpty()) {
                         NotificationCompat.Builder summaryBuilder = NotificationUtils.buildSummaryNotification(context,
-                                notificationManager, accountName,
-                                context.getString(R.string.notification_new_messages, messages.size()),
-                                NotificationUtils.CHANNEL_ID_NEW_MESSAGES, NotificationUtils.CHANNEL_NEW_MESSAGES,
-                                NotificationUtils.getAccountGroupName(accountName), color);
+                            notificationManager, accountName,
+                            context.getString(R.string.notification_new_messages, messages.size()),
+                            NotificationUtils.CHANNEL_ID_NEW_MESSAGES, NotificationUtils.CHANNEL_NEW_MESSAGES,
+                            NotificationUtils.getAccountGroupName(accountName), color);
 
                         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
 
@@ -114,8 +113,10 @@ public class PullNotificationWorker extends Worker {
                         mSharedPreferences.edit().putLong(SharedPreferencesUtils.PULL_NOTIFICATION_TIME, currentTime).apply();
 
                         int pendingIntentFlags = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE : PendingIntent.FLAG_UPDATE_CURRENT;
+
                         for (int messageIndex = messageSize - 1; messageIndex >= 0; messageIndex--) {
                             Message message = messages.get(messageIndex);
+
                             if (message.getTimeUTC() <= lastNotificationTime) {
                                 continue;
                             }
@@ -144,10 +145,10 @@ public class PullNotificationWorker extends Worker {
                             }
 
                             NotificationCompat.Builder builder = NotificationUtils.buildNotification(notificationManager,
-                                    context, title, message.getBody(), summary,
-                                    NotificationUtils.CHANNEL_ID_NEW_MESSAGES,
-                                    NotificationUtils.CHANNEL_NEW_MESSAGES,
-                                    NotificationUtils.getAccountGroupName(accountName), color);
+                                context, title, message.getBody(), summary,
+                                NotificationUtils.CHANNEL_ID_NEW_MESSAGES,
+                                NotificationUtils.CHANNEL_NEW_MESSAGES,
+                                NotificationUtils.getAccountGroupName(accountName), color);
 
                             if (kind.equals(Message.TYPE_COMMENT)) {
                                 Intent intent = new Intent(context, LinkResolverActivity.class);
@@ -191,8 +192,7 @@ public class PullNotificationWorker extends Worker {
                         }
 
                         if (hasValidMessage) {
-                            inboxStyle.setBigContentTitle(context.getString(R.string.notification_new_messages, messages.size()))
-                                    .setSummaryText(accountName);
+                            inboxStyle.setBigContentTitle(context.getString(R.string.notification_new_messages, messages.size())).setSummaryText(accountName);
 
                             summaryBuilder.setStyle(inboxStyle);
 
@@ -212,6 +212,7 @@ public class PullNotificationWorker extends Worker {
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
+
             return Result.retry();
         }
         return Result.success();
@@ -222,9 +223,7 @@ public class PullNotificationWorker extends Worker {
             return null;
         }
 
-        Call<String> call = mOauthWithoutAuthenticatorRetrofit.create(RedditAPI.class)
-                .getMessages(APIUtils.getOAuthHeader(account.getAccessToken()),
-                        FetchMessage.WHERE_UNREAD, null);
+        Call<String> call = mOauthWithoutAuthenticatorRetrofit.create(RedditAPI.class).getMessages(APIUtils.getOAuthHeader(account.getAccessToken()),FetchMessage.WHERE_UNREAD, null);
         Response<String> response = call.execute();
 
         if (response.isSuccessful()) {
@@ -232,8 +231,10 @@ public class PullNotificationWorker extends Worker {
         } else {
             if (response.code() == 401) {
                 String accessToken = refreshAccessToken(account);
+
                 if (!accessToken.equals("")) {
                     account.setAccessToken(accessToken);
+
                     return fetchMessages(account, retryCount - 1);
                 }
 
@@ -259,22 +260,28 @@ public class PullNotificationWorker extends Worker {
         authHeader.put(APIUtils.AUTHORIZATION_KEY, auth);
 
         Call<String> accessTokenCall = api.getAccessToken(authHeader, params);
+
         try {
             Response<String> response = accessTokenCall.execute();
+
             if (response.isSuccessful() && response.body() != null) {
                 JSONObject jsonObject = new JSONObject(response.body());
                 String newAccessToken = jsonObject.getString(APIUtils.ACCESS_TOKEN_KEY);
                 String newRefreshToken = jsonObject.has(APIUtils.REFRESH_TOKEN_KEY) ? jsonObject.getString(APIUtils.REFRESH_TOKEN_KEY) : null;
+
                 if (newRefreshToken == null) {
                     mRedditDataRoomDatabase.accountDao().updateAccessToken(account.getAccountName(), newAccessToken);
                 } else {
                     mRedditDataRoomDatabase.accountDao().updateAccessTokenAndRefreshToken(account.getAccountName(), newAccessToken, newRefreshToken);
                 }
+
                 if (mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCOUNT_NAME, Account.ANONYMOUS_ACCOUNT).equals(account.getAccountName())) {
                     mCurrentAccountSharedPreferences.edit().putString(SharedPreferencesUtils.ACCESS_TOKEN, newAccessToken).apply();
                 }
+
                 return newAccessToken;
             }
+
             return "";
         } catch (IOException | JSONException e) {
             e.printStackTrace();

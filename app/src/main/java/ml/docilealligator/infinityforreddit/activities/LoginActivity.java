@@ -162,15 +162,15 @@ public class LoginActivity extends BaseActivity {
                                                     @Override
                                                     public void onFetchMyInfoSuccess(String name, String profileImageUrl, String bannerImageUrl, int karma) {
                                                         mCurrentAccountSharedPreferences.edit().putString(SharedPreferencesUtils.ACCESS_TOKEN, accessToken)
-                                                                .putString(SharedPreferencesUtils.ACCOUNT_NAME, name)
-                                                                .putString(SharedPreferencesUtils.ACCOUNT_IMAGE_URL, profileImageUrl).apply();
+                                                            .putString(SharedPreferencesUtils.ACCOUNT_NAME, name)
+                                                            .putString(SharedPreferencesUtils.ACCOUNT_IMAGE_URL, profileImageUrl).apply();
                                                         mCurrentAccountSharedPreferences.edit().remove(SharedPreferencesUtils.SUBSCRIBED_THINGS_SYNC_TIME).apply();
                                                         ParseAndInsertNewAccount.parseAndInsertNewAccount(mExecutor, new Handler(), name, accessToken, refreshToken, profileImageUrl, bannerImageUrl,
-                                                                karma, authCode, mRedditDataRoomDatabase.accountDao(),
-                                                                () -> {
-                                                                    EventBus.getDefault().post(new NewUserLoggedInEvent());
-                                                                    finish();
-                                                                });
+                                                            karma, authCode, mRedditDataRoomDatabase.accountDao(),
+                                                            () -> {
+                                                                EventBus.getDefault().post(new NewUserLoggedInEvent());
+                                                                finish();
+                                                            });
                                                     }
 
                                                     @Override
@@ -252,6 +252,7 @@ public class LoginActivity extends BaseActivity {
         Drawable infoDrawable = Utils.getTintedDrawable(this, R.drawable.ic_info_preference_day_night_24dp, mCustomThemeWrapper.getPrimaryIconColor());
         binding.twoFaInfOTextViewLoginActivity.setCompoundDrawablesWithIntrinsicBounds(infoDrawable, null, null, null);
         applyFABTheme(binding.fabLoginActivity);
+
         if (typeface != null) {
             binding.twoFaInfOTextViewLoginActivity.setTypeface(typeface);
         }
@@ -261,8 +262,10 @@ public class LoginActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
+
             return true;
         }
+
         return false;
     }
 }

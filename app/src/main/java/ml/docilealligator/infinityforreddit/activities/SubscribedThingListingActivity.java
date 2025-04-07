@@ -146,9 +146,11 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
                 } else {
                     window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
                 }
+
                 adjustToolbar(binding.toolbarSubscribedThingListingActivity);
 
                 int navBarHeight = getNavBarHeight();
+
                 if (navBarHeight > 0) {
                     CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) binding.fabSubscribedThingListingActivity.getLayoutParams();
                     params.bottomMargin += navBarHeight;
@@ -163,6 +165,7 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
 
         if (getIntent().hasExtra(EXTRA_SPECIFIED_ACCOUNT)) {
             Account specifiedAccount = getIntent().getParcelableExtra(EXTRA_SPECIFIED_ACCOUNT);
+
             if (specifiedAccount != null) {
                 accessToken = specifiedAccount.getAccessToken();
                 accountName = specifiedAccount.getAccountName();
@@ -210,14 +213,10 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
 
         binding.searchEditTextSubscribedThingListingActivity.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -251,8 +250,7 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
     @Override
     protected void applyCustomTheme() {
         binding.getRoot().setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(binding.appbarLayoutSubscribedThingListingActivity,
-                binding.collapsingToolbarLayoutSubscribedThingListingActivity, binding.toolbarSubscribedThingListingActivity);
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(binding.appbarLayoutSubscribedThingListingActivity, binding.collapsingToolbarLayoutSubscribedThingListingActivity, binding.toolbarSubscribedThingListingActivity);
         applyTabLayoutTheme(binding.tabLayoutSubscribedThingListingActivity);
         applyFABTheme(binding.fabSubscribedThingListingActivity);
         binding.searchEditTextSubscribedThingListingActivity.setTextColor(mCustomThemeWrapper.getToolbarPrimaryTextAndIconColor());
@@ -267,9 +265,11 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         binding.viewPagerSubscribedThingListingActivity.setAdapter(sectionsPagerAdapter);
         binding.viewPagerSubscribedThingListingActivity.setOffscreenPageLimit(3);
+
         if (binding.viewPagerSubscribedThingListingActivity.getCurrentItem() != 2) {
             binding.fabSubscribedThingListingActivity.hide();
         }
+
         binding.viewPagerSubscribedThingListingActivity.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -300,6 +300,7 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
         getMenuInflater().inflate(R.menu.subscribed_thing_listing_activity, menu);
         mMenu = menu;
         applyMenuItemTheme(menu);
+
         return true;
     }
 
@@ -320,22 +321,27 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(binding.searchEditTextSubscribedThingListingActivity, InputMethodManager.SHOW_IMPLICIT);
                     }
+
                     return true;
                 }
                 else {
                     intent.putExtra(SearchActivity.EXTRA_SEARCH_SUBREDDITS_AND_USERS, true);
                 }
+
                 requestSearchThingLauncher.launch(intent);
+
                 return true;
             }
 
             item.setVisible(false);
             binding.searchEditTextSubscribedThingListingActivity.setVisibility(View.VISIBLE);
             binding.searchEditTextSubscribedThingListingActivity.requestFocus();
+
             if (binding.searchEditTextSubscribedThingListingActivity.requestFocus()) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(binding.searchEditTextSubscribedThingListingActivity, InputMethodManager.SHOW_IMPLICIT);
             }
+
             return true;
         } else if (item.getItemId() == android.R.id.home) {
             if (binding.searchEditTextSubscribedThingListingActivity.getVisibility() == View.VISIBLE) {
@@ -344,9 +350,12 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
                 binding.searchEditTextSubscribedThingListingActivity.setText("");
                 mMenu.findItem(R.id.action_search_subscribed_thing_listing_activity).setVisible(true);
                 sectionsPagerAdapter.changeSearchQuery("");
+
                 return true;
             }
+
             finish();
+
             return true;
         }
 
@@ -390,30 +399,27 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
                     new ArrayList<>(),
                     new FetchSubscribedThing.FetchSubscribedThingListener() {
                         @Override
-                        public void onFetchSubscribedThingSuccess(ArrayList<SubscribedSubredditData> subscribedSubredditData,
-                                                                  ArrayList<SubscribedUserData> subscribedUserData,
-                                                                  ArrayList<SubredditData> subredditData) {
+                        public void onFetchSubscribedThingSuccess(ArrayList<SubscribedSubredditData> subscribedSubredditData, ArrayList<SubscribedUserData> subscribedUserData, ArrayList<SubredditData> subredditData) {
                             mCurrentAccountSharedPreferences.edit().putLong(SharedPreferencesUtils.SUBSCRIBED_THINGS_SYNC_TIME, System.currentTimeMillis()).apply();
                             InsertSubscribedThings.insertSubscribedThings(
-                                    mExecutor,
-                                    new Handler(),
-                                    mRedditDataRoomDatabase,
-                                    accountName,
-                                    subscribedSubredditData,
-                                    subscribedUserData,
-                                    subredditData,
-                                    () -> {
-                                        mInsertSuccess = true;
-                                        sectionsPagerAdapter.stopRefreshProgressbar();
-                                    });
+                                mExecutor,
+                                new Handler(),
+                                mRedditDataRoomDatabase,
+                                accountName,
+                                subscribedSubredditData,
+                                subscribedUserData,
+                                subredditData,
+                                () -> {
+                                    mInsertSuccess = true;
+                                    sectionsPagerAdapter.stopRefreshProgressbar();
+                                });
                         }
 
                         @Override
                         public void onFetchSubscribedThingFail() {
                             mInsertSuccess = false;
                             sectionsPagerAdapter.stopRefreshProgressbar();
-                            Toast.makeText(SubscribedThingListingActivity.this,
-                                    R.string.error_loading_subscriptions, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SubscribedThingListingActivity.this, R.string.error_loading_subscriptions, Toast.LENGTH_SHORT).show();
                         }
                     });
         }
@@ -464,22 +470,19 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
                         -> {
                     if (accountName.equals(Account.ANONYMOUS_ACCOUNT)) {
                         DeleteMultiredditInDatabase.deleteMultiredditInDatabase(mExecutor, new Handler(), mRedditDataRoomDatabase, accountName, multiReddit.getPath(),
-                                () -> Toast.makeText(SubscribedThingListingActivity.this,
-                                        R.string.delete_multi_reddit_success, Toast.LENGTH_SHORT).show());
+                                () -> Toast.makeText(SubscribedThingListingActivity.this, R.string.delete_multi_reddit_success, Toast.LENGTH_SHORT).show());
                     } else {
                         DeleteMultiReddit.deleteMultiReddit(mExecutor, new Handler(), mOauthRetrofit, mRedditDataRoomDatabase,
                                 accessToken, accountName, multiReddit.getPath(), new DeleteMultiReddit.DeleteMultiRedditListener() {
                                     @Override
                                     public void success() {
-                                        Toast.makeText(SubscribedThingListingActivity.this,
-                                                R.string.delete_multi_reddit_success, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(SubscribedThingListingActivity.this, R.string.delete_multi_reddit_success, Toast.LENGTH_SHORT).show();
                                         loadMultiReddits();
                                     }
 
                                     @Override
                                     public void failed() {
-                                        Toast.makeText(SubscribedThingListingActivity.this,
-                                                R.string.delete_multi_reddit_failed, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(SubscribedThingListingActivity.this, R.string.delete_multi_reddit_failed, Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     }
@@ -559,6 +562,7 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
                         }
                 }
             }
+
             switch (position) {
                 case 0:
                     return getSubscribedSubredditListingFragment();
@@ -574,10 +578,10 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
             SubscribedSubredditsListingFragment fragment = new SubscribedSubredditsListingFragment();
             Bundle bundle = new Bundle();
             bundle.putBoolean(SubscribedSubredditsListingFragment.EXTRA_IS_SUBREDDIT_SELECTION, isThingSelectionMode);
-            bundle.putBoolean(SubscribedSubredditsListingFragment.EXTRA_EXTRA_CLEAR_SELECTION,
-                    isThingSelectionMode && getIntent().getBooleanExtra(EXTRA_EXTRA_CLEAR_SELECTION, false));
+            bundle.putBoolean(SubscribedSubredditsListingFragment.EXTRA_EXTRA_CLEAR_SELECTION, isThingSelectionMode && getIntent().getBooleanExtra(EXTRA_EXTRA_CLEAR_SELECTION, false));
             bundle.putString(SubscribedSubredditsListingFragment.EXTRA_ACCOUNT_PROFILE_IMAGE_URL, mAccountProfileImageUrl);
             fragment.setArguments(bundle);
+
             return fragment;
         }
 
@@ -587,6 +591,7 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
             Bundle bundle = new Bundle();
             bundle.putBoolean(FollowedUsersListingFragment.EXTRA_IS_USER_SELECTION, isThingSelectionMode);
             fragment.setArguments(bundle);
+
             return fragment;
         }
 
@@ -596,6 +601,7 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
             Bundle bundle = new Bundle();
             bundle.putBoolean(MultiRedditListingFragment.EXTRA_IS_MULTIREDDIT_SELECTION, isThingSelectionMode);
             fragment.setArguments(bundle);
+
             return fragment;
         }
 
@@ -635,6 +641,7 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
                         return Utils.getTabTextWithCustomFont(typeface, getString(R.string.multi_reddits));
                 }
             }
+
             switch (position) {
                 case 0:
                     return Utils.getTabTextWithCustomFont(typeface, getString(R.string.subreddits));
@@ -702,9 +709,11 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
             if (subscribedSubredditsListingFragment != null) {
                 subscribedSubredditsListingFragment.changeSearchQuery(searchQuery);
             }
+
             if (followedUsersListingFragment != null) {
                 followedUsersListingFragment.changeSearchQuery(searchQuery);
             }
+
             if (multiRedditListingFragment != null) {
                 multiRedditListingFragment.changeSearchQuery(searchQuery);
             }

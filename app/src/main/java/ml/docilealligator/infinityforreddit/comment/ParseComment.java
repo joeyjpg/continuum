@@ -57,8 +57,7 @@ public class ParseComment {
         });
     }
 
-    static void parseMoreComment(Executor executor, Handler handler, String response, boolean expandChildren,
-                                 ParseCommentListener parseCommentListener) {
+    static void parseMoreComment(Executor executor, Handler handler, String response, boolean expandChildren, ParseCommentListener parseCommentListener) {
         executor.execute(() -> {
             try {
                 JSONArray childrenArray = new JSONObject(response).getJSONObject(JSONUtils.JSON_KEY)
@@ -143,8 +142,7 @@ public class ParseComment {
         });
     }
 
-    static void parseSentComment(Executor executor, Handler handler, String response, int depth,
-                                 ParseSentCommentListener parseSentCommentListener) {
+    static void parseSentComment(Executor executor, Handler handler, String response, int depth, ParseSentCommentListener parseSentCommentListener) {
         executor.execute(() -> {
             try {
                 JSONObject sentCommentData = new JSONObject(response);
@@ -159,9 +157,7 @@ public class ParseComment {
         });
     }
 
-    private static void parseCommentRecursion(JSONArray comments, ArrayList<Comment> newCommentData,
-                                              ArrayList<String> moreChildrenIds, int depth,
-                                              CommentFilter commentFilter) throws JSONException {
+    private static void parseCommentRecursion(JSONArray comments, ArrayList<Comment> newCommentData, ArrayList<String> moreChildrenIds, int depth, CommentFilter commentFilter) throws JSONException {
         int actualCommentLength;
 
         if (comments.length() == 0) {
@@ -228,8 +224,7 @@ public class ParseComment {
         return comment.getChildren().size() + count;
     }
 
-    private static void expandChildren(ArrayList<Comment> comments, ArrayList<Comment> visibleComments,
-                                       boolean setExpanded) {
+    private static void expandChildren(ArrayList<Comment> comments, ArrayList<Comment> visibleComments, boolean setExpanded) {
         for (Comment c : comments) {
             visibleComments.add(c);
             if (!c.isFilteredOut()) {
@@ -380,8 +375,7 @@ public class ParseComment {
     }
 
     public interface ParseCommentListener {
-        void onParseCommentSuccess(ArrayList<Comment> topLevelComments, ArrayList<Comment> expandedComments, String parentId,
-                                   ArrayList<String> moreChildrenIds);
+        void onParseCommentSuccess(ArrayList<Comment> topLevelComments, ArrayList<Comment> expandedComments, String parentId, ArrayList<String> moreChildrenIds);
 
         void onParseCommentFailed();
     }

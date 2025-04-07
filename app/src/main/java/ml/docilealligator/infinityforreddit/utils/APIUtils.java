@@ -44,7 +44,8 @@ public class APIUtils {
     public static final String DURATION_KEY = "duration";
     public static final String DURATION = "permanent";
     public static final String SCOPE_KEY = "scope";
-    public static final String SCOPE = "identity edit flair history modconfig modflair modlog modposts modwiki mysubreddits privatemessages read report save submit subscribe vote wikiedit wikiread creddits modcontributors modmail modothers livemanage account modself";
+    public static final String SCOPE = "identity edit flair history modconfig modflair modlog modposts modwiki mysubreddits privatemessages read report" +
+                                        "save submit subscribe vote wikiedit wikiread creddits modcontributors modmail modothers livemanage account modself";
     public static final String ACCESS_TOKEN_KEY = "access_token";
 
     public static final String AUTHORIZATION_KEY = "Authorization";
@@ -120,10 +121,7 @@ public class APIUtils {
     // Method to retrieve Client ID from SharedPreferences
     public static String getClientId(Context context) {
         // Explicitly get SharedPreferences by file name to ensure consistency with the PreferenceFragment
-        SharedPreferences sharedPreferences = context.getSharedPreferences(
-                SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE,
-                Context.MODE_PRIVATE
-        );
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE, Context.MODE_PRIVATE);
 
         return sharedPreferences.getString(SharedPreferencesUtils.CLIENT_ID_PREF_KEY, context.getString(R.string.default_client_id));
     }
@@ -136,6 +134,7 @@ public class APIUtils {
         String credentials = String.format("%s:%s", clientId, "");
         String auth = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
         params.put(APIUtils.AUTHORIZATION_KEY, auth);
+
         return params;
     }
 
@@ -143,6 +142,7 @@ public class APIUtils {
         Map<String, String> params = new HashMap<>();
         params.put(APIUtils.AUTHORIZATION_KEY, APIUtils.AUTHORIZATION_BASE + accessToken);
         params.put(APIUtils.USER_AGENT_KEY, APIUtils.USER_AGENT);
+
         return params;
     }
 
@@ -154,12 +154,14 @@ public class APIUtils {
         Map<String, String> params = new HashMap<>();
         params.put(APIUtils.AUTHORIZATION_KEY, APIUtils.AUTHORIZATION_BASE + serverAccessToken);
         params.put(APIUtils.USERNAME_KEY, accountName);
+
         return params;
     }
 
     public static Map<String, String> getRedgifsOAuthHeader(String redgifsAccessToken) {
         Map<String, String> params = new HashMap<>();
         params.put(APIUtils.AUTHORIZATION_KEY, APIUtils.AUTHORIZATION_BASE + redgifsAccessToken);
+
         return params;
     }
 
@@ -172,6 +174,7 @@ public class APIUtils {
         params.put(APIUtils.ORIGIN_KEY, APIUtils.REVEDDIT_ORIGIN);
         params.put(APIUtils.REFERER_KEY, APIUtils.REVEDDIT_REFERER);
         params.put(APIUtils.USER_AGENT_KEY, APIUtils.USER_AGENT);
+
         return params;
     }
 }

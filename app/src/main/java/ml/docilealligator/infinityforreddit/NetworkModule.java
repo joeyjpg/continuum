@@ -57,12 +57,12 @@ abstract class NetworkModule {
     @Singleton
     static Retrofit provideBaseRetrofit(@Named("base") OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
-                .baseUrl(APIUtils.API_BASE_URI)
-                .client(okHttpClient)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(SortTypeConverterFactory.create())
-                .addCallAdapterFactory(GuavaCallAdapterFactory.create())
-                .build();
+            .baseUrl(APIUtils.API_BASE_URI)
+            .client(okHttpClient)
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(SortTypeConverterFactory.create())
+            .addCallAdapterFactory(GuavaCallAdapterFactory.create())
+            .build();
     }
 
     @Provides
@@ -79,76 +79,68 @@ abstract class NetworkModule {
     @Provides
     @Named("oauth")
     static Retrofit provideOAuthRetrofit(@Named("base") Retrofit retrofit,
-                                         @Named("default") OkHttpClient okHttpClient) {
-        return retrofit.newBuilder()
-                .baseUrl(APIUtils.OAUTH_API_BASE_URI)
-                .client(okHttpClient)
-                .build();
+        @Named("default") OkHttpClient okHttpClient) {
+
+        return retrofit.newBuilder().baseUrl(APIUtils.OAUTH_API_BASE_URI).client(okHttpClient).build();
     }
 
     @Provides
     @Named("default")
     @Singleton
     static OkHttpClient provideOkHttpClient(Context context,
-                                            @Named("base") OkHttpClient httpClient,
-                                            @Named("base") Retrofit retrofit,
-                                            RedditDataRoomDatabase redditDataRoomDatabase,
-                                            @Named("current_account") SharedPreferences currentAccountSharedPreferences,
-                                            ConnectionPool connectionPool) {
+        @Named("base") OkHttpClient httpClient,
+        @Named("base") Retrofit retrofit,
+        RedditDataRoomDatabase redditDataRoomDatabase,
+        @Named("current_account") SharedPreferences currentAccountSharedPreferences,
+        ConnectionPool connectionPool) {
+
         return httpClient.newBuilder()
-                // Fetch clientId once and pass it to the authenticator
-                .authenticator(new AccessTokenAuthenticator(APIUtils.getClientId(context), retrofit, redditDataRoomDatabase, currentAccountSharedPreferences))
-                .connectionPool(connectionPool)
-                .build();
+            // Fetch clientId once and pass it to the authenticator
+            .authenticator(new AccessTokenAuthenticator(APIUtils.getClientId(context), retrofit, redditDataRoomDatabase, currentAccountSharedPreferences))
+            .connectionPool(connectionPool)
+            .build();
     }
 
     @Provides
     @Named("server")
     @Singleton
     static OkHttpClient provideServerOkHttpClient(@Named("base") OkHttpClient httpClient,
-                                            RedditDataRoomDatabase redditDataRoomDatabase,
-                                            @Named("current_account") SharedPreferences currentAccountSharedPreferences,
-                                            ConnectionPool connectionPool) {
+        RedditDataRoomDatabase redditDataRoomDatabase,
+        @Named("current_account") SharedPreferences currentAccountSharedPreferences,
+        ConnectionPool connectionPool) {
+
         return httpClient.newBuilder()
-                .authenticator(new ServerAccessTokenAuthenticator(redditDataRoomDatabase, currentAccountSharedPreferences))
-                .connectionPool(connectionPool)
-                .build();
+            .authenticator(new ServerAccessTokenAuthenticator(redditDataRoomDatabase, currentAccountSharedPreferences))
+            .connectionPool(connectionPool)
+            .build();
     }
 
     @Provides
     @Named("oauth_without_authenticator")
     @Singleton
     static Retrofit provideOauthWithoutAuthenticatorRetrofit(@Named("base") Retrofit retrofit) {
-        return retrofit.newBuilder()
-                .baseUrl(APIUtils.OAUTH_API_BASE_URI)
-                .build();
+        return retrofit.newBuilder().baseUrl(APIUtils.OAUTH_API_BASE_URI).build();
     }
 
     @Provides
     @Named("upload_media")
     @Singleton
     static Retrofit provideUploadMediaRetrofit(@Named("base") Retrofit retrofit) {
-        return retrofit.newBuilder()
-                .baseUrl(APIUtils.API_UPLOAD_MEDIA_URI)
-                .build();
+        return retrofit.newBuilder().baseUrl(APIUtils.API_UPLOAD_MEDIA_URI).build();
     }
 
     @Provides
     @Named("upload_video")
     @Singleton
     static Retrofit provideUploadVideoRetrofit(@Named("base") Retrofit retrofit) {
-        return retrofit.newBuilder()
-                .baseUrl(APIUtils.API_UPLOAD_VIDEO_URI)
-                .build();
+        return retrofit.newBuilder().baseUrl(APIUtils.API_UPLOAD_VIDEO_URI).build();
     }
 
     @Provides
     @Named("download_media")
     @Singleton
     static Retrofit provideDownloadRedditVideoRetrofit(@Named("base") Retrofit retrofit) {
-        return retrofit.newBuilder()
-                .baseUrl("http://localhost/")
-                .build();
+        return retrofit.newBuilder().baseUrl("http://localhost/").build();
     }
 
     @Provides
@@ -161,60 +153,44 @@ abstract class NetworkModule {
     @Named("redgifs")
     @Singleton
     static Retrofit provideRedgifsRetrofit(@Named("RedgifsAccessTokenAuthenticator") Interceptor accessTokenAuthenticator,
-                                           @Named("base") OkHttpClient httpClient,
-                                           @Named("base") Retrofit retrofit,
-                                           ConnectionPool connectionPool) {
-        OkHttpClient.Builder okHttpClientBuilder = httpClient.newBuilder()
-                .addInterceptor(chain -> chain.proceed(
-                        chain.request()
-                                .newBuilder()
-                                .header("User-Agent", APIUtils.USER_AGENT)
-                                .build()
-                ))
-                .addInterceptor(accessTokenAuthenticator)
-                .connectionPool(connectionPool);
+        @Named("base") OkHttpClient httpClient,
+        @Named("base") Retrofit retrofit,
+        ConnectionPool connectionPool) {
 
-        return retrofit.newBuilder()
-                .baseUrl(APIUtils.REDGIFS_API_BASE_URI)
-                .client(okHttpClientBuilder.build())
-                .build();
+        OkHttpClient.Builder okHttpClientBuilder = httpClient.newBuilder()
+            .addInterceptor(chain -> chain.proceed(chain.request().newBuilder().header("User-Agent", APIUtils.USER_AGENT).build()))
+            .addInterceptor(accessTokenAuthenticator)
+            .connectionPool(connectionPool);
+
+        return retrofit.newBuilder().baseUrl(APIUtils.REDGIFS_API_BASE_URI).client(okHttpClientBuilder.build()).build();
     }
 
     @Provides
     @Named("imgur")
     @Singleton
     static Retrofit provideImgurRetrofit(@Named("base") Retrofit retrofit) {
-        return retrofit.newBuilder()
-                .baseUrl(APIUtils.IMGUR_API_BASE_URI)
-                .build();
+        return retrofit.newBuilder().baseUrl(APIUtils.IMGUR_API_BASE_URI).build();
     }
 
     @Provides
     @Named("vReddIt")
     @Singleton
     static Retrofit provideVReddItRetrofit(@Named("base") Retrofit retrofit) {
-        return retrofit.newBuilder()
-                .baseUrl("http://localhost/")
-                .build();
+        return retrofit.newBuilder().baseUrl("http://localhost/").build();
     }
 
     @Provides
     @Named("streamable")
     @Singleton
     static Retrofit provideStreamableRetrofit(@Named("base") Retrofit retrofit) {
-        return retrofit.newBuilder()
-                .baseUrl(APIUtils.STREAMABLE_API_BASE_URI)
-                .build();
+        return retrofit.newBuilder().baseUrl(APIUtils.STREAMABLE_API_BASE_URI).build();
     }
 
     @Provides
     @Named("online_custom_themes")
     @Singleton
     static Retrofit provideOnlineCustomThemesRetrofit(@Named("base") Retrofit retrofit, @Named("server") OkHttpClient httpClient) {
-        return retrofit.newBuilder()
-                .baseUrl(APIUtils.SERVER_API_BASE_URI)
-                .client(httpClient)
-                .build();
+        return retrofit.newBuilder().baseUrl(APIUtils.SERVER_API_BASE_URI).client(httpClient).build();
     }
 
     @Provides

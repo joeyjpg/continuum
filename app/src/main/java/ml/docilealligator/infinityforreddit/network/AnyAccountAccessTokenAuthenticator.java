@@ -32,8 +32,7 @@ public class AnyAccountAccessTokenAuthenticator implements Authenticator {
     private final SharedPreferences mCurrentAccountSharedPreferences;
     private final String mClientId;
 
-    public AnyAccountAccessTokenAuthenticator(String clientId, Retrofit retrofit, RedditDataRoomDatabase accountRoomDatabase, Account account,
-                                    SharedPreferences currentAccountSharedPreferences) {
+    public AnyAccountAccessTokenAuthenticator(String clientId, Retrofit retrofit, RedditDataRoomDatabase accountRoomDatabase, Account account, SharedPreferences currentAccountSharedPreferences) {
         mClientId = clientId;
         mRetrofit = retrofit;
         mRedditDataRoomDatabase = accountRoomDatabase;
@@ -55,9 +54,12 @@ public class AnyAccountAccessTokenAuthenticator implements Authenticator {
                 if (mAccount == null) {
                     return null;
                 }
+
                 String accessTokenFromDatabase = mAccount.getAccessToken();
+
                 if (accessToken.equals(accessTokenFromDatabase)) {
                     String newAccessToken = refreshAccessToken(mAccount);
+
                     if (!newAccessToken.equals("")) {
                         return response.request().newBuilder().headers(Headers.of(APIUtils.getOAuthHeader(newAccessToken))).build();
                     } else {
@@ -68,6 +70,7 @@ public class AnyAccountAccessTokenAuthenticator implements Authenticator {
                 }
             }
         }
+
         return null;
     }
 
@@ -80,7 +83,6 @@ public class AnyAccountAccessTokenAuthenticator implements Authenticator {
         params.put(APIUtils.GRANT_TYPE_KEY, APIUtils.GRANT_TYPE_REFRESH_TOKEN);
         params.put(APIUtils.REFRESH_TOKEN_KEY, refreshToken);
 
-        // Construct header directly using the stored clientId
         Map<String, String> authHeader = new HashMap<>();
         String credentials = String.format("%s:%s", mClientId, "");
         String auth = "Basic " + android.util.Base64.encodeToString(credentials.getBytes(), android.util.Base64.NO_WRAP);
@@ -93,13 +95,18 @@ public class AnyAccountAccessTokenAuthenticator implements Authenticator {
                 JSONObject jsonObject = new JSONObject(response.body());
                 String newAccessToken = jsonObject.getString(APIUtils.ACCESS_TOKEN_KEY);
                 String newRefreshToken = jsonObject.has(APIUtils.REFRESH_TOKEN_KEY) ? jsonObject.getString(APIUtils.REFRESH_TOKEN_KEY) : null;
+
                 if (newRefreshToken == null) {
                     mRedditDataRoomDatabase.accountDao().updateAccessToken(account.getAccountName(), newAccessToken);
                 } else {
                     mRedditDataRoomDatabase.accountDao().updateAccessTokenAndRefreshToken(account.getAccountName(), newAccessToken, newRefreshToken);
                 }
+
                 Account currentAccount = mRedditDataRoomDatabase.accountDao().getCurrentAccount();
-                if (currentAccount != null && mAccount.getAccountName().equals(currentAccount.getAccountName()) && mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCOUNT_NAME, Account.ANONYMOUS_ACCOUNT).equals(account.getAccountName())) {
+
+                if (currentAccount != null && mAccount.getAccountName().equals(currentAccount.getAccountName())
+                    && mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCOUNT_NAME, Account.ANONYMOUS_ACCOUNT).equals(account.getAccountName())) {
+
                     mCurrentAccountSharedPreferences.edit().putString(SharedPreferencesUtils.ACCESS_TOKEN, newAccessToken).apply();
                 }
 

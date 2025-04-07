@@ -32,8 +32,7 @@ public class AccessTokenAuthenticator implements Authenticator {
     private final SharedPreferences mCurrentAccountSharedPreferences;
     private final String mClientId;
 
-    public AccessTokenAuthenticator(String clientId, Retrofit retrofit, RedditDataRoomDatabase redditDataRoomDatabase,
-                                    SharedPreferences currentAccountSharedPreferences) {
+    public AccessTokenAuthenticator(String clientId, Retrofit retrofit, RedditDataRoomDatabase redditDataRoomDatabase, SharedPreferences currentAccountSharedPreferences) {
         mClientId = clientId;
         mRetrofit = retrofit;
         mRedditDataRoomDatabase = redditDataRoomDatabase;
@@ -45,6 +44,7 @@ public class AccessTokenAuthenticator implements Authenticator {
     public Request authenticate(Route route, @NonNull Response response) {
         if (response.code() == 401) {
             String accessTokenHeader = response.request().header(APIUtils.AUTHORIZATION_KEY);
+
             if (accessTokenHeader == null) {
                 return null;
             }
@@ -52,12 +52,16 @@ public class AccessTokenAuthenticator implements Authenticator {
             String accessToken = accessTokenHeader.substring(APIUtils.AUTHORIZATION_BASE.length());
             synchronized (this) {
                 Account account = mRedditDataRoomDatabase.accountDao().getCurrentAccount();
+
                 if (account == null) {
                     return null;
                 }
+
                 String accessTokenFromDatabase = account.getAccessToken();
+
                 if (accessToken.equals(accessTokenFromDatabase)) {
                     String newAccessToken = refreshAccessToken(account);
+
                     if (!newAccessToken.equals("")) {
                         return response.request().newBuilder().headers(Headers.of(APIUtils.getOAuthHeader(newAccessToken))).build();
                     } else {
@@ -87,17 +91,21 @@ public class AccessTokenAuthenticator implements Authenticator {
         authHeader.put(APIUtils.AUTHORIZATION_KEY, auth);
 
         Call<String> accessTokenCall = api.getAccessToken(authHeader, params);
+
         try {
             retrofit2.Response<String> response = accessTokenCall.execute();
+
             if (response.isSuccessful() && response.body() != null) {
                 JSONObject jsonObject = new JSONObject(response.body());
                 String newAccessToken = jsonObject.getString(APIUtils.ACCESS_TOKEN_KEY);
                 String newRefreshToken = jsonObject.has(APIUtils.REFRESH_TOKEN_KEY) ? jsonObject.getString(APIUtils.REFRESH_TOKEN_KEY) : null;
+
                 if (newRefreshToken == null) {
                     mRedditDataRoomDatabase.accountDao().updateAccessToken(account.getAccountName(), newAccessToken);
                 } else {
                     mRedditDataRoomDatabase.accountDao().updateAccessTokenAndRefreshToken(account.getAccountName(), newAccessToken, newRefreshToken);
                 }
+
                 if (mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCOUNT_NAME, Account.ANONYMOUS_ACCOUNT).equals(account.getAccountName())) {
                     mCurrentAccountSharedPreferences.edit().putString(SharedPreferencesUtils.ACCESS_TOKEN, newAccessToken).apply();
                 }
