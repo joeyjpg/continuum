@@ -1133,7 +1133,6 @@ Brak podglądu w Ostatnich aplikacjach."</string>
     <!-- Fuzzy -->
     <string name="settings_show_fewer_toolbar_options_threshold_summary">"Poziom %1$d"</string>
     <string name="settings_show_author_avatar_title">"Pokaż awatar autora"</string>
-    <string name="settings_reddit_user_agreement_title">"Umowa użytkownika Reddit"</string>
     <string name="settings_hide_upvote_ratio_title">"Ukryj stosunek upvoteów"</string>
     <string name="settings_miscellaneous_dangerous_group_title">"Niebezpieczne"</string>
     <string name="settings_reddit_video_default_resolution">"Domyślna rozdzielczość filmów"</string>
@@ -1143,7 +1142,6 @@ Brak podglądu w Ostatnich aplikacjach."</string>
     <string name="unable_to_copy_font_file">"Nie udało się skopiować Twojej czcionki"</string>
     <string name="reddit_gallery_item_caption_hint">"Podpis (maks. 180 znaków)"</string>
     <string name="reddit_gallery_item_url_hint">"Url"</string>
-    <string name="user_agreement_dialog_title">"Umowa użytkownika"</string>
     <string name="agree">"Zgadzam się"</string>
     <string name="do_not_agree">"Nie zgadzam się"</string>
     <string name="option_1_hint">"Opcja 1 (Wymagane)"</string>

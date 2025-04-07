@@ -39,7 +39,6 @@ public class MainPreferenceFragment extends CustomFontPreferenceFragmentCompat {
         Preference postFilterPreference = findPreference(SharedPreferencesUtils.POST_FILTER);
         Preference commentFilterPreference = findPreference(SharedPreferencesUtils.COMMENT_FILTER);
         Preference privacyPolicyPreference = findPreference(SharedPreferencesUtils.PRIVACY_POLICY_KEY);
-        Preference redditUserAgreementPreference = findPreference(SharedPreferencesUtils.REDDIT_USER_AGREEMENT_KEY);
 
         BiometricManager biometricManager = BiometricManager.from(activity);
         if (biometricManager.canAuthenticate(BIOMETRIC_STRONG | DEVICE_CREDENTIAL) != BiometricManager.BIOMETRIC_SUCCESS) {
@@ -72,19 +71,10 @@ public class MainPreferenceFragment extends CustomFontPreferenceFragmentCompat {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     Intent intent = new Intent(activity, LinkResolverActivity.class);
-                    intent.setData(Uri.parse("https://docile-alligator.github.io/"));
+                    intent.setData(Uri.parse("https://github.com/cygnusx-1-org/continuum"));
                     activity.startActivity(intent);
                     return true;
                 }
-            });
-        }
-
-        if (redditUserAgreementPreference != null) {
-            redditUserAgreementPreference.setOnPreferenceClickListener(preference -> {
-                Intent intent = new Intent(activity, LinkResolverActivity.class);
-                intent.setData(Uri.parse("https://www.redditinc.com/policies/user-agreement"));
-                activity.startActivity(intent);
-                return true;
             });
         }
     }

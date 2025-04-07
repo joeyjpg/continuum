@@ -1103,7 +1103,6 @@ Premi per riprovare."</string>
     <string name="settings_show_fewer_toolbar_options_threshold_title">"Mostra meno opzioni della barra degli strumenti a partire da"</string>
     <string name="settings_show_fewer_toolbar_options_threshold_summary">"Livello %1$d"</string>
     <string name="settings_show_author_avatar_title">"Mostra avatar dell'autore"</string>
-    <string name="settings_reddit_user_agreement_title">"Accordo per gli utenti di Reddit"</string>
     <string name="settings_always_show_child_comment_count_title">"Mostra sempre il numero di commenti figlio"</string>
     <string name="settings_hide_upvote_ratio_title">"Nascondi rapporto upvoti"</string>
     <string name="settings_miscellaneous_dangerous_group_title">"Pericoloso"</string>
@@ -1116,7 +1115,6 @@ Premi per riprovare."</string>
     <string name="unable_to_copy_font_file">"Impossibile copiare il carattere"</string>
     <string name="reddit_gallery_item_caption_hint">"Didascalia (max 180 caratteri)"</string>
     <string name="reddit_gallery_item_url_hint">"URL"</string>
-    <string name="user_agreement_dialog_title">"Accordo per gli utenti"</string>
     <string name="agree">"Accetto"</string>
     <string name="do_not_agree">"Non accetto"</string>
     <string name="option_1_hint">"Opzione 1 (richiesta)"</string>

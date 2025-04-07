@@ -1189,7 +1189,6 @@ Tekrar denemek için tıklayın."</string>
     <!-- Fuzzy -->
     <string name="settings_show_fewer_toolbar_options_threshold_summary">"Seviye %1$d"</string>
     <string name="settings_show_author_avatar_title">"Yazar Avatarını Göster"</string>
-    <string name="settings_reddit_user_agreement_title">"Reddit Kullanıcı Sözleşmesi"</string>
     <string name="settings_always_show_child_comment_count_title">"Her Zaman Alt Yorum Sayısını Göster"</string>
     <string name="settings_hide_upvote_ratio_title">"Olumlu Oy Oranını Gizle"</string>
     <string name="settings_miscellaneous_dangerous_group_title">"Tehlikeli"</string>
@@ -1202,7 +1201,6 @@ Tekrar denemek için tıklayın."</string>
     <string name="unable_to_copy_font_file">"Yazı tipiniz kopyalanamadı"</string>
     <string name="reddit_gallery_item_caption_hint">"Altyazı (en fazla 180 karakter)"</string>
     <string name="reddit_gallery_item_url_hint">"Bağlantı Adresi"</string>
-    <string name="user_agreement_dialog_title">"Kullanıcı Sözleşmesi"</string>
     <string name="agree">"Kabul et"</string>
     <string name="do_not_agree">"Kabul etme"</string>
     <string name="option_1_hint">"Seçenek 1 (Zorunlu)"</string>
