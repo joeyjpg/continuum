@@ -1287,7 +1287,6 @@ Cliquer pour réessayer."</string>
     <!-- Fuzzy -->
     <string name="settings_show_fewer_toolbar_options_threshold_summary">"Niveau %1$d"</string>
     <string name="settings_show_author_avatar_title">"Afficher l'avatar de l'auteur"</string>
-    <string name="settings_reddit_user_agreement_title">"Accord d'utilisation de Reddit"</string>
 
     <!-- Je pensée aussi a mineure plutôt qu'enfant -->
     <!-- Fuzzy -->
@@ -1303,7 +1302,6 @@ Cliquer pour réessayer."</string>
     <string name="unable_to_copy_font_file">"Impossible de copier votre police"</string>
     <string name="reddit_gallery_item_caption_hint">"Sous titres (Maximum 180 caractères)"</string>
     <string name="reddit_gallery_item_url_hint">"Url"</string>
-    <string name="user_agreement_dialog_title">"Accord d'utilisation"</string>
     <string name="agree">"J'accepte"</string>
     <string name="do_not_agree">"Je n’accepte pas"</string>
     <string name="option_1_hint">"Option 1 (Requise)"</string>

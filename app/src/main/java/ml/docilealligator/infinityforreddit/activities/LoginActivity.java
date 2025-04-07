@@ -54,8 +54,6 @@ import retrofit2.Retrofit;
 
 public class LoginActivity extends BaseActivity {
 
-    private static final String IS_AGREE_TO_USER_AGGREMENT_STATE = "IATUAS";
-
     @Inject
     @Named("no_oauth")
     Retrofit mRetrofit;
@@ -75,7 +73,6 @@ public class LoginActivity extends BaseActivity {
     @Inject
     Executor mExecutor;
     private String authCode;
-    private boolean isAgreeToUserAgreement = false;
     private ActivityLoginBinding binding;
 
     @Override
@@ -105,10 +102,6 @@ public class LoginActivity extends BaseActivity {
         setSupportActionBar(binding.toolbarLoginActivity);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        if (savedInstanceState != null) {
-            isAgreeToUserAgreement = savedInstanceState.getBoolean(IS_AGREE_TO_USER_AGGREMENT_STATE);
-        }
 
         binding.webviewLoginActivity.getSettings().setJavaScriptEnabled(true);
 
@@ -234,38 +227,6 @@ public class LoginActivity extends BaseActivity {
                 super.onPageFinished(view, url);
             }
         });
-
-        if (!isAgreeToUserAgreement) {
-            TextView messageTextView = new TextView(this);
-            int padding = (int) Utils.convertDpToPixel(24, this);
-            messageTextView.setPaddingRelative(padding, padding, padding, padding);
-            SpannableString message = new SpannableString(getString(R.string.user_agreement_message, "https://www.redditinc.com/policies/user-agreement", "https://docile-alligator.github.io"));
-            Linkify.addLinks(message, Linkify.WEB_URLS);
-            messageTextView.setMovementMethod(BetterLinkMovementMethod.newInstance().setOnLinkClickListener(new BetterLinkMovementMethod.OnLinkClickListener() {
-                @Override
-                public boolean onClick(TextView textView, String url) {
-                    Intent intent = new Intent(LoginActivity.this, LinkResolverActivity.class);
-                    intent.setData(Uri.parse(url));
-                    startActivity(intent);
-                    return true;
-                }
-            }));
-            messageTextView.setLinkTextColor(getResources().getColor(R.color.colorAccent));
-            messageTextView.setText(message);
-            new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialogTheme)
-                    .setTitle(getString(R.string.user_agreement_dialog_title))
-                    .setView(messageTextView)
-                    .setPositiveButton(R.string.agree, (dialogInterface, i) -> isAgreeToUserAgreement = true)
-                    .setNegativeButton(R.string.do_not_agree, (dialogInterface, i) -> finish())
-                    .setCancelable(false)
-                    .show();
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(IS_AGREE_TO_USER_AGGREMENT_STATE, isAgreeToUserAgreement);
     }
 
     @Override

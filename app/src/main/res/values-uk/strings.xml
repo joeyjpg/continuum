@@ -1163,7 +1163,6 @@ https://play.google.com/store/apps/details?id=ml.docilealligator.infinityforredd
     <!-- Fuzzy -->
     <string name="settings_show_fewer_toolbar_options_threshold_summary">"Рівень %1$d"</string>
     <string name="settings_show_author_avatar_title">"Показувати аватарку автора"</string>
-    <string name="settings_reddit_user_agreement_title">"Угода користувача Reddit"</string>
     <string name="settings_always_show_child_comment_count_title">"Завжди показувати кількість дитячих коментарів"</string>
     <string name="settings_hide_upvote_ratio_title">"Ховати голоси вверх"</string>
     <string name="settings_miscellaneous_dangerous_group_title">"Небезпечно"</string>
@@ -1176,7 +1175,6 @@ https://play.google.com/store/apps/details?id=ml.docilealligator.infinityforredd
     <string name="unable_to_copy_font_file">"Не вдалося скопіювати власний шрифт"</string>
     <string name="reddit_gallery_item_caption_hint">"Заголовок (не більше 180 знаків)"</string>
     <string name="reddit_gallery_item_url_hint">"URL"</string>
-    <string name="user_agreement_dialog_title">"Угода користувача"</string>
     <string name="agree">"Погоджуюся"</string>
     <string name="do_not_agree">"Не погоджуюся"</string>
     <string name="option_1_hint">"Варіант 1 (обовʼязково)"</string>

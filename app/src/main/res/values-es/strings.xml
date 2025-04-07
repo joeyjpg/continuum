@@ -1217,7 +1217,6 @@ Toque para volver a intentarlo."</string>
     <!-- Fuzzy -->
     <string name="settings_show_fewer_toolbar_options_threshold_summary">"Nivel %1$d"</string>
     <string name="settings_show_author_avatar_title">"Mostrar avatar del autor"</string>
-    <string name="settings_reddit_user_agreement_title">"Acuerdo de usuario de Reddit"</string>
     <string name="settings_always_show_child_comment_count_title">"Mostrar siempre el número de comentarios descendientes"</string>
     <string name="settings_hide_upvote_ratio_title">"Ocultar proporción de votos"</string>
     <string name="settings_miscellaneous_dangerous_group_title">"Peligroso"</string>
@@ -1230,7 +1229,6 @@ Toque para volver a intentarlo."</string>
     <string name="unable_to_copy_font_file">"No se pudo copiar tu fuente"</string>
     <string name="reddit_gallery_item_caption_hint">"Subtítulo (máximo 180 caracteres)"</string>
     <string name="reddit_gallery_item_url_hint">"Url"</string>
-    <string name="user_agreement_dialog_title">"Acuerdo del usuario"</string>
     <string name="agree">"Aceptar"</string>
     <string name="do_not_agree">"Rechazar"</string>
     <string name="option_1_hint">"Opción 1 (Obligatorio)"</string>

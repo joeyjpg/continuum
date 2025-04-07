@@ -1169,7 +1169,6 @@ Pokud ano, přejmenujte je, než povolíte Material You."</string>
     <!-- Fuzzy -->
     <string name="settings_show_fewer_toolbar_options_threshold_summary">"Úroveň %1$d"</string>
     <string name="settings_show_author_avatar_title">"Zobrazit avatar autora"</string>
-    <string name="settings_reddit_user_agreement_title">"Smlouva s uživatelem Redditu"</string>
     <string name="settings_always_show_child_comment_count_title">"Vždy zobrazit počet podřazených komentářů"</string>
     <string name="settings_hide_upvote_ratio_title">"Skrýt poměr hlasů pro"</string>
     <string name="settings_miscellaneous_dangerous_group_title">"Nebezpečné"</string>
@@ -1182,7 +1181,6 @@ Pokud ano, přejmenujte je, než povolíte Material You."</string>
     <string name="unable_to_copy_font_file">"Nepodařilo se zkopírovat vaše písmo"</string>
     <string name="reddit_gallery_item_caption_hint">"Popis (max 180 znaků)"</string>
     <string name="reddit_gallery_item_url_hint">"URL"</string>
-    <string name="user_agreement_dialog_title">"Smlouva s uživatelem"</string>
     <string name="agree">"Souhlasím"</string>
     <string name="do_not_agree">"Nesouhlasit"</string>
     <string name="option_1_hint">"Možnost 1 (Povinná)"</string>

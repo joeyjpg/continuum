@@ -1179,7 +1179,6 @@ https://play.google.com/store/apps/details?id=ml.docilealligator.infinityforredd
     <!-- Fuzzy -->
     <string name="settings_show_fewer_toolbar_options_threshold_summary">"Уровень %1$d"</string>
     <string name="settings_show_author_avatar_title">"Показывать аватар автора"</string>
-    <string name="settings_reddit_user_agreement_title">"Пользовательское соглашение Reddit"</string>
     <string name="settings_always_show_child_comment_count_title">"Всегда показывать количество дочерних комментариев"</string>
     <string name="settings_hide_upvote_ratio_title">"Скрыть соотношение голосов"</string>
     <string name="settings_miscellaneous_dangerous_group_title">"Опасно"</string>
@@ -1192,7 +1191,6 @@ https://play.google.com/store/apps/details?id=ml.docilealligator.infinityforredd
     <string name="unable_to_copy_font_file">"Невозможно скопировать ваш шрифт"</string>
     <string name="reddit_gallery_item_caption_hint">"Подпись (не более 180 символов)"</string>
     <string name="reddit_gallery_item_url_hint">"URL"</string>
-    <string name="user_agreement_dialog_title">"Пользовательское соглашение"</string>
     <string name="agree">"Принимаю"</string>
     <string name="do_not_agree">"Не принимаю"</string>
     <string name="option_1_hint">"Вариант 1 (обязательно)"</string>

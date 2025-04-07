@@ -1161,7 +1161,6 @@ Apasă pentru a reîncerca."</string>
     <!-- Fuzzy -->
     <string name="settings_show_fewer_toolbar_options_threshold_summary">"Nivel %1$d"</string>
     <string name="settings_show_author_avatar_title">"Arată Avatarul Autorului"</string>
-    <string name="settings_reddit_user_agreement_title">"Acordul Utilizatorului Reddit"</string>
     <string name="settings_always_show_child_comment_count_title">"Mereu Arată Numărul de Comentarii Răspuns"</string>
     <string name="settings_hide_upvote_ratio_title">"Ascunde Rația de Susvot"</string>
     <string name="settings_miscellaneous_dangerous_group_title">"Periculos"</string>
@@ -1174,7 +1173,6 @@ Apasă pentru a reîncerca."</string>
     <string name="unable_to_copy_font_file">"Nu s-a putut copia fontul tău"</string>
     <string name="reddit_gallery_item_caption_hint">"Notiță (maxim 180 caractere)"</string>
     <string name="reddit_gallery_item_url_hint">"Adresă"</string>
-    <string name="user_agreement_dialog_title">"Acordul Utilizatorului"</string>
     <string name="agree">"Sunt de acord"</string>
     <string name="do_not_agree">"Nu sunt de acord"</string>
     <string name="option_1_hint">"Opțiunea 1 (Obligatoriu)"</string>
