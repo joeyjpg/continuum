@@ -116,4 +116,6 @@ fabric.properties
 # Lint file
 app/lint-baseline.xml
 
+keystore.properties
+
 # End of https://www.gitignore.io/api/androidstudio

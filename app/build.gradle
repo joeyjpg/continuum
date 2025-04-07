@@ -3,7 +3,26 @@ plugins {
 }
 
 android {
+    def keystorePropertiesFile = rootProject.file("keystore.properties")
+
+    if (keystorePropertiesFile.exists()) {
+        def keystoreProperties = new Properties()
+        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+        signingConfigs {
+            release {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
+        }
+    } else {
+        println("Warning: keystore.properties file not found. Skipping signing configuration for withGPlay.")
+    }
+
     compileSdk 34
+
     defaultConfig {
         applicationId "ml.docilealligator.infinityforreddit"
         minSdk 21
@@ -17,10 +36,21 @@ android {
             }
         }
     }
+
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.release
+            } else {
+                println("Warning: keystore.properties file not found. Skipping signing configuration for release.")
+            }
         }
         minifiedRelease {
             initWith buildTypes.release
@@ -34,6 +64,13 @@ android {
             versionNameSuffix ' (DEBUG)'
         }
     }
+
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
@@ -44,16 +81,6 @@ android {
         disable 'MissingTranslation'
     }
 
-    bundle {
-        language {
-            enableSplit = false
-        }
-    }
-
-    buildFeatures {
-        buildConfig = true
-        viewBinding = true
-    }
     namespace 'ml.docilealligator.infinityforreddit'
 }
 
