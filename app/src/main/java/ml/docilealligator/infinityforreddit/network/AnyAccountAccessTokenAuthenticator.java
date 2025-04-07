@@ -30,9 +30,11 @@ public class AnyAccountAccessTokenAuthenticator implements Authenticator {
     private final RedditDataRoomDatabase mRedditDataRoomDatabase;
     private final Account mAccount;
     private final SharedPreferences mCurrentAccountSharedPreferences;
+    private final String mClientId;
 
-    public AnyAccountAccessTokenAuthenticator(Retrofit retrofit, RedditDataRoomDatabase accountRoomDatabase, Account account,
-                                       SharedPreferences currentAccountSharedPreferences) {
+    public AnyAccountAccessTokenAuthenticator(String clientId, Retrofit retrofit, RedditDataRoomDatabase accountRoomDatabase, Account account,
+                                    SharedPreferences currentAccountSharedPreferences) {
+        mClientId = clientId;
         mRetrofit = retrofit;
         mRedditDataRoomDatabase = accountRoomDatabase;
         mAccount = account;
@@ -78,7 +80,13 @@ public class AnyAccountAccessTokenAuthenticator implements Authenticator {
         params.put(APIUtils.GRANT_TYPE_KEY, APIUtils.GRANT_TYPE_REFRESH_TOKEN);
         params.put(APIUtils.REFRESH_TOKEN_KEY, refreshToken);
 
-        Call<String> accessTokenCall = api.getAccessToken(APIUtils.getHttpBasicAuthHeader(), params);
+        // Construct header directly using the stored clientId
+        Map<String, String> authHeader = new HashMap<>();
+        String credentials = String.format("%s:%s", mClientId, "");
+        String auth = "Basic " + android.util.Base64.encodeToString(credentials.getBytes(), android.util.Base64.NO_WRAP);
+        authHeader.put(APIUtils.AUTHORIZATION_KEY, auth);
+
+        Call<String> accessTokenCall = api.getAccessToken(authHeader, params);
         try {
             retrofit2.Response<String> response = accessTokenCall.execute();
             if (response.isSuccessful() && response.body() != null) {

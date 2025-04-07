@@ -251,7 +251,14 @@ public class PullNotificationWorker extends Worker {
         params.put(APIUtils.GRANT_TYPE_KEY, APIUtils.GRANT_TYPE_REFRESH_TOKEN);
         params.put(APIUtils.REFRESH_TOKEN_KEY, refreshToken);
 
-        Call<String> accessTokenCall = api.getAccessToken(APIUtils.getHttpBasicAuthHeader(), params);
+        // Construct header directly using the fetched clientId
+        String clientId = APIUtils.getClientId(getApplicationContext());
+        Map<String, String> authHeader = new HashMap<>();
+        String credentials = String.format("%s:%s", clientId, "");
+        String auth = "Basic " + android.util.Base64.encodeToString(credentials.getBytes(), android.util.Base64.NO_WRAP);
+        authHeader.put(APIUtils.AUTHORIZATION_KEY, auth);
+
+        Call<String> accessTokenCall = api.getAccessToken(authHeader, params);
         try {
             Response<String> response = accessTokenCall.execute();
             if (response.isSuccessful() && response.body() != null) {

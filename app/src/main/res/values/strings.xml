@@ -657,6 +657,13 @@
     <string name="settings_proxy_type">Proxy Type</string>
     <string name="settings_proxy_hostname">Hostname</string>
     <string name="settings_proxy_port">Port</string>
+
+    <!-- Client ID Preference -->
+    <string name="client_id_pref_key" translatable="false">client_id_pref_key</string>
+    <string name="settings_client_id_title">Reddit API Client ID</string>
+    <string name="settings_client_id_summary">Use a custom Client ID for the Reddit API (Requires app restart)</string>
+    <string name="default_client_id" translatable="false">Ro2J-y8bN412oS6BeaIj0A</string>
+
     <string name="settings_hide_fab_in_post_details">Hide Floating Action Button</string>
 
     <string name="no_link_available">Cannot get the link</string>

@@ -1,5 +1,6 @@
 package ml.docilealligator.infinityforreddit;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.net.InetSocketAddress;
@@ -88,13 +89,15 @@ abstract class NetworkModule {
     @Provides
     @Named("default")
     @Singleton
-    static OkHttpClient provideOkHttpClient(@Named("base") OkHttpClient httpClient,
+    static OkHttpClient provideOkHttpClient(Context context,
+                                            @Named("base") OkHttpClient httpClient,
                                             @Named("base") Retrofit retrofit,
                                             RedditDataRoomDatabase redditDataRoomDatabase,
                                             @Named("current_account") SharedPreferences currentAccountSharedPreferences,
                                             ConnectionPool connectionPool) {
         return httpClient.newBuilder()
-                .authenticator(new AccessTokenAuthenticator(retrofit, redditDataRoomDatabase, currentAccountSharedPreferences))
+                // Fetch clientId once and pass it to the authenticator
+                .authenticator(new AccessTokenAuthenticator(APIUtils.getClientId(context), retrofit, redditDataRoomDatabase, currentAccountSharedPreferences))
                 .connectionPool(connectionPool)
                 .build();
     }

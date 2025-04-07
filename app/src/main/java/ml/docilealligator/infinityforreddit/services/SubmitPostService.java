@@ -26,7 +26,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.io.File;
 
+import ml.docilealligator.infinityforreddit.utils.APIUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -221,7 +223,7 @@ public class SubmitPostService extends JobService {
             boolean isNSFW = bundle.getInt(EXTRA_IS_NSFW, 0) == 1;
             boolean receivePostReplyNotifications = bundle.getInt(EXTRA_RECEIVE_POST_REPLY_NOTIFICATIONS, 1) == 1;
 
-            Retrofit newAuthenticatorOauthRetrofit = mOauthRetrofit.newBuilder().client(new OkHttpClient.Builder().authenticator(new AnyAccountAccessTokenAuthenticator(mRetrofit, mRedditDataRoomDatabase, account, mCurrentAccountSharedPreferences))
+            Retrofit newAuthenticatorOauthRetrofit = mOauthRetrofit.newBuilder().client(new OkHttpClient.Builder().authenticator(new AnyAccountAccessTokenAuthenticator(APIUtils.getClientId(getApplicationContext()), mRetrofit, mRedditDataRoomDatabase, account, mCurrentAccountSharedPreferences))
                             .connectTimeout(30, TimeUnit.SECONDS)
                             .readTimeout(30, TimeUnit.SECONDS)
                             .writeTimeout(30, TimeUnit.SECONDS)

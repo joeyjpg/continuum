@@ -114,7 +114,7 @@ public class LoginActivity extends BaseActivity {
 
         Uri baseUri = Uri.parse(APIUtils.OAUTH_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendQueryParameter(APIUtils.CLIENT_ID_KEY, APIUtils.CLIENT_ID);
+        uriBuilder.appendQueryParameter(APIUtils.CLIENT_ID_KEY, APIUtils.getClientId(getApplicationContext()));
         uriBuilder.appendQueryParameter(APIUtils.RESPONSE_TYPE_KEY, APIUtils.RESPONSE_TYPE);
         uriBuilder.appendQueryParameter(APIUtils.STATE_KEY, APIUtils.STATE);
         uriBuilder.appendQueryParameter(APIUtils.REDIRECT_URI_KEY, APIUtils.REDIRECT_URI);
@@ -148,7 +148,7 @@ public class LoginActivity extends BaseActivity {
                         params.put(APIUtils.REDIRECT_URI_KEY, APIUtils.REDIRECT_URI);
 
                         RedditAPI api = mRetrofit.create(RedditAPI.class);
-                        Call<String> accessTokenCall = api.getAccessToken(APIUtils.getHttpBasicAuthHeader(), params);
+                        Call<String> accessTokenCall = api.getAccessToken(APIUtils.getHttpBasicAuthHeader(getApplicationContext()), params);
                         accessTokenCall.enqueue(new Callback<>() {
                             @Override
                             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
@@ -239,7 +239,7 @@ public class LoginActivity extends BaseActivity {
             TextView messageTextView = new TextView(this);
             int padding = (int) Utils.convertDpToPixel(24, this);
             messageTextView.setPaddingRelative(padding, padding, padding, padding);
-            SpannableString message = new SpannableString(getString(R.string.user_agreement_message, "https://www.redditinc.com/policies/user-agreement", "https://docile-alligator.github.io"));
+            SpannableString message = new SpannableString(getString(R.string.user_agreement_message, "https://www.redditinc.com/policies/user-agreement", "https://github.com/cygnusx-1-org/continuum"));
             Linkify.addLinks(message, Linkify.WEB_URLS);
             messageTextView.setMovementMethod(BetterLinkMovementMethod.newInstance().setOnLinkClickListener(new BetterLinkMovementMethod.OnLinkClickListener() {
                 @Override

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditTextPreference
+        android:defaultValue="@string/default_client_id"
+        android:key="@string/client_id_pref_key"
+        android:summary="@string/settings_client_id_summary"
+        android:title="@string/settings_client_id_title"
+        app:iconSpaceReserved="false"
+        app:useSimpleSummaryProvider="true" />
+
+</androidx.preference.PreferenceScreen>
