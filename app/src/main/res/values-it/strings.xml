@@ -123,7 +123,7 @@ Tocca per riprovare."</string>
     <string name="follow_failed">"Errore nel seguire"</string>
     <string name="unfollowed">"Smesso di seguire"</string>
     <string name="unfollow_failed">"Disiscrizione non riuscita"</string>
-    <string name="app_label">"Infinity"</string>
+    <string name="app_label">"Continuum"</string>
     <string name="search_hint">"Cerca qualcosa"</string>
     <string name="no_posts_no_lazy_mode">"Nessun post disponibile"</string>
     <string name="lazy_mode_start">"Modalità di scorrimento automatico partirà tra %1$.1fs"</string>
@@ -355,10 +355,10 @@ Tocca per riprovare."</string>
     <string name="settings_reddit_account_title">"Account Reddit"</string>
     <string name="settings_reddit_account_summary">"u/Hostilenemy"</string>
     <string name="settings_subreddit_title">"Subreddit"</string>
-    <string name="settings_subreddit_summary">"r/Infinity_For_Reddit"</string>
+    <string name="settings_subreddit_summary">"r/continuumreddit"</string>
     <string name="settings_share_title">"Condividi"</string>
     <string name="settings_share_summary">"Condividi questa app con altre persone se la apprezzi"</string>
-    <string name="settings_version_title">"Infinity For Reddit"</string>
+    <string name="settings_version_title">"Continuum"</string>
     <string name="settings_version_summary">"Versione %s"</string>
     <string name="settings_category_customization_title">"Personalizzazione"</string>
     <string name="settings_customize_light_theme_title">"Tema Chiaro"</string>
@@ -420,8 +420,8 @@ Tocca per riprovare."</string>
     <string name="error_getting_multi_reddit_data">"Errore durante il recupero dei dati multireddit"</string>
     <string name="error_loading_multi_reddit_list">"Impossibile sincronizzare multireddit"</string>
     <string name="error_loading_subscriptions">"Impossibile sincronizzare iscrizioni"</string>
-    <string name="share_this_app">"Dai un'occhiata a Infinity per Reddit, un fantastico client Reddit!
-https://play.google.com/store/apps/details?id=ml.docilealligator.infinityforreddit"</string>
+    <string name="share_this_app">"Dai un'occhiata a Continuum, un fantastico client Reddit!
+https://play.google.com/store/"</string>
     <string name="error_getting_subreddit_name">"Errore durante il recupero dei nomi subreddit"</string>
     <string name="share_post_link">"Condividi il link al post"</string>
     <string name="share_image_link">"Condividi il link all'immagine"</string>
@@ -656,7 +656,7 @@ https://play.google.com/store/apps/details?id=ml.docilealligator.infinityforredd
     <string name="delete_all_front_page_scrolled_positions_success">"Tutte le posizioni fatte scorrere in prima pagina eliminate con successo"</string>
     <string name="reset_all_settings_success">"Reset delle impostazioni avvenuto con successo"</string>
     <string name="username_preview">"u/Hostilenemy"</string>
-    <string name="subreddit_preview">"r/Infinity_For_Reddit"</string>
+    <string name="subreddit_preview">"r/continuumredit"</string>
     <string name="primary_text_preview">"Testo Principale"</string>
     <string name="secondary_text_preview">"Testo Secondario"</string>
     <string name="post_title_preview">"Questo è un post"</string>
@@ -974,9 +974,9 @@ La riproduzione automatica video è disabilitata."</string>
 \"Material You Amoled\".
 Se hai dei temi con questi nomi devi cambiarli prima di attivare la Personalizzazione automatica."</string>
     <string name="settings_enable_material_you_title">"Attiva personalizzazione automatica"</string>
-    <string name="settings_enable_material_you_summary">"Personalizza Infinity in base al tuo sfondo"</string>
+    <string name="settings_enable_material_you_summary">"Personalizza Continuum in base al tuo sfondo"</string>
     <string name="settings_apply_material_you_title">"Applica personalizzazione"</string>
-    <string name="settings_apply_material_you_summary">"Nel caso Infinity non abbia cambiato il tema"</string>
+    <string name="settings_apply_material_you_summary">"Nel caso Continuum non abbia cambiato il tema"</string>
     <string name="settings_more_tabs_show_favorite_multireddits_title">"Mostra Multireddit preferiti"</string>
     <string name="settings_more_tabs_show_multireddits_title">"Mostra Multireddit"</string>
     <string name="settings_collapse_reddit_section_title">"Comprimi la sezione Reddit"</string>
@@ -1160,12 +1160,12 @@ Tocca per riprovare."</string>
     <string name="subscription_activity_label">"Abbonamento"</string>
     <string name="edited">"Modificato"</string>
     <string name="edited_time">"Modificato il %s"</string>
-    <string name="welcome_to_infinity">"Benvenuti su Infinity for Reddit, la vostra porta d'accesso a una nuova dimensione di navigazione su Reddit!"</string>
+    <string name="welcome_to_continuum">"Benvenuti su Continuum, la vostra porta d'accesso a una nuova dimensione di navigazione su Reddit!"</string>
 
     <!-- Fuzzy -->
     <string name="subscription_prompt">"Prima che vi immergiate nelle innumerevoli possibilità offerte da questa applicazione, voglio essere franco e trasparente su un cambiamento significativo che ho implementato per garantirvi il miglior servizio possibile.
 
-D'ora in poi, avrete bisogno di un abbonamento mensile per accedere alle API di Reddit all'interno di Infinity for Reddit, perché Reddit ha iniziato a far pagare l'accesso alle API dal 1° luglio 2023."</string>
+D'ora in poi, avrete bisogno di un abbonamento mensile per accedere alle API di Reddit all'interno di Continuum, perché Reddit ha iniziato a far pagare l'accesso alle API dal 1° luglio 2023."</string>
     <string name="monthly">"Mensile"</string>
     <string name="yearly">"Annuale"</string>
     <string name="weekly">"Settimanale"</string>
@@ -1184,7 +1184,7 @@ D'ora in poi, avrete bisogno di un abbonamento mensile per accedere alle API di 
     <string name="subscription_plan_description_monthly_499">"Oro - Ottima Scelta!"</string>
     <string name="subscription_plan_description_monthly_699">"Platino"</string>
     <string name="subscription_plan_description_monthly_899">"Diamante"</string>
-    <string name="subscription_plan_description_monthly_999">"Infinity"</string>
+    <string name="subscription_plan_description_monthly_999">"Continuum"</string>
     <string name="acknowledge_purchase_failed">"Impossibile riconoscere l'acquisto"</string>
     <string name="connect_to_billing_system_failed">"Impossibile connettersi al sistema di fatturazione"</string>
     <string name="connecting_to_billing_system">"Connessione al sistema di fatturazione. Attendere prego."</string>
@@ -1192,7 +1192,7 @@ D'ora in poi, avrete bisogno di un abbonamento mensile per accedere alle API di 
     <string name="load_subscription_options">"Carica le opzioni di abbonamento"</string>
     <string name="acknowledging_subscription">"Conferma dell'abbonamento. Attendere prego."</string>
     <string name="acknowledgement_purchase_failed_description">"Ops, si è verificato un errore durante la conferma dell'acquisto. Se questo problema persiste per tre giorni, riceverete automaticamente un rimborso.
-Non preoccupatevi, potete ancora godervi Infinity for Reddit."</string>
+Non preoccupatevi, potete ancora godervi Continuum."</string>
     <string name="continue_to_app">"Continua all'applicazione"</string>
     <string name="restore_subscription_purchase_details">"Hai già pagato l'abbonamento?"</string>
     <string name="restore_subscription_purchase">"Ripristina l'acquisto dell'abbonamento"</string>

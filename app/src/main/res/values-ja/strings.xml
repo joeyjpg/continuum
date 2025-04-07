@@ -154,7 +154,7 @@
     <string name="follow_failed">"フォローに失敗しました"</string>
     <string name="unfollowed">"フォローを解除しました"</string>
     <string name="unfollow_failed">"フォローの解除に失敗しました"</string>
-    <string name="app_label">"ホーム - Infinity"</string>
+    <string name="app_label">"ホーム - Continuum"</string>
     <string name="search_hint">"何でも検索してみてください"</string>
     <string name="no_posts_no_lazy_mode">"投稿がありません"</string>
     <string name="lazy_mode_start">"%1$.1f秒後に自動スクロールが始まります"</string>
@@ -433,10 +433,10 @@
     <string name="settings_reddit_account_title">"Redditアカウント"</string>
     <string name="settings_reddit_account_summary">"u/Hostilenemy"</string>
     <string name="settings_subreddit_title">"Subreddit"</string>
-    <string name="settings_subreddit_summary">"r/Infinity_For_Reddit"</string>
+    <string name="settings_subreddit_summary">"r/continuumreddit"</string>
     <string name="settings_share_title">"共有"</string>
     <string name="settings_share_summary">"このアプリが気に入ったようでしたら、ぜひ他の方々にもご紹介ください"</string>
-    <string name="settings_version_title">"Infinity For Reddit"</string>
+    <string name="settings_version_title">"Continuum"</string>
     <string name="settings_version_summary">"Version %s"</string>
     <string name="settings_category_customization_title">"カスタマイズ"</string>
     <string name="settings_customize_light_theme_title">"ライトテーマ"</string>
@@ -512,8 +512,8 @@
     <string name="error_getting_multi_reddit_data">"カスタムフィードのデータを取得中にエラーが発生しました"</string>
     <string name="error_loading_multi_reddit_list">"カスタムフィードの同期ができませんでした"</string>
     <string name="error_loading_subscriptions">"登録済み情報を同期できませんでした"</string>
-    <string name="share_this_app">"便利なRedditアプリを見つけました。Infinity for Redditを試してみて！
-https://play.google.com/store/apps/details?id=ml.docilealligator.infinityforreddit"</string>
+    <string name="share_this_app">"便利なRedditアプリを見つけました。Continuumを試してみて！
+https://play.google.com/store/"</string>
     <string name="error_getting_subreddit_name">"Subreddit名を取得中にエラーが発生しました"</string>
     <string name="share_post_link">"投稿リンクを共有"</string>
     <string name="share_image_link">"画像リンクを共有"</string>
@@ -779,7 +779,7 @@ https://play.google.com/store/apps/details?id=ml.docilealligator.infinityforredd
     <!-- Fuzzy -->
     <string name="reset_all_settings_success">"全ての設定をリセットしました"</string>
     <string name="username_preview">"u/Hostilenemy"</string>
-    <string name="subreddit_preview">"r/Infinity_For_Reddit"</string>
+    <string name="subreddit_preview">"r/continuumreddit"</string>
     <string name="primary_text_preview">"プライマリーテキスト"</string>
     <string name="secondary_text_preview">"セカンダリーテキスト"</string>
     <string name="post_title_preview">"これが投稿タイトルです"</string>
@@ -1077,7 +1077,7 @@ https://play.google.com/store/apps/details?id=ml.docilealligator.infinityforredd
 という名前のテーマが既にないか確認してください。
 あればMaterial Youを有効化するまえにそれらをリネームしてください。"</string>
     <string name="settings_enable_material_you_title">"Material Youを有効化"</string>
-    <string name="settings_enable_material_you_summary">"壁紙に基いてInfinityをパーソナライズ"</string>
+    <string name="settings_enable_material_you_summary">"壁紙に基いてContinuumをパーソナライズ"</string>
     <string name="settings_apply_material_you_title">"Material Youを適用"</string>
     <string name="settings_more_tabs_show_favorite_multireddits_title">"「お気に入りのMultireddit」を表示する"</string>
     <string name="settings_more_tabs_show_multireddits_title">"Multiredditを表示"</string>

@@ -117,7 +117,7 @@
     <string name="follow_failed">"Η παρακολούθηση απέτυχε"</string>
     <string name="unfollowed">"Καταργήθηκε η παρακολούθηση"</string>
     <string name="unfollow_failed">"Η κατάργηση παρακολούθησης απέτυχε"</string>
-    <string name="app_label">"Infinity"</string>
+    <string name="app_label">"Continuum"</string>
     <string name="search_hint">"Αναζήτηση"</string>
     <string name="no_posts_no_lazy_mode">"Καμία ανάρτηση"</string>
     <string name="lazy_mode_start">"Το Lazy Mode ξεκινάει σε %1$.1fs"</string>
@@ -348,10 +348,10 @@
     <string name="settings_reddit_account_title">"Λογαριασμός Reddit"</string>
     <string name="settings_reddit_account_summary">"u/Hostilenemy"</string>
     <string name="settings_subreddit_title">"Subreddit"</string>
-    <string name="settings_subreddit_summary">"r/Infinity_For_Reddit"</string>
+    <string name="settings_subreddit_summary">"r/continuumreddit"</string>
     <string name="settings_share_title">"Κοινοποίηση"</string>
     <string name="settings_share_summary">"Κοινοποιήστε την εφαρμογή για να τη χαρούν κι άλλα άτομα"</string>
-    <string name="settings_version_title">"Infinity Για το Reddit"</string>
+    <string name="settings_version_title">"Continuum"</string>
     <string name="settings_version_summary">"Έκδοση %s"</string>
     <string name="settings_category_customization_title">"Παραμετροποίηση"</string>
     <string name="settings_customize_light_theme_title">"Φωτεινό Θέμα"</string>
@@ -414,8 +414,7 @@
     <string name="error_getting_multi_reddit_data">"Αδυναμία απόκτησης δεδομένων multireddit"</string>
     <string name="error_loading_multi_reddit_list">"Αδυναμία συγχρονισμού multireddits"</string>
     <string name="error_loading_subscriptions">"Αδυναμία συγχρονισμού συνδρομών"</string>
-    <string name="share_this_app">"Ρίξτε μια ματιά στο Infinity για το Reddit, ένας φοβερός πελάτης Reddit!
-https://play.google.com/store/apps/details?id=ml.docilealligator.infinityforreddit"</string>
+    <string name="share_this_app">"Ρίξτε μια ματιά στο Continuum, ένας φοβερός πελάτης Reddit! https://play.google.com/store/"</string>
     <string name="error_getting_subreddit_name">"Αδυναμία απόκτησης ονόματος subreddit"</string>
     <string name="share_post_link">"Κοινοποίηση Συνδέσμου Ανάρτησης"</string>
     <string name="share_image_link">"Κοινοποίηση Συνδέσμου Εικόνας"</string>
@@ -651,7 +650,7 @@ https://play.google.com/store/apps/details?id=ml.docilealligator.infinityforredd
     <string name="delete_all_front_page_scrolled_positions_success">"Διαγραφή όλων των θέσεων σκρολ στην αρχική σελίδα με επιτυχία"</string>
     <string name="reset_all_settings_success">"Έγινε επαναφορά ρυθμίσεων επιτυχώς"</string>
     <string name="username_preview">"u/Hostilenemy"</string>
-    <string name="subreddit_preview">"r/Infinity_For_Reddit"</string>
+    <string name="subreddit_preview">"r/continuumreddit"</string>
     <string name="primary_text_preview">"Κυρίως Κείμενο"</string>
     <string name="secondary_text_preview">"Δευτερεύον Κείμενο"</string>
     <string name="post_title_preview">"Αυτό είναι μια ανάρτηση"</string>
@@ -972,7 +971,7 @@ https://play.google.com/store/apps/details?id=ml.docilealligator.infinityforredd
     <string name="settings_enable_material_you_title">"Ενεργοποίηση Material You"</string>
     <string name="settings_enable_material_you_summary">"Κάντε το Infinty πιο προσωπικό βάσει της Ταπετσαρίας Σας"</string>
     <string name="settings_apply_material_you_title">"Εφαρμογή Material You"</string>
-    <string name="settings_apply_material_you_summary">"Σε περίπτωση που το Infinity δεν άλλαξε το θέμα"</string>
+    <string name="settings_apply_material_you_summary">"Σε περίπτωση που το Continuum δεν άλλαξε το θέμα"</string>
     <string name="settings_more_tabs_show_favorite_multireddits_title">"Εμφάνιση Αγαπημένων Multireddits"</string>
     <string name="settings_more_tabs_show_multireddits_title">"Εμφάνιση Multireddits"</string>
     <string name="settings_collapse_reddit_section_title">"Σύμπτυξη Τμήματος Reddit"</string>
@@ -1156,12 +1155,12 @@ https://play.google.com/store/apps/details?id=ml.docilealligator.infinityforredd
     <string name="subscription_activity_label">"Συνδρομή"</string>
     <string name="edited">"Επεξεργάστηκε"</string>
     <string name="edited_time">"Επεξεργάστηκε στις %s"</string>
-    <string name="welcome_to_infinity">"Καλώς ήρθατε στο Infinity για το Reddit, η πύλη σας για μια νέα διάσταση περιήγησης στο Reddit!"</string>
+    <string name="welcome_to_continuum">"Καλώς ήρθατε στο Continuum, η πύλη σας για μια νέα διάσταση περιήγησης στο Reddit!"</string>
 
     <!-- Fuzzy -->
     <string name="subscription_prompt">"Πριν μπείτε στον κόσμο των αμέτρητων πιθανοτήτων που προσφέρει η εφαρμογή, θέλω να είμαι ξεκάθαρος για μια σημαντική ααλλαγή που έχω ενσωματώσει για σιγουρευτώ ότι θα έχετε την καλύτερη δυνατή υπηρεσία.
 
-Από 'δώ και πέρα, θα χρειάζεστε μηνιαία συνδρομή για τη χρήση του Reddit API εντός του Infinity για το Reddit και αυτό επειδή το Reddit άρχισε να χρεώνει τη πρόσβαση του API από τις 1 Ιουλίου 2023."</string>
+Από 'δώ και πέρα, θα χρειάζεστε μηνιαία συνδρομή για τη χρήση του Reddit API εντός του Continuum και αυτό επειδή το Reddit άρχισε να χρεώνει τη πρόσβαση του API από τις 1 Ιουλίου 2023."</string>
     <string name="monthly">"Μηνιαία"</string>
     <string name="yearly">"Ετήσια"</string>
     <string name="weekly">"Εβδομαδιαία"</string>
@@ -1188,7 +1187,7 @@ https://play.google.com/store/apps/details?id=ml.docilealligator.infinityforredd
     <string name="load_subscription_options">"Φόρτωση επιλογών συνδρομής"</string>
     <string name="acknowledging_subscription">"Αναγνώριση της συνδρομής σας. Παρακαλώ περιμένετε."</string>
     <string name="acknowledgement_purchase_failed_description">"Ουψ, υπήρξε ένα σφάλμα κατά την αναγνώριση της αγοράς σας. Αν το πρόβλημα παραμένει για 3 μέρες, θα λάβετε αυτόματα επιστροφή χρημάτων.
-Μην ανησυχείτε, μπορείτε και πάλι να απολαμβάνετε το Infinity για το Reddit. "</string>
+Μην ανησυχείτε, μπορείτε και πάλι να απολαμβάνετε το Continuum. "</string>
     <string name="continue_to_app">"Συνέχεια στην εφαρμογή"</string>
     <string name="restore_subscription_purchase_details">"Πληρώσατε ήδη για τη συνδρομή;"</string>
     <string name="restore_subscription_purchase">"Επαναφορά αγοράς συνδρομής"</string>

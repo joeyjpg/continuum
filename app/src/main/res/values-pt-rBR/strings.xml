@@ -139,7 +139,7 @@ Toque para tentar de novo."</string>
     <string name="follow_failed">"Erro ao seguir"</string>
     <string name="unfollowed">"Parou de Seguir"</string>
     <string name="unfollow_failed">"Erro ao parar de seguir"</string>
-    <string name="app_label">"Infinity"</string>
+    <string name="app_label">"Continuum"</string>
     <string name="search_hint">"Busque qualquer coisa"</string>
     <string name="no_posts_no_lazy_mode">"Sem postagens disponíveis"</string>
     <string name="lazy_mode_start">"Modo preguiçoso inicia em %1$.1fs"</string>
@@ -377,10 +377,10 @@ Toque para tentar de novo."</string>
     <string name="settings_reddit_account_title">"Conta Reddit"</string>
     <string name="settings_reddit_account_summary">"u/Hostilenemy"</string>
     <string name="settings_subreddit_title">"Subreddit"</string>
-    <string name="settings_subreddit_summary">"r/Infinity_For_Reddit"</string>
+    <string name="settings_subreddit_summary">"r/continuumreddit"</string>
     <string name="settings_share_title">"Compartilhar"</string>
     <string name="settings_share_summary">"Compartilhe este aplicativo com outros se você gosta disto"</string>
-    <string name="settings_version_title">"Infinity For Reddit"</string>
+    <string name="settings_version_title">"Continuum"</string>
     <string name="settings_version_summary">"Versão %s"</string>
     <string name="settings_category_customization_title">"Customização"</string>
     <string name="settings_customize_light_theme_title">"Tema Claro"</string>
@@ -454,8 +454,8 @@ Toque para tentar de novo."</string>
     <string name="error_getting_multi_reddit_data">"Erro ao obter dados do Multireddit"</string>
     <string name="error_loading_multi_reddit_list">"Não pode sincronizar os Multireddits"</string>
     <string name="error_loading_subscriptions">"Não pode sincronizar as inscrições"</string>
-    <string name="share_this_app">"Conheça o Infinity for Reddit, um cliente incrível para o Reddit!
-https://play.google.com/store/apps/details?id=ml.docilealligator.infinityforreddit"</string>
+    <string name="share_this_app">"Conheça o Continuum, um cliente incrível para o Reddit!
+https://play.google.com/store/"</string>
     <string name="error_getting_subreddit_name">"Erro ao obter o nome do subreddit"</string>
     <string name="share_post_link">"Compartilhar link da postagem"</string>
     <string name="share_image_link">"Compartilhar Link da Imagem"</string>
@@ -691,7 +691,7 @@ Baseado no tema Índigo AMOLED"</string>
     <string name="delete_all_front_page_scrolled_positions_success">"Êxito ao excluir toda posição de rolagem na primeira página"</string>
     <string name="reset_all_settings_success">"Êxito ao redefinir ajustes"</string>
     <string name="username_preview">"u/Hostilenemy"</string>
-    <string name="subreddit_preview">"r/Infinity_For_Reddit"</string>
+    <string name="subreddit_preview">"r/continuumreddit"</string>
     <string name="primary_text_preview">"Texto primário"</string>
     <string name="secondary_text_preview">"Texto secundário"</string>
     <string name="post_title_preview">"Esta é uma postagem"</string>
@@ -1012,9 +1012,9 @@ A reprodução automática de vídeos fica desativada."</string>
 \"Material You Amoled\".
 Renomeie-os antes de ativar o Material You se você tiver."</string>
     <string name="settings_enable_material_you_title">"Ativar Material You"</string>
-    <string name="settings_enable_material_you_summary">"Customizar o Infinity baseado no seu papel de parede"</string>
+    <string name="settings_enable_material_you_summary">"Customizar o Continuum baseado no seu papel de parede"</string>
     <string name="settings_apply_material_you_title">"Aplicar Material You"</string>
-    <string name="settings_apply_material_you_summary">"Se o Infinity não houver mudado o tema"</string>
+    <string name="settings_apply_material_you_summary">"Se o Continuum não houver mudado o tema"</string>
     <string name="settings_more_tabs_show_favorite_multireddits_title">"Exibir Multireddits favoritos"</string>
     <string name="settings_more_tabs_show_multireddits_title">"Exibir Multireddits"</string>
     <string name="settings_collapse_reddit_section_title">"Retrair seção do Reddit"</string>

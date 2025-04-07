@@ -51,7 +51,7 @@
 
                 <data
                     android:host="localhost"
-                    android:scheme="infinity" />
+                    android:scheme="continuum" />
             </intent-filter>
 
         </activity>
