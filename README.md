@@ -1,23 +1,10 @@
-<h1 align="center">
-  Continuum
-  
-</h1>
+<h1 align="center">Continuum</h1>
 
-<div align="center">
+<p align="center">
+  <img src="space_alien.png">
+</p>
 
 A Reddit client on Android written in Java. It does not have any ads and it features a clean UI and smooth browsing experience
-
-<img align="right" src="https://raw.githubusercontent.com/cygnusx-1-org/continuum/refs/heads/master/space_alien.png" width=256>
-
-</div>
-
-<br>
-
-<div align="center">
-
-<a href="https://github.com/cygnusx-1-org/continuum/issues">Report a Bug</a>
-·
-</div>
 
 <br>
 
