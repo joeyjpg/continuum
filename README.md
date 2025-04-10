@@ -21,7 +21,7 @@ A Reddit client on Android written in Java. It does not have any ads and it feat
 This project is a fork of [Infinity for Reddit](https://github.com/Docile-Alligator/Infinity-For-Reddit).
 
 One major enhancement is that it lets you set your own `Client ID` as a setting. This means you don't need to recompile it, or to
-use [Revanced Manager(https://github.com/ReVanced/revanced-manager).
+use [Revanced Manager](https://github.com/ReVanced/revanced-manager).
 
 # Setup
 See [SETUP.md](/SETUP.md)
