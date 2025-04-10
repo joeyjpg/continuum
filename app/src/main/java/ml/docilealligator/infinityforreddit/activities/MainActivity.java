@@ -4,6 +4,7 @@ import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -813,7 +814,17 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
                         } else if (stringId == R.string.settings) {
                             intent = new Intent(MainActivity.this, SettingsActivity.class);
                         } else if (stringId == R.string.add_account) {
-                            intent = new Intent(MainActivity.this, LoginActivity.class);
+                            // Explicitly get default SharedPreferences with MODE_PRIVATE as requested
+                            SharedPreferences defaultPrefs = getSharedPreferences(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE, Context.MODE_PRIVATE);
+                            String currentClientId = defaultPrefs.getString(SharedPreferencesUtils.CLIENT_ID_PREF_KEY, getString(R.string.default_client_id));
+                            if (currentClientId.equals(getString(R.string.default_client_id))) {
+                                new MaterialAlertDialogBuilder(MainActivity.this, R.style.MaterialAlertDialogTheme)
+                                        .setMessage(R.string.set_client_id_dialog_message)
+                                        .setPositiveButton(R.string.ok, null)
+                                        .show();
+                            } else {
+                                intent = new Intent(MainActivity.this, LoginActivity.class);
+                            }
                         } else if (stringId == R.string.anonymous_account) {
                             AccountManagement.switchToAnonymousMode(mRedditDataRoomDatabase, mCurrentAccountSharedPreferences,
                                     mExecutor, new Handler(), false, () -> {
