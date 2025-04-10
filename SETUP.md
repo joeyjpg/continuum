@@ -11,7 +11,7 @@ necessary
 than Slide.
 3. Set the name to Slide
 4. Set the type to `installed app`
-5. Set redirect uri to `http://www.ccrama.me`. If the redirect uri is set
+5. Set redirect uri to `continuum://localhost`. If the redirect uri is set
 incorrectly it won't work.
 6. Complete the `reCAPTCHA`
 7. Click `create app`
@@ -45,9 +45,6 @@ best to copy and paste it.
 6. Wait for Continuum to restart
 
 # Common errors
-## Error: Invalid request to Oauth API
-![Oauth error](/screenshots/oauth_error.png)
-
 The most likely cause for this is the `redirect uri` is set incorrectly. The
 big tell is if you can view Reddit in guest mode, aka without logging in.
 
@@ -101,6 +98,3 @@ Once installed you need to enable
 [Developer options](https://developer.android.com/studio/debug/dev-options),
 you can go to them in `Settings`. Within is an option called
 `WebView implementation` where you can pick which `WebView` is active.
-
-## Notifications
-See [NOTIFICATIONS.md](/NOTIFICATIONS.md)
