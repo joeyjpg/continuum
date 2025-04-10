@@ -1,14 +1,11 @@
 package ml.docilealligator.infinityforreddit.settings;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.app.Dialog;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -55,8 +52,15 @@ public class ClientIDPreferenceFragment extends CustomFontPreferenceFragmentComp
             clientIdPref.setOnBindEditTextListener(editText -> {
                 editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 editText.setSingleLine(true);
-                // Clear the text field to prevent showing the default/current value
-                editText.setText("");
+                // Get current and default values
+                String currentValue = clientIdPref.getText();
+                String defaultValue = editText.getContext().getString(R.string.default_client_id);
+
+                // Clear the text field only if the current value is the default value
+                if (currentValue == null || currentValue.isEmpty() || currentValue.equals(defaultValue)) {
+                    editText.setText("");
+                }
+                // Otherwise, the EditText will automatically show the non-default current value
 
                 // Add TextWatcher to enable/disable OK button based on length
                 editText.addTextChangedListener(new TextWatcher() {
@@ -127,8 +131,7 @@ public class ClientIDPreferenceFragment extends CustomFontPreferenceFragmentComp
 
                 // Manually save the preference value *before* restarting
                 // Get the specific SharedPreferences instance used by the PreferenceManager
-                SharedPreferences prefs = preference.getContext().getSharedPreferences(
-                        SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE, Context.MODE_PRIVATE);
+                SharedPreferences prefs = preference.getContext().getSharedPreferences(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString(SharedPreferencesUtils.CLIENT_ID_PREF_KEY, value);
                 boolean success = editor.commit(); // Use commit() for synchronous saving
