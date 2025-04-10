@@ -1084,7 +1084,6 @@ public class PostFragment extends PostFragmentBase implements FragmentCommunicat
             binding.swipeRefreshLayoutPostFragment.setRefreshing(false);
             binding.fetchPostInfoLinearLayoutPostFragment.setVisibility(View.VISIBLE);
             binding.fetchPostInfoTextViewPostFragment.setText(stringResId);
-            mGlide.load(R.drawable.error_image).into(binding.fetchPostInfoImageViewPostFragment);
         }
     }
 
