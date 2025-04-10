@@ -7,7 +7,7 @@
 
 A Reddit client on Android written in Java. It does not have any ads and it features a clean UI and smooth browsing experience
 
-<img align="right" src="https://raw.githubusercontent.com/cygnusx-1-org/continuum/master/space_alien.png" width=256>
+<img align="right" src="https://raw.githubusercontent.com/cygnusx-1-org/continuum/refs/heads/master/space_alien.png" width=256>
 
 </div>
 
