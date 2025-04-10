@@ -36,7 +36,7 @@ first time the app is being set up.
 4. Wait for Continuum to restart
 
 **Changing the Client ID:**
-1. Go to [`Settings` in the side bar]((/screenshots/settings.png)
+1. Go to [`Settings in the side bar`]((/screenshots/settings.png)
 1. Select [`Reddit API Client ID`](/screenshots/continuum_client_id1.png)
 2. Press [`Reddit API Client ID`](screenshots/continuum_client_id2.png)
 3. Enter your [Client ID](screenshots/enter_client_id.png). It is
