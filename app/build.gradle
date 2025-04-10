@@ -22,6 +22,25 @@ android {
         println("Warning: keystore.properties file not found. Skipping signing configuration for withGPlay.")
     }
 
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def appName = "continuum"
+            def buildType = variant.buildType
+            def versionCode = variant.versionCode
+            def versionName = variant.versionName
+            def artifactName = "${appName}-${versionName}(${versionCode})"
+
+            if (buildType == "debug") {
+                artifactName = "${appName}-${buildType}-${versionName}"
+            } else {
+                artifactName = "${appName}-${versionName}"
+            }
+
+            // Assign the apk filename
+            output.outputFileName = "${artifactName}.apk"
+        }
+    }
+
     compileSdk 34
 
     defaultConfig {
@@ -29,7 +48,7 @@ android {
         minSdk 21
         targetSdk 34
         versionCode 191
-        versionName "7.4.4"
+        versionName "7.4.4.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
@@ -62,7 +81,7 @@ android {
         }
         debug {
             applicationIdSuffix '.debug'
-            versionNameSuffix ' (DEBUG)'
+            versionNameSuffix '-debug'
         }
     }
 
