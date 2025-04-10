@@ -660,9 +660,10 @@
     <!-- Client ID Preference -->
     <string name="client_id_pref_key" translatable="false">client_id_pref_key</string>
     <string name="settings_client_id_title">Reddit API Client ID</string>
-    <string name="settings_client_id_summary">Use a custom Client ID for the Reddit API (Requires app restart)</string>
+    <string name="settings_client_id_summary">Use a custom Client ID for the Reddit API</string>
     <string name="default_client_id" translatable="false">Ro2J-y8bN412oS6BeaIj0A</string>
     <string name="client_id_length_error">Client ID must be exactly 22 characters long.</string>
+    <string name="tap_to_set_client_id">Tap to set Client ID</string>
 
     <string name="settings_hide_fab_in_post_details">Hide Floating Action Button</string>
 
