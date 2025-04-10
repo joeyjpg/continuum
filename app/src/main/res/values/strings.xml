@@ -664,6 +664,7 @@
     <string name="default_client_id" translatable="false">Ro2J-y8bN412oS6BeaIj0A</string>
     <string name="client_id_length_error">Client ID must be exactly 22 characters long.</string>
     <string name="tap_to_set_client_id">Tap to set Client ID</string>
+    <string name="set_client_id_dialog_message">Set the Reddit API Client ID in Settings</string>
 
     <string name="settings_hide_fab_in_post_details">Hide Floating Action Button</string>
 
@@ -958,6 +959,7 @@
     <string name="theme_name_indigo">Indigo</string>
     <string name="theme_name_indigo_dark">Indigo Dark</string>
     <string name="theme_name_indigo_amoled">Indigo Amoled</string>
+    <string name="theme_name_solarized_amoled">Solarized Amoled</string>
     <string name="theme_name_white">White</string>
     <string name="theme_name_white_dark">White Dark</string>
     <string name="theme_name_white_amoled">White Amoled</string>

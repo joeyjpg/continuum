@@ -18,9 +18,7 @@ public class CustomThemeWrapper {
     private final SharedPreferences amoledThemeSharedPreferences;
     private int themeType;
 
-    public CustomThemeWrapper(SharedPreferences lightThemeSharedPreferences,
-                              SharedPreferences darkThemeSharedPreferences,
-                              SharedPreferences amoledThemeSharedPreferences) {
+    public CustomThemeWrapper(SharedPreferences lightThemeSharedPreferences, SharedPreferences darkThemeSharedPreferences, SharedPreferences amoledThemeSharedPreferences) {
         this.lightThemeSharedPreferences = lightThemeSharedPreferences;
         this.darkThemeSharedPreferences = darkThemeSharedPreferences;
         this.amoledThemeSharedPreferences = amoledThemeSharedPreferences;
@@ -468,7 +466,9 @@ public class CustomThemeWrapper {
     }
 
     public static CustomTheme getPredefinedCustomTheme(Context context, String name) {
-        if (name.equals(context.getString(R.string.theme_name_indigo_dark))) {
+        if (name.equals(context.getString(R.string.theme_name_solarized_amoled))) {
+            return getSolarizedAmoled(context);
+        } else if (name.equals(context.getString(R.string.theme_name_indigo_dark))) {
             return getIndigoDark(context);
         } else if (name.equals(context.getString(R.string.theme_name_indigo_amoled))) {
             return getIndigoAmoled(context);
@@ -495,6 +495,7 @@ public class CustomThemeWrapper {
 
     public static ArrayList<CustomTheme> getPredefinedThemes(Context context) {
         ArrayList<CustomTheme> customThemes = new ArrayList<>();
+        customThemes.add(getSolarizedAmoled(context));
         customThemes.add(getIndigo(context));
         customThemes.add(getIndigoDark(context));
         customThemes.add(getIndigoAmoled(context));
@@ -507,6 +508,104 @@ public class CustomThemeWrapper {
         customThemes.add(getDracula(context));
         customThemes.add(getCalmPastel(context));
         return customThemes;
+    }
+
+    public static CustomTheme getSolarizedAmoled(Context context) {
+        CustomTheme customTheme = new CustomTheme(context.getString(R.string.theme_name_solarized_amoled));
+
+        customTheme.isAmoledTheme = true;
+        customTheme.isDarkTheme = false;
+        customTheme.isLightTheme = false;
+
+        customTheme.isChangeStatusBarIconColorAfterToolbarCollapsedInImmersiveInterface = false;
+        customTheme.isLightNavBar = false;
+        customTheme.isLightStatusBar = false;
+
+        customTheme.archivedTint = Color.parseColor("#FFD33682");
+        customTheme.authorFlairTextColor = Color.parseColor("#FFD33682");
+        customTheme.awardedCommentBackgroundColor = Color.parseColor("#FF000000");
+        customTheme.awardsBackgroundColor = Color.parseColor("#FFEEAB02");
+        customTheme.awardsTextColor = Color.parseColor("#FFE4E4E4");
+        customTheme.backgroundColor = Color.parseColor("#FF000000");
+        customTheme.bottomAppBarBackgroundColor = Color.parseColor("#FF000000");
+        customTheme.bottomAppBarIconColor = Color.parseColor("#FFE4E4E4");
+        customTheme.buttonTextColor = Color.parseColor("#FFE4E4E4");
+        customTheme.cardViewBackgroundColor = Color.parseColor("#FF000000");
+        customTheme.chipTextColor = Color.parseColor("#FFE4E4E4");
+        customTheme.circularProgressBarBackground = Color.parseColor("#FF000000");
+        customTheme.colorAccent = Color.parseColor("#FFCB4B16");
+        customTheme.colorPrimary = Color.parseColor("#FF070000");
+        customTheme.colorPrimaryDark = Color.parseColor("#FF000000");
+        customTheme.colorPrimaryLightTheme = Color.parseColor("#FF268BD2");
+        customTheme.commentBackgroundColor = Color.parseColor("#FF000000");
+        customTheme.commentColor = Color.parseColor("#FFE4E4E4");
+        customTheme.commentIconAndInfoColor = Color.parseColor("#FF586E75");
+        customTheme.commentVerticalBarColor1 = Color.parseColor("#FF268BD2");
+        customTheme.commentVerticalBarColor2 = Color.parseColor("#FFD33682");
+        customTheme.commentVerticalBarColor3 = Color.parseColor("#FF2AA198");
+        customTheme.commentVerticalBarColor4 = Color.parseColor("#FFEDCA00");
+        customTheme.commentVerticalBarColor5 = Color.parseColor("#FFDC322F");
+        customTheme.commentVerticalBarColor6 = Color.parseColor("#FF5F8700");
+        customTheme.commentVerticalBarColor7 = Color.parseColor("#FFCB4B16");
+        customTheme.crosspostIconTint = Color.parseColor("#FFCB4B16");
+        customTheme.currentUser = Color.parseColor("#FF00D5EA");
+        customTheme.dividerColor = Color.parseColor("#FF1C1C1C");
+        customTheme.downvoted = Color.parseColor("#FF268BD2");
+        customTheme.fabIconColor = Color.parseColor("#FFE4E4E4");
+        customTheme.filledCardViewBackgroundColor = Color.parseColor("#FF000000");
+        customTheme.flairBackgroundColor = Color.parseColor("#FF2AA198");
+        customTheme.flairTextColor = Color.parseColor("#FFE4E4E4");
+        customTheme.fullyCollapsedCommentBackgroundColor = Color.parseColor("#FF000000");
+        customTheme.linkColor = Color.parseColor("#FFCB4B16");
+        customTheme.lockedIconTint = Color.parseColor("#FFEE7302");
+        customTheme.mediaIndicatorBackgroundColor = Color.parseColor("#FFE4E4E4");
+        customTheme.mediaIndicatorIconColor = Color.parseColor("#FF000000");
+        customTheme.moderator = Color.parseColor("#FF00BA81");
+        customTheme.navBarColor = Color.parseColor("#FF000000");
+        customTheme.noPreviewPostTypeBackgroundColor = Color.parseColor("#FF424242");
+        customTheme.noPreviewPostTypeIconTint = Color.parseColor("#FF808080");
+        customTheme.nsfwBackgroundColor = Color.parseColor("#FFCB4B16");
+        customTheme.nsfwTextColor = Color.parseColor("#FFE4E4E4");
+        customTheme.postContentColor = Color.parseColor("#FFE4E4E4");
+        customTheme.postIconAndInfoColor = Color.parseColor("#FF586E75");
+        customTheme.postTitleColor = Color.parseColor("#FFE4E4E4");
+        customTheme.postTypeBackgroundColor = Color.parseColor("#FF268BD2");
+        customTheme.postTypeTextColor = Color.parseColor("#FFE4E4E4");
+        customTheme.primaryIconColor = Color.parseColor("#FFE4E4E4");
+        customTheme.primaryTextColor = Color.parseColor("#FFE4E4E4");
+        customTheme.readPostCardViewBackgroundColor = Color.parseColor("#FF000000");
+        customTheme.readPostContentColor = Color.parseColor("#FF979797");
+        customTheme.readPostFilledCardViewBackgroundColor = Color.parseColor("#FF000000");
+        customTheme.readPostTitleColor = Color.parseColor("#FF979797");
+        customTheme.receivedMessageBackgroundColor = Color.parseColor("#FF268BD2");
+        customTheme.receivedMessageTextColor = Color.parseColor("#FFE4E4E4");
+        customTheme.secondaryTextColor = Color.parseColor("#FF93A1A1");
+        customTheme.sendMessageIconColor = Color.parseColor("#FF268BD2");
+        customTheme.sentMessageBackgroundColor = Color.parseColor("#FF2AA198");
+        customTheme.sentMessageTextColor = Color.parseColor("#FFE4E4E4");
+        customTheme.singleCommentThreadBackgroundColor = Color.parseColor("#FF123E77");
+        customTheme.spoilerBackgroundColor = Color.parseColor("#FFD33682");
+        customTheme.spoilerTextColor = Color.parseColor("#FFE4E4E4");
+        customTheme.stickiedPostIconTint = Color.parseColor("#FF268BD2");
+        customTheme.submitter = Color.parseColor("#FFEE8A02");
+        customTheme.subreddit = Color.parseColor("#FFCB4B16");
+        customTheme.subscribed = Color.parseColor("#FFCB4B16");
+        customTheme.tabLayoutWithCollapsedCollapsingToolbarTabBackground = Color.parseColor("#FF000000");
+        customTheme.tabLayoutWithCollapsedCollapsingToolbarTabIndicator = Color.parseColor("#FFE4E4E4");
+        customTheme.tabLayoutWithCollapsedCollapsingToolbarTextColor = Color.parseColor("#FFE4E4E4");
+        customTheme.tabLayoutWithExpandedCollapsingToolbarTabBackground = Color.parseColor("#FF000000");
+        customTheme.tabLayoutWithExpandedCollapsingToolbarTabIndicator = Color.parseColor("#FFE4E4E4");
+        customTheme.tabLayoutWithExpandedCollapsingToolbarTextColor = Color.parseColor("#FFE4E4E4");
+        customTheme.toolbarPrimaryTextAndIconColor = Color.parseColor("#FFE4E4E4");
+        customTheme.toolbarSecondaryTextColor = Color.parseColor("#FFE4E4E4");
+        customTheme.unreadMessageBackgroundColor = Color.parseColor("#FF123E77");
+        customTheme.unsubscribed = Color.parseColor("#FF93A1A1");
+        customTheme.upvoted = Color.parseColor("#FFCB4B16");
+        customTheme.upvoteRatioIconTint = Color.parseColor("#FF0256EE");
+        customTheme.username = Color.parseColor("#FF1E88E5");
+        customTheme.voteAndReplyUnavailableButtonColor = Color.parseColor("#FF3C3C3C");
+
+        return customTheme;
     }
 
     public static CustomTheme getIndigo(Context context) {
@@ -564,7 +663,7 @@ public class CustomThemeWrapper {
         customTheme.lockedIconTint = Color.parseColor("#EE7302");
         customTheme.crosspostIconTint = Color.parseColor("#FF1868");
         customTheme.upvoteRatioIconTint = Color.parseColor("#0256EE");
-        customTheme.stickiedPostIconTint = Color.parseColor("#002BF0");
+        customTheme.stickiedPostIconTint = Color.parseColor("#FF002BF0");
         customTheme.noPreviewPostTypeIconTint = Color.parseColor("#808080");
         customTheme.subscribed = Color.parseColor("#FF1868");
         customTheme.unsubscribed = Color.parseColor("#002BF0");
