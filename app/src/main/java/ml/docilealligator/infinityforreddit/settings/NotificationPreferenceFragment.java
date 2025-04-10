@@ -143,7 +143,7 @@ public class NotificationPreferenceFragment extends CustomFontPreferenceFragment
                     });
                 }
             });
-            
+
             if (ContextCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
             }

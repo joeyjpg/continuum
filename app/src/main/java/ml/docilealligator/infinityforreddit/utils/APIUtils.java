@@ -3,7 +3,6 @@ package ml.docilealligator.infinityforreddit.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
-import androidx.preference.PreferenceManager;
 
 import java.util.HashMap;
 import java.util.Map;

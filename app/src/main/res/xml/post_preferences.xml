@@ -87,5 +87,5 @@
         android:defaultValue="false"
         app:key="click_to_show_media_in_gallery_layout"
         app:title="@string/settings_click_to_show_media_in_gallery_layout" />
-    
+
 </PreferenceScreen>

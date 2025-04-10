@@ -428,7 +428,7 @@ public abstract class RedditDataRoomDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE recent_search_queries ADD COLUMN search_in_thing_type INTEGER DEFAULT 0 NOT NULL");
         }
     };
-  
+
     private static final Migration MIGRATION_27_28 = new Migration(27, 28) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {

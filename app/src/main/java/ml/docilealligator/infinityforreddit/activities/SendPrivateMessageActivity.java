@@ -45,7 +45,7 @@ public class SendPrivateMessageActivity extends BaseActivity {
         ((Infinity) getApplication()).getAppComponent().inject(this);
 
         setImmersiveModeNotApplicable();
-        
+
         super.onCreate(savedInstanceState);
 
         binding = ActivitySendPrivateMessageBinding.inflate(getLayoutInflater());

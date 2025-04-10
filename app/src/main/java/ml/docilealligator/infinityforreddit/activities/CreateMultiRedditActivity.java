@@ -61,7 +61,7 @@ public class CreateMultiRedditActivity extends BaseActivity {
         ((Infinity) getApplication()).getAppComponent().inject(this);
 
         setImmersiveModeNotApplicable();
-        
+
         super.onCreate(savedInstanceState);
         binding = ActivityCreateMultiRedditBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

@@ -118,7 +118,7 @@
     <style name="ListPreferenceStyle" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="android:background">?attr/cardViewBackgroundColor</item>
     </style>
-    
+
     <style name="Widget.App.CheckBox.Dark" parent="Widget.Material3.CompoundButton.CheckBox">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.CheckBox.Dark</item>
     </style>
@@ -140,7 +140,7 @@
     <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">#00000000</item>
     </style>
-    
+
     <style name="FontStyle" />
 
     <style name="FontStyle.XSmall">
@@ -501,7 +501,7 @@
         <item name="backgroundColor">@color/backgroundColor</item>
         <item name="cardViewBackgroundColor">#242424</item>
         <item name="checkboxStyle">@style/Widget.App.CheckBox.Dark</item>
-        <item name="switchStyle">@style/Widget.App.Switch.Dark</item>        
+        <item name="switchStyle">@style/Widget.App.Switch.Dark</item>
     </style>
 
     <style name="Theme.Normal.AmoledDark">
@@ -514,7 +514,7 @@
         <item name="backgroundColor">#000000</item>
         <item name="cardViewBackgroundColor">#000000</item>
         <item name="checkboxStyle">@style/Widget.App.CheckBox.Dark</item>
-        <item name="switchStyle">@style/Widget.App.Switch.Dark</item>        
+        <item name="switchStyle">@style/Widget.App.Switch.Dark</item>
     </style>
 
     <style name="ToroMediaButton">

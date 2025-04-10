@@ -61,14 +61,14 @@ public class LinkResolverActivity extends AppCompatActivity {
     private static final String WIKI_PATTERN = "/[rR]/[\\w-]+/(wiki|w)(?:/[\\w-]+)*";
     private static final String GOOGLE_AMP_PATTERN = "/amp/s/amp.reddit.com/.*";
     private static final String STREAMABLE_PATTERN = "/\\w+/?";
-    
+
     @Inject
     @Named("no_oauth")
     Retrofit mRetrofit;
     @Inject
     @Named("default")
     SharedPreferences mSharedPreferences;
-    
+
     @Inject
     CustomThemeWrapper mCustomThemeWrapper;
 

@@ -391,7 +391,7 @@ public class ViewPostDetailActivity extends BaseActivity implements SortTypeSele
         });
 
         binding.searchPanelMaterialCardViewViewPostDetailActivity.setOnClickListener(null);
-        
+
         binding.nextResultImageViewViewPostDetailActivity.setOnClickListener(view -> {
             ViewPostDetailFragment fragment = mSectionsPagerAdapter.getCurrentFragment();
             if (fragment != null) {

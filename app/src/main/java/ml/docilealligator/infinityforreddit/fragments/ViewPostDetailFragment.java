@@ -1188,7 +1188,7 @@ public class ViewPostDetailFragment extends Fragment implements FragmentCommunic
         if (mCommentsRecyclerView != null) {
             LinearLayoutManager myLayoutManager = (LinearLayoutManager) mCommentsRecyclerView.getLayoutManager();
             scrollPosition = myLayoutManager != null ? myLayoutManager.findFirstVisibleItemPosition() : 0;
-            
+
         } else {
             LinearLayoutManager myLayoutManager = (LinearLayoutManager) binding.postDetailRecyclerViewViewPostDetailFragment.getLayoutManager();
             scrollPosition = myLayoutManager != null ? myLayoutManager.findFirstVisibleItemPosition() : 0;
