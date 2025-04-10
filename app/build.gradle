@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.diffplug.spotless' version '7.0.2'
 }
 
 android {
@@ -225,4 +226,23 @@ dependencies {
 /**** Builds and flavors ****/
     // debugImplementation because LeakCanary should only run in debug builds.
     //debugImplementation 'com.squareup.leakcanary:leakcanary-android:x.y'
+}
+
+spotless {
+    java {
+        target '**/*.java'
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        leadingTabsToSpaces(4)
+    }
+    format 'misc', {
+        target '**/*.gradle', '**/*.md', '**/.gitignore'
+        leadingTabsToSpaces(4)
+        trimTrailingWhitespace()
+    }
+    format 'xml', {
+        target '**/*.xml'
+        leadingTabsToSpaces(4)
+        trimTrailingWhitespace()
+    }
 }
