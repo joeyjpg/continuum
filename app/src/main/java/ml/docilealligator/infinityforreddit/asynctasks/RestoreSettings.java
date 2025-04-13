@@ -49,6 +49,7 @@ public class RestoreSettings {
                                 ContentResolver contentResolver, Uri zipFileUri,
                                 RedditDataRoomDatabase redditDataRoomDatabase,
                                 SharedPreferences defaultSharedPreferences,
+                                SharedPreferences currentAccountSharedPreferences,
                                 SharedPreferences lightThemeSharedPreferences,
                                 SharedPreferences darkThemeSharedPreferences,
                                 SharedPreferences amoledThemeSharedPreferences,
@@ -192,6 +193,13 @@ public class RestoreSettings {
                                         // If accounts list is not empty, mark the first one as current
                                         if (!accounts.isEmpty()) {
                                             redditDataRoomDatabase.accountDao().markAccountCurrent(accounts.get(0).getAccountName());
+                                            // Also update the current account shared preferences for immediate effect
+                                            Account firstAccount = accounts.get(0);
+                                            currentAccountSharedPreferences.edit()
+                                                .putString(SharedPreferencesUtils.ACCOUNT_NAME, firstAccount.getAccountName())
+                                                .putString(SharedPreferencesUtils.ACCESS_TOKEN, firstAccount.getAccessToken())
+                                                .putString(SharedPreferencesUtils.ACCOUNT_IMAGE_URL, firstAccount.getProfileImageUrl())
+                                                .apply();
                                         }
                                     }
                                 }
