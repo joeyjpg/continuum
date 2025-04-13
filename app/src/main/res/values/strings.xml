@@ -472,9 +472,9 @@
     <string name="settings_rate_title">Rate on Google Play</string>
     <string name="settings_rate_summary">Give me a 5-star rating and I will be really happy</string>
     <string name="settings_email_title">Email</string>
-    <string name="settings_email_summary">docilealligator.app@gmail.com</string>
+    <string name="settings_email_summary">continuum@cygnusx-1.org</string>
     <string name="settings_reddit_account_title">Reddit Account</string>
-    <string name="settings_reddit_account_summary">u/Hostilenemy</string>
+    <string name="settings_reddit_account_summary">u/edgan</string>
     <string name="settings_subreddit_title">Subreddit</string>
     <string name="settings_subreddit_summary">r/continuumreddit</string>
     <string name="settings_share_title">Share</string>
@@ -1014,7 +1014,7 @@
     <string name="delete_all_legacy_settings_success">Delete all legacy settings successfully</string>
     <string name="reset_all_settings_success">Reset all settings successfully</string>
 
-    <string name="username_preview">u/Hostilenemy</string>
+    <string name="username_preview">u/edgan</string>
     <string name="subreddit_preview">r/continuumreddit</string>
     <string name="primary_text_preview">Primary Text</string>
     <string name="secondary_text_preview">Secondary Text</string>
@@ -1149,7 +1149,7 @@
     <string name="title_excludes_regex_hint">Title: excludes regex</string>
     <string name="title_contains_regex_hint">Title: contains regex</string>
     <string name="exclude_subreddits_hint">Exclude subreddits (e.g. funny,AskReddit)</string>
-    <string name="exclude_users_hint">Exclude users (e.g. Hostilenemy,random)</string>
+    <string name="exclude_users_hint">Exclude users (e.g. edgan,random)</string>
     <string name="exclude_flairs_hint">Exclude flairs (e.g. flair1,flair2)</string>
     <string name="contain_flairs_hint">Contain flairs (e.g. flair1,flair2)</string>
     <string name="exclude_domains_hint">Exclude domains</string>

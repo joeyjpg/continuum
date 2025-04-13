@@ -384,9 +384,9 @@ Druk om opnieuw te proberen."</string>
     <string name="settings_rate_title">"Beoordelen op Google Play"</string>
     <string name="settings_rate_summary">"Ik ben heel blij met 5-sterrenbeoordelingen 😉"</string>
     <string name="settings_email_title">"E-mailadres"</string>
-    <string name="settings_email_summary">"docilealligator.app@gmail.com"</string>
+    <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Reddit-account"</string>
-    <string name="settings_reddit_account_summary">"u/Hostilenemy"</string>
+    <string name="settings_reddit_account_summary">"u/edgan"</string>
     <string name="settings_subreddit_title">"Subreddit"</string>
     <string name="settings_subreddit_summary">"r/continuumreddit"</string>
     <string name="settings_share_title">"Delen"</string>
@@ -710,7 +710,7 @@ Gebaseerd op een Indigo Amoled Thema"</string>
     <string name="delete_all_themes_success">"Verwijder alle themas gelukt"</string>
     <string name="delete_all_front_page_scrolled_positions_success">"Verwijder alle gescrolde posities op de voorpagina gelukt"</string>
     <string name="reset_all_settings_success">"Reset alle instellingen gelukt"</string>
-    <string name="username_preview">"u/Hostilenemy"</string>
+    <string name="username_preview">"u/edgan"</string>
     <string name="subreddit_preview">"r/continuumreddit"</string>
     <string name="primary_text_preview">"Primaire Tekst"</string>
     <string name="secondary_text_preview">"Secundaire Tekst"</string>

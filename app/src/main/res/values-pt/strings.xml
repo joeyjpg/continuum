@@ -388,9 +388,9 @@ Toque para tentar novamente."</string>
     <string name="settings_rate_title">"Avaliar no Google Play"</string>
     <string name="settings_rate_summary">"Dê-me 5 estrelas que ficarei muito contente"</string>
     <string name="settings_email_title">"Email"</string>
-    <string name="settings_email_summary">"docilealligator.app@gmail.com"</string>
+    <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Conta do Reddit"</string>
-    <string name="settings_reddit_account_summary">"u/Hostilenemy"</string>
+    <string name="settings_reddit_account_summary">"u/edgan"</string>
     <string name="settings_subreddit_title">"Comunidade"</string>
     <string name="settings_subreddit_summary">"r/continuumreddit"</string>
     <string name="settings_share_title">"Partilhar"</string>
@@ -699,7 +699,7 @@ com base no Tema Indigo Amoled"</string>
     <string name="delete_all_themes_success">"Todos os temas eliminados com sucesso"</string>
     <string name="delete_all_front_page_scrolled_positions_success">"Eliminação das posições de deslizamento com sucesso"</string>
     <string name="reset_all_settings_success">"Todas as definições repostas com sucesso"</string>
-    <string name="username_preview">"u/Hostilenemy"</string>
+    <string name="username_preview">"u/edgan"</string>
     <string name="subreddit_preview">"r/continuumreddit"</string>
     <string name="primary_text_preview">"Texto Principal"</string>
     <string name="secondary_text_preview">"Texto Secundário"</string>
@@ -895,7 +895,7 @@ Reprodução automática de vídeos desativada."</string>
     <string name="title_excludes_strings_hint">"Título: excluir palavras-chave (palavra1,palavra2)"</string>
     <string name="title_excludes_regex_hint">"Título: excluir expressões regulares"</string>
     <string name="exclude_subreddits_hint">"Excluir comunidades (ex.: funny,AskReddit)"</string>
-    <string name="exclude_users_hint">"Excluir utilizadores (ex.: Hostilenemy,random)"</string>
+    <string name="exclude_users_hint">"Excluir utilizadores (ex.: edgan,random)"</string>
     <string name="exclude_flairs_hint">"Excluir flairs (ex.: flair1, flair2)"</string>
     <string name="contain_flairs_hint">"Contém flairs (ex.: flair1, flair2)"</string>
     <string name="min_vote_hint">"Mínimo de votos (-1: sem restrição)"</string>

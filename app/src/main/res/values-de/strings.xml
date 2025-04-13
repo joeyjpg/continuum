@@ -389,9 +389,9 @@ Tippen für Neuversuch."</string>
     <string name="settings_rate_title">"Auf Google Play bewerten"</string>
     <string name="settings_rate_summary">"Gib mir eine 5-Stern-Bewertung und mach mich richtig glücklich"</string>
     <string name="settings_email_title">"E-Mail"</string>
-    <string name="settings_email_summary">"docilealligator.app@gmail.com"</string>
+    <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Reddit-Konto"</string>
-    <string name="settings_reddit_account_summary">"u/Hostilenemy"</string>
+    <string name="settings_reddit_account_summary">"u/edgan"</string>
     <string name="settings_subreddit_title">"Subreddit"</string>
     <string name="settings_subreddit_summary">"r/continuumreddit"</string>
     <string name="settings_share_title">"Teilen"</string>
@@ -721,7 +721,7 @@ Basiere auf Indigo-AMOLED-Thema"</string>
     <!-- Fuzzy -->
     <string name="delete_all_front_page_scrolled_positions_success">"Alle Scrollpositionen der Frontseite erfolgreich gelöscht"</string>
     <string name="reset_all_settings_success">"Alle Einstellungen erfolgreich zurückgesetzt"</string>
-    <string name="username_preview">"u/Hostilenemy"</string>
+    <string name="username_preview">"u/edgan"</string>
     <string name="subreddit_preview">"r/continuumreddit"</string>
     <string name="primary_text_preview">"Primärer Text"</string>
     <string name="secondary_text_preview">"Sekundärer Text"</string>
@@ -934,7 +934,7 @@ Automatisches Abspielen von Videos ist deaktiviert."</string>
     <string name="title_excludes_strings_hint">"Titel: schließt Schlüsselwörter aus (Wort 1, Wort 2)"</string>
     <string name="title_excludes_regex_hint">"Titel: Schließt RegEx aus"</string>
     <string name="exclude_subreddits_hint">"Schließt Subreddits aus (z. B. funny, AskReddit)"</string>
-    <string name="exclude_users_hint">"Schließt Benutzer aus (z. B. Hostileenemy, random)"</string>
+    <string name="exclude_users_hint">"Schließt Benutzer aus (z. B. edgan, random)"</string>
     <string name="exclude_flairs_hint">"Schließt Flairs aus (z. B. Flair 1, Flair 2)"</string>
     <string name="contain_flairs_hint">"Beinhaltet Flairs (z. B. Flair 1, Flair 2)"</string>
     <string name="min_vote_hint">"Minimale Abstimmungen (-1: Keine Einschränkung)"</string>

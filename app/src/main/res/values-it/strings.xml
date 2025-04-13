@@ -351,9 +351,9 @@ Tocca per riprovare."</string>
     <string name="settings_rate_title">"Vota su Google Play Store"</string>
     <string name="settings_rate_summary">"Dammi una recensione da 5 stelle e sarò veramente contento"</string>
     <string name="settings_email_title">"Email"</string>
-    <string name="settings_email_summary">"docilealligator.app@gmail.com"</string>
+    <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Account Reddit"</string>
-    <string name="settings_reddit_account_summary">"u/Hostilenemy"</string>
+    <string name="settings_reddit_account_summary">"u/edgan"</string>
     <string name="settings_subreddit_title">"Subreddit"</string>
     <string name="settings_subreddit_summary">"r/continuumreddit"</string>
     <string name="settings_share_title">"Condividi"</string>
@@ -655,7 +655,7 @@ https://play.google.com/store/"</string>
     <string name="delete_all_themes_success">"Tutti i temi eliminati con successo"</string>
     <string name="delete_all_front_page_scrolled_positions_success">"Tutte le posizioni fatte scorrere in prima pagina eliminate con successo"</string>
     <string name="reset_all_settings_success">"Reset delle impostazioni avvenuto con successo"</string>
-    <string name="username_preview">"u/Hostilenemy"</string>
+    <string name="username_preview">"u/edgan"</string>
     <string name="subreddit_preview">"r/continuumredit"</string>
     <string name="primary_text_preview">"Testo Principale"</string>
     <string name="secondary_text_preview">"Testo Secondario"</string>
@@ -848,7 +848,7 @@ La riproduzione automatica video è disabilitata."</string>
     <string name="title_excludes_strings_hint">"Titolo: escludi parole chiave (key1,key2)"</string>
     <string name="title_excludes_regex_hint">"Escludi regex"</string>
     <string name="exclude_subreddits_hint">"Escludi subreddit (es. funny,AskReddit)"</string>
-    <string name="exclude_users_hint">"Escludi utenti (es. Hostilenemy,random)"</string>
+    <string name="exclude_users_hint">"Escludi utenti (es. edgan,random)"</string>
     <string name="exclude_flairs_hint">"Escludi flair (es. flair1,flair2)"</string>
     <string name="contain_flairs_hint">"Contiene flair (es. flair1,flair2)"</string>
     <string name="min_vote_hint">"Voto minimo (-1: nessuna restrizione)"</string>

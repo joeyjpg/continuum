@@ -429,9 +429,9 @@
     <string name="settings_rate_title">"Google Playで評価とレビュー"</string>
     <string name="settings_rate_summary">"五つ星のご評価をいただけるととても嬉しいです"</string>
     <string name="settings_email_title">"Email"</string>
-    <string name="settings_email_summary">"docilealligator.app@gmail.com"</string>
+    <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Redditアカウント"</string>
-    <string name="settings_reddit_account_summary">"u/Hostilenemy"</string>
+    <string name="settings_reddit_account_summary">"u/edgan"</string>
     <string name="settings_subreddit_title">"Subreddit"</string>
     <string name="settings_subreddit_summary">"r/continuumreddit"</string>
     <string name="settings_share_title">"共有"</string>
@@ -778,7 +778,7 @@ https://play.google.com/store/"</string>
 
     <!-- Fuzzy -->
     <string name="reset_all_settings_success">"全ての設定をリセットしました"</string>
-    <string name="username_preview">"u/Hostilenemy"</string>
+    <string name="username_preview">"u/edgan"</string>
     <string name="subreddit_preview">"r/continuumreddit"</string>
     <string name="primary_text_preview">"プライマリーテキスト"</string>
     <string name="secondary_text_preview">"セカンダリーテキスト"</string>
@@ -976,7 +976,7 @@ https://play.google.com/store/"</string>
     <string name="title_excludes_strings_hint">"タイトル: 除外するキーワード (key1,key2)"</string>
     <string name="title_excludes_regex_hint">"タイトル: 除外する正規表現"</string>
     <string name="exclude_subreddits_hint">"除外するSubreddit (例: funny,AskReddit)"</string>
-    <string name="exclude_users_hint">"除外するユーザー（例: Hostilenemy,random)"</string>
+    <string name="exclude_users_hint">"除外するユーザー（例: edgan,random)"</string>
     <string name="exclude_flairs_hint">"除外するFlair (例: flair1,flair2)"</string>
     <string name="contain_flairs_hint">"含めるFlair (例: flair1,flair2)"</string>
     <string name="min_comments_hint">"最小のコメント数 (-1: 制限なし)"</string>

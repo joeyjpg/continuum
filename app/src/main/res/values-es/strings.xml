@@ -399,9 +399,9 @@ Premio means prize, so it's better suited the first word instead of the second o
     <string name="settings_rate_title">"Calificar en Google Play"</string>
     <string name="settings_rate_summary">"Dame 5 estrellas y estaré muy feliz"</string>
     <string name="settings_email_title">"Email"</string>
-    <string name="settings_email_summary">"docilealligator.app@gmail.com"</string>
+    <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Cuenta de Reddit"</string>
-    <string name="settings_reddit_account_summary">"u/Hostilenemy"</string>
+    <string name="settings_reddit_account_summary">"u/edgan"</string>
     <string name="settings_subreddit_title">"Subreddit"</string>
     <string name="settings_subreddit_summary">"r/continuumreddit"</string>
     <string name="settings_share_title">"Compartir"</string>
@@ -740,7 +740,7 @@ Basado en Tema Índigo AMOLED"</string>
     <!-- Fuzzy -->
     <string name="delete_all_front_page_scrolled_positions_success">"Se han eliminado todas las posiciones de la página principal"</string>
     <string name="reset_all_settings_success">"Se ha restablecido la configuración"</string>
-    <string name="username_preview">"u/Hostilenemy"</string>
+    <string name="username_preview">"u/edgan"</string>
     <string name="subreddit_preview">"r/continuumreddit"</string>
     <string name="primary_text_preview">"Texto primario"</string>
     <string name="secondary_text_preview">"Texto secundario"</string>
@@ -945,7 +945,7 @@ https://s3.eu-west-1.amazonaws.com/po-pub/i/hJAe7sMhrfJzqjhp9VkDQOVC.PNG -->
     <string name="title_excludes_strings_hint">"Título: Excluir palabras clave (palabra1, palabra2)"</string>
     <string name="title_excludes_regex_hint">"Título: Excluye Regex"</string>
     <string name="exclude_subreddits_hint">"Excluir subreddits (p.ej. funny, AskReddit)"</string>
-    <string name="exclude_users_hint">"Excluir usuarios (p.ej. Hostilenemy, random)"</string>
+    <string name="exclude_users_hint">"Excluir usuarios (p.ej. edgan, random)"</string>
     <string name="exclude_flairs_hint">"Excluir etiquetas de usuario (p.ej. etiqueta1, etiqueta2)"</string>
     <string name="contain_flairs_hint">"Contiene etiquetas (p.ej. etiqueta1, etiqueta2)"</string>
     <string name="min_vote_hint">"Votos mínimos (-1: sin restricción)"</string>

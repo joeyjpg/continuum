@@ -375,9 +375,9 @@ Apăsați pentru reîncărcare."</string>
     <string name="settings_rate_title">"Evaluați pe Google Play"</string>
     <string name="settings_rate_summary">"Dați-mi o recenzie de 5 stele și voi fi foarte fericit"</string>
     <string name="settings_email_title">"E-mail"</string>
-    <string name="settings_email_summary">"docilealligator.app@gmail.com"</string>
+    <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Cont Reddit"</string>
-    <string name="settings_reddit_account_summary">"u/Hostilenemy"</string>
+    <string name="settings_reddit_account_summary">"u/edgan"</string>
     <string name="settings_subreddit_title">"Subreddit"</string>
     <string name="settings_subreddit_summary">"r/continuumreddit"</string>
     <string name="settings_share_title">"Distribuiți"</string>
@@ -694,7 +694,7 @@ Bazat pe Tema Indigo Amoled"</string>
     <string name="delete_all_themes_success">"Toate temele au fost șterse cu succes"</string>
     <string name="delete_all_front_page_scrolled_positions_success">"Toate pozițiile de derulare în pagina principală au fost șterse cu succes"</string>
     <string name="reset_all_settings_success">"Au fost resetate cu succes toate setările"</string>
-    <string name="username_preview">"u/Hostilenemy"</string>
+    <string name="username_preview">"u/edgan"</string>
     <string name="subreddit_preview">"r/continuumreddit"</string>
     <string name="primary_text_preview">"Text Primar"</string>
     <string name="secondary_text_preview">"Text Secundar"</string>
@@ -892,7 +892,7 @@ Redarea automată a videoclipurilor este dezactivată."</string>
     <string name="title_excludes_strings_hint">"Titlu: exclude cuvintele cheie (cheie1,cheie2)"</string>
     <string name="title_excludes_regex_hint">"Titlu: exclude regex"</string>
     <string name="exclude_subreddits_hint">"Exclude subreddit-uri (de ex. funny, AskReddit)"</string>
-    <string name="exclude_users_hint">"Exclude utilizatori (de ex. Hostilenemy, random)"</string>
+    <string name="exclude_users_hint">"Exclude utilizatori (de ex. edgan, random)"</string>
     <string name="exclude_flairs_hint">"Exclude insigne (de ex. insigna1, insigna2)"</string>
     <string name="contain_flairs_hint">"Să conțină insignele (de ex. insigna1, insigna2)"</string>
     <string name="min_vote_hint">"Votul minim (-1: fără restricții)"</string>

@@ -381,9 +381,9 @@
     <string name="settings_rate_title">"Ohodnotit na Google Play"</string>
     <string name="settings_rate_summary">"Dejte mi 5-hvězdičkové hodnocení a budu opravdu šťastný"</string>
     <string name="settings_email_title">"E-mail"</string>
-    <string name="settings_email_summary">"docilealligator.app@gmail.com"</string>
+    <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Reddit účet"</string>
-    <string name="settings_reddit_account_summary">"u/Hostilenemy"</string>
+    <string name="settings_reddit_account_summary">"u/edgan"</string>
     <string name="settings_subreddit_title">"Subreddit"</string>
     <string name="settings_subreddit_summary">"r/continuumreddit"</string>
     <string name="settings_share_title">"Sdílet"</string>
@@ -701,7 +701,7 @@ Založené na amoled indigovém motivu"</string>
     <string name="delete_all_themes_success">"Všechny motivy úspěšně odstraněny"</string>
     <string name="delete_all_front_page_scrolled_positions_success">"Všechny pozice posouvání na hlavní straně úspěšně odstraněny"</string>
     <string name="reset_all_settings_success">"Všechna nastavení úspěšně obnovena"</string>
-    <string name="username_preview">"u/Hostilenemy"</string>
+    <string name="username_preview">"u/edgan"</string>
     <string name="subreddit_preview">"r/continuumreddit"</string>
     <string name="primary_text_preview">"Primární text"</string>
     <string name="secondary_text_preview">"Sekundární text"</string>
@@ -899,7 +899,7 @@ Automatické přehrávání videí je zakázáno."</string>
     <string name="title_excludes_strings_hint">"Název: vyloučení klíčových slov (slovo1,slovo2)"</string>
     <string name="title_excludes_regex_hint">"Název: vyloučení regexu"</string>
     <string name="exclude_subreddits_hint">"Vyloučit subreddity (např. funny,AskReddit)"</string>
-    <string name="exclude_users_hint">"Vyloučit uživatele (např. Hostilenemy,random)"</string>
+    <string name="exclude_users_hint">"Vyloučit uživatele (např. edgan,random)"</string>
     <string name="exclude_flairs_hint">"Vyloučit štítky (např. štítek1,štítek2)"</string>
     <string name="contain_flairs_hint">"Obsahuje štítky (např. štítek1,štítek2)"</string>
     <string name="min_vote_hint">"Min. počet hlasů (-1: žádné omezení)"</string>

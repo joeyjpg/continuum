@@ -373,9 +373,9 @@ Toque para tentar de novo."</string>
     <string name="settings_rate_title">"Avalie no Google Play"</string>
     <string name="settings_rate_summary">"Dê-me uma classificação de 5 estrelas e ficarei muito feliz"</string>
     <string name="settings_email_title">"Email"</string>
-    <string name="settings_email_summary">"docilealligator.app@gmail.com"</string>
+    <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Conta Reddit"</string>
-    <string name="settings_reddit_account_summary">"u/Hostilenemy"</string>
+    <string name="settings_reddit_account_summary">"u/edgan"</string>
     <string name="settings_subreddit_title">"Subreddit"</string>
     <string name="settings_subreddit_summary">"r/continuumreddit"</string>
     <string name="settings_share_title">"Compartilhar"</string>
@@ -690,7 +690,7 @@ Baseado no tema Índigo AMOLED"</string>
     <string name="delete_all_themes_success">"Êxito ao excluir todo tema"</string>
     <string name="delete_all_front_page_scrolled_positions_success">"Êxito ao excluir toda posição de rolagem na primeira página"</string>
     <string name="reset_all_settings_success">"Êxito ao redefinir ajustes"</string>
-    <string name="username_preview">"u/Hostilenemy"</string>
+    <string name="username_preview">"u/edgan"</string>
     <string name="subreddit_preview">"r/continuumreddit"</string>
     <string name="primary_text_preview">"Texto primário"</string>
     <string name="secondary_text_preview">"Texto secundário"</string>
@@ -886,7 +886,7 @@ A reprodução automática de vídeos fica desativada."</string>
     <string name="title_excludes_strings_hint">"Título: retirar palavras-chave (chave1,chave2)"</string>
     <string name="title_excludes_regex_hint">"Título: retirar expressão regular"</string>
     <string name="exclude_subreddits_hint">"Retirar subreddits (e.g., funny,AskReddit)"</string>
-    <string name="exclude_users_hint">"Retirar usuários (e.g., Hostilenemy,random)"</string>
+    <string name="exclude_users_hint">"Retirar usuários (e.g., edgan,random)"</string>
     <string name="exclude_flairs_hint">"Retirar etiquetas (e.g., etiqueta1,etiqueta2)"</string>
     <string name="contain_flairs_hint">"Conter etiquetas (e.g., etiqueta1,etiqueta2)"</string>
     <string name="min_vote_hint">"Voto mínimo (-1: sem restrição)"</string>

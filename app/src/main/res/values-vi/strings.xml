@@ -386,9 +386,9 @@ Nhấn để thử lại."</string>
     <string name="settings_rate_title">"Đánh giá trên Google Play"</string>
     <string name="settings_rate_summary">"Đánh giá 5 sao cho mình thì mình sẽ vui lắm :)"</string>
     <string name="settings_email_title">"Email"</string>
-    <string name="settings_email_summary">"docilealligator.app@gmail.com"</string>
+    <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Tài khoản Reddit"</string>
-    <string name="settings_reddit_account_summary">"u/Hostilenemy"</string>
+    <string name="settings_reddit_account_summary">"u/edgan"</string>
     <string name="settings_subreddit_title">"Subreddit"</string>
     <string name="settings_subreddit_summary">"r/continuumreddit"</string>
     <string name="settings_share_title">"Chia sẻ"</string>
@@ -707,7 +707,7 @@ Dựa trên chủ đề Chàm Amoled"</string>
     <string name="delete_all_themes_success">"Xoá tất cả chủ đề thành công"</string>
     <string name="delete_all_front_page_scrolled_positions_success">"Xoá tất cả vị trí đã cuộn trong trang chính thành công"</string>
     <string name="reset_all_settings_success">"Đặt lại tất cả cài đặt thành công"</string>
-    <string name="username_preview">"u/Hostilenemy"</string>
+    <string name="username_preview">"u/edgan"</string>
     <string name="subreddit_preview">"r/continuumreddit"</string>
     <string name="primary_text_preview">"Văn bản chính"</string>
     <string name="secondary_text_preview">"Văn bản phụ"</string>
@@ -905,7 +905,7 @@ Tự động phát video bị tắt."</string>
     <string name="title_excludes_strings_hint">"Tiêu đề: loại trừ từ khoá (key1,key2)"</string>
     <string name="title_excludes_regex_hint">"Tiêu đề: loại trừ biểu thức tìm kiếm"</string>
     <string name="exclude_subreddits_hint">"Loại trừ subreddit (vd: funny,AskReddit)"</string>
-    <string name="exclude_users_hint">"Loại trừ người dùng (vd: Hostilenemy,random)"</string>
+    <string name="exclude_users_hint">"Loại trừ người dùng (vd: edgan,random)"</string>
     <string name="exclude_flairs_hint">"Loại trừ tư cách (vd: flair1,flair2)"</string>
     <string name="contain_flairs_hint">"Chứa tư cách (vd: flair1,flair2)"</string>
     <string name="min_vote_hint">"Vote tối thiểu (-1: không hạn chế)"</string>

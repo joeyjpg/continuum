@@ -424,9 +424,9 @@ Behavior -->
     <string name="settings_rate_title">"गूगल प्ले पर रेट करें "</string>
     <string name="settings_rate_summary">"मुझे 5 सितारा रेटिंग दीजिए और मैं खुश हो जाऊंगा"</string>
     <string name="settings_email_title">"ई मेल "</string>
-    <string name="settings_email_summary">"docilealligator.app@gmail.com"</string>
+    <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"रैडिट खाता "</string>
-    <string name="settings_reddit_account_summary">"u/Hostilenemy"</string>
+    <string name="settings_reddit_account_summary">"u/edgan"</string>
     <string name="settings_subreddit_title">"सबरैडिट "</string>
     <string name="settings_subreddit_summary">"r/continuumreddit"</string>
     <string name="settings_share_title">"साझा करें "</string>
@@ -762,7 +762,7 @@ Behavior -->
 
     <!-- Fuzzy -->
     <string name="reset_all_settings_success">"सभी सेटिंग्स सफलतापूर्वक रीसेट कर दी गई "</string>
-    <string name="username_preview">"u/Hostilenemy"</string>
+    <string name="username_preview">"u/edgan"</string>
     <string name="subreddit_preview">"r/continuumreddit"</string>
     <string name="primary_text_preview">"प्राथमिक टेक्स्ट "</string>
     <string name="secondary_text_preview">"द्वितीयक टेक्स्ट "</string>
@@ -973,7 +973,7 @@ Behavior -->
     <string name="title_excludes_strings_hint">"शीर्षक: इन शब्दों का प्रयोग ना करें (जैसे- key1,key2)"</string>
     <string name="title_excludes_regex_hint">"शीर्षक: रेगेक्स को शामिल नहीं करता है"</string>
     <string name="exclude_subreddits_hint">"सबरेडिट्स शामिल न करें (e.g. funny, Askreddit)"</string>
-    <string name="exclude_users_hint">"उपयोगकर्ताओं को शामिल न करें (e.g. Hostilenemy,random)"</string>
+    <string name="exclude_users_hint">"उपयोगकर्ताओं को शामिल न करें (e.g. edgan,random)"</string>
     <string name="exclude_flairs_hint">"फ्लेयर्स शामिल न करें (e.g. flair1,flair2)"</string>
     <string name="post_filter_name_hint">"Post filter का नाम"</string>
     <string name="post_filter_requires_a_name">"इस post filter का नाम क्या है?"</string>

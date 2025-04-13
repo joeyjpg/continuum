@@ -348,9 +348,9 @@
     <string name="settings_rate_title">"구글 플레이에서 리뷰"</string>
     <string name="settings_rate_summary">"별표 5점을 주신다면 감사하겠습니다"</string>
     <string name="settings_email_title">"이메일"</string>
-    <string name="settings_email_summary">"docilealligator.app@gmail.com"</string>
+    <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"레딧 계정"</string>
-    <string name="settings_reddit_account_summary">"u/Hostilenemy"</string>
+    <string name="settings_reddit_account_summary">"u/edgan"</string>
     <string name="settings_subreddit_title">"서브레딧"</string>
     <string name="settings_subreddit_summary">"r/continuumreddit"</string>
     <string name="settings_share_title">"공유"</string>

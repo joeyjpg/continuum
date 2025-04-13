@@ -396,9 +396,9 @@
     <string name="settings_rate_title">"Ocijenite na Google Playu"</string>
     <string name="settings_rate_summary">"Bit ću presretan ako mi date ocjenu 5 zvijezdica"</string>
     <string name="settings_email_title">"E-pošta"</string>
-    <string name="settings_email_summary">"docilealligator.app@gmail.com"</string>
+    <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Reddit račun"</string>
-    <string name="settings_reddit_account_summary">"u/Hostilenemy"</string>
+    <string name="settings_reddit_account_summary">"u/edgan"</string>
     <string name="settings_subreddit_title">"Podreddit"</string>
     <string name="settings_subreddit_summary">"r/continuumreddit"</string>
     <string name="settings_share_title">"Dijeljenje"</string>
@@ -732,7 +732,7 @@ Baziraj na Indigo Amoled temi"</string>
 
     <!-- Fuzzy -->
     <string name="reset_all_settings_success">"Resertiranje svih postavki uspješno"</string>
-    <string name="username_preview">"u/Hostilenemy"</string>
+    <string name="username_preview">"u/edgan"</string>
     <string name="subreddit_preview">"r/continuumreddit"</string>
     <string name="primary_text_preview">"Primarni tekst"</string>
     <string name="secondary_text_preview">"Sekundarni tekst"</string>
@@ -942,7 +942,7 @@ Reddit videi su niže rezolucije."</string>
     <string name="title_excludes_strings_hint">"Naslov: isključuje ključne riječi (key1,key2)"</string>
     <string name="title_excludes_regex_hint">"Naslov: isključuje regex"</string>
     <string name="exclude_subreddits_hint">"Isključi podreddite (npr. funny,AskReddit)"</string>
-    <string name="exclude_users_hint">"Iskjuči korisnike (npr. Hostilenemy,random)"</string>
+    <string name="exclude_users_hint">"Iskjuči korisnike (npr. edgan,random)"</string>
     <string name="exclude_flairs_hint">"Isključi flairove (npr. flair1,flair2)"</string>
     <string name="min_vote_hint">"Min. glas (-1: bez zabrane)"</string>
     <string name="max_vote_hint">"Max. glas (-1: bez zabrane)"</string>
