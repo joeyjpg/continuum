@@ -97,9 +97,12 @@ public class RestoreSettings {
                     File[] restoreFiles = restoreFilesDir.listFiles();
                     boolean result = true;
                     if (restoreFiles != null) {
+                        SharedPreferences defaultPrefsPrivate = context.getSharedPreferences(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE, Context.MODE_PRIVATE);
                         for (File f : restoreFiles) {
                             if (f.isFile()) {
-                                if (f.getName().startsWith(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE)) {
+                                if (f.getName().equals(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE + "_private.txt")) {
+                                    result = result & importSharedPreferencsFromFile(defaultPrefsPrivate, f.toString());
+                                } else if (f.getName().equals(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE + ".txt")) {
                                     result = result & importSharedPreferencsFromFile(defaultSharedPreferences, f.toString());
                                 } else if (f.getName().startsWith(CustomThemeSharedPreferencesUtils.LIGHT_THEME_SHARED_PREFERENCES_FILE)) {
                                     result = result & importSharedPreferencsFromFile(lightThemeSharedPreferences, f.toString());
@@ -136,6 +139,7 @@ public class RestoreSettings {
                                 File postFilterUsageFile = new File(f.getAbsolutePath() + "/post_filter_usage.json");
                                 File commentFiltersFile = new File(f.getAbsolutePath() + "/comment_filters.json");
                                 File commentFilterUsageFile = new File(f.getAbsolutePath() + "/comment_filter_usage.json");
+                                File accountsFile = new File(f.getAbsolutePath() + "/accounts.json");
 
                                 if (anonymousSubscribedSubredditsFile.exists()) {
                                     List<SubscribedSubredditData> anonymousSubscribedSubreddits = getListFromFile(anonymousSubscribedSubredditsFile, new TypeToken<List<SubscribedSubredditData>>() {}.getType());
@@ -174,6 +178,21 @@ public class RestoreSettings {
                                     if (commentFilterUsageFile.exists()) {
                                         List<CommentFilterUsage> commentFilterUsage = getListFromFile(commentFilterUsageFile, new TypeToken<List<CommentFilterUsage>>() {}.getType());
                                         redditDataRoomDatabase.commentFilterUsageDao().insertAll(commentFilterUsage);
+                                    }
+                                }
+                                if (accountsFile.exists()) {
+                                    List<Account> accounts = getListFromFile(accountsFile, new TypeToken<List<Account>>() {}.getType());
+                                    if (accounts != null) {
+                                        // Clear existing accounts before inserting restored ones
+                                        redditDataRoomDatabase.accountDao().deleteAllAccounts();
+                                        for (Account account : accounts) {
+                                            redditDataRoomDatabase.accountDao().insert(account);
+                                        }
+                                        // Optionally, mark the first restored account as current, or restore the 'is_current_user' flag if it was backed up.
+                                        // If accounts list is not empty, mark the first one as current
+                                        if (!accounts.isEmpty()) {
+                                            redditDataRoomDatabase.accountDao().markAccountCurrent(accounts.get(0).getAccountName());
+                                        }
                                     }
                                 }
                             }

@@ -46,20 +46,20 @@ import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 
 public class BackupSettings {
     public static void backupSettings(Context context, Executor executor, Handler handler,
-                                      ContentResolver contentResolver, Uri destinationDirUri,
-                                      RedditDataRoomDatabase redditDataRoomDatabase,
-                                      SharedPreferences defaultSharedPreferences,
-                                      SharedPreferences lightThemeSharedPreferences,
-                                      SharedPreferences darkThemeSharedPreferences,
-                                      SharedPreferences amoledThemeSharedPreferences,
-                                      SharedPreferences sortTypeSharedPreferences,
-                                      SharedPreferences postLayoutSharedPreferences,
-                                      SharedPreferences postFeedScrolledPositionSharedPreferences,
-                                      SharedPreferences mainActivityTabsSharedPreferences,
-                                      SharedPreferences nsfwAndSpoilerSharedPreferencs,
-                                      SharedPreferences bottomAppBarSharedPreferences,
-                                      SharedPreferences postHistorySharedPreferences,
-                                      BackupSettingsListener backupSettingsListener) {
+                                    ContentResolver contentResolver, Uri destinationDirUri,
+                                    RedditDataRoomDatabase redditDataRoomDatabase,
+                                    SharedPreferences defaultSharedPreferences,
+                                    SharedPreferences lightThemeSharedPreferences,
+                                    SharedPreferences darkThemeSharedPreferences,
+                                    SharedPreferences amoledThemeSharedPreferences,
+                                    SharedPreferences sortTypeSharedPreferences,
+                                    SharedPreferences postLayoutSharedPreferences,
+                                    SharedPreferences postFeedScrolledPositionSharedPreferences,
+                                    SharedPreferences mainActivityTabsSharedPreferences,
+                                    SharedPreferences nsfwAndSpoilerSharedPreferencs,
+                                    SharedPreferences bottomAppBarSharedPreferences,
+                                    SharedPreferences postHistorySharedPreferences,
+                                    BackupSettingsListener backupSettingsListener) {
         executor.execute(() -> {
             String backupDir = context.getExternalCacheDir() + "/Backup/" + BuildConfig.VERSION_NAME;
             File backupDirFile = new File(backupDir);
@@ -77,6 +77,9 @@ public class BackupSettings {
 
             boolean res = saveSharedPreferencesToFile(defaultSharedPreferences, backupDir,
                     SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE);
+            SharedPreferences defaultPrefsPrivate = context.getSharedPreferences(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE, Context.MODE_PRIVATE);
+            boolean resPrivate = saveSharedPreferencesToFile(defaultPrefsPrivate, backupDir,
+                    SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE + "_private");
             boolean res1 = saveSharedPreferencesToFile(lightThemeSharedPreferences, backupDir,
                     CustomThemeSharedPreferencesUtils.LIGHT_THEME_SHARED_PREFERENCES_FILE);
             boolean res2 = saveSharedPreferencesToFile(darkThemeSharedPreferences, backupDir,
@@ -134,6 +137,10 @@ public class BackupSettings {
             String commentFilterUsageJson = new Gson().toJson(commentFilterUsage);
             boolean res19 = saveDatabaseTableToFile(commentFilterUsageJson, databaseDirFile.getAbsolutePath(), "/comment_filter_usage.json");
 
+            List<Account> accounts = redditDataRoomDatabase.accountDao().getAllAccounts();
+            String accountsJson = new Gson().toJson(accounts);
+            boolean res20 = saveDatabaseTableToFile(accountsJson, databaseDirFile.getAbsolutePath(), "/accounts.json");
+
             boolean zipRes = zipAndMoveToDestinationDir(context, contentResolver, destinationDirUri);
 
             try {
@@ -145,7 +152,7 @@ public class BackupSettings {
             handler.post(() -> {
                 boolean finalResult = res && res1 && res2 && res3 && res4 && res5 && res6 && res7 && res8
                         && res9 && res10 && res11 && res12 && res13 && res14 && res15 && res16 && res17
-                        && res18 && res19 && zipRes;
+                        && res18 && res19 && res20 && zipRes && resPrivate;
                 if (finalResult) {
                     backupSettingsListener.success();
                 } else {
@@ -159,8 +166,7 @@ public class BackupSettings {
         });
     }
 
-    private static boolean saveSharedPreferencesToFile(SharedPreferences sharedPreferences,
-                                                       String backupDir, String fileName) {
+    private static boolean saveSharedPreferencesToFile(SharedPreferences sharedPreferences, String backupDir, String fileName) {
         boolean result = false;
 
         ObjectOutputStream output = null;
