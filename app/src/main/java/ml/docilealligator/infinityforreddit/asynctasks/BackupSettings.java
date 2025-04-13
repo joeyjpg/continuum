@@ -26,6 +26,8 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.concurrent.Executor;
 
 import ml.docilealligator.infinityforreddit.BuildConfig;
@@ -75,31 +77,32 @@ public class BackupSettings {
             File databaseDirFile = new File(backupDir + "/database");
             databaseDirFile.mkdirs();
 
-            boolean res = saveSharedPreferencesToFile(defaultSharedPreferences, backupDir,
-                    SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE);
-            SharedPreferences defaultPrefsPrivate = context.getSharedPreferences(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE, Context.MODE_PRIVATE);
-            boolean resPrivate = saveSharedPreferencesToFile(defaultPrefsPrivate, backupDir,
-                    SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE + "_private");
-            boolean res1 = saveSharedPreferencesToFile(lightThemeSharedPreferences, backupDir,
-                    CustomThemeSharedPreferencesUtils.LIGHT_THEME_SHARED_PREFERENCES_FILE);
-            boolean res2 = saveSharedPreferencesToFile(darkThemeSharedPreferences, backupDir,
-                    CustomThemeSharedPreferencesUtils.DARK_THEME_SHARED_PREFERENCES_FILE);
-            boolean res3 = saveSharedPreferencesToFile(amoledThemeSharedPreferences, backupDir,
-                    CustomThemeSharedPreferencesUtils.AMOLED_THEME_SHARED_PREFERENCES_FILE);
-            boolean res4 = saveSharedPreferencesToFile(sortTypeSharedPreferences, backupDir,
-                    SharedPreferencesUtils.SORT_TYPE_SHARED_PREFERENCES_FILE);
-            boolean res5 = saveSharedPreferencesToFile(postLayoutSharedPreferences, backupDir,
-                    SharedPreferencesUtils.POST_LAYOUT_SHARED_PREFERENCES_FILE);
-            boolean res6 = saveSharedPreferencesToFile(postFeedScrolledPositionSharedPreferences, backupDir,
-                    SharedPreferencesUtils.FRONT_PAGE_SCROLLED_POSITION_SHARED_PREFERENCES_FILE);
-            boolean res7 = saveSharedPreferencesToFile(mainActivityTabsSharedPreferences, backupDir,
-                    SharedPreferencesUtils.MAIN_PAGE_TABS_SHARED_PREFERENCES_FILE);
-            boolean res8 = saveSharedPreferencesToFile(nsfwAndSpoilerSharedPreferencs, backupDir,
-                    SharedPreferencesUtils.NSFW_AND_SPOILER_SHARED_PREFERENCES_FILE);
-            boolean res9 = saveSharedPreferencesToFile(bottomAppBarSharedPreferences, backupDir,
-                    SharedPreferencesUtils.BOTTOM_APP_BAR_SHARED_PREFERENCES_FILE);
-            boolean res10 = saveSharedPreferencesToFile(postHistorySharedPreferences, backupDir,
-                    SharedPreferencesUtils.POST_HISTORY_SHARED_PREFERENCES_FILE);
+            // Check if accounts/client ID should be backed up
+            boolean backupAccounts = defaultSharedPreferences.getBoolean("backup_accounts_and_client_id", true);
+
+            // Handle default shared preferences (potentially excluding client ID)
+            Map<String, ?> defaultPrefsMap = defaultSharedPreferences.getAll();
+            Map<String, Object> filteredDefaultPrefsMap = new HashMap<>(defaultPrefsMap); // Create a mutable copy
+
+            boolean res = saveMapToFile(filteredDefaultPrefsMap, backupDir, SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE);
+
+            boolean resPrivate = true; // Assume success if not backing up
+
+            if (backupAccounts) {
+                SharedPreferences defaultPrefsPrivate = context.getSharedPreferences(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE, Context.MODE_PRIVATE);
+                resPrivate = saveMapToFile(defaultPrefsPrivate.getAll(), backupDir, SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE + "_private");
+            }
+
+            boolean res1 = saveMapToFile(lightThemeSharedPreferences.getAll(), backupDir, CustomThemeSharedPreferencesUtils.LIGHT_THEME_SHARED_PREFERENCES_FILE);
+            boolean res2 = saveMapToFile(darkThemeSharedPreferences.getAll(), backupDir, CustomThemeSharedPreferencesUtils.DARK_THEME_SHARED_PREFERENCES_FILE);
+            boolean res3 = saveMapToFile(amoledThemeSharedPreferences.getAll(), backupDir, CustomThemeSharedPreferencesUtils.AMOLED_THEME_SHARED_PREFERENCES_FILE);
+            boolean res4 = saveMapToFile(sortTypeSharedPreferences.getAll(), backupDir, SharedPreferencesUtils.SORT_TYPE_SHARED_PREFERENCES_FILE);
+            boolean res5 = saveMapToFile(postLayoutSharedPreferences.getAll(), backupDir, SharedPreferencesUtils.POST_LAYOUT_SHARED_PREFERENCES_FILE);
+            boolean res6 = saveMapToFile(postFeedScrolledPositionSharedPreferences.getAll(), backupDir, SharedPreferencesUtils.FRONT_PAGE_SCROLLED_POSITION_SHARED_PREFERENCES_FILE);
+            boolean res7 = saveMapToFile(mainActivityTabsSharedPreferences.getAll(), backupDir, SharedPreferencesUtils.MAIN_PAGE_TABS_SHARED_PREFERENCES_FILE);
+            boolean res8 = saveMapToFile(nsfwAndSpoilerSharedPreferencs.getAll(), backupDir, SharedPreferencesUtils.NSFW_AND_SPOILER_SHARED_PREFERENCES_FILE);
+            boolean res9 = saveMapToFile(bottomAppBarSharedPreferences.getAll(), backupDir, SharedPreferencesUtils.BOTTOM_APP_BAR_SHARED_PREFERENCES_FILE);
+            boolean res10 = saveMapToFile(postHistorySharedPreferences.getAll(), backupDir, SharedPreferencesUtils.POST_HISTORY_SHARED_PREFERENCES_FILE);
 
             List<SubscribedSubredditData> anonymousSubscribedSubredditsData = redditDataRoomDatabase.subscribedSubredditDao().getAllSubscribedSubredditsList(Account.ANONYMOUS_ACCOUNT);
             String anonymousSubscribedSubredditsDataJson = new Gson().toJson(anonymousSubscribedSubredditsData);
@@ -137,9 +140,14 @@ public class BackupSettings {
             String commentFilterUsageJson = new Gson().toJson(commentFilterUsage);
             boolean res19 = saveDatabaseTableToFile(commentFilterUsageJson, databaseDirFile.getAbsolutePath(), "/comment_filter_usage.json");
 
-            List<Account> accounts = redditDataRoomDatabase.accountDao().getAllAccounts();
-            String accountsJson = new Gson().toJson(accounts);
-            boolean res20 = saveDatabaseTableToFile(accountsJson, databaseDirFile.getAbsolutePath(), "/accounts.json");
+            // Conditionally backup accounts
+            boolean res20 = true; // Assume success if not backing up
+
+            if (backupAccounts) {
+                List<Account> accounts = redditDataRoomDatabase.accountDao().getAllAccounts();
+                String accountsJson = new Gson().toJson(accounts);
+                res20 = saveDatabaseTableToFile(accountsJson, databaseDirFile.getAbsolutePath(), "/accounts.json");
+            }
 
             boolean zipRes = zipAndMoveToDestinationDir(context, contentResolver, destinationDirUri);
 
@@ -149,10 +157,13 @@ public class BackupSettings {
                 e.printStackTrace();
             }
 
+            final boolean finalRes20 = res20;
+            final boolean finalResPrivate = resPrivate;
+
             handler.post(() -> {
                 boolean finalResult = res && res1 && res2 && res3 && res4 && res5 && res6 && res7 && res8
                         && res9 && res10 && res11 && res12 && res13 && res14 && res15 && res16 && res17
-                        && res18 && res19 && res20 && zipRes && resPrivate;
+                        && res18 && res19 && finalRes20 && zipRes && finalResPrivate;
                 if (finalResult) {
                     backupSettingsListener.success();
                 } else {
@@ -166,13 +177,13 @@ public class BackupSettings {
         });
     }
 
-    private static boolean saveSharedPreferencesToFile(SharedPreferences sharedPreferences, String backupDir, String fileName) {
+    private static boolean saveMapToFile(Map<String, ?> mapToSave, String backupDir, String fileName) {
         boolean result = false;
 
         ObjectOutputStream output = null;
         try {
             output = new ObjectOutputStream(new FileOutputStream(backupDir + "/" + fileName + ".txt"));
-            output.writeObject(sharedPreferences.getAll());
+            output.writeObject(mapToSave);
 
             result = true;
         } catch (IOException e) {
