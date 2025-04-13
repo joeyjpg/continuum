@@ -2,9 +2,11 @@ package ml.docilealligator.infinityforreddit.asynctasks;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Handler;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -42,6 +44,7 @@ import ml.docilealligator.infinityforreddit.postfilter.PostFilterUsage;
 import ml.docilealligator.infinityforreddit.subscribedsubreddit.SubscribedSubredditData;
 import ml.docilealligator.infinityforreddit.subscribeduser.SubscribedUserData;
 import ml.docilealligator.infinityforreddit.utils.CustomThemeSharedPreferencesUtils;
+import ml.docilealligator.infinityforreddit.utils.AppRestartHelper;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 
 public class RestoreSettings {
@@ -212,7 +215,21 @@ public class RestoreSettings {
                     FileUtils.deleteDirectory(new File(cachePath));
 
                     if (result) {
-                        handler.post(restoreSettingsListener::success);
+                        handler.post(() -> {
+                            restoreSettingsListener.success();
+
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                // Restore the interrupted status
+                                Thread.currentThread().interrupt();
+                                // Optionally log the interruption
+                                android.util.Log.w("RestoreSettings", "Sleep interrupted before app restart", e);
+                            }
+
+                            // Trigger restart after posting success message
+                            AppRestartHelper.triggerAppRestart(context);
+                        });
                     } else {
                         handler.post(() -> restoreSettingsListener.failed(context.getString(R.string.restore_settings_partially_failed)));
                     }

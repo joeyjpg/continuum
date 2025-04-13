@@ -2,8 +2,6 @@ package ml.docilealligator.infinityforreddit.settings;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -25,6 +23,7 @@ import javax.inject.Named;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceFragmentCompat;
+import ml.docilealligator.infinityforreddit.utils.AppRestartHelper;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 
 public class ClientIDPreferenceFragment extends CustomFontPreferenceFragmentCompat {
@@ -140,7 +139,7 @@ public class ClientIDPreferenceFragment extends CustomFontPreferenceFragmentComp
                     Log.i(TAG, "Client ID manually saved successfully.");
                     // Update the summary provider manually since we return false
                     preference.setSummaryProvider(clientIdPref.getSummaryProvider()); // Re-set to trigger update
-                    triggerAppRestart(requireContext()); // Use simpler restart method
+                    AppRestartHelper.triggerAppRestart(requireContext()); // Use the helper
                 } else {
                     Log.e(TAG, "Failed to save Client ID manually.");
                     Toast.makeText(getContext(), "Error saving Client ID.", Toast.LENGTH_SHORT).show();
@@ -159,33 +158,4 @@ public class ClientIDPreferenceFragment extends CustomFontPreferenceFragmentComp
         super.onActivityCreated(savedInstanceState);
         ((Infinity) requireActivity().getApplication()).getAppComponent().inject(this);
     }
-
-    // Simplified restart method using Intent flags
-    private void triggerAppRestart(Context context) {
-        try {
-            Context appContext = context.getApplicationContext();
-            Intent intent = appContext.getPackageManager().getLaunchIntentForPackage(appContext.getPackageName());
-            if (intent != null) {
-                // Clear the activity stack and start the launch activity as a new task.
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                appContext.startActivity(intent);
-                Log.i(TAG, "Triggering app restart via Intent.");
-
-                // Finish the current settings activity stack
-                if (getActivity() != null) {
-                    getActivity().finishAffinity();
-                } else {
-                    // Fallback if activity context is somehow lost, less clean exit
-                    android.os.Process.killProcess(android.os.Process.myPid());
-                }
-            } else {
-                Log.e(TAG, "Could not get launch intent for package to trigger restart.");
-                Toast.makeText(context, "Client ID updated. Please restart the app manually.", Toast.LENGTH_LONG).show();
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "Error triggering app restart", e);
-            Toast.makeText(context, "Client ID updated. Please restart the app manually.", Toast.LENGTH_LONG).show();
-        }
-    }
 }
-// Removed old scheduleAppRestart method
