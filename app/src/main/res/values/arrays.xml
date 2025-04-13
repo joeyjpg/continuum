@@ -301,7 +301,6 @@
         <item>@string/search</item>
         <item>@string/go_to_subreddit</item>
         <item>@string/go_to_user</item>
-        <item>@string/random</item>
         <item>@string/hide_read_posts</item>
         <item>@string/filter_posts</item>
         <item>@string/upvoted</item>
@@ -320,7 +319,6 @@
         <item>@string/search</item>
         <item>@string/go_to_subreddit</item>
         <item>@string/go_to_user</item>
-        <item>@string/random</item>
         <item>@string/filter_posts</item>
         <item>@string/go_to_top</item>
     </string-array>
@@ -352,7 +350,6 @@
         <item>@string/search</item>
         <item>@string/go_to_subreddit</item>
         <item>@string/go_to_user</item>
-        <item>@string/random</item>
         <item>@string/hide_read_posts</item>
         <item>@string/filter_posts</item>
         <item>@string/upvoted</item>
@@ -372,7 +369,6 @@
         <item>@string/search</item>
         <item>@string/go_to_subreddit</item>
         <item>@string/go_to_user</item>
-        <item>@string/random</item>
         <item>@string/filter_posts</item>
         <item>@string/go_to_top</item>
     </string-array>
@@ -400,7 +396,6 @@
         <item>@string/search</item>
         <item>@string/go_to_subreddit</item>
         <item>@string/go_to_user</item>
-        <item>@string/random</item>
         <item>@string/hide_read_posts</item>
         <item>@string/filter_posts</item>
         <item>@string/go_to_top</item>
@@ -413,7 +408,6 @@
         <item>@string/search</item>
         <item>@string/go_to_subreddit</item>
         <item>@string/go_to_user</item>
-        <item>@string/random</item>
         <item>@string/filter_posts</item>
         <item>@string/go_to_top</item>
     </string-array>
