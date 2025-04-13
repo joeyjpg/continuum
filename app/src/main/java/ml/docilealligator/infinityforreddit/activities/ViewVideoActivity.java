@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.OrientationEventListener;
@@ -230,6 +231,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                 break;
             case 1:
                 AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
+
                 if(mSharedPreferences.getBoolean(SharedPreferencesUtils.AMOLED_DARK_KEY, false)) {
                     getTheme().applyStyle(R.style.Theme_Normal_AmoledDark, true);
                 } else {
@@ -242,6 +244,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                 } else {
                     AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_AUTO_BATTERY);
                 }
+
                 if((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_NO) {
                     getTheme().applyStyle(R.style.Theme_Normal, true);
                 } else {
@@ -253,25 +256,15 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                 }
         }
 
-        getTheme().applyStyle(FontStyle.valueOf(mSharedPreferences
-                .getString(SharedPreferencesUtils.FONT_SIZE_KEY, FontStyle.Normal.name())).getResId(), true);
-
-        getTheme().applyStyle(TitleFontStyle.valueOf(mSharedPreferences
-                .getString(SharedPreferencesUtils.TITLE_FONT_SIZE_KEY, TitleFontStyle.Normal.name())).getResId(), true);
-
-        getTheme().applyStyle(ContentFontStyle.valueOf(mSharedPreferences
-                .getString(SharedPreferencesUtils.CONTENT_FONT_SIZE_KEY, ContentFontStyle.Normal.name())).getResId(), true);
-
-        getTheme().applyStyle(FontFamily.valueOf(mSharedPreferences
-                .getString(SharedPreferencesUtils.FONT_FAMILY_KEY, FontFamily.Default.name())).getResId(), true);
-
-        getTheme().applyStyle(TitleFontFamily.valueOf(mSharedPreferences
-                .getString(SharedPreferencesUtils.TITLE_FONT_FAMILY_KEY, TitleFontFamily.Default.name())).getResId(), true);
-
-        getTheme().applyStyle(ContentFontFamily.valueOf(mSharedPreferences
-                .getString(SharedPreferencesUtils.CONTENT_FONT_FAMILY_KEY, ContentFontFamily.Default.name())).getResId(), true);
+        getTheme().applyStyle(FontStyle.valueOf(mSharedPreferences.getString(SharedPreferencesUtils.FONT_SIZE_KEY, FontStyle.Normal.name())).getResId(), true);
+        getTheme().applyStyle(TitleFontStyle.valueOf(mSharedPreferences.getString(SharedPreferencesUtils.TITLE_FONT_SIZE_KEY, TitleFontStyle.Normal.name())).getResId(), true);
+        getTheme().applyStyle(ContentFontStyle.valueOf(mSharedPreferences.getString(SharedPreferencesUtils.CONTENT_FONT_SIZE_KEY, ContentFontStyle.Normal.name())).getResId(), true);
+        getTheme().applyStyle(FontFamily.valueOf(mSharedPreferences.getString(SharedPreferencesUtils.FONT_FAMILY_KEY, FontFamily.Default.name())).getResId(), true);
+        getTheme().applyStyle(TitleFontFamily.valueOf(mSharedPreferences.getString(SharedPreferencesUtils.TITLE_FONT_FAMILY_KEY, TitleFontFamily.Default.name())).getResId(), true);
+        getTheme().applyStyle(ContentFontFamily.valueOf(mSharedPreferences.getString(SharedPreferencesUtils.CONTENT_FONT_FAMILY_KEY, ContentFontFamily.Default.name())).getResId(), true);
 
         boolean zoomable = mSharedPreferences.getBoolean(SharedPreferencesUtils.PINCH_TO_ZOOM_VIDEO, false);
+
         if (zoomable) {
             binding = new ViewVideoActivityBindingAdapter(ActivityViewVideoZoomableBinding.inflate(getLayoutInflater()));
             setContentView(binding.getRoot());
@@ -296,6 +289,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
         useBottomAppBar = mSharedPreferences.getBoolean(SharedPreferencesUtils.USE_BOTTOM_TOOLBAR_IN_MEDIA_VIEWER, false);
+
         if (useBottomAppBar) {
             getSupportActionBar().hide();
             binding.getBottomAppBar().setVisibility(View.VISIBLE);
@@ -329,11 +323,13 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
 
         String dataSavingModeString = mSharedPreferences.getString(SharedPreferencesUtils.DATA_SAVING_MODE, SharedPreferencesUtils.DATA_SAVING_MODE_OFF);
         int networkType = Utils.getConnectedNetwork(this);
+
         if (dataSavingModeString.equals(SharedPreferencesUtils.DATA_SAVING_MODE_ALWAYS)) {
             isDataSavingMode = true;
         } else if (dataSavingModeString.equals(SharedPreferencesUtils.DATA_SAVING_MODE_ONLY_ON_CELLULAR_DATA)) {
             isDataSavingMode = networkType == Utils.NETWORK_TYPE_CELLULAR;
         }
+
         dataSavingModeDefaultResolution = Integer.parseInt(mSharedPreferences.getString(SharedPreferencesUtils.REDDIT_VIDEO_DEFAULT_RESOLUTION, "360"));
         nonDataSavingModeDefaultResolution = Integer.parseInt(mSharedPreferences.getString(SharedPreferencesUtils.REDDIT_VIDEO_DEFAULT_RESOLUTION_NO_DATA_SAVING, "0"));
 
@@ -361,8 +357,10 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
 
         Intent intent = getIntent();
         isNSFW = intent.getBooleanExtra(EXTRA_IS_NSFW, false);
+
         if (savedInstanceState == null) {
             resumePosition = intent.getLongExtra(EXTRA_PROGRESS_SECONDS, -1);
+
             if (mSharedPreferences.getBoolean(SharedPreferencesUtils.VIDEO_PLAYER_AUTOMATIC_LANDSCAPE_ORIENTATION, false)) {
                 originalOrientation = resources.getConfiguration().orientation;
                 try {
@@ -376,6 +374,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                                 int epsilon = 10;
                                 int leftLandscape = 90;
                                 int rightLandscape = 270;
+
                                 if(epsilonCheck(orientation, leftLandscape, epsilon) ||
                                         epsilonCheck(orientation, rightLandscape, epsilon)) {
                                     try {
@@ -460,9 +459,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                 }
 
                 @Override
-                public void onIdle(@NonNull ZoomEngine zoomEngine) {
-
-                }
+                public void onIdle(@NonNull ZoomEngine zoomEngine) {}
             });
             zoomSurfaceView.setOnClickListener(view -> {
                 if (playerControlView.isVisible()) {
@@ -502,9 +499,11 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
             setPlaybackSpeed(Integer.parseInt(mSharedPreferences.getString(SharedPreferencesUtils.DEFAULT_PLAYBACK_SPEED, "100")));
         } else {
             String videoUrl = savedInstanceState.getString(VIDEO_URI_STATE);
+
             if (videoUrl != null) {
                 mVideoUri = Uri.parse(videoUrl);
             }
+
             videoType = savedInstanceState.getInt(VIDEO_TYPE_STATE);
             subredditName = savedInstanceState.getString(SUBREDDIT_NAME_STATE);
             id = savedInstanceState.getString(ID_STATE);
@@ -542,6 +541,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                             builder.setAllowAdaptiveSelections(false);
                             Dialog dialog = builder.setTheme(R.style.MaterialAlertDialogTheme).build();
                             dialog.show();
+
                             if (dialog instanceof AlertDialog) {
                                 ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
                                 ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
@@ -550,6 +550,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
 
                         if (!setNonDataSavingModeDefaultResolutionAlready) {
                             int desiredResolution = 0;
+
                             if (isDataSavingMode) {
                                 if (dataSavingModeDefaultResolution > 0) {
                                     desiredResolution = dataSavingModeDefaultResolution;
@@ -566,15 +567,18 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                                 int worstTrackIndex = -1;
                                 Tracks.Group bestTrackGroup = null;
                                 Tracks.Group worstTrackGroup = null;
+
                                 for (Tracks.Group trackGroup : tracks.getGroups()) {
                                     if (trackGroup.getType() == C.TRACK_TYPE_VIDEO) {
                                         for (int trackIndex = 0; trackIndex < trackGroup.length; trackIndex++) {
                                             int trackResolution = Math.min(trackGroup.getTrackFormat(trackIndex).height, trackGroup.getTrackFormat(trackIndex).width);
+
                                             if (trackResolution <= desiredResolution && trackResolution > bestResolution) {
                                                 bestTrackIndex = trackIndex;
                                                 bestResolution = trackResolution;
                                                 bestTrackGroup = trackGroup;
                                             }
+
                                             if (trackResolution < worstResolution) {
                                                 worstTrackIndex = trackIndex;
                                                 worstResolution = trackResolution;
@@ -585,24 +589,13 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                                 }
 
                                 if (bestTrackIndex != -1 && bestTrackGroup != null) {
-                                    trackSelectionOverride = new TrackSelectionOverride(
-                                            bestTrackGroup.getMediaTrackGroup(),
-                                            ImmutableList.of(bestTrackIndex)
-                                    );
+                                    trackSelectionOverride = new TrackSelectionOverride(bestTrackGroup.getMediaTrackGroup(), ImmutableList.of(bestTrackIndex));
                                 } else if (worstTrackIndex != -1 && worstTrackGroup != null) {
-                                    trackSelectionOverride = new TrackSelectionOverride(
-                                            worstTrackGroup.getMediaTrackGroup(),
-                                            ImmutableList.of(worstTrackIndex)
-                                    );
+                                    trackSelectionOverride = new TrackSelectionOverride(worstTrackGroup.getMediaTrackGroup(), ImmutableList.of(worstTrackIndex));
                                 }
 
                                 if (trackSelectionOverride != null) {
-                                    player.setTrackSelectionParameters(
-                                            player.getTrackSelectionParameters()
-                                                    .buildUpon()
-                                                    .addOverride(trackSelectionOverride)
-                                                    .build()
-                                    );
+                                    player.setTrackSelectionParameters(player.getTrackSelectionParameters().buildUpon().addOverride(trackSelectionOverride).build());
                                 }
                             }
                             setNonDataSavingModeDefaultResolutionAlready = true;
@@ -615,14 +608,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                                 // Reddit video HLS usually has two audio tracks. The first is mono.
                                 // The second (index 1) is stereo.
                                 // Select the stereo audio track if possible.
-                                trackSelector.setParameters(
-                                        trackSelector.buildUponParameters()
-                                                .setOverrideForType(new TrackSelectionOverride(
-                                                                trackGroup.getMediaTrackGroup(),
-                                                                1
-                                                        )
-                                                )
-                                );
+                                trackSelector.setParameters(trackSelector.buildUponParameters().setOverrideForType(new TrackSelectionOverride(trackGroup.getMediaTrackGroup(), 1)));
                             }
                             if (binding.getMuteButton().getVisibility() != View.VISIBLE) {
                                 binding.getMuteButton().setVisibility(View.VISIBLE);
@@ -673,12 +659,14 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
             }
 
             redgifsId = intent.getStringExtra(EXTRA_REDGIFS_ID);
+
             if (redgifsId != null && redgifsId.contains("-")) {
                 redgifsId = redgifsId.substring(0, redgifsId.indexOf('-'));
             }
             videoFileName = "Redgifs-" + redgifsId + ".mp4";
         } else if (videoType == VIDEO_TYPE_DIRECT || videoType == VIDEO_TYPE_IMGUR) {
             videoDownloadUrl = mVideoUri.toString();
+
             if (videoType == VIDEO_TYPE_DIRECT) {
                 videoFileName = FilenameUtils.getName(videoDownloadUrl);
             } else {
@@ -747,10 +735,12 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                             videoType = VIDEO_TYPE_STREAMABLE;
 
                             binding.getProgressBar().setVisibility(View.GONE);
+
                             if (streamableVideo.mp4 == null && streamableVideo.mp4Mobile == null) {
                                 Toast.makeText(ViewVideoActivity.this, R.string.fetch_streamable_video_failed, Toast.LENGTH_SHORT).show();
                                 return;
                             }
+
                             binding.getTitleTextView().setText(streamableVideo.title);
                             videoDownloadUrl = streamableVideo.mp4 == null ? streamableVideo.mp4Mobile.url : streamableVideo.mp4.url;
                             mVideoUri = Uri.parse(videoDownloadUrl);
@@ -772,6 +762,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                         @Override
                         public void failed(@Nullable Integer messageRes) {
                             binding.getProgressBar().setVisibility(View.GONE);
+
                             if (videoType == VIDEO_TYPE_V_REDD_IT) {
                                 if (messageRes != null) {
                                     Toast.makeText(ViewVideoActivity.this, messageRes, Toast.LENGTH_LONG).show();
@@ -811,9 +802,11 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
         } else {
             player.setRepeatMode(Player.REPEAT_MODE_OFF);
         }
+
         if (resumePosition > 0) {
             player.seekTo(resumePosition);
         }
+
         player.setPlayWhenReady(true);
         wasPlaying = true;
 
@@ -822,6 +815,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
 
         if (savedInstanceState != null) {
             isMute = savedInstanceState.getBoolean(IS_MUTE_STATE);
+
             if (isMute) {
                 player.setVolume(0f);
                 binding.getMuteButton().setIconResource(R.drawable.ic_mute_24dp);
@@ -849,21 +843,27 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
     @OptIn(markerClass = UnstableApi.class)
     private int inferPrimaryTrackType(Format format) {
         int trackType = MimeTypes.getTrackType(format.sampleMimeType);
+
         if (trackType != C.TRACK_TYPE_UNKNOWN) {
             return trackType;
         }
+
         if (MimeTypes.getVideoMediaMimeType(format.codecs) != null) {
             return C.TRACK_TYPE_VIDEO;
         }
+
         if (MimeTypes.getAudioMediaMimeType(format.codecs) != null) {
             return C.TRACK_TYPE_AUDIO;
         }
+
         if (format.width != Format.NO_VALUE || format.height != Format.NO_VALUE) {
             return C.TRACK_TYPE_VIDEO;
         }
+
         if (format.channelCount != Format.NO_VALUE || format.sampleRate != Format.NO_VALUE) {
             return C.TRACK_TYPE_AUDIO;
         }
+
         return C.TRACK_TYPE_UNKNOWN;
     }
 
@@ -871,6 +871,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
     private void loadFallbackVideo(Bundle savedInstanceState) {
         if (videoFallbackDirectUrl != null) {
             MediaItem mediaItem = player.getCurrentMediaItem();
+
             if (mediaItem == null || (mediaItem.localConfiguration != null && !videoFallbackDirectUrl.equals(mediaItem.localConfiguration.uri.toString()))) {
                 videoType = VIDEO_TYPE_DIRECT;
                 videoDownloadUrl = videoFallbackDirectUrl;
@@ -886,9 +887,11 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.view_video_activity, menu);
+
         for (int i = 0; i < menu.size(); i++) {
             Utils.setTitleWithCustomFontToMenuItem(typeface, menu.getItem(i), null);
         }
+
         return true;
     }
 
@@ -903,6 +906,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
+
         if (itemId == android.R.id.home) {
             finish();
             return true;
@@ -918,6 +922,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
 
             isDownloading = true;
             requestPermissionAndDownload();
+
             return true;
         } else if (itemId == R.id.action_playback_speed_view_video_activity) {
             changePlaybackSpeed();
@@ -955,6 +960,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
     @Override
     protected void onStart() {
         super.onStart();
+
         if (wasPlaying) {
             player.setPlayWhenReady(true);
         }
@@ -965,6 +971,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
         super.onStop();
         wasPlaying = player.getPlayWhenReady();
         player.setPlayWhenReady(false);
+
         if (originalOrientation != null) {
             try {
                 setRequestedOrientation(originalOrientation);
@@ -975,12 +982,14 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
         if (requestCode == PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE && grantResults.length > 0) {
             if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 Toast.makeText(this, R.string.no_storage_permission, Toast.LENGTH_SHORT).show();
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED && isDownloading) {
                 download();
             }
+
             isDownloading = false;
         }
     }
@@ -990,23 +999,31 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
 
         if (videoType != VIDEO_TYPE_NORMAL) {
             PersistableBundle extras = new PersistableBundle();
-            if (post.getPostType() == Post.GIF_TYPE) {
-                extras.putString(DownloadMediaService.EXTRA_URL, post.getVideoUrl());
-                extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, DownloadMediaService.EXTRA_MEDIA_TYPE_GIF);
-                extras.putString(DownloadMediaService.EXTRA_FILE_NAME, post.getSubredditName()
-                        + "-" + post.getId() + ".gif");
+            if (post != null) {
+                if (post.getPostType() == Post.GIF_TYPE) {
+                    extras.putString(DownloadMediaService.EXTRA_URL, post.getVideoUrl());
+                    extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, DownloadMediaService.EXTRA_MEDIA_TYPE_GIF);
+                    extras.putString(DownloadMediaService.EXTRA_FILE_NAME, post.getSubredditName() + "-" + post.getId() + ".gif");
+                } else {
+                    extras.putString(DownloadMediaService.EXTRA_URL, videoDownloadUrl);
+                    extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO);
+                    extras.putString(DownloadMediaService.EXTRA_FILE_NAME, videoFileName);
+                }
+
+                extras.putString(DownloadMediaService.EXTRA_SUBREDDIT_NAME, subredditName);
+                extras.putInt(DownloadMediaService.EXTRA_IS_NSFW, isNSFW ? 1 : 0);
+
+                //TODO: contentEstimatedBytes
+                JobInfo jobInfo = DownloadMediaService.constructJobInfo(this, 5000000, extras);
+                ((JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
+                Toast.makeText(this, R.string.download_started, Toast.LENGTH_SHORT).show();
             } else {
-                extras.putString(DownloadMediaService.EXTRA_URL, videoDownloadUrl);
-                extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO);
-                extras.putString(DownloadMediaService.EXTRA_FILE_NAME, videoFileName);
+                // Handle the case where post is null, maybe log an error or show a message
+                Log.e("ViewVideoActivity", "Download failed: Post object is null when videoType != VIDEO_TYPE_NORMAL");
+                Toast.makeText(this, R.string.downloading_reddit_video_failed_cannot_download_video, Toast.LENGTH_SHORT).show();
+
+                return; // Exit the download method if post is null
             }
-
-            extras.putString(DownloadMediaService.EXTRA_SUBREDDIT_NAME, subredditName);
-            extras.putInt(DownloadMediaService.EXTRA_IS_NSFW, isNSFW ? 1 : 0);
-
-            //TODO: contentEstimatedBytes
-            JobInfo jobInfo = DownloadMediaService.constructJobInfo(this, 5000000, extras);
-            ((JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
         } else {
             PersistableBundle extras = new PersistableBundle();
             extras.putString(DownloadRedditVideoService.EXTRA_VIDEO_URL, videoDownloadUrl);
@@ -1027,12 +1044,14 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
         super.onSaveInstanceState(outState);
         outState.putBoolean(IS_MUTE_STATE, isMute);
         outState.putInt(VIDEO_TYPE_STATE, videoType);
+
         if (mVideoUri != null) {
             outState.putString(VIDEO_URI_STATE, mVideoUri.toString());
             outState.putString(VIDEO_DOWNLOAD_URL_STATE, videoDownloadUrl);
             outState.putString(SUBREDDIT_NAME_STATE, subredditName);
             outState.putString(ID_STATE, id);
         }
+
         outState.putInt(PLAYBACK_SPEED_STATE, playbackSpeed);
         outState.putBoolean(SET_NON_DATA_SAVING_MODE_DEFAULT_RESOLUTION_ALREADY_STATE, setNonDataSavingModeDefaultResolutionAlready);
     }
