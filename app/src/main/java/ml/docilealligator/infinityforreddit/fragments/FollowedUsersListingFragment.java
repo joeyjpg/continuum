@@ -126,7 +126,6 @@ public class FollowedUsersListingFragment extends Fragment implements FragmentCo
             if (subscribedUserData == null || subscribedUserData.size() == 0) {
                 binding.recyclerViewFollowedUsersListingFragment.setVisibility(View.GONE);
                 binding.noSubscriptionsLinearLayoutFollowedUsersListingFragment.setVisibility(View.VISIBLE);
-                mGlide.load(R.drawable.error_image).into(binding.noSubscriptionsImageViewFollowedUsersListingFragment);
             } else {
                 binding.noSubscriptionsLinearLayoutFollowedUsersListingFragment.setVisibility(View.GONE);
                 binding.recyclerViewFollowedUsersListingFragment.setVisibility(View.VISIBLE);

@@ -149,7 +149,6 @@ public class MultiRedditListingFragment extends Fragment implements FragmentComm
             if (multiReddits == null || multiReddits.size() == 0) {
                 binding.recyclerViewMultiRedditListingFragment.setVisibility(View.GONE);
                 binding.fetchMultiRedditListingInfoLinearLayoutMultiRedditListingFragment.setVisibility(View.VISIBLE);
-                mGlide.load(R.drawable.error_image).into(binding.fetchMultiRedditListingInfoImageViewMultiRedditListingFragment);
             } else {
                 binding.fetchMultiRedditListingInfoLinearLayoutMultiRedditListingFragment.setVisibility(View.GONE);
                 binding.recyclerViewMultiRedditListingFragment.setVisibility(View.VISIBLE);

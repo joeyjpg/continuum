@@ -152,7 +152,6 @@ public class InboxFragment extends Fragment implements FragmentCommunicator {
         binding.swipeRefreshLayoutInboxFragment.setRefreshing(false);
         binding.fetchMessagesInfoLinearLayoutInboxFragment.setVisibility(View.VISIBLE);
         binding.fetchMessagesInfoTextViewInboxFragment.setText(stringResId);
-        mGlide.load(R.drawable.error_image).into(binding.fetchMessagesInfoImageViewInboxFragment);
     }
 
     @Override

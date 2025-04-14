@@ -393,8 +393,6 @@
     <string name="settings_credits_material_icons_title">"Material ikone"</string>
     <string name="settings_open_source_title">"Otvoreni kod"</string>
     <string name="settings_open_source_summary">"Ostavite zvijezdicu na Githubu ako Vam se sviđa ova aplikacija"</string>
-    <string name="settings_rate_title">"Ocijenite na Google Playu"</string>
-    <string name="settings_rate_summary">"Bit ću presretan ako mi date ocjenu 5 zvijezdica"</string>
     <string name="settings_email_title">"E-pošta"</string>
     <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Reddit račun"</string>

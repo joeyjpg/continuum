@@ -377,8 +377,6 @@ Naciśnij, aby spróbować ponownie."</string>
     <string name="settings_credits_material_icons_title">"Material Icons"</string>
     <string name="settings_open_source_title">"Otwartoźródłowe"</string>
     <string name="settings_open_source_summary">"Oznacz gwiazdką na Githubie jeśli lubisz tą aplikację"</string>
-    <string name="settings_rate_title">"Oceń na Google Play"</string>
-    <string name="settings_rate_summary">"Daj mi 5 gwiazdek i będę naprawdę szczęśliwy"</string>
     <string name="settings_email_title">"Email"</string>
     <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Konto Reddit"</string>

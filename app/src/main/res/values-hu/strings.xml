@@ -348,8 +348,6 @@
     <string name="settings_credits_material_icons_title">"Material ikonok"</string>
     <string name="settings_open_source_title">"Nyílt forráskód"</string>
     <string name="settings_open_source_summary">"Adj csillagot Githubon, ha tetszik az app"</string>
-    <string name="settings_rate_title">"Értékeld a Google Playen"</string>
-    <string name="settings_rate_summary">"Ha adsz egy 5 csillagos értékelést nagyon boldog leszek"</string>
     <string name="settings_email_title">"Email"</string>
     <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Reddit fiók"</string>

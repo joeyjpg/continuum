@@ -421,8 +421,6 @@ Behavior -->
     <string name="settings_credits_material_icons_title">"मेटेरियल आइकॉन"</string>
     <string name="settings_open_source_title">"खुला श्रोत "</string>
     <string name="settings_open_source_summary">"यदि आपको यह एप्प पसंद आई तो Github पर इसे तारांकित करें "</string>
-    <string name="settings_rate_title">"गूगल प्ले पर रेट करें "</string>
-    <string name="settings_rate_summary">"मुझे 5 सितारा रेटिंग दीजिए और मैं खुश हो जाऊंगा"</string>
     <string name="settings_email_title">"ई मेल "</string>
     <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"रैडिट खाता "</string>

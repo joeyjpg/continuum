@@ -271,7 +271,6 @@ public class WikiActivity extends BaseActivity {
         binding.swipeRefreshLayoutWikiActivity.setRefreshing(false);
         binding.fetchWikiLinearLayoutWikiActivity.setVisibility(View.VISIBLE);
         binding.fetchWikiTextViewWikiActivity.setText(stringResId);
-        mGlide.load(R.drawable.error_image).into(binding.fetchWikiImageViewWikiActivity);
     }
 
     @Override

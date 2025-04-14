@@ -209,7 +209,6 @@ public class UserListingFragment extends Fragment implements FragmentCommunicato
             binding.swipeRefreshLayoutUserListingFragment.setRefreshing(false);
             binding.fetchUserListingInfoLinearLayoutUserListingFragment.setVisibility(View.VISIBLE);
             binding.fetchUserListingInfoTextViewUserListingFragment.setText(stringResId);
-            Glide.with(this).load(R.drawable.error_image).into(binding.fetchUserListingInfoImageViewUserListingFragment);
         }
     }
 

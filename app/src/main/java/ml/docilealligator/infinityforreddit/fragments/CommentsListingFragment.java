@@ -394,7 +394,6 @@ public class CommentsListingFragment extends Fragment implements FragmentCommuni
             binding.swipeRefreshLayoutViewCommentsListingFragment.setRefreshing(false);
             binding.fetchCommentsInfoLinearLayoutCommentsListingFragment.setVisibility(View.VISIBLE);
             binding.fetchCommentsInfoTextViewCommentsListingFragment.setText(stringResId);
-            mGlide.load(R.drawable.error_image).into(binding.fetchCommentsInfoImageViewCommentsListingFragment);
         }
     }
 

@@ -129,7 +129,6 @@ public class SubscribedSubredditsListingFragment extends Fragment implements Fra
             if (subscribedSubredditData == null || subscribedSubredditData.size() == 0) {
                 binding.recyclerViewSubscribedSubredditsListingFragment.setVisibility(View.GONE);
                 binding.noSubscriptionsLinearLayoutSubredditsListingFragment.setVisibility(View.VISIBLE);
-                mGlide.load(R.drawable.error_image).into(binding.noSubscriptionsImageViewSubredditsListingFragment);
             } else {
                 binding.noSubscriptionsLinearLayoutSubredditsListingFragment.setVisibility(View.GONE);
                 binding.recyclerViewSubscribedSubredditsListingFragment.setVisibility(View.VISIBLE);

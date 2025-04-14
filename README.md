@@ -26,7 +26,10 @@ use [Revanced Manager](https://github.com/ReVanced/revanced-manager).
 # Setup
 See [SETUP.md](/SETUP.md)
 
-## About The Project
+# Updates
+See [UPDATES.md](/UPDATES.md)
+
+# About The Project
 
 <table>
 <tr>
@@ -55,7 +58,7 @@ Key features of **Continuum**:
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Contributing
+# Contributing
 
 First off, thanks for taking the time to contribute! Contributions are what makes the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
@@ -76,13 +79,13 @@ Here are other ways you can help:
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## License
+# License
 
 Distributed under the AGPL-3.0 License. See <a href="https://github.com/cygnusx-1-org/continuum/blob/master/LICENSE">LICENSE</a> for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Contact
+# Contact
 
 [u/edgan](https://www.reddit.com/user/edgan) -
 continuum@cygnusx-1.org (Owner)

@@ -370,8 +370,6 @@ Toque para tentar de novo."</string>
     <string name="settings_credits_material_icons_title">"Material Icons"</string>
     <string name="settings_open_source_title">"Open Source"</string>
     <string name="settings_open_source_summary">"Favorite-o no GitHub se você gosta deste aplicativo"</string>
-    <string name="settings_rate_title">"Avalie no Google Play"</string>
-    <string name="settings_rate_summary">"Dê-me uma classificação de 5 estrelas e ficarei muito feliz"</string>
     <string name="settings_email_title">"Email"</string>
     <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Conta Reddit"</string>

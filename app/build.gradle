@@ -48,7 +48,7 @@ android {
         minSdk 21
         targetSdk 34
         versionCode 191
-        versionName "7.4.4.1"
+        versionName "7.4.4.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {

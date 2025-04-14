@@ -421,7 +421,6 @@ public class HistoryPostFragment extends PostFragmentBase implements FragmentCom
             binding.swipeRefreshLayoutHistoryPostFragment.setRefreshing(false);
             binding.fetchPostInfoLinearLayoutHistoryPostFragment.setVisibility(View.VISIBLE);
             binding.fetchPostInfoTextViewHistoryPostFragment.setText(stringResId);
-            mGlide.load(R.drawable.error_image).into(binding.fetchPostInfoImageViewHistoryPostFragment);
         }
     }
 

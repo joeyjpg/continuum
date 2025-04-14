@@ -26,7 +26,6 @@ public class AboutPreferenceFragment extends CustomFontPreferenceFragmentCompat 
         setPreferencesFromResource(R.xml.about_preferences, rootKey);
 
         Preference openSourcePreference = findPreference(SharedPreferencesUtils.OPEN_SOURCE_KEY);
-        Preference ratePreference = findPreference(SharedPreferencesUtils.RATE_KEY);
         Preference emailPreference = findPreference(SharedPreferencesUtils.EMAIL_KEY);
         Preference redditAccountPreference = findPreference(SharedPreferencesUtils.REDDIT_ACCOUNT_KEY);
         Preference subredditPreference = findPreference(SharedPreferencesUtils.SUBREDDIT_KEY);
@@ -36,23 +35,8 @@ public class AboutPreferenceFragment extends CustomFontPreferenceFragmentCompat 
         if (openSourcePreference != null) {
             openSourcePreference.setOnPreferenceClickListener(preference -> {
                 Intent intent = new Intent(activity, LinkResolverActivity.class);
-                intent.setData(Uri.parse("https://github.com/Docile-Alligator/Infinity-For-Reddit"));
+                intent.setData(Uri.parse("https://github.com/cygnusx-1-org/continuum"));
                 activity.startActivity(intent);
-                return true;
-            });
-        }
-
-        if (ratePreference != null) {
-            ratePreference.setOnPreferenceClickListener(preference -> {
-                Intent playStoreIntent = new Intent(Intent.ACTION_VIEW);
-                playStoreIntent.setData(Uri.parse("market://details?id=ml.docilealligator.infinityforreddit"));
-                if (playStoreIntent.resolveActivity(activity.getPackageManager()) != null) {
-                    activity.startActivity(playStoreIntent);
-                } else {
-                    Intent intent = new Intent(activity, LinkResolverActivity.class);
-                    intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=ml.docilealligator.infinityforreddit"));
-                    activity.startActivity(intent);
-                }
                 return true;
             });
         }
@@ -82,7 +66,7 @@ public class AboutPreferenceFragment extends CustomFontPreferenceFragmentCompat 
         if (subredditPreference != null) {
             subredditPreference.setOnPreferenceClickListener(preference -> {
                 Intent intent = new Intent(activity, LinkResolverActivity.class);
-                intent.setData(Uri.parse("https://www.reddit.com/r/Infinity_For_Reddit"));
+                intent.setData(Uri.parse("https://www.reddit.com/r/continuumreddit"));
                 activity.startActivity(intent);
                 return true;
             });

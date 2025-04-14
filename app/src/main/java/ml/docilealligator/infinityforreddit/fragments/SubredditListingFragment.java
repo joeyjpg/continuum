@@ -208,7 +208,6 @@ public class SubredditListingFragment extends Fragment implements FragmentCommun
             binding.swipeRefreshLayoutSubredditListingFragment.setRefreshing(false);
             binding.fetchSubredditListingInfoLinearLayoutSubredditListingFragment.setVisibility(View.VISIBLE);
             binding.fetchSubredditListingInfoTextViewSubredditListingFragment.setText(stringResId);
-            Glide.with(this).load(R.drawable.error_image).into(binding.fetchSubredditListingInfoImageViewSubredditListingFragment);
         }
     }
 
