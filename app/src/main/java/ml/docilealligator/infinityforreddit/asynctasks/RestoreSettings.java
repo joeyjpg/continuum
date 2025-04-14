@@ -58,11 +58,14 @@ public class RestoreSettings {
                                 SharedPreferences amoledThemeSharedPreferences,
                                 SharedPreferences sortTypeSharedPreferences,
                                 SharedPreferences postLayoutSharedPreferences,
+                                SharedPreferences postDetailsSharedPreferences,
                                 SharedPreferences postFeedScrolledPositionSharedPreferences,
                                 SharedPreferences mainActivityTabsSharedPreferences,
+                                SharedPreferences proxySharedPreferences,
                                 SharedPreferences nsfwAndSpoilerSharedPreferencs,
                                 SharedPreferences bottomAppBarSharedPreferences,
                                 SharedPreferences postHistorySharedPreferences,
+                                SharedPreferences navigationDrawerSharedPreferences,
                                 RestoreSettingsListener restoreSettingsListener) {
         executor.execute(() -> {
             try {
@@ -118,16 +121,22 @@ public class RestoreSettings {
                                     result = result & importSharedPreferencsFromFile(sortTypeSharedPreferences, f.toString());
                                 } else if (f.getName().startsWith(SharedPreferencesUtils.POST_LAYOUT_SHARED_PREFERENCES_FILE)) {
                                     result = result & importSharedPreferencsFromFile(postLayoutSharedPreferences, f.toString());
+                                } else if (f.getName().startsWith(SharedPreferencesUtils.POST_DETAILS_SHARED_PREFERENCES_FILE)) {
+                                    result = result & importSharedPreferencsFromFile(postDetailsSharedPreferences, f.toString());
                                 } else if (f.getName().startsWith(SharedPreferencesUtils.FRONT_PAGE_SCROLLED_POSITION_SHARED_PREFERENCES_FILE)) {
                                     result = result & importSharedPreferencsFromFile(postFeedScrolledPositionSharedPreferences, f.toString());
                                 } else if (f.getName().startsWith(SharedPreferencesUtils.MAIN_PAGE_TABS_SHARED_PREFERENCES_FILE)) {
                                     result = result & importSharedPreferencsFromFile(mainActivityTabsSharedPreferences, f.toString());
+                                } else if (f.getName().startsWith(SharedPreferencesUtils.PROXY_SHARED_PREFERENCES_FILE)) {
+                                    result = result & importSharedPreferencsFromFile(proxySharedPreferences, f.toString());
                                 } else if (f.getName().startsWith(SharedPreferencesUtils.NSFW_AND_SPOILER_SHARED_PREFERENCES_FILE)) {
                                     result = result & importSharedPreferencsFromFile(nsfwAndSpoilerSharedPreferencs, f.toString());
                                 } else if (f.getName().startsWith(SharedPreferencesUtils.BOTTOM_APP_BAR_SHARED_PREFERENCES_FILE)) {
                                     result = result & importSharedPreferencsFromFile(bottomAppBarSharedPreferences, f.toString());
                                 } else if (f.getName().startsWith(SharedPreferencesUtils.POST_HISTORY_SHARED_PREFERENCES_FILE)) {
                                     result = result & importSharedPreferencsFromFile(postHistorySharedPreferences, f.toString());
+                                } else if (f.getName().startsWith(SharedPreferencesUtils.NAVIGATION_DRAWER_SHARED_PREFERENCES_FILE)) {
+                                    result = result & importSharedPreferencsFromFile(navigationDrawerSharedPreferences, f.toString());
                                 }
                             } else if (f.isDirectory() && f.getName().equals("database")) {
                                 if (!redditDataRoomDatabase.accountDao().isAnonymousAccountInserted()) {

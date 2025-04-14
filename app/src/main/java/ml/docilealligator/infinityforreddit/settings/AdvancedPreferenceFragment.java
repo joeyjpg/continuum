@@ -62,6 +62,9 @@ public class AdvancedPreferenceFragment extends CustomFontPreferenceFragmentComp
     @Named("post_layout")
     SharedPreferences mPostLayoutSharedPreferences;
     @Inject
+    @Named("post_details")
+    SharedPreferences mPostDetailsSharedPreferences;
+    @Inject
     @Named("light_theme")
     SharedPreferences lightThemeSharedPreferences;
     @Inject
@@ -77,6 +80,9 @@ public class AdvancedPreferenceFragment extends CustomFontPreferenceFragmentComp
     @Named("main_activity_tabs")
     SharedPreferences mainActivityTabsSharedPreferences;
     @Inject
+    @Named("proxy")
+    SharedPreferences proxySharedPreferences;
+    @Inject
     @Named("nsfw_and_spoiler")
     SharedPreferences nsfwAndBlurringSharedPreferences;
     @Inject
@@ -85,6 +91,9 @@ public class AdvancedPreferenceFragment extends CustomFontPreferenceFragmentComp
     @Inject
     @Named("post_history")
     SharedPreferences postHistorySharedPreferences;
+    @Inject
+    @Named("navigation_drawer")
+    SharedPreferences navigationDrawerSharedPreferences;
     @Inject
     Executor executor;
     private Handler handler;
@@ -323,8 +332,9 @@ public class AdvancedPreferenceFragment extends CustomFontPreferenceFragmentComp
                 BackupSettings.backupSettings(activity, executor, handler, activity.getContentResolver(), uri,
                         mRedditDataRoomDatabase, mSharedPreferences, lightThemeSharedPreferences, darkThemeSharedPreferences,
                         amoledThemeSharedPreferences, mSortTypeSharedPreferences, mPostLayoutSharedPreferences,
-                        postFeedScrolledPositionSharedPreferences, mainActivityTabsSharedPreferences,
-                        nsfwAndBlurringSharedPreferences, bottomAppBarSharedPreferences, postHistorySharedPreferences,
+                        mPostDetailsSharedPreferences, postFeedScrolledPositionSharedPreferences, mainActivityTabsSharedPreferences,
+                        proxySharedPreferences, nsfwAndBlurringSharedPreferences, bottomAppBarSharedPreferences,
+                        postHistorySharedPreferences, navigationDrawerSharedPreferences,
                         new BackupSettings.BackupSettingsListener() {
                             @Override
                             public void success() {
@@ -341,8 +351,9 @@ public class AdvancedPreferenceFragment extends CustomFontPreferenceFragmentComp
                 RestoreSettings.restoreSettings(activity, executor, handler, activity.getContentResolver(), uri,
                         mRedditDataRoomDatabase, mSharedPreferences, mCurrentAccountSharedPreferences, lightThemeSharedPreferences,
                         darkThemeSharedPreferences, amoledThemeSharedPreferences, mSortTypeSharedPreferences, mPostLayoutSharedPreferences,
-                        postFeedScrolledPositionSharedPreferences, mainActivityTabsSharedPreferences,
-                        nsfwAndBlurringSharedPreferences, bottomAppBarSharedPreferences, postHistorySharedPreferences,
+                        mPostDetailsSharedPreferences, postFeedScrolledPositionSharedPreferences, mainActivityTabsSharedPreferences,
+                        proxySharedPreferences, nsfwAndBlurringSharedPreferences, bottomAppBarSharedPreferences,
+                        postHistorySharedPreferences, navigationDrawerSharedPreferences,
                         new RestoreSettings.RestoreSettingsListener() {
                             @Override
                             public void success() {
