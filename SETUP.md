@@ -43,12 +43,17 @@ first time the app is being set up.
 4. Wait for Continuum to restart
 
 **Changing the Client ID:**
-1. Go to [`Settings in the side bar`](assets/screenshots/settings.png)
-1. Select [`Reddit API Client ID`](assets/screenshots/continuum_client_id1.png)
-2. Press [`Reddit API Client ID`](assets/screenshots/continuum_client_id2.png)
-3. Enter your [Client ID](assets/screenshots/enter_client_id.png). It is
+1. Go to `Settings in the side bar`
+<img src="/assets/screenshots/settings.png" alt="drawing" width="189.5" height="400" style="object-fit: contain;"/>
+2. Select `Reddit API Client ID`
+<img src="/assets/screenshots/continuum_client_id1.png" alt="drawing" width="189.5" height="400" style="object-fit: contain;"/>
+3. Press `Reddit API Client ID`
+<img src="/assets/screenshots/continuum_client_id2.png" alt="drawing" width="189.5" height="400" style="object-fit: contain;"/>
+4. Enter your `Client ID`
+<img src="/assets/screenshots/enter_client_id.png" alt="drawing" width="189.5" height="400" style="object-fit: contain;"/>. It is
 best to copy and paste it.
-5. Press [`OK`](assets/screenshots/post-saved_client_id_override.png)
+5. Press `OK`
+<img src="/assets/screenshots/post-saved_client_id_override.png" alt="drawing" width="189.5" height="400" style="object-fit: contain;"/>
 6. Wait for Continuum to restart
 
 # Common errors
