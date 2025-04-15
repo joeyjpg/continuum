@@ -1,7 +1,7 @@
 # Setup
 
 ## Setup for older versions
-See [SETUP-old.md](/SETUP0-old.md)
+See [SETUP-old.md](/SETUP-old.md)
 
 ## Giphy
 See [here](/GIPHY.md).
