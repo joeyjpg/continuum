@@ -392,8 +392,7 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
         }
     }
 
-    private void setNotification(WorkManager workManager, long notificationInterval, TimeUnit timeUnit,
-                                 boolean enableNotification) {
+    private void setNotification(WorkManager workManager, long notificationInterval, TimeUnit timeUnit, boolean enableNotification) {
         if (enableNotification) {
             Constraints constraints = new Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
