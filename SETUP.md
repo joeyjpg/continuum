@@ -1,4 +1,7 @@
 # Setup
+## Giphy
+See [here](/GIPHY.md).
+
 ## Reddit Client ID
 A Reddit Client ID is needed to access Reddit from 3rd party clients.
 
