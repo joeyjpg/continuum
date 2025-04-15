@@ -53,8 +53,8 @@ first time the app is being set up.
 <img src="/assets/screenshots/continuum_client_id2.png" alt="drawing" width="189.5" height="400" style="object-fit: contain;"/>
   
 4. Enter your `Client ID`
-<img src="/assets/screenshots/enter_client_id.png" alt="drawing" width="189.5" height="400" style="object-fit: contain;"/>. It is
-best to copy and paste it.
+<img src="/assets/screenshots/enter_client_id.png" alt="drawing" width="189.5" height="400" style="object-fit: contain;"/>
+It is best to copy and paste it.
 
 6. Press `OK`
 <img src="/assets/screenshots/post-saved_client_id_override.png" alt="drawing" width="189.5" height="400" style="object-fit: contain;"/>
