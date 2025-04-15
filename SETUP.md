@@ -10,7 +10,7 @@ See [here](/GIPHY.md).
 A Reddit Client ID is needed to access Reddit from 3rd party clients.
 
 ### Reddit Client ID creation steps
-![Create application](/screenshots/create_application.png)
+![Create application](assets/screenshots/create_application.png)
 
 1. Go to [reddit.com/prefs/apps](https://www.reddit.com/prefs/apps) and login if
 necessary
@@ -25,7 +25,7 @@ incorrectly it won't work.
 8. Copy the Client ID of your newly created app. It is recommended to save it
 in the notes of your entry for Reddit in your password manager.
 
-![Client ID](/screenshots/client_id.png)
+![Client ID](assets/screenshots/client_id.png)
 
 > [!NOTE]
 >
@@ -43,12 +43,12 @@ first time the app is being set up.
 4. Wait for Continuum to restart
 
 **Changing the Client ID:**
-1. Go to [`Settings in the side bar`](/screenshots/settings.png)
-1. Select [`Reddit API Client ID`](/screenshots/continuum_client_id1.png)
-2. Press [`Reddit API Client ID`](screenshots/continuum_client_id2.png)
-3. Enter your [Client ID](screenshots/enter_client_id.png). It is
+1. Go to [`Settings in the side bar`](assets/screenshots/settings.png)
+1. Select [`Reddit API Client ID`](assets/screenshots/continuum_client_id1.png)
+2. Press [`Reddit API Client ID`](assets/screenshots/continuum_client_id2.png)
+3. Enter your [Client ID](assets/screenshots/enter_client_id.png). It is
 best to copy and paste it.
-5. Press [`OK`](screenshots/post-saved_client_id_override.png)
+5. Press [`OK`](assets/screenshots/post-saved_client_id_override.png)
 6. Wait for Continuum to restart
 
 # Common errors
