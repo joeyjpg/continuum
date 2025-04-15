@@ -6,7 +6,7 @@ See [here](/GIPHY.md).
 A Reddit Client ID is needed to access Reddit from 3rd party clients.
 
 ### Reddit Client ID creation steps
-![Create application](/screenshots/create_application.png)
+![Create application](assets/screenshots/create_application.png)
 
 1. Go to [reddit.com/prefs/apps](https://www.reddit.com/prefs/apps) and login if
 necessary
