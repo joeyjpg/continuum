@@ -172,8 +172,8 @@ public class APIKeysPreferenceFragment extends CustomFontPreferenceFragmentCompa
 
                 if (success) {
                     Log.i(TAG, "Giphy API Key saved successfully.");
-                    // Manually trigger summary update after successful save
-                    preference.setSummary(giphyApiKeyPref.getSummaryProvider().provideSummary(preference));
+                    // Re-set the SummaryProvider to trigger a summary update
+                    preference.setSummaryProvider(giphyApiKeyPref.getSummaryProvider());
                     Toast.makeText(getContext(), "Giphy API Key saved.", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e(TAG, "Failed to save Giphy API Key.");
@@ -181,7 +181,7 @@ public class APIKeysPreferenceFragment extends CustomFontPreferenceFragmentCompa
                 }
 
                 // Return false because we handle the saving and summary update manually
-                return false;
+                return true;
             }));
 
         } else {
