@@ -1,7 +1,7 @@
 <h1 align="center">Continuum</h1>
 
 <p align="center">
-  <img src="space_alien.png">
+  <img src="assets/space_alien.png">
 </p>
 
 A Reddit client on Android written in Java. It does not have any ads and it features a clean UI and smooth browsing experience
