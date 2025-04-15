@@ -103,7 +103,7 @@ public class SettingsActivity extends BaseActivity implements
             } else if (fragment instanceof AdvancedPreferenceFragment) {
                 setTitle(R.string.settings_advanced_master_title);
             } else if (fragment instanceof APIKeysPreferenceFragment) {
-                setTitle(R.string.settings_client_id_title);
+                setTitle(R.string.settings_api_keys_title);
             }
         });
     }

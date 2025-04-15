@@ -665,7 +665,7 @@
     <string name="client_id_length_error">Client ID must be exactly 22 characters long.</string>
     <string name="tap_to_set_client_id">Tap to set Client ID</string>
     <string name="set_client_id_dialog_message">Set the Reddit API Client ID in Settings</string>
-    <string name="settings_giphy_api_key_title">Custom Giphy API Key</string>
+    <string name="settings_giphy_api_key_title">Giphy API Key</string>
     <string name="tap_to_set_giphy_api_key">Tap to set custom Giphy API key (optional)</string>
     <string name="giphy_api_key_pref_key" translatable="false">giphy_api_key_pref_key</string>
     <string name="default_giphy_api_key" translatable="false">hWXuPJZ2h1pxE0nV4iUBpKsZ7jRB8qsM</string>
