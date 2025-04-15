@@ -1,8 +1,4 @@
 # Setup
-
-## Setup for older versions
-See [SETUP-old.md](/SETUP0-old.md)
-
 ## Giphy
 See [here](/GIPHY.md).
 
@@ -44,9 +40,9 @@ first time the app is being set up.
 
 **Changing the Client ID:**
 1. Go to [`Settings in the side bar`](/screenshots/settings.png)
-1. Select [`Reddit API Client ID`](/screenshots/continuum_client_id1.png)
-2. Press [`Reddit API Client ID`](screenshots/continuum_client_id2.png)
-3. Enter your [Client ID](screenshots/enter_client_id.png). It is
+1. Select [`Reddit API Client ID`](/screenshots/continuum_client_id1-old.png)
+2. Press [`Reddit API Client ID`](screenshots/continuum_client_id2-old.png)
+3. Enter your [Client ID](screenshots/enter_client_id-old.png). It is
 best to copy and paste it.
 5. Press [`OK`](screenshots/post-saved_client_id_override.png)
 6. Wait for Continuum to restart
