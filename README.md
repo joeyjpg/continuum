@@ -1,7 +1,31 @@
 <h1 align="center">Continuum</h1>
 
 <p align="center">
-  <img src="space_alien.png">
+  <picture>
+    <source
+      width="256px"
+      media="(prefers-color-scheme: dark)"
+      srcset="assets/space_alien.png"
+    >
+    <img 
+      width="256px"
+      src="assets/space_alien.png"
+    >
+  </picture>
+  <br>
+   <a href="https://discord.gg/vDuSpJEDrW">
+       <picture>
+           <source height="24px" media="(prefers-color-scheme: dark)" srcset="/assets/icons/Discord.png" />
+           <img height="24px" src="/assets/icons/Discord.png" />
+       </picture>
+   </a>&nbsp;&nbsp;&nbsp;
+   <a href="https://old.reddit.com/r/continuumreddit/">
+       <picture>
+           <source height="24px" media="(prefers-color-scheme: dark)" srcset="/assets/icons/Reddit.png" />
+           <img height="24px" src="/assets/icons/Reddit.png" />
+       </picture>
+   </a>&nbsp;&nbsp;&nbsp;
+  </br>
 </p>
 
 A Reddit client on Android written in Java. It does not have any ads and it features a clean UI and smooth browsing experience
@@ -23,11 +47,12 @@ This project is a fork of [Infinity for Reddit](https://github.com/Docile-Alliga
 One major enhancement is that it lets you set your own `Client ID` as a setting. This means you don't need to recompile it, or to
 use [Revanced Manager](https://github.com/ReVanced/revanced-manager).
 
-# Discord
-Get a invite to the Discord server [here](https://discord.gg/vDuSpJEDrW).
+# Social Links
 
-# Subreddit
-You can find the subreddit [here](https://old.reddit.com/r/continuumreddit/).
+- ![Discord Icon](/screenshots/Discord.png) [**Discord**](https://discord.gg/vDuSpJEDrW)
+
+- ![Reddit Icon](/screenshots/Reddit.png) [**Subreddit**](https://old.reddit.com/r/continuumreddit/)
+
 
 # Setup
 See [SETUP.md](/SETUP.md)
@@ -81,7 +106,9 @@ Don't forget to give the project a star! Thanks again!
 
 Here are other ways you can help:
 
-- [Report Bugs](https://github.com/cygnusx-1-org/continuum/issues)
+- [Report Bugs](https://github.com/cygnusx-1-org/continuum/issues/new?template=bug_report.md)
+
+- [Request Features](https://github.com/cygnusx-1-org/continuum/issues/new?template=feature_request.md)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
