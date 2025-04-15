@@ -33,7 +33,6 @@ public class APIUtils {
     public static final String IMGUR_CLIENT_ID = "Client-ID cc671794e0ab397";
     public static final String REDGIFS_CLIENT_ID = "1828d0bcc93-15ac-bde6-0005-d2ecbe8daab3";
     public static final String REDGIFS_CLIENT_SECRET = "TJBlw7jRXW65NAGgFBtgZHu97WlzRXHYybK81sZ9dLM=";
-    public static final String GIPHY_GIF_API_KEY = "";
     public static final String RESPONSE_TYPE_KEY = "response_type";
     public static final String RESPONSE_TYPE = "code";
     public static final String STATE_KEY = "state";
@@ -130,6 +129,20 @@ public class APIUtils {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE, Context.MODE_PRIVATE);
 
         return sharedPreferences.getString(SharedPreferencesUtils.CLIENT_ID_PREF_KEY, context.getString(R.string.default_client_id));
+    }
+
+    // Method to retrieve Giphy API Key from SharedPreferences
+    public static String getGiphyApiKey(Context context) {
+        // Explicitly get SharedPreferences by file name to ensure consistency
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE, Context.MODE_PRIVATE);
+        String customKey = sharedPreferences.getString(SharedPreferencesUtils.GIPHY_API_KEY_PREF_KEY, null);
+
+        // Return custom key if set and not empty, otherwise return the default from strings.xml
+        if (customKey != null && !customKey.isEmpty()) {
+            return customKey;
+        } else {
+            return context.getString(R.string.default_giphy_api_key);
+        }
     }
 
     public static Map<String, String> getHttpBasicAuthHeader(Context context) {

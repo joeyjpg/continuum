@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<!-- Client ID Preference -->
+
     <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
-        app:icon="@drawable/ic_notifications_day_night_24dp"
-        app:title="@string/settings_client_id_title"
-        app:summary="@string/settings_client_id_summary"
-        app:fragment="ml.docilealligator.infinityforreddit.settings.ClientIDPreferenceFragment" />
+        app:icon="@drawable/ic_key_day_night_24dp"
+        app:title="@string/settings_api_keys_title"
+        app:summary="@string/settings_api_keys_summary"
+        app:fragment="ml.docilealligator.infinityforreddit.settings.APIKeysPreferenceFragment" />
 
     <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
         app:icon="@drawable/ic_notifications_day_night_24dp"
