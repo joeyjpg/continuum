@@ -23,6 +23,12 @@ This project is a fork of [Infinity for Reddit](https://github.com/Docile-Alliga
 One major enhancement is that it lets you set your own `Client ID` as a setting. This means you don't need to recompile it, or to
 use [Revanced Manager](https://github.com/ReVanced/revanced-manager).
 
+# Discord
+Get a invite to the Discord server [here](https://discord.gg/vDuSpJEDrW).
+
+# Subreddit
+You can find the subreddit [here](https://old.reddit.com/r/continuumreddit/).
+
 # Setup
 See [SETUP.md](/SETUP.md)
 
