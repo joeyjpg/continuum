@@ -26,7 +26,6 @@ import javax.inject.Named;
 
 import me.zhanghai.android.fastscroll.FastScrollerBuilder;
 import ml.docilealligator.infinityforreddit.Infinity;
-import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.RedditDataRoomDatabase;
 import ml.docilealligator.infinityforreddit.thing.SelectThingReturnKey;
 import ml.docilealligator.infinityforreddit.account.Account;
