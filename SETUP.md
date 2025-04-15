@@ -45,16 +45,21 @@ first time the app is being set up.
 **Changing the Client ID:**
 1. Go to `Settings in the side bar`
 <img src="/assets/screenshots/settings.png" alt="drawing" width="189.5" height="400" style="object-fit: contain;"/>
+  
 2. Select `Reddit API Client ID`
 <img src="/assets/screenshots/continuum_client_id1.png" alt="drawing" width="189.5" height="400" style="object-fit: contain;"/>
+  
 3. Press `Reddit API Client ID`
 <img src="/assets/screenshots/continuum_client_id2.png" alt="drawing" width="189.5" height="400" style="object-fit: contain;"/>
+  
 4. Enter your `Client ID`
 <img src="/assets/screenshots/enter_client_id.png" alt="drawing" width="189.5" height="400" style="object-fit: contain;"/>. It is
 best to copy and paste it.
-5. Press `OK`
+
+6. Press `OK`
 <img src="/assets/screenshots/post-saved_client_id_override.png" alt="drawing" width="189.5" height="400" style="object-fit: contain;"/>
-6. Wait for Continuum to restart
+  
+7. Wait for Continuum to restart
 
 # Common errors
 The most likely cause for this is the `redirect uri` is set incorrectly. The
