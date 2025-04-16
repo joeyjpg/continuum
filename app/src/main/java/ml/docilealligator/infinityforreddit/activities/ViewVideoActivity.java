@@ -348,12 +348,16 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
             });
         }
 
-        binding.getRoot().setOnDragDismissedListener(dragDirection -> {
-            player.stop();
-            int slide = dragDirection == DragDirection.UP ? R.anim.slide_out_up : R.anim.slide_out_down;
-            finish();
-            overridePendingTransition(0, slide);
-        });
+        if (mSharedPreferences.getBoolean(SharedPreferencesUtils.SWIPE_VERTICALLY_TO_GO_BACK_FROM_MEDIA, true)) {
+            binding.getRoot().setOnDragDismissedListener(dragDirection -> {
+                player.stop();
+                int slide = dragDirection == DragDirection.UP ? R.anim.slide_out_up : R.anim.slide_out_down;
+                finish();
+                overridePendingTransition(0, slide);
+            });
+        } else {
+            binding.getRoot().setDragEnabled(false);
+        }
 
         Intent intent = getIntent();
         isNSFW = intent.getBooleanExtra(EXTRA_IS_NSFW, false);
