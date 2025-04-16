@@ -162,7 +162,7 @@ public class NsfwAndSpoilerFragment extends Fragment {
         TextView messageTextView = new TextView(activity);
         int padding = (int) Utils.convertDpToPixel(24, activity);
         messageTextView.setPaddingRelative(padding, padding, padding, padding);
-        SpannableString message = new SpannableString(getString(R.string.warning_message_sensitive_content, "https://www.redditinc.com/policies/user-agreement", "https://github.com/cygnusx-1-org/continuum"));
+        SpannableString message = new SpannableString(getString(R.string.warning_message_nsfw_content, "https://www.redditinc.com/policies/user-agreement", "https://github.com/cygnusx-1-org/continuum"));
         Linkify.addLinks(message, Linkify.WEB_URLS);
         messageTextView.setMovementMethod(BetterLinkMovementMethod.newInstance().setOnLinkClickListener((textView, url) -> {
             Intent intent = new Intent(activity, LinkResolverActivity.class);
