@@ -2,8 +2,18 @@
 
 ---
 
+7.4.4.3 / 2025-4-16
+===================
+* Changed internal name to org.cygnusx1.continuum #7
+* Added support for Giphy API Key #20
+* Changed the beginning of the backup filename to Continuum
+* Fixed Rename all instances of Sensitive Content to NSFW #19
+* Removed toggle to allow not backing up accounts and api keys #21 #22
+* Fixed “Swipe vertically to go back” still active on gifs and videos when disabled #6
+* Removed all references to random since Reddit removed it #11
+
 7.4.4.2 / 2025-4-14
-===========
+===================
 * Added support for backing up and restoring all settings other than Security
 * Added toggle to backup accounts and the client id, and it is enabled by default
 * Removed rate this app in About
@@ -11,7 +21,7 @@
 * Removed more branding
 
 7.4.4.1 / 2025-4-10
-================
+===================
 * Initial release based on Infinity for Reddit
 * Removed most of the Infinity for Reddit branding
 * Added a new icon
