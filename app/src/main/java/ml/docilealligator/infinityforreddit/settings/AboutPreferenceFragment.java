@@ -87,7 +87,9 @@ public class AboutPreferenceFragment extends CustomFontPreferenceFragmentCompat 
         }
 
         if (versionPreference != null) {
-            versionPreference.setSummary(getString(R.string.settings_version_summary, BuildConfig.VERSION_NAME));
+            String appName = getString(R.string.application_name);
+            String summary = String.format("%s (%s)", BuildConfig.VERSION_NAME, BuildConfig.APPLICATION_ID);
+            versionPreference.setSummary(summary);
 
             versionPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 int clickedTimes = 0;
