@@ -52,7 +52,6 @@ import ml.docilealligator.infinityforreddit.apis.RedditAPI;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.FABMoreOptionsBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.PostLayoutBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.PostTypeBottomSheetFragment;
-import ml.docilealligator.infinityforreddit.bottomsheetfragments.RandomBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.SearchPostSortTypeBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.SearchUserAndSubredditSortTypeBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.SortTimeBottomSheetFragment;
@@ -79,7 +78,7 @@ import retrofit2.Retrofit;
 
 public class SearchResultActivity extends BaseActivity implements SortTypeSelectionCallback,
         PostLayoutBottomSheetFragment.PostLayoutSelectionCallback, ActivityToolbarInterface,
-        FABMoreOptionsBottomSheetFragment.FABOptionSelectionCallback, RandomBottomSheetFragment.RandomOptionSelectionCallback,
+        FABMoreOptionsBottomSheetFragment.FABOptionSelectionCallback,
         PostTypeBottomSheetFragment.PostTypeSelectionCallback, RecyclerViewContentScrollingInterface {
 
     public static final String EXTRA_QUERY = "EQ";
@@ -295,9 +294,6 @@ public class SearchResultActivity extends BaseActivity implements SortTypeSelect
             case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_GO_TO_USER:
                 binding.fabSearchResultActivity.setImageResource(R.drawable.ic_user_day_night_24dp);
                 break;
-            case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_RANDOM:
-                binding.fabSearchResultActivity.setImageResource(R.drawable.ic_random_day_night_24dp);
-                break;
             case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_HIDE_READ_POSTS:
                 if (accountName.equals(Account.ANONYMOUS_ACCOUNT)) {
                     binding.fabSearchResultActivity.setImageResource(R.drawable.ic_filter_day_night_24dp);
@@ -358,9 +354,6 @@ public class SearchResultActivity extends BaseActivity implements SortTypeSelect
                     break;
                 case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_GO_TO_USER:
                     goToUser();
-                    break;
-                case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_RANDOM:
-                    random();
                     break;
                 case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_HIDE_READ_POSTS:
                     if (sectionsPagerAdapter != null) {
@@ -560,10 +553,6 @@ public class SearchResultActivity extends BaseActivity implements SortTypeSelect
                 goToUser();
                 break;
             }
-            case FABMoreOptionsBottomSheetFragment.FAB_RANDOM: {
-                random();
-                break;
-            }
             case FABMoreOptionsBottomSheetFragment.FAB_HIDE_READ_POSTS: {
                 if (sectionsPagerAdapter != null) {
                     sectionsPagerAdapter.hideReadPosts();
@@ -719,14 +708,6 @@ public class SearchResultActivity extends BaseActivity implements SortTypeSelect
                 .show();
     }
 
-    private void random() {
-        RandomBottomSheetFragment randomBottomSheetFragment = new RandomBottomSheetFragment();
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(RandomBottomSheetFragment.EXTRA_IS_NSFW, !mSharedPreferences.getBoolean(SharedPreferencesUtils.DISABLE_NSFW_FOREVER, false) && mNsfwAndSpoilerSharedPreferences.getBoolean((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.NSFW_BASE, false));
-        randomBottomSheetFragment.setArguments(bundle);
-        randomBottomSheetFragment.show(getSupportFragmentManager(), randomBottomSheetFragment.getTag());
-    }
-
     @Override
     public void postTypeSelected(int postType) {
         Intent intent;
@@ -765,13 +746,6 @@ public class SearchResultActivity extends BaseActivity implements SortTypeSelect
     @Override
     public void contentScrollDown() {
         binding.fabSearchResultActivity.hide();
-    }
-
-    @Override
-    public void randomOptionSelected(int option) {
-        Intent intent = new Intent(this, FetchRandomSubredditOrPostActivity.class);
-        intent.putExtra(FetchRandomSubredditOrPostActivity.EXTRA_RANDOM_OPTION, option);
-        startActivity(intent);
     }
 
     private class SectionsPagerAdapter extends FragmentStateAdapter {

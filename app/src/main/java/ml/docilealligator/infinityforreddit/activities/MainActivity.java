@@ -80,7 +80,6 @@ import ml.docilealligator.infinityforreddit.asynctasks.InsertSubscribedThings;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.FABMoreOptionsBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.PostLayoutBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.PostTypeBottomSheetFragment;
-import ml.docilealligator.infinityforreddit.bottomsheetfragments.RandomBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.SortTimeBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.SortTypeBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
@@ -130,7 +129,7 @@ import retrofit2.Retrofit;
 public class MainActivity extends BaseActivity implements SortTypeSelectionCallback,
         PostTypeBottomSheetFragment.PostTypeSelectionCallback, PostLayoutBottomSheetFragment.PostLayoutSelectionCallback,
         ActivityToolbarInterface, FABMoreOptionsBottomSheetFragment.FABOptionSelectionCallback,
-        RandomBottomSheetFragment.RandomOptionSelectionCallback, MarkPostAsReadInterface, RecyclerViewContentScrollingInterface {
+        MarkPostAsReadInterface, RecyclerViewContentScrollingInterface {
 
     static final String EXTRA_MESSAGE_FULLNAME = "ENF";
     static final String EXTRA_NEW_ACCOUNT_NAME = "ENAN";
@@ -461,9 +460,6 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
             case SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_GO_TO_USER:
                 goToUser();
                 break;
-            case SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_RANDOM:
-                randomThing();
-                break;
             case SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_HIDE_READ_POSTS:
                 if (sectionsPagerAdapter != null) {
                     sectionsPagerAdapter.hideReadPosts();
@@ -532,8 +528,6 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
                 return R.drawable.ic_subreddit_day_night_24dp;
             case SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_GO_TO_USER:
                 return R.drawable.ic_user_day_night_24dp;
-            case SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_RANDOM:
-                return R.drawable.ic_random_day_night_24dp;
             case SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_HIDE_READ_POSTS:
                 return R.drawable.ic_hide_read_posts_day_night_24dp;
             case SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_FILTER_POSTS:
@@ -676,10 +670,6 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
                 navigationWrapper.floatingActionButton.setImageResource(R.drawable.ic_user_day_night_24dp);
                 navigationWrapper.floatingActionButton.setContentDescription(getString(R.string.content_description_go_to_user));
                 break;
-            case SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB_RANDOM:
-                navigationWrapper.floatingActionButton.setImageResource(R.drawable.ic_random_day_night_24dp);
-                navigationWrapper.floatingActionButton.setContentDescription(getString(R.string.content_description_random));
-                break;
             case SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB_HIDE_READ_POSTS:
                 if (accountName.equals(Account.ANONYMOUS_ACCOUNT)) {
                     navigationWrapper.floatingActionButton.setImageResource(R.drawable.ic_filter_day_night_24dp);
@@ -736,9 +726,6 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
                     break;
                 case SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB_GO_TO_USER:
                     goToUser();
-                    break;
-                case SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB_RANDOM:
-                    randomThing();
                     break;
                 case SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB_HIDE_READ_POSTS:
                     if (sectionsPagerAdapter != null) {
@@ -1045,9 +1032,6 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
                 break;
             case SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_GO_TO_USER :
                 view.setContentDescription(getString(R.string.content_description_go_to_user));
-                break;
-            case SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_RANDOM :
-                view.setContentDescription(getString(R.string.content_description_random));
                 break;
             case SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_HIDE_READ_POSTS :
                 view.setContentDescription(getString(R.string.content_description_hide_read_posts));
@@ -1434,10 +1418,6 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
                 goToUser();
                 break;
             }
-            case FABMoreOptionsBottomSheetFragment.FAB_RANDOM: {
-                randomThing();
-                break;
-            }
             case FABMoreOptionsBottomSheetFragment.FAB_HIDE_READ_POSTS: {
                 if (sectionsPagerAdapter != null) {
                     sectionsPagerAdapter.hideReadPosts();
@@ -1595,20 +1575,7 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
                 .show();
     }
 
-    private void randomThing() {
-        RandomBottomSheetFragment randomBottomSheetFragment = new RandomBottomSheetFragment();
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(RandomBottomSheetFragment.EXTRA_IS_NSFW, !mSharedPreferences.getBoolean(SharedPreferencesUtils.DISABLE_NSFW_FOREVER, false) && mNsfwAndSpoilerSharedPreferences.getBoolean((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.NSFW_BASE, false));
-        randomBottomSheetFragment.setArguments(bundle);
-        randomBottomSheetFragment.show(getSupportFragmentManager(), randomBottomSheetFragment.getTag());
-    }
 
-    @Override
-    public void randomOptionSelected(int option) {
-        Intent intent = new Intent(this, FetchRandomSubredditOrPostActivity.class);
-        intent.putExtra(FetchRandomSubredditOrPostActivity.EXTRA_RANDOM_OPTION, option);
-        startActivity(intent);
-    }
 
     @Override
     public void markPostAsRead(Post post) {
@@ -1632,8 +1599,8 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
         List<SubscribedSubredditData> subscribedSubreddits;
 
         SectionsPagerAdapter(FragmentActivity fa, int tabCount, boolean showFavoriteMultiReddits,
-                             boolean showMultiReddits, boolean showFavoriteSubscribedSubreddits,
-                             boolean showSubscribedSubreddits) {
+                            boolean showMultiReddits, boolean showFavoriteSubscribedSubreddits,
+                            boolean showSubscribedSubreddits) {
             super(fa);
             this.tabCount = tabCount;
             favoriteMultiReddits = new ArrayList<>();

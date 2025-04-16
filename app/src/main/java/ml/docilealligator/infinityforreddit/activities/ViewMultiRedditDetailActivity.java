@@ -47,7 +47,6 @@ import ml.docilealligator.infinityforreddit.asynctasks.DeleteMultiredditInDataba
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.FABMoreOptionsBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.PostLayoutBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.PostTypeBottomSheetFragment;
-import ml.docilealligator.infinityforreddit.bottomsheetfragments.RandomBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.SortTimeBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.SortTypeBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
@@ -84,7 +83,7 @@ import retrofit2.Retrofit;
 public class ViewMultiRedditDetailActivity extends BaseActivity implements SortTypeSelectionCallback,
         PostLayoutBottomSheetFragment.PostLayoutSelectionCallback, ActivityToolbarInterface, MarkPostAsReadInterface,
         PostTypeBottomSheetFragment.PostTypeSelectionCallback, FABMoreOptionsBottomSheetFragment.FABOptionSelectionCallback,
-        RandomBottomSheetFragment.RandomOptionSelectionCallback, RecyclerViewContentScrollingInterface {
+        RecyclerViewContentScrollingInterface {
 
     public static final String EXTRA_MULTIREDDIT_DATA = "EMD";
     public static final String EXTRA_MULTIREDDIT_PATH = "EMP";
@@ -335,9 +334,6 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
             case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_GO_TO_USER:
                 navigationWrapper.floatingActionButton.setImageResource(R.drawable.ic_user_day_night_24dp);
                 break;
-            case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_RANDOM:
-                navigationWrapper.floatingActionButton.setImageResource(R.drawable.ic_random_day_night_24dp);
-                break;
             case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_HIDE_READ_POSTS:
                 if (accountName.equals(Account.ANONYMOUS_ACCOUNT)) {
                     navigationWrapper.floatingActionButton.setImageResource(R.drawable.ic_filter_day_night_24dp);
@@ -390,9 +386,6 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
                     break;
                 case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_GO_TO_USER:
                     goToUser();
-                    break;
-                case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_RANDOM:
-                    random();
                     break;
                 case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_HIDE_READ_POSTS:
                     if (mFragment instanceof PostFragment) {
@@ -495,9 +488,6 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
             case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_GO_TO_USER:
                 goToUser();
                 break;
-            case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_RANDOM:
-                random();
-                break;
             case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_HIDE_READ_POSTS:
                 if (mFragment instanceof PostFragment) {
                     ((PostFragment) mFragment).hideReadPosts();
@@ -568,8 +558,6 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
                 return R.drawable.ic_subreddit_day_night_24dp;
             case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_GO_TO_USER:
                 return R.drawable.ic_user_day_night_24dp;
-            case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_RANDOM:
-                return R.drawable.ic_random_day_night_24dp;
             case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_HIDE_READ_POSTS:
                 return R.drawable.ic_hide_read_posts_day_night_24dp;
             case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_FILTER_POSTS:
@@ -733,14 +721,6 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
                     Utils.hideKeyboard(this);
                 })
                 .show();
-    }
-
-    private void random() {
-        RandomBottomSheetFragment randomBottomSheetFragment = new RandomBottomSheetFragment();
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(RandomBottomSheetFragment.EXTRA_IS_NSFW, !mSharedPreferences.getBoolean(SharedPreferencesUtils.DISABLE_NSFW_FOREVER, false) && mNsfwAndSpoilerSharedPreferences.getBoolean((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.NSFW_BASE, false));
-        randomBottomSheetFragment.setArguments(bundle);
-        randomBottomSheetFragment.show(getSupportFragmentManager(), randomBottomSheetFragment.getTag());
     }
 
     @Override
@@ -960,10 +940,6 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
                 goToUser();
                 break;
             }
-            case FABMoreOptionsBottomSheetFragment.FAB_RANDOM: {
-                random();
-                break;
-            }
             case FABMoreOptionsBottomSheetFragment.FAB_HIDE_READ_POSTS: {
                 if (mFragment instanceof PostFragment) {
                     ((PostFragment) mFragment).hideReadPosts();
@@ -983,13 +959,6 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
                 break;
             }
         }
-    }
-
-    @Override
-    public void randomOptionSelected(int option) {
-        Intent intent = new Intent(this, FetchRandomSubredditOrPostActivity.class);
-        intent.putExtra(FetchRandomSubredditOrPostActivity.EXTRA_RANDOM_OPTION, option);
-        startActivity(intent);
     }
 
     @Override

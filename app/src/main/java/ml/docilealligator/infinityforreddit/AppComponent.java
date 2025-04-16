@@ -21,7 +21,6 @@ import ml.docilealligator.infinityforreddit.activities.EditCommentActivity;
 import ml.docilealligator.infinityforreddit.activities.EditMultiRedditActivity;
 import ml.docilealligator.infinityforreddit.activities.EditPostActivity;
 import ml.docilealligator.infinityforreddit.activities.EditProfileActivity;
-import ml.docilealligator.infinityforreddit.activities.FetchRandomSubredditOrPostActivity;
 import ml.docilealligator.infinityforreddit.activities.FilteredPostsActivity;
 import ml.docilealligator.infinityforreddit.activities.FullMarkdownActivity;
 import ml.docilealligator.infinityforreddit.activities.HistoryActivity;
@@ -251,8 +250,6 @@ public interface AppComponent {
     void inject(CustomizeBottomAppBarFragment customizeBottomAppBarFragment);
 
     void inject(TranslationFragment translationFragment);
-
-    void inject(FetchRandomSubredditOrPostActivity fetchRandomSubredditOrPostActivity);
 
     void inject(MiscellaneousPreferenceFragment miscellaneousPreferenceFragment);
 
