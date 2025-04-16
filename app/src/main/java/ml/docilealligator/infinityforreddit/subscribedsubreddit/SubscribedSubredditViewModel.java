@@ -1,6 +1,5 @@
 package ml.docilealligator.infinityforreddit.subscribedsubreddit;
 
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -22,8 +21,8 @@ public class SubscribedSubredditViewModel extends ViewModel {
         mSubscribedSubredditRepository = new SubscribedSubredditRepository(redditDataRoomDatabase, accountName);
         searchQueryLiveData = new MutableLiveData<>("");
 
-        mAllSubscribedSubreddits = Transformations.switchMap(searchQueryLiveData, searchQuery -> mSubscribedSubredditRepository.getAllSubscribedSubredditsWithSearchQuery(searchQuery));
-        mAllFavoriteSubscribedSubreddits = Transformations.switchMap(searchQueryLiveData, searchQuery -> mSubscribedSubredditRepository.getAllFavoriteSubscribedSubredditsWithSearchQuery(searchQuery));
+        mAllSubscribedSubreddits = Transformations.switchMap(searchQueryLiveData, mSubscribedSubredditRepository::getAllSubscribedSubredditsWithSearchQuery);
+        mAllFavoriteSubscribedSubreddits = Transformations.switchMap(searchQueryLiveData, mSubscribedSubredditRepository::getAllFavoriteSubscribedSubredditsWithSearchQuery);
     }
 
     public LiveData<List<SubscribedSubredditData>> getAllSubscribedSubreddits() {
@@ -32,10 +31,6 @@ public class SubscribedSubredditViewModel extends ViewModel {
 
     public LiveData<List<SubscribedSubredditData>> getAllFavoriteSubscribedSubreddits() {
         return mAllFavoriteSubscribedSubreddits;
-    }
-
-    public void insert(SubscribedSubredditData subscribedSubredditData) {
-        mSubscribedSubredditRepository.insert(subscribedSubredditData);
     }
 
     public void setSearchQuery(String searchQuery) {
