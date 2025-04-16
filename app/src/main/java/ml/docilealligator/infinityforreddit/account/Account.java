@@ -32,7 +32,7 @@ public class Account implements Parcelable {
     @ColumnInfo(name = "code")
     private final String code;
     @ColumnInfo(name = "is_current_user")
-    private final boolean isCurrentUser;
+    public boolean isCurrentUser;
 
     @Ignore
     protected Account(Parcel in) {

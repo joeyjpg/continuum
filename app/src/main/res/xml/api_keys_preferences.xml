@@ -5,8 +5,15 @@
     <EditTextPreference
         android:defaultValue="@string/default_client_id"
         android:key="@string/client_id_pref_key"
-        android:summary="@string/settings_client_id_summary"
+        android:summary="@string/tap_to_set_client_id"
         android:title="@string/settings_client_id_title"
+        app:iconSpaceReserved="false"
+        app:useSimpleSummaryProvider="true" />
+
+    <EditTextPreference
+        android:key="@string/giphy_api_key_pref_key"
+        android:title="@string/settings_giphy_api_key_title"
+        android:summary="@string/tap_to_set_giphy_api_key"
         app:iconSpaceReserved="false"
         app:useSimpleSummaryProvider="true" />
 

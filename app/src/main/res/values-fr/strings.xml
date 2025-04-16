@@ -427,8 +427,6 @@ peut ne pas fonctionner sur Android 11"</string>
     <string name="settings_credits_material_icons_title">"Icônes Material"</string>
     <string name="settings_open_source_title">"Open Source"</string>
     <string name="settings_open_source_summary">"Si vous aimez cette application, étoilez là sur GitHub"</string>
-    <string name="settings_rate_title">"Laissez une note sur Google Play"</string>
-    <string name="settings_rate_summary">"Donnez-moi 5 étoiles et je serai ravi"</string>
     <string name="settings_email_title">"E-mail"</string>
     <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Compte Reddit"</string>

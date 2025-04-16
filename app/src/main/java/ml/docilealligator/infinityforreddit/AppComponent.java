@@ -88,7 +88,7 @@ import ml.docilealligator.infinityforreddit.services.DownloadRedditVideoService;
 import ml.docilealligator.infinityforreddit.services.EditProfileService;
 import ml.docilealligator.infinityforreddit.services.SubmitPostService;
 import ml.docilealligator.infinityforreddit.settings.AdvancedPreferenceFragment;
-import ml.docilealligator.infinityforreddit.settings.ClientIDPreferenceFragment;
+import ml.docilealligator.infinityforreddit.settings.APIKeysPreferenceFragment;
 import ml.docilealligator.infinityforreddit.settings.CommentPreferenceFragment;
 import ml.docilealligator.infinityforreddit.settings.CrashReportsFragment;
 import ml.docilealligator.infinityforreddit.settings.CustomizeBottomAppBarFragment;
@@ -202,7 +202,7 @@ public interface AppComponent {
 
     void inject(AdvancedPreferenceFragment advancedPreferenceFragment);
 
-    void inject(ClientIDPreferenceFragment clientIDPreferenceFragment);
+    void inject(APIKeysPreferenceFragment apiKeysPreferenceFragment);
     void inject(CustomThemePreviewActivity customThemePreviewActivity);
 
     void inject(EditMultiRedditActivity editMultiRedditActivity);

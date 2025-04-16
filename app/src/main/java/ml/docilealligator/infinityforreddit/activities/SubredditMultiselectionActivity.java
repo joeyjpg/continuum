@@ -113,7 +113,6 @@ public class SubredditMultiselectionActivity extends BaseActivity implements Act
             if (subscribedSubredditData == null || subscribedSubredditData.size() == 0) {
                 binding.recyclerViewSubscribedSubscribedSubredditsMultiselectionActivity.setVisibility(View.GONE);
                 binding.noSubscriptionsLinearLayoutSubscribedSubredditsMultiselectionActivity.setVisibility(View.VISIBLE);
-                mGlide.load(R.drawable.error_image).into(binding.noSubscriptionsImageViewSubscribedSubredditsMultiselectionActivity);
             } else {
                 binding.noSubscriptionsLinearLayoutSubscribedSubredditsMultiselectionActivity.setVisibility(View.GONE);
                 binding.recyclerViewSubscribedSubscribedSubredditsMultiselectionActivity.setVisibility(View.VISIBLE);

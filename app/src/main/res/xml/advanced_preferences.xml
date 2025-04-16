@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceCategory
+        app:title="Delete Alls" />
+
     <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
         app:key="delete_all_subreddits_data_in_database"
         app:title="@string/settings_delete_all_subreddits_data_in_database_title" />
@@ -35,9 +38,22 @@
         app:key="delete_all_legacy_settings"
         app:title="@string/settings_delete_all_legacy_settings_title" />
 
+    <ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceCategory
+        app:title="Resets" />
+
     <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
         app:key="reset_all_settings"
         app:title="@string/settings_reset_all_settings_title" />
+
+    <ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceCategory
+        app:title="Crashes" />
+
+    <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
+        app:title="@string/settings_crash_reports_title"
+        app:fragment="ml.docilealligator.infinityforreddit.settings.CrashReportsFragment" />
+
+    <ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceCategory
+        app:title="Backup and Restore" />
 
     <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
         app:key="backup_settings"
@@ -47,9 +63,5 @@
     <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
         app:key="restore_settings"
         app:title="@string/settings_restore_settings_title" />
-
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
-        app:title="@string/settings_crash_reports_title"
-        app:fragment="ml.docilealligator.infinityforreddit.settings.CrashReportsFragment" />
 
 </PreferenceScreen>

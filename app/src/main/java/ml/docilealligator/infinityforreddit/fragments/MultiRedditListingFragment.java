@@ -26,7 +26,6 @@ import javax.inject.Named;
 
 import me.zhanghai.android.fastscroll.FastScrollerBuilder;
 import ml.docilealligator.infinityforreddit.Infinity;
-import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.RedditDataRoomDatabase;
 import ml.docilealligator.infinityforreddit.thing.SelectThingReturnKey;
 import ml.docilealligator.infinityforreddit.account.Account;
@@ -149,7 +148,6 @@ public class MultiRedditListingFragment extends Fragment implements FragmentComm
             if (multiReddits == null || multiReddits.size() == 0) {
                 binding.recyclerViewMultiRedditListingFragment.setVisibility(View.GONE);
                 binding.fetchMultiRedditListingInfoLinearLayoutMultiRedditListingFragment.setVisibility(View.VISIBLE);
-                mGlide.load(R.drawable.error_image).into(binding.fetchMultiRedditListingInfoImageViewMultiRedditListingFragment);
             } else {
                 binding.fetchMultiRedditListingInfoLinearLayoutMultiRedditListingFragment.setVisibility(View.GONE);
                 binding.recyclerViewMultiRedditListingFragment.setVisibility(View.VISIBLE);

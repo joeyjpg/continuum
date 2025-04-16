@@ -65,8 +65,8 @@
     <string name="action_unhide_post">Unhide Post</string>
     <string name="action_edit_post">Edit Post</string>
     <string name="action_delete_post">Delete Post</string>
-    <string name="action_mark_nsfw">Mark Sensitive</string>
-    <string name="action_unmark_nsfw">Unmark Sensitive</string>
+    <string name="action_mark_nsfw">Mark NSFW</string>
+    <string name="action_unmark_nsfw">Unmark NSFW</string>
     <string name="action_mark_spoiler">Mark Spoiler</string>
     <string name="action_unmark_spoiler">Unmark Spoiler</string>
     <string name="action_edit_flair">Edit Flair</string>
@@ -131,7 +131,7 @@
     <string name="load_messages_failed">Error loading messages.\nTap to retry.</string>
     <string name="no_messages">Empty</string>
 
-    <string name="nsfw">Sensitive</string>
+    <string name="nsfw">NSFW</string>
     <string name="karma_info">Karma: %1$,d</string>
     <string name="karma_info_user_detail">Karma:\n%1$,d (%2$d + %3$d)</string>
     <string name="cakeday_info">Cake day:\n%1$s</string>
@@ -342,10 +342,10 @@
     <string name="edit_success">Edit successfully</string>
     <string name="delete_post_success">Delete successfully</string>
     <string name="delete_post_failed">Delete failed</string>
-    <string name="mark_nsfw_success">Mark sensitive successfully</string>
-    <string name="mark_nsfw_failed">Mark sensitive failed</string>
-    <string name="unmark_nsfw_success">Unmark sensitive successfully</string>
-    <string name="unmark_nsfw_failed">Unmark sensitive failed</string>
+    <string name="mark_nsfw_success">Mark NSFW successfully</string>
+    <string name="mark_nsfw_failed">Mark NSFW failed</string>
+    <string name="unmark_nsfw_success">Unmark NSFW successfully</string>
+    <string name="unmark_nsfw_failed">Unmark NSFW failed</string>
     <string name="mark_spoiler_success">Mark spoiler successfully</string>
     <string name="mark_spoiler_failed">Mark spoiler failed</string>
     <string name="unmark_spoiler_success">Unmark spoiler successfully</string>
@@ -384,7 +384,7 @@
     <string name="settigns_video_title">Video</string>
     <string name="settings_video_autoplay_title">Video Autoplay</string>
     <string name="settings_mute_autoplaying_videos_title">Mute Autoplaying Videos</string>
-    <string name="settings_autoplay_nsfw_videos_title">Autoplay Sensitive Videos</string>
+    <string name="settings_autoplay_nsfw_videos_title">Autoplay NSFW Videos</string>
     <string name="settings_start_autoplay_visible_area_offset_portrait_title">Autoplay Videos Visible Area Offset (Portrait)</string>
     <string name="settings_start_autoplay_visible_area_offset_portrait_summary">Start autoplaying videos when %1$d%% of them are visible</string>
     <string name="settings_start_autoplay_visible_area_offset_landscape_title">Autoplay Videos Visible Area Offset (Landscape)</string>
@@ -402,7 +402,7 @@
     <string name="settings_volume_keys_navigate_comments_title">Use Volume Keys to Navigate Comments in Posts</string>
     <string name="settings_volume_keys_navigate_posts_title">Use Volume Keys to Navigate Posts</string>
     <string name="settings_mute_video_title">Mute Videos</string>
-    <string name="settings_mute_nsfw_video_title">Mute Sensitive Videos</string>
+    <string name="settings_mute_nsfw_video_title">Mute NSFW Videos</string>
     <string name="settings_video_player_ignore_nav_bar_title">Ignore Navigation Bar in Video Player</string>
     <string name="settings_video_player_ignore_nav_bar_summary">Prevent the Video Controller Having Extra Margin</string>
     <string name="settings_main_page_back_button_action">Main Page Back Button Action</string>
@@ -446,11 +446,11 @@
     <string name="settings_font_size_title">Font Size</string>
     <string name="settings_title_font_size_title">Title Font Size</string>
     <string name="settings_content_font_size_title">Content Font Size</string>
-    <string name="settings_over_18_and_spoiler_title">Content Sensitivity Filter</string>
-    <string name="settings_over_18_title">Sensitive Content</string>
-    <string name="settings_blur_over_18_title">Blur Sensitive Images</string>
+    <string name="settings_over_18_and_spoiler_title">Content NSFW Filter</string>
+    <string name="settings_over_18_title">NSFW Content</string>
+    <string name="settings_blur_over_18_title">Blur NSFW Images</string>
     <string name="settings_blur_spoiler_title">Blur Spoiler Images</string>
-    <string name="settings_do_not_blur_over_18_in_over_18_subreddits_title">Don\'t blur Sensitive Images in Sensitive Subreddits</string>
+    <string name="settings_do_not_blur_over_18_in_over_18_subreddits_title">Don\'t blur NSFW Images in NSFW Subreddits</string>
     <string name="settings_about_master_title">About</string>
     <string name="settings_acknowledgement_master_title">Acknowledgement</string>
     <string name="settings_credits_master_title">Credits</string>
@@ -469,8 +469,6 @@
     <string name="settings_credits_material_icons_title">Material Icons</string>
     <string name="settings_open_source_title">Open Source</string>
     <string name="settings_open_source_summary">Star it on Github if you like this app</string>
-    <string name="settings_rate_title">Rate on Google Play</string>
-    <string name="settings_rate_summary">Give me a 5-star rating and I will be really happy</string>
     <string name="settings_email_title">Email</string>
     <string name="settings_email_summary">continuum@cygnusx-1.org</string>
     <string name="settings_reddit_account_title">Reddit Account</string>
@@ -526,8 +524,8 @@
     <string name="settings_gif_download_location_title">Gif Download Location</string>
     <string name="settings_video_download_location_title">Video Download Location</string>
     <string name="settings_separate_folder_for_each_subreddit">Separate Folder for Each Subreddit</string>
-    <string name="settings_save_nsfw_media_in_different_folder_title">Save Sensitive Media in Different Location</string>
-    <string name="settings_nsfw_download_location_title">Sensitive Download Location</string>
+    <string name="settings_save_nsfw_media_in_different_folder_title">Save NSFW Media in Different Location</string>
+    <string name="settings_nsfw_download_location_title">NSFW Download Location</string>
     <string name="settings_swipe_action_title">Swipe Action</string>
     <string name="settings_swipe_action_haptic_feedback_title">Haptic Feedback</string>
     <string name="settings_disable_swiping_between_tabs_title">Disable Swiping Between Tabs</string>
@@ -590,7 +588,7 @@
     <string name="settings_hide_the_number_of_comments">Hide the Number of Comments</string>
     <string name="settings_show_avatar_on_the_right">Show Avatar on the Right</string>
     <string name="settings_backup_settings_title">Backup Settings</string>
-    <string name="settings_backup_settings_summary">The backup file password is \"123321\".</string>
+    <string name="settings_backup_settings_summary">Includes accounts, Client ID, and Giphy API Key. The backup file password is \"123321\".</string>
     <string name="settings_restore_settings_title">Restore Settings</string>
     <string name="settings_credits_love_animation_title">Love Animation</string>
     <string name="settings_swipe_between_posts_title">Swipe Between Posts</string>
@@ -606,7 +604,7 @@
     <string name="settings_default_search_result_tab">Default Search Result Tab</string>
     <string name="settings_crash_reports_title">Crash Reports</string>
     <string name="settings_nsfw_and_spoiler_dangerous_group_title">Dangerous</string>
-    <string name="settings_disable_over_18_forever_title">Forever Disable Sensitive Content</string>
+    <string name="settings_disable_over_18_forever_title">Forever Disable NSFW Content</string>
     <string name="settings_show_only_one_comment_level_indicator">Show Only One Comment Level Indicator</string>
     <string name="settings_video_player_automatic_landscape_orientation">Switch to Landscape Orientation in Video Player Automatically</string>
     <string name="settings_loop_video_title">Loop Video</string>
@@ -657,7 +655,9 @@
     <string name="settings_proxy_hostname">Hostname</string>
     <string name="settings_proxy_port">Port</string>
 
-    <!-- Client ID Preference -->
+    <!-- API keys-->
+    <string name="settings_api_keys_title">API keys</string>
+    <string name="settings_api_keys_summary">Enter your own API keys, including your Client ID</string>
     <string name="client_id_pref_key" translatable="false">client_id_pref_key</string>
     <string name="settings_client_id_title">Reddit API Client ID</string>
     <string name="settings_client_id_summary">Use a custom Client ID for the Reddit API</string>
@@ -665,6 +665,11 @@
     <string name="client_id_length_error">Client ID must be exactly 22 characters long.</string>
     <string name="tap_to_set_client_id">Tap to set Client ID</string>
     <string name="set_client_id_dialog_message">Set the Reddit API Client ID in Settings</string>
+    <string name="settings_giphy_api_key_title">Giphy API Key</string>
+    <string name="tap_to_set_giphy_api_key">Tap to set custom Giphy API key (optional)</string>
+    <string name="giphy_api_key_pref_key" translatable="false">giphy_api_key_pref_key</string>
+    <string name="default_giphy_api_key" translatable="false">hWXuPJZ2h1pxE0nV4iUBpKsZ7jRB8qsM</string>
+    <string name="giphy_api_key_length_error">Giphy API Key must be 32 characters long.</string>
 
     <string name="settings_hide_fab_in_post_details">Hide Floating Action Button</string>
 
@@ -880,10 +885,10 @@
     <string name="theme_item_spoiler_background_color_detail">Applied to: Background of the spoiler tag</string>
     <string name="theme_item_spoiler_text_color">Spoiler Text Color</string>
     <string name="theme_item_spoiler_text_color_detail">Applied to: Text color in the spoiler tag</string>
-    <string name="theme_item_nsfw_background_color">Sensitive Tag Background Color</string>
-    <string name="theme_item_nsfw_background_color_detail">Applied to: Background of the sensitive tag</string>
-    <string name="theme_item_nsfw_text_color">Sensitive Tag Text Color</string>
-    <string name="theme_item_nsfw_text_color_detail">Applied to: Text color of the sensitive tag</string>
+    <string name="theme_item_nsfw_background_color">NSFW Tag Background Color</string>
+    <string name="theme_item_nsfw_background_color_detail">Applied to: Background of the NSFW tag</string>
+    <string name="theme_item_nsfw_text_color">NSFW Tag Text Color</string>
+    <string name="theme_item_nsfw_text_color_detail">Applied to: Text color of the NSFW tag</string>
     <string name="theme_item_flair_background_color">Flair Background Color</string>
     <string name="theme_item_flair_background_color_detail">Applied to: Background of the flair tag</string>
     <string name="theme_item_flair_text_color">Flair Text Color</string>
@@ -1121,8 +1126,8 @@
     <string name="edited_time">Edited on %s</string>
 
     <string name="warning">Warning</string>
-    <string name="this_is_a_nsfw_subreddit">This is a sensitive subreddit.</string>
-    <string name="this_user_has_nsfw_content">This user has sensitive content</string>
+    <string name="this_is_a_nsfw_subreddit">This is a NSFW subreddit.</string>
+    <string name="this_user_has_nsfw_content">This user has NSFW content</string>
     <string name="dismiss">Dismiss</string>
     <string name="leave">Leave</string>
 
@@ -1132,9 +1137,9 @@
     <string name="go_to_top">Go To Top</string>
     <string name="random">Random</string>
     <string name="random_subreddit">Random Subreddit</string>
-    <string name="random_nsfw_subreddit">Random Sensitive Subreddit</string>
+    <string name="random_nsfw_subreddit">Random NSFW Subreddit</string>
     <string name="random_post">Random Post</string>
-    <string name="random_nsfw_post">Random Sensitive post</string>
+    <string name="random_nsfw_post">Random NSFW Post</string>
     <string name="fetch_random_thing_failed">Try again later</string>
 
     <string name="select_video_quality">Select Video Quality</string>
@@ -1142,7 +1147,7 @@
     <string name="hide_read_posts">Hide Read Posts</string>
     <string name="filter_posts">Filter Posts</string>
 
-    <string name="only_sensitive_content">Only Sensitive Content</string>
+    <string name="only_nsfw_content">Only NSFW Content</string>
     <string name="only_spoiler">Only Spoiler</string>
     <string name="title_excludes_strings_hint">Title: excludes keywords (key1,key2)</string>
     <string name="title_contains_strings_hint">Title: contains keywords (key1,key2)</string>
@@ -1183,7 +1188,7 @@
     <string name="post_filter_usage_embedded_more_count">and %1$d more</string>
     <string name="post_filter_name_explanation">The post filter name should be unique.</string>
     <string name="post_filter_post_type_explanation">To see certain types of posts, please turn on the switch corresponding to the types.</string>
-    <string name="post_filter_only_sensitive_spoiler_explanation">To only see sensitive or spoiler posts, please turn on the corresponding switch.</string>
+    <string name="post_filter_only_nsfw_spoiler_explanation">To only see NSFW or spoiler posts, please turn on the corresponding switch.</string>
     <string name="post_filter_title_excludes_strings_explanation">Posts will be filtered out if they contain the following keywords in their title.</string>
     <string name="post_filter_title_contains_strings_explanation">Posts will be filtered out if they do not contain the following keywords in their title.</string>
     <string name="post_filter_title_excludes_regex_explanation">Posts will be filtered out if their title matches the following regular expression.</string>
@@ -1227,7 +1232,7 @@
     <string name="backup_settings_success">Successfully exported settings to the destination directory.</string>
     <string name="create_zip_in_destination_directory_failed">Could not create backup zip in the destination directory</string>
     <string name="backup_some_settings_failed">Could not backup some settings but others were successfully exported to the destination directory</string>
-    <string name="restore_settings_success">Successfully restored settings. Restart the app to see the changes.</string>
+    <string name="restore_settings_success">Successfully restored settings.</string>
     <string name="restore_settings_partially_failed">Some settings may not be restored successfully. Restart the app to see the changes.</string>
     <string name="restore_settings_failed_file_corrupted">Cannot restore settings. The file may be corrupted.</string>
     <string name="restore_settings_failed_cannot_get_file">Cannot access the file</string>
@@ -1267,7 +1272,7 @@
 
     <string name="crash_reports_deleted">Crash reports have been deleted</string>
 
-    <string name="disable_over_18_forever_message">Once enabled, sensitive content will always be hidden, regardless of the sensitive content setting. This option is irreversible; the only way to re-enable the sensitive content is to clear the app data.\n\nDo you still want to enable it?</string>
+    <string name="disable_over_18_forever_message">Once enabled, NSFW content will always be hidden, regardless of the NSFW content setting. This option is irreversible; the only way to re-enable the NSFW content is to clear the app data.\n\nDo you still want to enable it?</string>
 
     <string name="reply">Reply</string>
 
@@ -1368,7 +1373,7 @@
 
     <string name="user_agreement_dialog_title">User Agreement</string>
     <string name="user_agreement_message">You need to agree to Reddit User Agreement (%1$s) and Infinity for Reddit\'s Privacy Policy (%2$s) before logging in.\n\nFrom now on, you will need a monthly subscription to access the Reddit API within Infinity for Reddit and this is because Reddit has started charging for API access since July 1st, 2023.</string>
-    <string name="warning_message_sensitive_content">Continuum neither promotes nor recommends sensitive content. Due to Reddit\'s policy, you are unlikely to encounter sensitive content within the app. You need to agree to Reddit User Agreement (%1$s) and Continuum\'s Privacy Policy (%2$s) before changing these settings.</string>
+    <string name="warning_message_nsfw_content">Continuum neither promotes nor recommends NSFW content. Due to Reddit\'s policy, you are unlikely to encounter NSFW content within the app. You need to agree to Reddit User Agreement (%1$s) and Continuum\'s Privacy Policy (%2$s) before changing these settings.</string>
     <string name="agree">Agree</string>
     <string name="do_not_agree">Don\'t Agree</string>
 
@@ -1545,4 +1550,10 @@
     <string name="proxy_http">HTTP</string>
     <string name="proxy_socks">SOCKS</string>
     <string name="proxy_direct">Direct</string>
+
+    <string name="settings_backup_accounts_client_id_title">Backup Accounts and Client ID</string>
+    <string name="settings_backup_accounts_client_id_summary">Include user accounts and Client ID in the backup file (recommended)</string>
+
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_login">Sign in</string>
 </resources>

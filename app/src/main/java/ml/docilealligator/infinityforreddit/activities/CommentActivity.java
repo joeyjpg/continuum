@@ -334,7 +334,7 @@ public class CommentActivity extends BaseActivity implements UploadImageEnabledA
         binding.commentCommentEditText.requestFocus();
         Utils.showKeyboard(this, new Handler(), binding.commentCommentEditText);
 
-        Giphy.INSTANCE.configure(this, APIUtils.GIPHY_GIF_API_KEY);
+        Giphy.INSTANCE.configure(this, APIUtils.getGiphyApiKey(this));
     }
 
     private void loadCurrentAccount() {

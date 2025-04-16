@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,8 +159,8 @@ public class UserListingFragment extends Fragment implements FragmentCommunicato
             });
         }
 
-        UserListingViewModel.Factory factory = new UserListingViewModel.Factory(mRetrofit, mQuery,
-                sortType, nsfw);
+        UserListingViewModel.Factory factory = new UserListingViewModel.Factory(mExecutor, mActivity.mHandler,
+                mRetrofit, mQuery, sortType, nsfw);
         mUserListingViewModel = new ViewModelProvider(this, factory).get(UserListingViewModel.class);
         mUserListingViewModel.getUsers().observe(getViewLifecycleOwner(), UserData -> mAdapter.submitList(UserData));
 
@@ -209,7 +208,6 @@ public class UserListingFragment extends Fragment implements FragmentCommunicato
             binding.swipeRefreshLayoutUserListingFragment.setRefreshing(false);
             binding.fetchUserListingInfoLinearLayoutUserListingFragment.setVisibility(View.VISIBLE);
             binding.fetchUserListingInfoTextViewUserListingFragment.setText(stringResId);
-            Glide.with(this).load(R.drawable.error_image).into(binding.fetchUserListingInfoImageViewUserListingFragment);
         }
     }
 

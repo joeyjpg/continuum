@@ -341,8 +341,6 @@
     <string name="settings_credits_material_icons_title">"Εικονίδια Material"</string>
     <string name="settings_open_source_title">"Ανοιχτού Κώδικα"</string>
     <string name="settings_open_source_summary">"Βάλτε το στα αγαπημένα στο GitHub αν σας αρέσει η εφαρμογή"</string>
-    <string name="settings_rate_title">"Βαθμολογήστε στο Google Play"</string>
-    <string name="settings_rate_summary">"Βαθμολογήστε μέ με 5 αστέρια και θα χαρώ πολύ"</string>
     <string name="settings_email_title">"Email"</string>
     <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Λογαριασμός Reddit"</string>

@@ -382,8 +382,6 @@
     <string name="settings_credits_material_icons_title">"Material 图标"</string>
     <string name="settings_open_source_title">"开源"</string>
     <string name="settings_open_source_summary">"如果您喜欢此应用，请在 Github 上 Star"</string>
-    <string name="settings_rate_title">"在 Google Play 上评分"</string>
-    <string name="settings_rate_summary">"如果您给我一个五星好评，我会非常高兴的"</string>
     <string name="settings_email_title">"Email"</string>
     <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Reddit 帐户"</string>

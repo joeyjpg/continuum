@@ -26,7 +26,6 @@ import javax.inject.Named;
 
 import me.zhanghai.android.fastscroll.FastScrollerBuilder;
 import ml.docilealligator.infinityforreddit.Infinity;
-import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.RedditDataRoomDatabase;
 import ml.docilealligator.infinityforreddit.thing.SelectThingReturnKey;
 import ml.docilealligator.infinityforreddit.account.Account;
@@ -129,7 +128,6 @@ public class SubscribedSubredditsListingFragment extends Fragment implements Fra
             if (subscribedSubredditData == null || subscribedSubredditData.size() == 0) {
                 binding.recyclerViewSubscribedSubredditsListingFragment.setVisibility(View.GONE);
                 binding.noSubscriptionsLinearLayoutSubredditsListingFragment.setVisibility(View.VISIBLE);
-                mGlide.load(R.drawable.error_image).into(binding.noSubscriptionsImageViewSubredditsListingFragment);
             } else {
                 binding.noSubscriptionsLinearLayoutSubredditsListingFragment.setVisibility(View.GONE);
                 binding.recyclerViewSubscribedSubredditsListingFragment.setVisibility(View.VISIBLE);

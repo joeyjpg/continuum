@@ -26,6 +26,8 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.concurrent.Executor;
 
 import ml.docilealligator.infinityforreddit.BuildConfig;
@@ -46,20 +48,23 @@ import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 
 public class BackupSettings {
     public static void backupSettings(Context context, Executor executor, Handler handler,
-                                      ContentResolver contentResolver, Uri destinationDirUri,
-                                      RedditDataRoomDatabase redditDataRoomDatabase,
-                                      SharedPreferences defaultSharedPreferences,
-                                      SharedPreferences lightThemeSharedPreferences,
-                                      SharedPreferences darkThemeSharedPreferences,
-                                      SharedPreferences amoledThemeSharedPreferences,
-                                      SharedPreferences sortTypeSharedPreferences,
-                                      SharedPreferences postLayoutSharedPreferences,
-                                      SharedPreferences postFeedScrolledPositionSharedPreferences,
-                                      SharedPreferences mainActivityTabsSharedPreferences,
-                                      SharedPreferences nsfwAndSpoilerSharedPreferencs,
-                                      SharedPreferences bottomAppBarSharedPreferences,
-                                      SharedPreferences postHistorySharedPreferences,
-                                      BackupSettingsListener backupSettingsListener) {
+                                    ContentResolver contentResolver, Uri destinationDirUri,
+                                    RedditDataRoomDatabase redditDataRoomDatabase,
+                                    SharedPreferences defaultSharedPreferences,
+                                    SharedPreferences lightThemeSharedPreferences,
+                                    SharedPreferences darkThemeSharedPreferences,
+                                    SharedPreferences amoledThemeSharedPreferences,
+                                    SharedPreferences sortTypeSharedPreferences,
+                                    SharedPreferences postLayoutSharedPreferences,
+                                    SharedPreferences postDetailsSharedPreferences,
+                                    SharedPreferences postFeedScrolledPositionSharedPreferences,
+                                    SharedPreferences mainActivityTabsSharedPreferences,
+                                    SharedPreferences proxySharedPreferences,
+                                    SharedPreferences nsfwAndSpoilerSharedPreferences,
+                                    SharedPreferences bottomAppBarSharedPreferences,
+                                    SharedPreferences postHistorySharedPreferences,
+                                    SharedPreferences navigationDrawerSharedPreferences,
+                                    BackupSettingsListener backupSettingsListener) {
         executor.execute(() -> {
             String backupDir = context.getExternalCacheDir() + "/Backup/" + BuildConfig.VERSION_NAME;
             File backupDirFile = new File(backupDir);
@@ -75,64 +80,70 @@ public class BackupSettings {
             File databaseDirFile = new File(backupDir + "/database");
             databaseDirFile.mkdirs();
 
-            boolean res = saveSharedPreferencesToFile(defaultSharedPreferences, backupDir,
-                    SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE);
-            boolean res1 = saveSharedPreferencesToFile(lightThemeSharedPreferences, backupDir,
-                    CustomThemeSharedPreferencesUtils.LIGHT_THEME_SHARED_PREFERENCES_FILE);
-            boolean res2 = saveSharedPreferencesToFile(darkThemeSharedPreferences, backupDir,
-                    CustomThemeSharedPreferencesUtils.DARK_THEME_SHARED_PREFERENCES_FILE);
-            boolean res3 = saveSharedPreferencesToFile(amoledThemeSharedPreferences, backupDir,
-                    CustomThemeSharedPreferencesUtils.AMOLED_THEME_SHARED_PREFERENCES_FILE);
-            boolean res4 = saveSharedPreferencesToFile(sortTypeSharedPreferences, backupDir,
-                    SharedPreferencesUtils.SORT_TYPE_SHARED_PREFERENCES_FILE);
-            boolean res5 = saveSharedPreferencesToFile(postLayoutSharedPreferences, backupDir,
-                    SharedPreferencesUtils.POST_LAYOUT_SHARED_PREFERENCES_FILE);
-            boolean res6 = saveSharedPreferencesToFile(postFeedScrolledPositionSharedPreferences, backupDir,
-                    SharedPreferencesUtils.FRONT_PAGE_SCROLLED_POSITION_SHARED_PREFERENCES_FILE);
-            boolean res7 = saveSharedPreferencesToFile(mainActivityTabsSharedPreferences, backupDir,
-                    SharedPreferencesUtils.MAIN_PAGE_TABS_SHARED_PREFERENCES_FILE);
-            boolean res8 = saveSharedPreferencesToFile(nsfwAndSpoilerSharedPreferencs, backupDir,
-                    SharedPreferencesUtils.NSFW_AND_SPOILER_SHARED_PREFERENCES_FILE);
-            boolean res9 = saveSharedPreferencesToFile(bottomAppBarSharedPreferences, backupDir,
-                    SharedPreferencesUtils.BOTTOM_APP_BAR_SHARED_PREFERENCES_FILE);
-            boolean res10 = saveSharedPreferencesToFile(postHistorySharedPreferences, backupDir,
-                    SharedPreferencesUtils.POST_HISTORY_SHARED_PREFERENCES_FILE);
+            // Handle default shared preferences (potentially excluding client ID)
+            Map<String, ?> defaultPrefsMap = defaultSharedPreferences.getAll();
+            Map<String, Object> filteredDefaultPrefsMap = new HashMap<>(defaultPrefsMap); // Create a mutable copy
+
+            boolean res = saveMapToFile(filteredDefaultPrefsMap, backupDir, SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE);
+
+            SharedPreferences defaultPrefsPrivate = context.getSharedPreferences(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE, Context.MODE_PRIVATE);
+            boolean resPrivate = saveMapToFile(defaultPrefsPrivate.getAll(), backupDir, SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE + "_private");
+
+
+            boolean res1 = saveMapToFile(lightThemeSharedPreferences.getAll(), backupDir, CustomThemeSharedPreferencesUtils.LIGHT_THEME_SHARED_PREFERENCES_FILE);
+            boolean res2 = saveMapToFile(darkThemeSharedPreferences.getAll(), backupDir, CustomThemeSharedPreferencesUtils.DARK_THEME_SHARED_PREFERENCES_FILE);
+            boolean res3 = saveMapToFile(amoledThemeSharedPreferences.getAll(), backupDir, CustomThemeSharedPreferencesUtils.AMOLED_THEME_SHARED_PREFERENCES_FILE);
+            boolean res4 = saveMapToFile(sortTypeSharedPreferences.getAll(), backupDir, SharedPreferencesUtils.SORT_TYPE_SHARED_PREFERENCES_FILE);
+            boolean res5 = saveMapToFile(postLayoutSharedPreferences.getAll(), backupDir, SharedPreferencesUtils.POST_LAYOUT_SHARED_PREFERENCES_FILE);
+            boolean res6 = saveMapToFile(postDetailsSharedPreferences.getAll(), backupDir, SharedPreferencesUtils.POST_DETAILS_SHARED_PREFERENCES_FILE);
+            boolean res7 = saveMapToFile(postFeedScrolledPositionSharedPreferences.getAll(), backupDir, SharedPreferencesUtils.FRONT_PAGE_SCROLLED_POSITION_SHARED_PREFERENCES_FILE);
+            boolean res8 = saveMapToFile(mainActivityTabsSharedPreferences.getAll(), backupDir, SharedPreferencesUtils.MAIN_PAGE_TABS_SHARED_PREFERENCES_FILE);
+            boolean res9 = saveMapToFile(proxySharedPreferences.getAll(), backupDir, SharedPreferencesUtils.PROXY_SHARED_PREFERENCES_FILE);
+            boolean res10 = saveMapToFile(nsfwAndSpoilerSharedPreferences.getAll(), backupDir, SharedPreferencesUtils.NSFW_AND_SPOILER_SHARED_PREFERENCES_FILE);
+            boolean res11 = saveMapToFile(bottomAppBarSharedPreferences.getAll(), backupDir, SharedPreferencesUtils.BOTTOM_APP_BAR_SHARED_PREFERENCES_FILE);
+            boolean res12 = saveMapToFile(postHistorySharedPreferences.getAll(), backupDir, SharedPreferencesUtils.POST_HISTORY_SHARED_PREFERENCES_FILE);
+            boolean res13 = saveMapToFile(navigationDrawerSharedPreferences.getAll(), backupDir, SharedPreferencesUtils.NAVIGATION_DRAWER_SHARED_PREFERENCES_FILE);
 
             List<SubscribedSubredditData> anonymousSubscribedSubredditsData = redditDataRoomDatabase.subscribedSubredditDao().getAllSubscribedSubredditsList(Account.ANONYMOUS_ACCOUNT);
             String anonymousSubscribedSubredditsDataJson = new Gson().toJson(anonymousSubscribedSubredditsData);
-            boolean res11 = saveDatabaseTableToFile(anonymousSubscribedSubredditsDataJson, databaseDirFile.getAbsolutePath(), "/anonymous_subscribed_subreddits.json");
+            boolean res14 = saveDatabaseTableToFile(anonymousSubscribedSubredditsDataJson, databaseDirFile.getAbsolutePath(), "/anonymous_subscribed_subreddits.json");
 
             List<SubscribedUserData> anonymousSubscribedUsersData = redditDataRoomDatabase.subscribedUserDao().getAllSubscribedUsersList(Account.ANONYMOUS_ACCOUNT);
             String anonymousSubscribedUsersDataJson = new Gson().toJson(anonymousSubscribedUsersData);
-            boolean res12 = saveDatabaseTableToFile(anonymousSubscribedUsersDataJson, databaseDirFile.getAbsolutePath(), "/anonymous_subscribed_users.json");
+            boolean res15 = saveDatabaseTableToFile(anonymousSubscribedUsersDataJson, databaseDirFile.getAbsolutePath(), "/anonymous_subscribed_users.json");
 
             List<MultiReddit> anonymousMultireddits = redditDataRoomDatabase.multiRedditDao().getAllMultiRedditsList(Account.ANONYMOUS_ACCOUNT);
             String anonymousMultiredditsJson = new Gson().toJson(anonymousMultireddits);
-            boolean res13 = saveDatabaseTableToFile(anonymousMultiredditsJson, databaseDirFile.getAbsolutePath(), "/anonymous_multireddits.json");
+            boolean res16 = saveDatabaseTableToFile(anonymousMultiredditsJson, databaseDirFile.getAbsolutePath(), "/anonymous_multireddits.json");
 
             List<AnonymousMultiredditSubreddit> anonymousMultiredditSubreddits = redditDataRoomDatabase.anonymousMultiredditSubredditDao().getAllSubreddits();
             String anonymousMultiredditSubredditsJson = new Gson().toJson(anonymousMultiredditSubreddits);
-            boolean res14 = saveDatabaseTableToFile(anonymousMultiredditSubredditsJson, databaseDirFile.getAbsolutePath(), "/anonymous_multireddit_subreddits.json");
+            boolean res17 = saveDatabaseTableToFile(anonymousMultiredditSubredditsJson, databaseDirFile.getAbsolutePath(), "/anonymous_multireddit_subreddits.json");
 
             List<CustomTheme> customThemes = redditDataRoomDatabase.customThemeDao().getAllCustomThemesList();
             String customThemesJson = new Gson().toJson(customThemes);
-            boolean res15 = saveDatabaseTableToFile(customThemesJson, databaseDirFile.getAbsolutePath(), "/custom_themes.json");
+            boolean res18 = saveDatabaseTableToFile(customThemesJson, databaseDirFile.getAbsolutePath(), "/custom_themes.json");
 
             List<PostFilter> postFilters = redditDataRoomDatabase.postFilterDao().getAllPostFilters();
             String postFiltersJson = new Gson().toJson(postFilters);
-            boolean res16 = saveDatabaseTableToFile(postFiltersJson, databaseDirFile.getAbsolutePath(), "/post_filters.json");
+            boolean res19 = saveDatabaseTableToFile(postFiltersJson, databaseDirFile.getAbsolutePath(), "/post_filters.json");
 
             List<PostFilterUsage> postFilterUsage = redditDataRoomDatabase.postFilterUsageDao().getAllPostFilterUsageForBackup();
             String postFilterUsageJson = new Gson().toJson(postFilterUsage);
-            boolean res17 = saveDatabaseTableToFile(postFilterUsageJson, databaseDirFile.getAbsolutePath(), "/post_filter_usage.json");
+            boolean res20 = saveDatabaseTableToFile(postFilterUsageJson, databaseDirFile.getAbsolutePath(), "/post_filter_usage.json");
 
             List<CommentFilter> commentFilters = redditDataRoomDatabase.commentFilterDao().getAllCommentFilters();
             String commentFiltersJson = new Gson().toJson(commentFilters);
-            boolean res18 = saveDatabaseTableToFile(commentFiltersJson, databaseDirFile.getAbsolutePath(), "/comment_filters.json");
+            boolean res21 = saveDatabaseTableToFile(commentFiltersJson, databaseDirFile.getAbsolutePath(), "/comment_filters.json");
 
             List<CommentFilterUsage> commentFilterUsage = redditDataRoomDatabase.commentFilterUsageDao().getAllCommentFilterUsageForBackup();
             String commentFilterUsageJson = new Gson().toJson(commentFilterUsage);
-            boolean res19 = saveDatabaseTableToFile(commentFilterUsageJson, databaseDirFile.getAbsolutePath(), "/comment_filter_usage.json");
+            boolean res22 = saveDatabaseTableToFile(commentFilterUsageJson, databaseDirFile.getAbsolutePath(), "/comment_filter_usage.json");
+
+            List<Account> accounts = redditDataRoomDatabase.accountDao().getAllAccounts();
+            String accountsJson = new Gson().toJson(accounts);
+            boolean res23 = saveDatabaseTableToFile(accountsJson, databaseDirFile.getAbsolutePath(), "/accounts.json");
+
 
             boolean zipRes = zipAndMoveToDestinationDir(context, contentResolver, destinationDirUri);
 
@@ -145,7 +156,7 @@ public class BackupSettings {
             handler.post(() -> {
                 boolean finalResult = res && res1 && res2 && res3 && res4 && res5 && res6 && res7 && res8
                         && res9 && res10 && res11 && res12 && res13 && res14 && res15 && res16 && res17
-                        && res18 && res19 && zipRes;
+                        && res18 && res19 && res20 && res21 && res22 && res23 && zipRes && resPrivate;
                 if (finalResult) {
                     backupSettingsListener.success();
                 } else {
@@ -159,14 +170,13 @@ public class BackupSettings {
         });
     }
 
-    private static boolean saveSharedPreferencesToFile(SharedPreferences sharedPreferences,
-                                                       String backupDir, String fileName) {
+    private static boolean saveMapToFile(Map<String, ?> mapToSave, String backupDir, String fileName) {
         boolean result = false;
 
         ObjectOutputStream output = null;
         try {
             output = new ObjectOutputStream(new FileOutputStream(backupDir + "/" + fileName + ".txt"));
-            output.writeObject(sharedPreferences.getAll());
+            output.writeObject(mapToSave);
 
             result = true;
         } catch (IOException e) {
@@ -203,7 +213,7 @@ public class BackupSettings {
         boolean result = false;
         try {
             String time = new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date(System.currentTimeMillis()));
-            String fileName = "Infinity_For_Reddit_Settings_Backup_v" + BuildConfig.VERSION_NAME + "-" + BuildConfig.VERSION_CODE + "-" + time + ".zip";
+            String fileName = "Continuum_Settings_Backup_v" + BuildConfig.VERSION_NAME + "-" + BuildConfig.VERSION_CODE + "-" + time + ".zip";
             String filePath = context.getExternalCacheDir() + "/Backup/" + fileName;
             ZipFile zip = new ZipFile(filePath, "123321".toCharArray());
             ZipParameters zipParameters = new ZipParameters();

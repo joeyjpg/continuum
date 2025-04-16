@@ -26,7 +26,6 @@ import javax.inject.Named;
 
 import me.zhanghai.android.fastscroll.FastScrollerBuilder;
 import ml.docilealligator.infinityforreddit.Infinity;
-import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.RedditDataRoomDatabase;
 import ml.docilealligator.infinityforreddit.thing.SelectThingReturnKey;
 import ml.docilealligator.infinityforreddit.account.Account;
@@ -126,7 +125,6 @@ public class FollowedUsersListingFragment extends Fragment implements FragmentCo
             if (subscribedUserData == null || subscribedUserData.size() == 0) {
                 binding.recyclerViewFollowedUsersListingFragment.setVisibility(View.GONE);
                 binding.noSubscriptionsLinearLayoutFollowedUsersListingFragment.setVisibility(View.VISIBLE);
-                mGlide.load(R.drawable.error_image).into(binding.noSubscriptionsImageViewFollowedUsersListingFragment);
             } else {
                 binding.noSubscriptionsLinearLayoutFollowedUsersListingFragment.setVisibility(View.GONE);
                 binding.recyclerViewFollowedUsersListingFragment.setVisibility(View.VISIBLE);

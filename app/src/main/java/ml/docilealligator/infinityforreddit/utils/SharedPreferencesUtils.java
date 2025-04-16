@@ -15,13 +15,11 @@ public class SharedPreferencesUtils {
     public static final String THEME_KEY = "theme";
     public static final String ICON_FOREGROUND_KEY = "icon_foreground";
     public static final String ICON_BACKGROUND_KEY = "icon_background";
-    public static final String ERROR_IMAGE_KEY = "error_image";
     public static final String CROSSPOST_ICON_KEY = "crosspost_icon";
     public static final String THUMBTACK_ICON_KEY = "thumbtack_icon";
     public static final String BEST_ROCKET_ICON_KEY = "best_rocket_icon";
     public static final String MATERIAL_ICONS_KEY = "material_icons";
     public static final String OPEN_SOURCE_KEY = "open_source";
-    public static final String RATE_KEY = "rate";
     public static final String EMAIL_KEY = "email";
     public static final String REDDIT_ACCOUNT_KEY = "reddit_account";
     public static final String SUBREDDIT_KEY = "subreddit";
@@ -432,6 +430,7 @@ public class SharedPreferencesUtils {
     public static final String PROXY_HOSTNAME = "proxy_hostname";
     public static final String PROXY_PORT = "proxy_port";
     public static final String CLIENT_ID_PREF_KEY = "client_id_pref_key";
+    public static final String GIPHY_API_KEY_PREF_KEY = "giphy_api_key_pref_key";
 
     //Legacy Settings
     public static final String MAIN_PAGE_TAB_1_TITLE_LEGACY = "main_page_tab_1_title";

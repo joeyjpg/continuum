@@ -391,8 +391,7 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
         }
     }
 
-    private void setNotification(WorkManager workManager, long notificationInterval, TimeUnit timeUnit,
-                                 boolean enableNotification) {
+    private void setNotification(WorkManager workManager, long notificationInterval, TimeUnit timeUnit, boolean enableNotification) {
         if (enableNotification) {
             Constraints constraints = new Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -971,7 +970,7 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
         });
 
         accountViewModel = new ViewModelProvider(this,
-                new AccountViewModel.Factory(mRedditDataRoomDatabase)).get(AccountViewModel.class);
+                new AccountViewModel.Factory(mExecutor, mRedditDataRoomDatabase)).get(AccountViewModel.class);
         accountViewModel.getAccountsExceptCurrentAccountLiveData().observe(this, adapter::changeAccountsDataset);
         accountViewModel.getCurrentAccountLiveData().observe(this, account -> {
             if (account != null) {
@@ -1064,7 +1063,7 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
         }
 
         if (!accountName.equals(Account.ANONYMOUS_ACCOUNT) && !mFetchSubscriptionsSuccess) {
-            FetchSubscribedThing.fetchSubscribedThing(mOauthRetrofit, accessToken, accountName, null,
+            FetchSubscribedThing.fetchSubscribedThing(mExecutor, mHandler, mOauthRetrofit, accessToken, accountName, null,
                     new ArrayList<>(), new ArrayList<>(),
                     new ArrayList<>(),
                     new FetchSubscribedThing.FetchSubscribedThingListener() {
@@ -1094,7 +1093,7 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
 
     private void loadUserData() {
         if (!mFetchUserInfoSuccess) {
-            FetchUserData.fetchUserData(mRedditDataRoomDatabase, mOauthRetrofit, accessToken,
+            FetchUserData.fetchUserData(mExecutor, mHandler, mRedditDataRoomDatabase, mOauthRetrofit, accessToken,
                     accountName, new FetchUserData.FetchUserDataListener() {
                         @ExperimentalBadgeUtils
                         @Override

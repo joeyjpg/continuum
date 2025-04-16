@@ -385,8 +385,6 @@
     <string name="settings_credits_material_icons_title">"Значки Material"</string>
     <string name="settings_open_source_title">"Открытый исходный код"</string>
     <string name="settings_open_source_summary">"Оцените его на Github, если вам нравится это приложение"</string>
-    <string name="settings_rate_title">"Оцените в Google Play"</string>
-    <string name="settings_rate_summary">"Поставьте мне оценку 5 звёзд, и я буду очень счастлив"</string>
     <string name="settings_email_title">"Электронная почта"</string>
     <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"Аккаунт Reddit"</string>

@@ -42,6 +42,7 @@ import ml.docilealligator.infinityforreddit.postfilter.PostFilterUsage;
 import ml.docilealligator.infinityforreddit.subscribedsubreddit.SubscribedSubredditData;
 import ml.docilealligator.infinityforreddit.subscribeduser.SubscribedUserData;
 import ml.docilealligator.infinityforreddit.utils.CustomThemeSharedPreferencesUtils;
+import ml.docilealligator.infinityforreddit.utils.AppRestartHelper;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 
 public class RestoreSettings {
@@ -49,16 +50,20 @@ public class RestoreSettings {
                                 ContentResolver contentResolver, Uri zipFileUri,
                                 RedditDataRoomDatabase redditDataRoomDatabase,
                                 SharedPreferences defaultSharedPreferences,
+                                SharedPreferences currentAccountSharedPreferences,
                                 SharedPreferences lightThemeSharedPreferences,
                                 SharedPreferences darkThemeSharedPreferences,
                                 SharedPreferences amoledThemeSharedPreferences,
                                 SharedPreferences sortTypeSharedPreferences,
                                 SharedPreferences postLayoutSharedPreferences,
+                                SharedPreferences postDetailsSharedPreferences,
                                 SharedPreferences postFeedScrolledPositionSharedPreferences,
                                 SharedPreferences mainActivityTabsSharedPreferences,
+                                SharedPreferences proxySharedPreferences,
                                 SharedPreferences nsfwAndSpoilerSharedPreferencs,
                                 SharedPreferences bottomAppBarSharedPreferences,
                                 SharedPreferences postHistorySharedPreferences,
+                                SharedPreferences navigationDrawerSharedPreferences,
                                 RestoreSettingsListener restoreSettingsListener) {
         executor.execute(() -> {
             try {
@@ -97,9 +102,12 @@ public class RestoreSettings {
                     File[] restoreFiles = restoreFilesDir.listFiles();
                     boolean result = true;
                     if (restoreFiles != null) {
+                        SharedPreferences defaultPrefsPrivate = context.getSharedPreferences(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE, Context.MODE_PRIVATE);
                         for (File f : restoreFiles) {
                             if (f.isFile()) {
-                                if (f.getName().startsWith(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE)) {
+                                if (f.getName().equals(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE + "_private.txt")) {
+                                    result = result & importSharedPreferencsFromFile(defaultPrefsPrivate, f.toString());
+                                } else if (f.getName().equals(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE + ".txt")) {
                                     result = result & importSharedPreferencsFromFile(defaultSharedPreferences, f.toString());
                                 } else if (f.getName().startsWith(CustomThemeSharedPreferencesUtils.LIGHT_THEME_SHARED_PREFERENCES_FILE)) {
                                     result = result & importSharedPreferencsFromFile(lightThemeSharedPreferences, f.toString());
@@ -111,16 +119,22 @@ public class RestoreSettings {
                                     result = result & importSharedPreferencsFromFile(sortTypeSharedPreferences, f.toString());
                                 } else if (f.getName().startsWith(SharedPreferencesUtils.POST_LAYOUT_SHARED_PREFERENCES_FILE)) {
                                     result = result & importSharedPreferencsFromFile(postLayoutSharedPreferences, f.toString());
+                                } else if (f.getName().startsWith(SharedPreferencesUtils.POST_DETAILS_SHARED_PREFERENCES_FILE)) {
+                                    result = result & importSharedPreferencsFromFile(postDetailsSharedPreferences, f.toString());
                                 } else if (f.getName().startsWith(SharedPreferencesUtils.FRONT_PAGE_SCROLLED_POSITION_SHARED_PREFERENCES_FILE)) {
                                     result = result & importSharedPreferencsFromFile(postFeedScrolledPositionSharedPreferences, f.toString());
                                 } else if (f.getName().startsWith(SharedPreferencesUtils.MAIN_PAGE_TABS_SHARED_PREFERENCES_FILE)) {
                                     result = result & importSharedPreferencsFromFile(mainActivityTabsSharedPreferences, f.toString());
+                                } else if (f.getName().startsWith(SharedPreferencesUtils.PROXY_SHARED_PREFERENCES_FILE)) {
+                                    result = result & importSharedPreferencsFromFile(proxySharedPreferences, f.toString());
                                 } else if (f.getName().startsWith(SharedPreferencesUtils.NSFW_AND_SPOILER_SHARED_PREFERENCES_FILE)) {
                                     result = result & importSharedPreferencsFromFile(nsfwAndSpoilerSharedPreferencs, f.toString());
                                 } else if (f.getName().startsWith(SharedPreferencesUtils.BOTTOM_APP_BAR_SHARED_PREFERENCES_FILE)) {
                                     result = result & importSharedPreferencsFromFile(bottomAppBarSharedPreferences, f.toString());
                                 } else if (f.getName().startsWith(SharedPreferencesUtils.POST_HISTORY_SHARED_PREFERENCES_FILE)) {
                                     result = result & importSharedPreferencsFromFile(postHistorySharedPreferences, f.toString());
+                                } else if (f.getName().startsWith(SharedPreferencesUtils.NAVIGATION_DRAWER_SHARED_PREFERENCES_FILE)) {
+                                    result = result & importSharedPreferencsFromFile(navigationDrawerSharedPreferences, f.toString());
                                 }
                             } else if (f.isDirectory() && f.getName().equals("database")) {
                                 if (!redditDataRoomDatabase.accountDao().isAnonymousAccountInserted()) {
@@ -136,6 +150,7 @@ public class RestoreSettings {
                                 File postFilterUsageFile = new File(f.getAbsolutePath() + "/post_filter_usage.json");
                                 File commentFiltersFile = new File(f.getAbsolutePath() + "/comment_filters.json");
                                 File commentFilterUsageFile = new File(f.getAbsolutePath() + "/comment_filter_usage.json");
+                                File accountsFile = new File(f.getAbsolutePath() + "/accounts.json");
 
                                 if (anonymousSubscribedSubredditsFile.exists()) {
                                     List<SubscribedSubredditData> anonymousSubscribedSubreddits = getListFromFile(anonymousSubscribedSubredditsFile, new TypeToken<List<SubscribedSubredditData>>() {}.getType());
@@ -176,6 +191,28 @@ public class RestoreSettings {
                                         redditDataRoomDatabase.commentFilterUsageDao().insertAll(commentFilterUsage);
                                     }
                                 }
+                                if (accountsFile.exists()) {
+                                    List<Account> accounts = getListFromFile(accountsFile, new TypeToken<List<Account>>() {}.getType());
+                                    if (accounts != null) {
+                                        // Clear existing accounts before inserting restored ones
+                                        redditDataRoomDatabase.accountDao().deleteAllAccounts();
+                                        for (Account account : accounts) {
+                                            redditDataRoomDatabase.accountDao().insert(account);
+                                        }
+                                        // Optionally, mark the first restored account as current, or restore the 'is_current_user' flag if it was backed up.
+                                        // If accounts list is not empty, mark the first one as current
+                                        if (!accounts.isEmpty()) {
+                                            redditDataRoomDatabase.accountDao().markAccountCurrent(accounts.get(0).getAccountName());
+                                            // Also update the current account shared preferences for immediate effect
+                                            Account firstAccount = accounts.get(0);
+                                            currentAccountSharedPreferences.edit()
+                                                .putString(SharedPreferencesUtils.ACCOUNT_NAME, firstAccount.getAccountName())
+                                                .putString(SharedPreferencesUtils.ACCESS_TOKEN, firstAccount.getAccessToken())
+                                                .putString(SharedPreferencesUtils.ACCOUNT_IMAGE_URL, firstAccount.getProfileImageUrl())
+                                                .apply();
+                                        }
+                                    }
+                                }
                             }
                         }
                     } else {
@@ -185,7 +222,21 @@ public class RestoreSettings {
                     FileUtils.deleteDirectory(new File(cachePath));
 
                     if (result) {
-                        handler.post(restoreSettingsListener::success);
+                        handler.post(() -> {
+                            restoreSettingsListener.success();
+
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                // Restore the interrupted status
+                                Thread.currentThread().interrupt();
+                                // Optionally log the interruption
+                                android.util.Log.w("RestoreSettings", "Sleep interrupted before app restart", e);
+                            }
+
+                            // Trigger restart after posting success message
+                            AppRestartHelper.triggerAppRestart(context);
+                        });
                     } else {
                         handler.post(() -> restoreSettingsListener.failed(context.getString(R.string.restore_settings_partially_failed)));
                     }

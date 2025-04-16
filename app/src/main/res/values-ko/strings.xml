@@ -345,8 +345,6 @@
     <string name="settings_credits_best_rocket_icon_title">"로켓 아이콘"</string>
     <string name="settings_open_source_title">"오픈 소스"</string>
     <string name="settings_open_source_summary">"어플을 좋아한다면 깃허브에서 별표하세요"</string>
-    <string name="settings_rate_title">"구글 플레이에서 리뷰"</string>
-    <string name="settings_rate_summary">"별표 5점을 주신다면 감사하겠습니다"</string>
     <string name="settings_email_title">"이메일"</string>
     <string name="settings_email_summary">"continuum@cygnusx-1.org"</string>
     <string name="settings_reddit_account_title">"레딧 계정"</string>

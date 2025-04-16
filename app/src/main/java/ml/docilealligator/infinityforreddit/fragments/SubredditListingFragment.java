@@ -18,7 +18,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -208,7 +207,6 @@ public class SubredditListingFragment extends Fragment implements FragmentCommun
             binding.swipeRefreshLayoutSubredditListingFragment.setRefreshing(false);
             binding.fetchSubredditListingInfoLinearLayoutSubredditListingFragment.setVisibility(View.VISIBLE);
             binding.fetchSubredditListingInfoTextViewSubredditListingFragment.setText(stringResId);
-            Glide.with(this).load(R.drawable.error_image).into(binding.fetchSubredditListingInfoImageViewSubredditListingFragment);
         }
     }
 
