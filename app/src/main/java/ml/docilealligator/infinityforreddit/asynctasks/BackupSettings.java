@@ -80,21 +80,15 @@ public class BackupSettings {
             File databaseDirFile = new File(backupDir + "/database");
             databaseDirFile.mkdirs();
 
-            // Check if accounts/client ID should be backed up
-            boolean backupAccounts = defaultSharedPreferences.getBoolean("backup_accounts_and_client_id", true);
-
             // Handle default shared preferences (potentially excluding client ID)
             Map<String, ?> defaultPrefsMap = defaultSharedPreferences.getAll();
             Map<String, Object> filteredDefaultPrefsMap = new HashMap<>(defaultPrefsMap); // Create a mutable copy
 
             boolean res = saveMapToFile(filteredDefaultPrefsMap, backupDir, SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE);
 
-            boolean resPrivate = true; // Assume success if not backing up
+            SharedPreferences defaultPrefsPrivate = context.getSharedPreferences(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE, Context.MODE_PRIVATE);
+            boolean resPrivate = saveMapToFile(defaultPrefsPrivate.getAll(), backupDir, SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE + "_private");
 
-            if (backupAccounts) {
-                SharedPreferences defaultPrefsPrivate = context.getSharedPreferences(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE, Context.MODE_PRIVATE);
-                resPrivate = saveMapToFile(defaultPrefsPrivate.getAll(), backupDir, SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE + "_private");
-            }
 
             boolean res1 = saveMapToFile(lightThemeSharedPreferences.getAll(), backupDir, CustomThemeSharedPreferencesUtils.LIGHT_THEME_SHARED_PREFERENCES_FILE);
             boolean res2 = saveMapToFile(darkThemeSharedPreferences.getAll(), backupDir, CustomThemeSharedPreferencesUtils.DARK_THEME_SHARED_PREFERENCES_FILE);
@@ -146,14 +140,10 @@ public class BackupSettings {
             String commentFilterUsageJson = new Gson().toJson(commentFilterUsage);
             boolean res22 = saveDatabaseTableToFile(commentFilterUsageJson, databaseDirFile.getAbsolutePath(), "/comment_filter_usage.json");
 
-            // Conditionally backup accounts
-            boolean res23 = true; // Assume success if not backing up
+            List<Account> accounts = redditDataRoomDatabase.accountDao().getAllAccounts();
+            String accountsJson = new Gson().toJson(accounts);
+            boolean res23 = saveDatabaseTableToFile(accountsJson, databaseDirFile.getAbsolutePath(), "/accounts.json");
 
-            if (backupAccounts) {
-                List<Account> accounts = redditDataRoomDatabase.accountDao().getAllAccounts();
-                String accountsJson = new Gson().toJson(accounts);
-                res23 = saveDatabaseTableToFile(accountsJson, databaseDirFile.getAbsolutePath(), "/accounts.json");
-            }
 
             boolean zipRes = zipAndMoveToDestinationDir(context, contentResolver, destinationDirUri);
 
@@ -163,13 +153,10 @@ public class BackupSettings {
                 e.printStackTrace();
             }
 
-            final boolean finalRes23 = res23;
-            final boolean finalResPrivate = resPrivate;
-
             handler.post(() -> {
                 boolean finalResult = res && res1 && res2 && res3 && res4 && res5 && res6 && res7 && res8
                         && res9 && res10 && res11 && res12 && res13 && res14 && res15 && res16 && res17
-                        && res18 && res19 && res20 && res21 && res22 && finalRes23 && zipRes && finalResPrivate;
+                        && res18 && res19 && res20 && res21 && res22 && res23 && zipRes && resPrivate;
                 if (finalResult) {
                     backupSettingsListener.success();
                 } else {

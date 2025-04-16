@@ -55,12 +55,6 @@
     <ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceCategory
         app:title="Backup and Restore" />
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontSwitchPreference
-        app:key="backup_accounts_and_client_id"
-        app:title="@string/settings_backup_accounts_client_id_title"
-        app:summary="@string/settings_backup_accounts_client_id_summary"
-        app:defaultValue="true" />
-
     <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
         app:key="backup_settings"
         app:title="@string/settings_backup_settings_title"
