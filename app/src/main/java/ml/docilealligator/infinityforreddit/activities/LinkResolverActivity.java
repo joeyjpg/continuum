@@ -40,6 +40,8 @@ public class LinkResolverActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE_FULLNAME = "ENF";
     public static final String EXTRA_NEW_ACCOUNT_NAME = "ENAN";
     public static final String EXTRA_IS_NSFW = "EIN";
+    public static final String EXTRA_SUBREDDIT_NAME = "ESN_LRA";
+    public static final String EXTRA_POST_TITLE_KEY = "ET_LRA";
 
     private static final String POST_PATTERN = "/r/[\\w-]+/comments/\\w+/?\\w+/?";
     private static final String POST_PATTERN_2 = "/(u|U|user)/[\\w-]+/comments/\\w+/?\\w+/?";
@@ -327,16 +329,25 @@ public class LinkResolverActivity extends AppCompatActivity {
                                 Intent intent = new Intent(this, ViewImgurMediaActivity.class);
                                 intent.putExtra(ViewImgurMediaActivity.EXTRA_IMGUR_TYPE, ViewImgurMediaActivity.IMGUR_TYPE_GALLERY);
                                 intent.putExtra(ViewImgurMediaActivity.EXTRA_IMGUR_ID, segments.get(1));
+                                intent.putExtra(ViewImgurMediaActivity.EXTRA_SUBREDDIT_NAME, getIntent().getStringExtra(EXTRA_SUBREDDIT_NAME));
+                                intent.putExtra(ViewImgurMediaActivity.EXTRA_IS_NSFW, getIntent().getBooleanExtra(EXTRA_IS_NSFW, false));
+                                intent.putExtra(ViewImgurMediaActivity.EXTRA_POST_TITLE_KEY, getIntent().getStringExtra(EXTRA_POST_TITLE_KEY));
                                 startActivity(intent);
                             } else if (path.matches(IMGUR_ALBUM_PATTERN)) {
                                 Intent intent = new Intent(this, ViewImgurMediaActivity.class);
                                 intent.putExtra(ViewImgurMediaActivity.EXTRA_IMGUR_TYPE, ViewImgurMediaActivity.IMGUR_TYPE_ALBUM);
                                 intent.putExtra(ViewImgurMediaActivity.EXTRA_IMGUR_ID, segments.get(1));
+                                intent.putExtra(ViewImgurMediaActivity.EXTRA_SUBREDDIT_NAME, getIntent().getStringExtra(EXTRA_SUBREDDIT_NAME));
+                                intent.putExtra(ViewImgurMediaActivity.EXTRA_IS_NSFW, getIntent().getBooleanExtra(EXTRA_IS_NSFW, false));
+                                intent.putExtra(ViewImgurMediaActivity.EXTRA_POST_TITLE_KEY, getIntent().getStringExtra(EXTRA_POST_TITLE_KEY));
                                 startActivity(intent);
                             } else if (path.matches(IMGUR_IMAGE_PATTERN)) {
                                 Intent intent = new Intent(this, ViewImgurMediaActivity.class);
                                 intent.putExtra(ViewImgurMediaActivity.EXTRA_IMGUR_TYPE, ViewImgurMediaActivity.IMGUR_TYPE_IMAGE);
                                 intent.putExtra(ViewImgurMediaActivity.EXTRA_IMGUR_ID, path.substring(1));
+                                intent.putExtra(ViewImgurMediaActivity.EXTRA_SUBREDDIT_NAME, getIntent().getStringExtra(EXTRA_SUBREDDIT_NAME));
+                                intent.putExtra(ViewImgurMediaActivity.EXTRA_IS_NSFW, getIntent().getBooleanExtra(EXTRA_IS_NSFW, false));
+                                intent.putExtra(ViewImgurMediaActivity.EXTRA_POST_TITLE_KEY, getIntent().getStringExtra(EXTRA_POST_TITLE_KEY));
                                 startActivity(intent);
                             } else if (path.endsWith("gifv") || path.endsWith("mp4")) {
                                 String url = uri.toString();

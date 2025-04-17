@@ -67,6 +67,9 @@ public class ViewImgurMediaActivity extends AppCompatActivity implements SetAsWa
 
     public static final String EXTRA_IMGUR_TYPE = "EIT";
     public static final String EXTRA_IMGUR_ID = "EII";
+    public static final String EXTRA_SUBREDDIT_NAME = "ESN_VIMA";
+    public static final String EXTRA_POST_TITLE_KEY = "ET_VIMA";
+    public static final String EXTRA_IS_NSFW = "EIN_VIMA";
     public static final int IMGUR_TYPE_GALLERY = 0;
     public static final int IMGUR_TYPE_ALBUM = 1;
     public static final int IMGUR_TYPE_IMAGE = 2;
@@ -76,6 +79,11 @@ public class ViewImgurMediaActivity extends AppCompatActivity implements SetAsWa
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ArrayList<ImgurMedia> mImages;
     private boolean useBottomAppBar;
+    private String subredditName;
+    private String postTitle;
+    private boolean isNsfw;
+    private String title;
+
     @Inject
     @Named("imgur")
     Retrofit imgurRetrofit;
@@ -140,6 +148,11 @@ public class ViewImgurMediaActivity extends AppCompatActivity implements SetAsWa
             finish();
             return;
         }
+
+        subredditName = getIntent().getStringExtra(EXTRA_SUBREDDIT_NAME);
+        isNsfw = getIntent().getBooleanExtra(EXTRA_IS_NSFW, false);
+        postTitle = getIntent().getStringExtra(EXTRA_POST_TITLE_KEY);
+        title = getIntent().getStringExtra(EXTRA_POST_TITLE_KEY);
 
         if (savedInstanceState != null) {
             mImages = savedInstanceState.getParcelableArrayList(IMGUR_IMAGES_STATE);
@@ -316,11 +329,11 @@ public class ViewImgurMediaActivity extends AppCompatActivity implements SetAsWa
             finish();
             return true;
         } else if (item.getItemId() == R.id.action_download_all_imgur_album_media_view_imgur_media_activity) {
-            //TODO: contentEstimatedBytes
-            JobInfo jobInfo = DownloadMediaService.constructImgurAlbumDownloadAllMediaJobInfo(this, 5000000L * mImages.size(), mImages);
+            JobInfo jobInfo = DownloadMediaService.constructImgurAlbumDownloadAllMediaJobInfo(this, 5000000L * mImages.size(), mImages, subredditName, isNsfw, title);
             ((JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
 
             Toast.makeText(this, R.string.download_started, Toast.LENGTH_SHORT).show();
+
             return true;
         }
 
@@ -466,6 +479,9 @@ public class ViewImgurMediaActivity extends AppCompatActivity implements SetAsWa
                 bundle.putParcelable(ViewImgurVideoFragment.EXTRA_IMGUR_VIDEO, imgurMedia);
                 bundle.putInt(ViewImgurVideoFragment.EXTRA_INDEX, position);
                 bundle.putInt(ViewImgurVideoFragment.EXTRA_MEDIA_COUNT, mImages.size());
+                bundle.putString(EXTRA_SUBREDDIT_NAME, subredditName);
+                bundle.putBoolean(EXTRA_IS_NSFW, isNsfw);
+                bundle.putString(EXTRA_POST_TITLE_KEY, postTitle);
                 fragment.setArguments(bundle);
                 return fragment;
             } else {
@@ -474,6 +490,9 @@ public class ViewImgurMediaActivity extends AppCompatActivity implements SetAsWa
                 bundle.putParcelable(ViewImgurImageFragment.EXTRA_IMGUR_IMAGES, imgurMedia);
                 bundle.putInt(ViewImgurImageFragment.EXTRA_INDEX, position);
                 bundle.putInt(ViewImgurImageFragment.EXTRA_MEDIA_COUNT, mImages.size());
+                bundle.putString(EXTRA_SUBREDDIT_NAME, subredditName);
+                bundle.putBoolean(EXTRA_IS_NSFW, isNsfw);
+                bundle.putString(EXTRA_POST_TITLE_KEY, postTitle);
                 fragment.setArguments(bundle);
                 return fragment;
             }

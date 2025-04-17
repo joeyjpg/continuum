@@ -17,6 +17,8 @@ import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceFragmentCompat;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 public class DownloadLocationPreferenceFragment extends CustomFontPreferenceFragmentCompat {
     private static final int IMAGE_DOWNLOAD_LOCATION_REQUEST_CODE = 10;
@@ -45,7 +47,7 @@ public class DownloadLocationPreferenceFragment extends CustomFontPreferenceFrag
         if (nsfwDownloadLocationPreference != null) {
             String downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
             if (!downloadLocation.equals("")) {
-                nsfwDownloadLocationPreference.setSummary(downloadLocation);
+                nsfwDownloadLocationPreference.setSummary(formatDownloadPath(downloadLocation));
             }
 
             nsfwDownloadLocationPreference.setOnPreferenceClickListener(preference -> {
@@ -57,7 +59,7 @@ public class DownloadLocationPreferenceFragment extends CustomFontPreferenceFrag
         if (imageDownloadLocationPreference != null) {
             String downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
             if (!downloadLocation.equals("")) {
-                imageDownloadLocationPreference.setSummary(downloadLocation);
+                imageDownloadLocationPreference.setSummary(formatDownloadPath(downloadLocation));
             }
 
             imageDownloadLocationPreference.setOnPreferenceClickListener(preference -> {
@@ -70,7 +72,7 @@ public class DownloadLocationPreferenceFragment extends CustomFontPreferenceFrag
         if (gifDownloadLocationPreference != null) {
             String downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION, "");
             if (!downloadLocation.equals("")) {
-                gifDownloadLocationPreference.setSummary(downloadLocation);
+                gifDownloadLocationPreference.setSummary(formatDownloadPath(downloadLocation));
             }
 
             gifDownloadLocationPreference.setOnPreferenceClickListener(preference -> {
@@ -83,7 +85,7 @@ public class DownloadLocationPreferenceFragment extends CustomFontPreferenceFrag
         if (videoDownloadLocationPreference != null) {
             String downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
             if (!downloadLocation.equals("")) {
-                videoDownloadLocationPreference.setSummary(downloadLocation);
+                videoDownloadLocationPreference.setSummary(formatDownloadPath(downloadLocation));
             }
 
             videoDownloadLocationPreference.setOnPreferenceClickListener(preference -> {
@@ -103,30 +105,49 @@ public class DownloadLocationPreferenceFragment extends CustomFontPreferenceFrag
                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 sharedPreferences.edit().putString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, data.getDataString()).apply();
                 if (imageDownloadLocationPreference != null) {
-                    imageDownloadLocationPreference.setSummary(data.getDataString());
+                    imageDownloadLocationPreference.setSummary(formatDownloadPath(data.getDataString()));
                 }
             } else if (requestCode == GIF_DOWNLOAD_LOCATION_REQUEST_CODE) {
                 activity.getContentResolver().takePersistableUriPermission(data.getData(),
                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 sharedPreferences.edit().putString(SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION, data.getDataString()).apply();
                 if (gifDownloadLocationPreference != null) {
-                    gifDownloadLocationPreference.setSummary(data.getDataString());
+                    gifDownloadLocationPreference.setSummary(formatDownloadPath(data.getDataString()));
                 }
             } else if (requestCode == VIDEO_DOWNLOAD_LOCATION_REQUEST_CODE) {
                 activity.getContentResolver().takePersistableUriPermission(data.getData(),
                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 sharedPreferences.edit().putString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, data.getDataString()).apply();
                 if (videoDownloadLocationPreference != null) {
-                    videoDownloadLocationPreference.setSummary(data.getDataString());
+                    videoDownloadLocationPreference.setSummary(formatDownloadPath(data.getDataString()));
                 }
             } else if (requestCode == NSFW_DOWNLOAD_LOCATION_REQUEST_CODE) {
                 activity.getContentResolver().takePersistableUriPermission(data.getData(),
                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 sharedPreferences.edit().putString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, data.getDataString()).apply();
                 if (nsfwDownloadLocationPreference != null) {
-                    nsfwDownloadLocationPreference.setSummary(data.getDataString());
+                    nsfwDownloadLocationPreference.setSummary(formatDownloadPath(data.getDataString()));
                 }
             }
         }
+    }
+
+    private String formatDownloadPath(String uriString) {
+        if (uriString == null || uriString.isEmpty()) {
+            return "";
+        }
+        String prefix = "content://com.android.externalstorage.documents/tree/primary%3A";
+        if (uriString.startsWith(prefix)) {
+            String encodedPath = uriString.substring(prefix.length());
+            try {
+                // Decode URL encoding (e.g., %2F -> /, %20 -> space)
+                return "/" + URLDecoder.decode(encodedPath, StandardCharsets.UTF_8.name());
+            } catch (Exception e) {
+                // Fallback to original string if decoding fails
+                return uriString;
+            }
+        }
+        // Return original string if prefix doesn't match
+        return uriString;
     }
 }

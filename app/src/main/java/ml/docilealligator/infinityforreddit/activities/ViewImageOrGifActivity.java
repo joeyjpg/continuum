@@ -361,10 +361,40 @@ public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWa
 
         PersistableBundle extras = new PersistableBundle();
         extras.putString(DownloadMediaService.EXTRA_URL, mImageUrl);
-        extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, isGif ? DownloadMediaService.EXTRA_MEDIA_TYPE_GIF : DownloadMediaService.EXTRA_MEDIA_TYPE_IMAGE);
-        extras.putString(DownloadMediaService.EXTRA_FILE_NAME, mImageFileName);
+        int mediaType = isGif ? DownloadMediaService.EXTRA_MEDIA_TYPE_GIF : DownloadMediaService.EXTRA_MEDIA_TYPE_IMAGE;
+        extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, mediaType);
         extras.putString(DownloadMediaService.EXTRA_SUBREDDIT_NAME, mSubredditName);
         extras.putInt(DownloadMediaService.EXTRA_IS_NSFW, isNsfw ? 1 : 0);
+
+        // Reconstruct filename using post title passed in intent
+        String postTitle = getIntent().getStringExtra(EXTRA_POST_TITLE_KEY);
+        String title = (postTitle != null && !postTitle.isEmpty()) ? postTitle : (isGif ? "reddit_gif" : "reddit_image");
+
+        // Basic sanitization (similar to DownloadMediaService)
+        String sanitizedTitle = title.replaceAll("[\\\\/:*?\"<>|]", "_").replaceAll("[\\s_]+", "_").replaceAll("^_+|_+$", "");
+        if (sanitizedTitle.length() > 100) sanitizedTitle = sanitizedTitle.substring(0, 100).replaceAll("_+$", "");
+        if (sanitizedTitle.isEmpty()) sanitizedTitle = (isGif ? "reddit_gif_" : "reddit_image_") + System.currentTimeMillis();
+
+        // Basic extension determination
+        String extension = ".unknown";
+        if (mImageUrl != null) {
+            String urlExt = org.apache.commons.io.FilenameUtils.getExtension(mImageUrl);
+
+            if (urlExt != null && !urlExt.isEmpty() && urlExt.matches("(?i)(jpg|jpeg|png|gif|mp4|webm|mov|avi)")) {
+                extension = "." + urlExt.toLowerCase().substring(0, Math.min(urlExt.length(), 5));
+            } else if (isGif) {
+                extension = ".gif";
+            } else {
+                extension = ".jpg"; // Default for images if URL extension is weird
+            }
+        } else if (isGif) {
+            extension = ".gif";
+        } else {
+            extension = ".jpg";
+        }
+
+        String finalFileName = sanitizedTitle + extension;
+        extras.putString(DownloadMediaService.EXTRA_FILE_NAME, finalFileName);
 
         //TODO: contentEstimatedBytes
         JobInfo jobInfo = DownloadMediaService.constructJobInfo(this, 5000000, extras);

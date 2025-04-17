@@ -304,6 +304,11 @@ public class ViewRedditGalleryActivity extends AppCompatActivity implements SetA
         this.isActionBarHidden = isActionBarHidden;
     }
 
+    // Add getter for the Post object
+    public Post getPost() {
+        return post;
+    }
+
     private class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         SectionsPagerAdapter(@NonNull FragmentManager fm) {

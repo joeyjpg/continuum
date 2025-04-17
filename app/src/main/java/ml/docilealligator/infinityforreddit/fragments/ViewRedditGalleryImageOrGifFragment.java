@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
@@ -93,8 +92,7 @@ public class ViewRedditGalleryImageOrGifFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BigImageViewer.initialize(GlideImageLoader.with(activity.getApplicationContext()));
 
         binding = FragmentViewRedditGalleryImageOrGifBinding.inflate(inflater, container, false);
@@ -376,15 +374,17 @@ public class ViewRedditGalleryImageOrGifFragment extends Fragment {
     private void download() {
         isDownloading = false;
 
-        PersistableBundle extras = new PersistableBundle();
-        extras.putString(DownloadMediaService.EXTRA_URL, media.hasFallback() ? media.fallbackUrl : media.url); // Retrieve original instead of the one additionally compressed by reddit
-        extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, media.mediaType == Post.Gallery.TYPE_GIF ? DownloadMediaService.EXTRA_MEDIA_TYPE_GIF: DownloadMediaService.EXTRA_MEDIA_TYPE_IMAGE);
-        extras.putString(DownloadMediaService.EXTRA_FILE_NAME, media.fileName);
-        extras.putString(DownloadMediaService.EXTRA_SUBREDDIT_NAME, subredditName);
-        extras.putInt(DownloadMediaService.EXTRA_IS_NSFW, isNsfw ? 1 : 0);
+        Post parentPost = activity.getPost();
+        int galleryIndex = getArguments().getInt(EXTRA_INDEX, 0);
+
+        if (parentPost == null) {
+            Toast.makeText(activity, R.string.downloading_media_failed_cannot_download_media, Toast.LENGTH_SHORT).show();
+
+            return; // Cannot proceed without the parent post object
+        }
 
         //TODO: contentEstimatedBytes
-        JobInfo jobInfo = DownloadMediaService.constructJobInfo(activity, 5000000, extras);
+        JobInfo jobInfo = DownloadMediaService.constructJobInfo(activity, 5000000, parentPost, galleryIndex);
         ((JobScheduler) activity.getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
 
         Toast.makeText(activity, R.string.download_started, Toast.LENGTH_SHORT).show();

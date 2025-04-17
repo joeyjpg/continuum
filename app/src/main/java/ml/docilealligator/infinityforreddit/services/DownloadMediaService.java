@@ -1,6 +1,5 @@
 package ml.docilealligator.infinityforreddit.services;
 
-import static android.os.Environment.getExternalStoragePublicDirectory;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -17,7 +16,6 @@ import android.media.MediaScannerConnection;
 import android.net.NetworkRequest;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.os.PersistableBundle;
 import android.provider.MediaStore;
 
@@ -28,7 +26,6 @@ import androidx.documentfile.provider.DocumentFile;
 
 import org.apache.commons.io.FilenameUtils;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,6 +62,7 @@ public class DownloadMediaService extends JobService {
     public static final String EXTRA_URL = "EU";
     public static final String EXTRA_FILE_NAME = "EFN";
     public static final String EXTRA_SUBREDDIT_NAME = "ESN";
+    public static final String EXTRA_TITLE = "ET";
     public static final String EXTRA_MEDIA_TYPE = "EIG";
     public static final String EXTRA_IS_NSFW = "EIN";
     public static final String EXTRA_REDGIFS_ID = "EGI";
@@ -108,6 +106,86 @@ public class DownloadMediaService extends JobService {
     Executor mExecutor;
     private NotificationManagerCompat notificationManager;
 
+    private static String sanitizeFilename(String inputName) {
+        if (inputName == null || inputName.isEmpty()) {
+            return "reddit_media"; // Default name if title is missing
+        }
+
+        // Remove characters that are invalid in filenames on most systems
+        String sanitized = inputName.replaceAll("[\\\\/:*?\"<>|]", "_");
+        // Replace multiple spaces/underscores with a single underscore
+        sanitized = sanitized.replaceAll("[\\s_]+", "_");
+        // Trim leading/trailing underscores
+        sanitized = sanitized.replaceAll("^_+|_+$", "");
+        // Limit length to avoid issues with max path length
+        int maxLength = 100; // Adjust max length as needed
+
+        if (sanitized.length() > maxLength) {
+            sanitized = sanitized.substring(0, maxLength);
+            // Ensure we don't cut in the middle of a multi-byte character if needed,
+            // but for simplicity, basic substring is often sufficient.
+            // Re-trim in case the cut resulted in a trailing underscore
+            sanitized = sanitized.replaceAll("_+$", "");
+        }
+
+        // Handle case where sanitization results in an empty string
+        if (sanitized.isEmpty()) {
+            return "reddit_media_" + System.currentTimeMillis();
+        }
+        return sanitized;
+    }
+
+    // Helper function to get file extension (overload for Post)
+    private static String getExtension(String url, int mediaType, String defaultFileName) {
+        return getExtensionInternal(url, mediaType, defaultFileName);
+    }
+
+    // Helper function to get file extension (overload for ImgurMedia)
+    private static String getExtension(ImgurMedia imgurMedia) {
+        // ImgurMedia already has a reasonable filename with extension
+        String fileName = imgurMedia.getFileName();
+        String extension = FilenameUtils.getExtension(fileName);
+        if (extension != null && !extension.isEmpty()) {
+            // Limit extension length
+            return "." + extension.toLowerCase().substring(0, Math.min(extension.length(), 5));
+        }
+        // Fallback based on type if filename lacks extension
+        return getExtensionInternal(imgurMedia.getLink(),
+                imgurMedia.getType() == ImgurMedia.TYPE_VIDEO ? EXTRA_MEDIA_TYPE_VIDEO : EXTRA_MEDIA_TYPE_IMAGE,
+                null);
+    }
+
+    // Internal helper for extension logic
+    private static String getExtensionInternal(String url, int mediaType, String defaultFileName) {
+        String extension = FilenameUtils.getExtension(url);
+        if (extension != null && !extension.isEmpty()) {
+            // Basic validation for common image/video extensions
+            if (extension.matches("(?i)(jpg|jpeg|png|gif|mp4|webm|mov|avi)")) {
+                 // Limit extension length to prevent abuse
+                return "." + extension.toLowerCase().substring(0, Math.min(extension.length(), 5));
+            }
+        }
+        // Fallback based on media type or default filename
+        switch (mediaType) {
+            case EXTRA_MEDIA_TYPE_IMAGE:
+                return ".jpg";
+            case EXTRA_MEDIA_TYPE_GIF:
+                return ".gif";
+            case EXTRA_MEDIA_TYPE_VIDEO:
+                return ".mp4";
+            default:
+                // Try extracting from defaultFileName if provided
+                if (defaultFileName != null && defaultFileName.contains(".")) {
+                    String defaultExt = FilenameUtils.getExtension(defaultFileName);
+                    if (defaultExt != null && !defaultExt.isEmpty()) {
+                        return "." + defaultExt.toLowerCase().substring(0, Math.min(defaultExt.length(), 5));
+                    }
+                }
+                return ".unknown"; // Default if no extension found
+        }
+    }
+
+
     public DownloadMediaService() {
     }
 
@@ -121,64 +199,90 @@ public class DownloadMediaService extends JobService {
      */
     public static JobInfo constructJobInfo(Context context, long contentEstimatedBytes, Post post, int galleryIndex) {
         PersistableBundle extras = new PersistableBundle();
+        String sanitizedTitle = sanitizeFilename(post.getTitle());
+        String url = "";
+        String extension = "";
+        int currentMediaType = -1;
+
         if (post.getPostType() == Post.IMAGE_TYPE) {
-            extras.putString(EXTRA_URL, post.getUrl());
-            extras.putInt(EXTRA_MEDIA_TYPE, EXTRA_MEDIA_TYPE_IMAGE);
-            extras.putString(EXTRA_FILE_NAME, post.getSubredditName()
-                    + "-" + post.getId() + ".jpg");
+            url = post.getUrl();
+            currentMediaType = EXTRA_MEDIA_TYPE_IMAGE;
+            extras.putString(EXTRA_URL, url);
+            extras.putInt(EXTRA_MEDIA_TYPE, currentMediaType);
             extras.putString(EXTRA_SUBREDDIT_NAME, post.getSubredditName());
             extras.putBoolean(EXTRA_IS_NSFW, post.isNSFW());
         } else if (post.getPostType() == Post.GIF_TYPE) {
-            extras.putString(EXTRA_URL, post.getVideoUrl());
-            extras.putInt(EXTRA_MEDIA_TYPE, EXTRA_MEDIA_TYPE_GIF);
-            extras.putString(EXTRA_FILE_NAME, post.getSubredditName() + "-" + post.getId() + ".gif");
+            url = post.getVideoUrl(); // GIFs often served as videos (mp4)
+            currentMediaType = EXTRA_MEDIA_TYPE_GIF; // Keep original type for logic, but extension might be mp4
+            extras.putString(EXTRA_URL, url);
+            extras.putInt(EXTRA_MEDIA_TYPE, currentMediaType);
             extras.putString(EXTRA_SUBREDDIT_NAME, post.getSubredditName());
             extras.putBoolean(EXTRA_IS_NSFW, post.isNSFW());
         } else if (post.getPostType() == Post.VIDEO_TYPE) {
+            currentMediaType = EXTRA_MEDIA_TYPE_VIDEO;
             if (post.isStreamable()) {
                 if (post.isLoadRedgifsOrStreamableVideoSuccess()) {
-                    extras.putString(EXTRA_URL, post.getVideoUrl());
-                } else {
-                    extras.putString(EXTRA_REDGIFS_ID, post.getRedgifsId());
-                }
-
-                extras.putString(EXTRA_FILE_NAME, "Streamable-" + post.getStreamableShortCode() + ".mp4");
-            } else if (post.isRedgifs()) {
-                if (post.isLoadRedgifsOrStreamableVideoSuccess()) {
-                    extras.putString(EXTRA_URL, post.getVideoUrl());
+                    url = post.getVideoUrl();
+                    extras.putString(EXTRA_URL, url);
                 } else {
                     extras.putString(EXTRA_STREAMABLE_SHORT_CODE, post.getStreamableShortCode());
+                    // URL will be fetched later in downloadMedia if null
                 }
-
-                String redgifsId = post.getRedgifsId();
-                if (redgifsId != null && redgifsId.contains("-")) {
-                    redgifsId = redgifsId.substring(0, redgifsId.indexOf('-'));
+            } else if (post.isRedgifs()) {
+                if (post.isLoadRedgifsOrStreamableVideoSuccess()) {
+                    url = post.getVideoUrl();
+                    extras.putString(EXTRA_URL, url);
+                } else {
+                    extras.putString(EXTRA_REDGIFS_ID, post.getRedgifsId());
+                    // URL will be fetched later in downloadMedia if null
                 }
-                extras.putString(EXTRA_FILE_NAME, "Redgifs-" + redgifsId + ".mp4");
             } else if (post.isImgur()) {
-                extras.putString(EXTRA_URL, post.getVideoUrl());
-                extras.putString(EXTRA_FILE_NAME, "Imgur-" + FilenameUtils.getName(post.getVideoUrl()));
+                url = post.getVideoUrl();
+                extras.putString(EXTRA_URL, url);
+            } else { // Standard Reddit video
+                url = post.getVideoUrl();
+                extras.putString(EXTRA_URL, url);
             }
-
-            extras.putInt(EXTRA_MEDIA_TYPE, EXTRA_MEDIA_TYPE_VIDEO);
+            extras.putInt(EXTRA_MEDIA_TYPE, currentMediaType);
             extras.putString(EXTRA_SUBREDDIT_NAME, post.getSubredditName());
             extras.putBoolean(EXTRA_IS_NSFW, post.isNSFW());
         } else if (post.getPostType() == Post.GALLERY_TYPE) {
             Post.Gallery media = post.getGallery().get(galleryIndex);
             if (media.mediaType == Post.Gallery.TYPE_VIDEO) {
-                extras.putString(EXTRA_URL, media.url);
-                extras.putInt(EXTRA_MEDIA_TYPE, EXTRA_MEDIA_TYPE_VIDEO);
-                extras.putString(EXTRA_FILE_NAME, media.fileName);
-                extras.putString(EXTRA_SUBREDDIT_NAME, post.getSubredditName());
-                extras.putBoolean(EXTRA_IS_NSFW, post.isNSFW());
+                url = media.url;
+                currentMediaType = EXTRA_MEDIA_TYPE_VIDEO;
+                extras.putString(EXTRA_URL, url);
+                extras.putInt(EXTRA_MEDIA_TYPE, currentMediaType);
             } else {
-                extras.putString(EXTRA_URL, media.hasFallback() ? media.fallbackUrl : media.url); // Retrieve original instead of the one additionally compressed by reddit
-                extras.putInt(EXTRA_MEDIA_TYPE, media.mediaType == Post.Gallery.TYPE_GIF ? EXTRA_MEDIA_TYPE_GIF: EXTRA_MEDIA_TYPE_IMAGE);
-                extras.putString(EXTRA_FILE_NAME, media.fileName);
-                extras.putString(EXTRA_SUBREDDIT_NAME, post.getSubredditName());
-                extras.putBoolean(EXTRA_IS_NSFW, post.isNSFW());
+                url = media.hasFallback() ? media.fallbackUrl : media.url; // Retrieve original instead of the one additionally compressed by reddit
+                currentMediaType = media.mediaType == Post.Gallery.TYPE_GIF ? EXTRA_MEDIA_TYPE_GIF : EXTRA_MEDIA_TYPE_IMAGE;
+                extras.putString(EXTRA_URL, url);
+                extras.putInt(EXTRA_MEDIA_TYPE, currentMediaType);
             }
+            extras.putString(EXTRA_SUBREDDIT_NAME, post.getSubredditName());
+            extras.putBoolean(EXTRA_IS_NSFW, post.isNSFW());
         }
+
+        // Determine extension based on URL and media type
+        extension = getExtension(url, currentMediaType, null); // Pass null for defaultFileName initially
+
+        // Construct filename: title + (optional index for gallery) + extension
+        String finalFileName = sanitizedTitle +
+                (post.getPostType() == Post.GALLERY_TYPE && galleryIndex >= 0 ? "_" + (galleryIndex + 1) : "") + // Use 1-based index for galleries
+                extension;
+
+        // Set the final filename in extras
+        extras.putString(EXTRA_FILE_NAME, finalFileName);
+
+        // Re-fetch extension if it was based on a potentially incorrect default, now using the final name
+        if (url == null || url.isEmpty()) { // Especially for Redgifs/Streamable where URL might be fetched later
+            extension = getExtension(url, currentMediaType, finalFileName);
+            finalFileName = sanitizedTitle +
+                (post.getPostType() == Post.GALLERY_TYPE && galleryIndex >= 0 ? "_" + (galleryIndex + 1) : "") +
+                extension;
+             extras.putString(EXTRA_FILE_NAME, finalFileName); // Update again if extension changed
+        }
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             return new JobInfo.Builder(JOB_ID++, new ComponentName(context, DownloadMediaService.class))
@@ -209,16 +313,26 @@ public class DownloadMediaService extends JobService {
 
             for (int i = 0; i < gallery.size(); i++) {
                 Post.Gallery media = gallery.get(i);
+                String url = "";
+                int currentMediaType = -1;
+                String sanitizedTitle = sanitizeFilename(post.getTitle()); // Sanitize title once
 
                 if (media.mediaType == Post.Gallery.TYPE_VIDEO) {
-                    concatUrlsBuilder.append(media.url).append(" ");
-                    concatMediaTypesBuilder.append(EXTRA_MEDIA_TYPE_VIDEO).append(" ");
-                    concatFileNamesBuilder.append(media.fileName).append(" ");
+                    url = media.url;
+                    currentMediaType = EXTRA_MEDIA_TYPE_VIDEO;
+                    concatUrlsBuilder.append(url).append(" ");
+                    concatMediaTypesBuilder.append(currentMediaType).append(" ");
                 } else {
-                    concatUrlsBuilder.append(media.hasFallback() ? media.fallbackUrl : media.url).append(" "); // Retrieve original instead of the one additionally compressed by reddit
-                    concatMediaTypesBuilder.append(media.mediaType == Post.Gallery.TYPE_GIF ? EXTRA_MEDIA_TYPE_GIF: EXTRA_MEDIA_TYPE_IMAGE).append(" ");
-                    concatFileNamesBuilder.append(media.fileName).append(" ");
+                    url = media.hasFallback() ? media.fallbackUrl : media.url; // Retrieve original
+                    currentMediaType = media.mediaType == Post.Gallery.TYPE_GIF ? EXTRA_MEDIA_TYPE_GIF : EXTRA_MEDIA_TYPE_IMAGE;
+                    concatUrlsBuilder.append(url).append(" ");
+                    concatMediaTypesBuilder.append(currentMediaType).append(" ");
                 }
+
+                // Construct filename for this gallery item
+                String extension = getExtension(url, currentMediaType, media.fileName); // Use original media.fileName as fallback hint
+                String finalFileName = sanitizedTitle + "_" + (i + 1) + extension; // Use 1-based index
+                concatFileNamesBuilder.append(finalFileName).append(" ");
             }
 
             if (concatUrlsBuilder.length() > 0) {
@@ -254,15 +368,30 @@ public class DownloadMediaService extends JobService {
         }
     }
 
-    public static JobInfo constructJobInfo(Context context, long contentEstimatedBytes, ImgurMedia imgurMedia) {
+    public static JobInfo constructJobInfo(Context context, long contentEstimatedBytes, ImgurMedia imgurMedia, String subredditName, boolean isNsfw, String title) {
         PersistableBundle extras = new PersistableBundle();
         extras.putString(EXTRA_URL, imgurMedia.getLink());
-        extras.putString(EXTRA_FILE_NAME, imgurMedia.getFileName());
+
+        if (title == null || title.trim().isEmpty()) {
+            title = imgurMedia.getId(); // Fallback to ID if title is missing
+        }
+
+        String sanitizedTitle = sanitizeFilename(title); // Use static sanitize helper
+        String extension = getExtension(imgurMedia); // Use static ImgurMedia extension helper
+        String finalFileName = sanitizedTitle + extension;
+
+        extras.putString(EXTRA_FILE_NAME, finalFileName); // Set the constructed filename
+
         if (imgurMedia.getType() == ImgurMedia.TYPE_VIDEO) {
             extras.putInt(EXTRA_MEDIA_TYPE, EXTRA_MEDIA_TYPE_VIDEO);
         } else {
             extras.putInt(EXTRA_MEDIA_TYPE, EXTRA_MEDIA_TYPE_IMAGE);
         }
+
+        // Pass the received subreddit, NSFW status, and title to the extras
+        extras.putString(EXTRA_SUBREDDIT_NAME, subredditName);
+        extras.putBoolean(EXTRA_IS_NSFW, isNsfw);
+        extras.putString(EXTRA_TITLE, title); // Add title as well for consistency
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             return new JobInfo.Builder(JOB_ID++, new ComponentName(context, DownloadMediaService.class))
@@ -279,7 +408,7 @@ public class DownloadMediaService extends JobService {
         }
     }
 
-    public static JobInfo constructImgurAlbumDownloadAllMediaJobInfo(Context context, long contentEstimatedBytes, List<ImgurMedia> imgurMedia) {
+    public static JobInfo constructImgurAlbumDownloadAllMediaJobInfo(Context context, long contentEstimatedBytes, List<ImgurMedia> imgurMedia, String subredditName, boolean isNsfw, String title) {
         PersistableBundle extras = new PersistableBundle();
 
         StringBuilder concatUrlsBuilder = new StringBuilder();
@@ -288,16 +417,27 @@ public class DownloadMediaService extends JobService {
 
         for (int i = 0; i < imgurMedia.size(); i++) {
             ImgurMedia media = imgurMedia.get(i);
+            String url = media.getLink();
+            int currentMediaType;
 
             if (media.getType() == ImgurMedia.TYPE_VIDEO) {
-                concatUrlsBuilder.append(media.getLink()).append(" ");
-                concatMediaTypesBuilder.append(EXTRA_MEDIA_TYPE_VIDEO).append(" ");
-                concatFileNamesBuilder.append(media.getFileName()).append(" ");
+                currentMediaType = EXTRA_MEDIA_TYPE_VIDEO;
+                concatUrlsBuilder.append(url).append(" ");
+                concatMediaTypesBuilder.append(currentMediaType).append(" ");
             } else {
-                concatUrlsBuilder.append(media.getLink()).append(" "); // Retrieve original instead of the one additionally compressed by reddit
-                concatMediaTypesBuilder.append(EXTRA_MEDIA_TYPE_IMAGE).append(" ");
-                concatFileNamesBuilder.append(media.getFileName()).append(" ");
+                currentMediaType = EXTRA_MEDIA_TYPE_IMAGE;
+                concatUrlsBuilder.append(url).append(" ");
+                concatMediaTypesBuilder.append(currentMediaType).append(" ");
             }
+
+            if (title == null || title.trim().isEmpty()) {
+                title = media.getId(); // Fallback to ID
+            }
+
+            String sanitizedTitle = sanitizeFilename(title);
+            String extension = getExtension(media);
+            String finalFileName = sanitizedTitle + "_" + (i + 1) + extension; // Add 1-based index
+            concatFileNamesBuilder.append(finalFileName).append(" ");
         }
 
         if (concatUrlsBuilder.length() > 0) {
@@ -315,6 +455,9 @@ public class DownloadMediaService extends JobService {
         extras.putString(EXTRA_ALL_GALLERY_IMAGE_URLS, concatUrlsBuilder.toString());
         extras.putString(EXTRA_ALL_GALLERY_IMAGE_MEDIA_TYPES, concatMediaTypesBuilder.toString());
         extras.putString(EXTRA_ALL_GALLERY_IMAGE_FILE_NAMES, concatFileNamesBuilder.toString());
+        extras.putString(EXTRA_SUBREDDIT_NAME, subredditName);
+        extras.putBoolean(EXTRA_IS_NSFW, isNsfw);
+        extras.putString(EXTRA_TITLE, title);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             return new JobInfo.Builder(JOB_ID++, new ComponentName(context, DownloadMediaService.class))
@@ -434,12 +577,11 @@ public class DownloadMediaService extends JobService {
                                     if (!done) {
                                         if (contentLength != -1) {
                                             long currentTime = System.currentTimeMillis();
+
                                             if (currentTime - time > 1000) {
                                                 time = currentTime;
                                                 int currentMediaProgress = (int) (((float) bytesRead / contentLength + (float) finalI / urls.length) * 100);
-                                                updateNotification(builder, mediaType, 0,
-                                                        currentMediaProgress, randomNotificationIdOffset,
-                                                        null, null);
+                                                updateNotification(builder, mediaType, 0, currentMediaProgress, randomNotificationIdOffset, null, null);
                                             }
                                         }
                                     }
@@ -502,9 +644,9 @@ public class DownloadMediaService extends JobService {
      * @return true if download succeeded or false otherwise.
      */
     private boolean downloadMedia(JobParameters params, String fileUrl, PersistableBundle intent,
-                               NotificationCompat.Builder builder, int mediaType, int randomNotificationIdOffset,
-                               String fileName, String mimeType, String subredditName, boolean isNsfw,
-                               boolean multipleDownloads, DownloadProgressResponseBody.ProgressListener progressListener) {
+                            NotificationCompat.Builder builder, int mediaType, int randomNotificationIdOffset,
+                            String fileName, String mimeType, String subredditName, boolean isNsfw,
+                            boolean multipleDownloads, DownloadProgressResponseBody.ProgressListener progressListener) {
         if (fileUrl == null) {
             // Only Redgifs and Streamble video can go inside this if clause.
             String redgifsId = intent.getString(EXTRA_REDGIFS_ID, null);
@@ -557,36 +699,16 @@ public class DownloadMediaService extends JobService {
             response = retrofit.create(DownloadFile.class).downloadFile(fileUrl).execute();
             if (response.isSuccessful() && response.body() != null) {
                 String destinationFileDirectory = getDownloadLocation(mediaType, isNsfw);
-                if (destinationFileDirectory.equals("")) {
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-                        File directory = getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                        if (directory != null) {
-                            String directoryPath = separateDownloadFolder && subredditName != null && !subredditName.equals("") ? directory.getAbsolutePath() + "/Infinity/" + subredditName + "/" : directory.getAbsolutePath() + "/Infinity/";
-                            File infinityDir = new File(directoryPath);
-                            if (!infinityDir.exists() && !infinityDir.mkdirs()) {
-                                downloadFinished(params, builder, mediaType, randomNotificationIdOffset, mimeType,
-                                        null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, multipleDownloads);
-                                return false;
-                            }
-                            destinationFileUriString = directoryPath + fileName;
-                        } else {
-                            downloadFinished(params, builder, mediaType, randomNotificationIdOffset, mimeType,
-                                    null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, multipleDownloads);
-                            return false;
-                        }
-                    } else {
-                        String dir = mediaType == EXTRA_MEDIA_TYPE_VIDEO ? Environment.DIRECTORY_MOVIES : Environment.DIRECTORY_PICTURES;
-                        destinationFileUriString = separateDownloadFolder && subredditName != null && !subredditName.equals("") ? dir + "/Infinity/" + subredditName + "/" : dir + "/Infinity/";
-                    }
-                } else {
                     isDefaultDestination = false;
                     DocumentFile picFile;
                     DocumentFile dir;
+
                     if (separateDownloadFolder && subredditName != null && !subredditName.equals("")) {
                         dir = DocumentFile.fromTreeUri(DownloadMediaService.this, Uri.parse(destinationFileDirectory));
                         if (dir == null) {
                             downloadFinished(params, builder, mediaType, randomNotificationIdOffset, mimeType,
                                     null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, multipleDownloads);
+
                             return false;
                         }
                         dir = dir.findFile(subredditName);
@@ -595,6 +717,7 @@ public class DownloadMediaService extends JobService {
                             if (dir == null) {
                                 downloadFinished(params, builder, mediaType, randomNotificationIdOffset, mimeType,
                                         null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, multipleDownloads);
+
                                 return false;
                             }
                         }
@@ -603,26 +726,31 @@ public class DownloadMediaService extends JobService {
                         if (dir == null) {
                             downloadFinished(params, builder, mediaType, randomNotificationIdOffset, mimeType,
                                     null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, multipleDownloads);
+
                             return false;
                         }
                     }
+
                     DocumentFile checkForDuplicates = dir.findFile(fileName);
                     int extensionPosition = fileName.lastIndexOf('.');
                     String extension = fileName.substring(extensionPosition);
                     int num = 1;
+
                     while (checkForDuplicates != null) {
                         fileName = fileName.substring(0, extensionPosition) + " (" + num + ")" + extension;
                         checkForDuplicates = dir.findFile(fileName);
                         num++;
                     }
+
                     picFile = dir.createFile(mimeType, fileName);
+
                     if (picFile == null) {
                         downloadFinished(params, builder, mediaType, randomNotificationIdOffset, mimeType,
                                 null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, multipleDownloads);
                         return false;
                     }
+
                     destinationFileUriString = picFile.getUri().toString();
-                }
             } else {
                 downloadFinished(params, builder, mediaType, randomNotificationIdOffset, mimeType, null,
                         ERROR_FILE_CANNOT_DOWNLOAD, multipleDownloads);
@@ -636,8 +764,7 @@ public class DownloadMediaService extends JobService {
         }
 
         try {
-            Uri destinationFileUri = writeResponseBodyToDisk(response.body(), isDefaultDestination, destinationFileUriString,
-                    fileName, mediaType);
+            Uri destinationFileUri = writeResponseBodyToDisk(response.body(), isDefaultDestination, destinationFileUriString, fileName, mediaType);
             downloadFinished(params, builder, mediaType, randomNotificationIdOffset,
                     mimeType, destinationFileUri, NO_ERROR, multipleDownloads);
             return true;
@@ -645,6 +772,7 @@ public class DownloadMediaService extends JobService {
             e.printStackTrace();
             downloadFinished(params, builder, mediaType, randomNotificationIdOffset,
                     mimeType, null, ERROR_FILE_CANNOT_SAVE, multipleDownloads);
+
             return false;
         }
     }
@@ -656,17 +784,18 @@ public class DownloadMediaService extends JobService {
                 .build();
     }
 
-    private void updateNotification(NotificationCompat.Builder builder, int mediaType, int contentStringResId, int progress, int randomNotificationIdOffset,
-                                    Uri mediaUri, String mimeType) {
+    private void updateNotification(NotificationCompat.Builder builder, int mediaType, int contentStringResId, int progress, int randomNotificationIdOffset, Uri mediaUri, String mimeType) {
         if (notificationManager != null) {
             if (progress < 0) {
                 builder.setProgress(0, 0, false);
             } else {
                 builder.setProgress(100, progress, false);
             }
+
             if (contentStringResId != 0) {
                 builder.setContentText(getString(contentStringResId));
             }
+
             if (mediaUri != null) {
                 int pendingIntentFlags = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE : PendingIntent.FLAG_CANCEL_CURRENT;
 
@@ -693,6 +822,7 @@ public class DownloadMediaService extends JobService {
                 PendingIntent deleteActionPendingIntent = PendingIntent.getBroadcast(this, 2, deleteIntent, pendingIntentFlags);
                 builder.addAction(new NotificationCompat.Action(R.drawable.ic_notification, getString(R.string.delete), deleteActionPendingIntent));
             }
+
             notificationManager.notify(getNotificationId(mediaType, randomNotificationIdOffset), builder.build());
         }
     }
@@ -734,6 +864,7 @@ public class DownloadMediaService extends JobService {
         if (isNsfw && mSharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false)) {
             return mSharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
         }
+
         switch (mediaType) {
             case EXTRA_MEDIA_TYPE_GIF:
                 return mSharedPreferences.getString(SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION, "");
@@ -744,9 +875,7 @@ public class DownloadMediaService extends JobService {
         }
     }
 
-    private Uri writeResponseBodyToDisk(ResponseBody body, boolean isDefaultDestination,
-                                        String destinationFileUriString, String destinationFileName,
-                                        int mediaType) throws IOException {
+    private Uri writeResponseBodyToDisk(ResponseBody body, boolean isDefaultDestination, String destinationFileUriString, String destinationFileName, int mediaType) throws IOException {
         ContentResolver contentResolver = getContentResolver();
         if (isDefaultDestination) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
@@ -774,6 +903,7 @@ public class DownloadMediaService extends JobService {
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, destinationFileName);
                 String mimeType;
+
                 switch (mediaType) {
                     case EXTRA_MEDIA_TYPE_VIDEO:
                         mimeType = "video/mpeg";
@@ -784,6 +914,7 @@ public class DownloadMediaService extends JobService {
                     default:
                         mimeType = "image/jpeg";
                 }
+
                 contentValues.put(MediaStore.MediaColumns.MIME_TYPE, mimeType);
                 contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, destinationFileUriString);
                 contentValues.put(MediaStore.MediaColumns.IS_PENDING, 1);
@@ -804,9 +935,11 @@ public class DownloadMediaService extends JobService {
                 InputStream in = body.byteStream();
                 byte[] buf = new byte[1024];
                 int len;
+
                 while ((len = in.read(buf)) > 0) {
                     stream.write(buf, 0, len);
                 }
+
                 contentValues.clear();
                 contentValues.put(MediaStore.MediaColumns.IS_PENDING, 0);
                 contentResolver.update(uri, contentValues, null, null);
@@ -822,6 +955,7 @@ public class DownloadMediaService extends JobService {
 
                 byte[] buf = new byte[1024];
                 int len;
+
                 while ((len = in.read(buf)) > 0) {
                     stream.write(buf, 0, len);
                 }
@@ -830,9 +964,7 @@ public class DownloadMediaService extends JobService {
         return Uri.parse(destinationFileUriString);
     }
 
-    private void downloadFinished(JobParameters parameters, NotificationCompat.Builder builder, int mediaType,
-                                  int randomNotificationIdOffset, String mimeType, Uri destinationFileUri,
-                                  int errorCode, boolean multipleDownloads) {
+    private void downloadFinished(JobParameters parameters, NotificationCompat.Builder builder, int mediaType, int randomNotificationIdOffset, String mimeType, Uri destinationFileUri, int errorCode, boolean multipleDownloads) {
         if (errorCode != NO_ERROR) {
             if (multipleDownloads) {
                 switch (errorCode) {

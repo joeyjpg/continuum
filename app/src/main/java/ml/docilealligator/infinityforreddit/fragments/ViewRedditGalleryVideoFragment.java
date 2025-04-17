@@ -11,7 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -96,8 +95,7 @@ public class ViewRedditGalleryVideoFragment extends Fragment {
 
     @OptIn(markerClass = UnstableApi.class)
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = new ViewRedditGalleryVideoFragmentBindingAdapter(ml.docilealligator.infinityforreddit.databinding.FragmentViewRedditGalleryVideoBinding.inflate(inflater, container, false));
 
         ((Infinity) activity.getApplication()).getAppComponent().inject(this);
@@ -259,15 +257,20 @@ public class ViewRedditGalleryVideoFragment extends Fragment {
     private void download() {
         isDownloading = false;
 
-        PersistableBundle extras = new PersistableBundle();
-        extras.putString(DownloadMediaService.EXTRA_URL, galleryVideo.url);
-        extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO);
-        extras.putString(DownloadMediaService.EXTRA_FILE_NAME, galleryVideo.fileName);
-        extras.putString(DownloadMediaService.EXTRA_SUBREDDIT_NAME, subredditName);
-        extras.putInt(DownloadMediaService.EXTRA_IS_NSFW, isNsfw ? 1 : 0);
+        // Get the parent Post object from the activity
+        Post parentPost = activity.getPost(); // Assuming getPost() exists in ViewRedditGalleryActivity
+        int galleryIndex = getArguments().getInt(EXTRA_INDEX, 0);
 
+        if (parentPost == null) {
+            Toast.makeText(activity, R.string.downloading_media_failed_cannot_download_media, Toast.LENGTH_SHORT).show();
+
+            return; // Cannot proceed without the parent post object
+        }
+
+        // Call the constructJobInfo overload that takes the Post object and index
+        // This overload handles the correct filename generation internally.
         //TODO: contentEstimatedBytes
-        JobInfo jobInfo = DownloadMediaService.constructJobInfo(activity, 5000000, extras);
+        JobInfo jobInfo = DownloadMediaService.constructJobInfo(activity, 5000000, parentPost, galleryIndex);
         ((JobScheduler) activity.getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
 
         Toast.makeText(activity, R.string.download_started, Toast.LENGTH_SHORT).show();

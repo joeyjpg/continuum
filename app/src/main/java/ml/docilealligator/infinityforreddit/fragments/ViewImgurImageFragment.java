@@ -75,8 +75,7 @@ public class ViewImgurImageFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentViewImgurImageBinding.inflate(inflater, container, false);
 
         ((Infinity) activity.getApplication()).getAppComponent().inject(this);
@@ -223,8 +222,12 @@ public class ViewImgurImageFragment extends Fragment {
     private void download() {
         isDownloading = false;
 
+        String subredditName = getArguments().getString(ViewImgurMediaActivity.EXTRA_SUBREDDIT_NAME);
+        boolean isNsfw = getArguments().getBoolean(ViewImgurMediaActivity.EXTRA_IS_NSFW);
+        String title = getArguments().getString(ViewImgurMediaActivity.EXTRA_POST_TITLE_KEY);
+
         //TODO: contentEstimatedBytes
-        JobInfo jobInfo = DownloadMediaService.constructJobInfo(activity, 5000000, imgurMedia);
+        JobInfo jobInfo = DownloadMediaService.constructJobInfo(activity, 5000000, imgurMedia, subredditName, isNsfw, title);
         ((JobScheduler) activity.getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
 
         Toast.makeText(activity, R.string.download_started, Toast.LENGTH_SHORT).show();

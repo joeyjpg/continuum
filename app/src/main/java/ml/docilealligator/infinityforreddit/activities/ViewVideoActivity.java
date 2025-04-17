@@ -108,7 +108,6 @@ import ml.docilealligator.infinityforreddit.font.TitleFontFamily;
 import ml.docilealligator.infinityforreddit.font.TitleFontStyle;
 import ml.docilealligator.infinityforreddit.post.Post;
 import ml.docilealligator.infinityforreddit.services.DownloadMediaService;
-import ml.docilealligator.infinityforreddit.services.DownloadRedditVideoService;
 import ml.docilealligator.infinityforreddit.thing.StreamableVideo;
 import ml.docilealligator.infinityforreddit.utils.APIUtils;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
@@ -1001,46 +1000,39 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
     private void download() {
         isDownloading = false;
 
-        if (videoType != VIDEO_TYPE_NORMAL) {
-            PersistableBundle extras = new PersistableBundle();
-            if (post != null) {
-                if (post.getPostType() == Post.GIF_TYPE) {
-                    extras.putString(DownloadMediaService.EXTRA_URL, post.getVideoUrl());
-                    extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, DownloadMediaService.EXTRA_MEDIA_TYPE_GIF);
-                    extras.putString(DownloadMediaService.EXTRA_FILE_NAME, post.getSubredditName() + "-" + post.getId() + ".gif");
-                } else {
-                    extras.putString(DownloadMediaService.EXTRA_URL, videoDownloadUrl);
-                    extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO);
-                    extras.putString(DownloadMediaService.EXTRA_FILE_NAME, videoFileName);
-                }
+        PersistableBundle extras = new PersistableBundle();
 
-                extras.putString(DownloadMediaService.EXTRA_SUBREDDIT_NAME, subredditName);
-                extras.putInt(DownloadMediaService.EXTRA_IS_NSFW, isNSFW ? 1 : 0);
+        if (post != null) {
+            subredditName = post.getSubredditName();
+            String title = post.getTitle();
+            String sanitizedTitle = title.replaceAll("[\\\\/:*?\"<>|]", "_").replaceAll("[\\s_]+", "_").replaceAll("^_+|_+$", "");
+            if (sanitizedTitle.length() > 100) sanitizedTitle = sanitizedTitle.substring(0, 100).replaceAll("_+$", "");
+            if (sanitizedTitle.isEmpty()) sanitizedTitle = "reddit_video_" + System.currentTimeMillis();
 
-                //TODO: contentEstimatedBytes
-                JobInfo jobInfo = DownloadMediaService.constructJobInfo(this, 5000000, extras);
-                ((JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
-                Toast.makeText(this, R.string.download_started, Toast.LENGTH_SHORT).show();
+            if (post.getPostType() == Post.GIF_TYPE) {
+                extras.putString(DownloadMediaService.EXTRA_URL, post.getVideoUrl());
+                extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, DownloadMediaService.EXTRA_MEDIA_TYPE_GIF);
+                extras.putString(DownloadMediaService.EXTRA_FILE_NAME, sanitizedTitle + ".gif");
             } else {
-                // Handle the case where post is null, maybe log an error or show a message
-                Log.e("ViewVideoActivity", "Download failed: Post object is null when videoType != VIDEO_TYPE_NORMAL");
-                Toast.makeText(this, R.string.downloading_reddit_video_failed_cannot_download_video, Toast.LENGTH_SHORT).show();
-
-                return; // Exit the download method if post is null
+                extras.putString(DownloadMediaService.EXTRA_URL, videoDownloadUrl);
+                extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO);
+                extras.putString(DownloadMediaService.EXTRA_FILE_NAME, sanitizedTitle + ".mp4");
             }
-        } else {
-            PersistableBundle extras = new PersistableBundle();
-            extras.putString(DownloadRedditVideoService.EXTRA_VIDEO_URL, videoDownloadUrl);
-            extras.putString(DownloadRedditVideoService.EXTRA_POST_ID, id);
-            extras.putString(DownloadRedditVideoService.EXTRA_SUBREDDIT, subredditName);
-            extras.putInt(DownloadRedditVideoService.EXTRA_IS_NSFW, isNSFW ? 1 : 0);
+
+            extras.putString(DownloadMediaService.EXTRA_SUBREDDIT_NAME, subredditName);
+            extras.putInt(DownloadMediaService.EXTRA_IS_NSFW, isNSFW ? 1 : 0);
 
             //TODO: contentEstimatedBytes
-            JobInfo jobInfo = DownloadRedditVideoService.constructJobInfo(this, 5000000, extras);
+            JobInfo jobInfo = DownloadMediaService.constructJobInfo(this, 5000000, extras);
             ((JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
-        }
+            Toast.makeText(this, R.string.download_started, Toast.LENGTH_SHORT).show();
+        } else {
+            // Handle the case where post is null, maybe log an error or show a message
+            Log.e("ViewVideoActivity", "Download failed: Post object is null when videoType != VIDEO_TYPE_NORMAL");
+            Toast.makeText(this, R.string.downloading_reddit_video_failed_cannot_download_video, Toast.LENGTH_SHORT).show();
 
-        Toast.makeText(this, R.string.download_started, Toast.LENGTH_SHORT).show();
+            return; // Exit the download method if post is null
+        }
     }
 
     @Override

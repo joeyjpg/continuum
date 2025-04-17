@@ -96,8 +96,7 @@ public class PostOptionsBottomSheetFragment extends LandscapeExpandedRoundedBott
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ((Infinity) mBaseActivity.getApplication()).getAppComponent().inject(this);
         // Inflate the layout for this fragment
         binding = FragmentPostOptionsBottomSheetBinding.inflate(inflater, container, false);
@@ -129,6 +128,15 @@ public class PostOptionsBottomSheetFragment extends LandscapeExpandedRoundedBott
                             extras.putString(DownloadRedditVideoService.EXTRA_POST_ID, mPost.getId());
                             extras.putString(DownloadRedditVideoService.EXTRA_SUBREDDIT, mPost.getSubredditName());
                             extras.putInt(DownloadRedditVideoService.EXTRA_IS_NSFW, mPost.isNSFW() ? 1 : 0);
+
+
+                            String title = (mPost != null) ? mPost.getTitle() : "reddit_video"; // Get title or use default
+                            String sanitizedTitle = title.replaceAll("[\\\\/:*?\"<>|]", "_").replaceAll("[\\s_]+", "_").replaceAll("^_+|_+$", "");
+                            if (sanitizedTitle.length() > 100) sanitizedTitle = sanitizedTitle.substring(0, 100).replaceAll("_+$", "");
+                            if (sanitizedTitle.isEmpty()) sanitizedTitle = "reddit_video_" + System.currentTimeMillis();
+
+                            String finalFileName = sanitizedTitle + ".mp4";
+                            extras.putString(DownloadRedditVideoService.EXTRA_FILE_NAME, finalFileName);
 
                             //TODO: contentEstimatedBytes
                             JobInfo jobInfo = DownloadRedditVideoService.constructJobInfo(mBaseActivity, 5000000, extras);
