@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.InsetDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -98,6 +100,8 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     private static final int VIEW_TYPE_LOAD_MORE_COMMENTS_FAILED = 16;
     private static final int VIEW_TYPE_VIEW_ALL_COMMENTS = 17;
 
+    private static final Object PAYLOAD_EXPANSION_CHANGED = new Object();
+
     private final BaseActivity mActivity;
     private final ViewPostDetailFragment mFragment;
     private final Executor mExecutor;
@@ -130,7 +134,6 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     private final boolean mFullyCollapseComment;
     private final boolean mShowOnlyOneCommentLevelIndicator;
     private final boolean mShowAuthorAvatar;
-    private final boolean mAlwaysShowChildCommentCount;
     private final boolean mHideTheNumberOfVotes;
     private final int mDepthThreshold;
     private final CommentRecyclerViewAdapterCallback mCommentRecyclerViewAdapterCallback;
@@ -168,14 +171,14 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     private boolean canStartActivity = true;
 
     public CommentsRecyclerViewAdapter(BaseActivity activity, ViewPostDetailFragment fragment,
-                                       CustomThemeWrapper customThemeWrapper,
-                                       Executor executor, Retrofit retrofit, Retrofit oauthRetrofit,
-                                       @Nullable String accessToken, @NonNull String accountName,
-                                       Post post, Locale locale, String singleCommentId,
-                                       boolean isSingleCommentThreadMode,
-                                       SharedPreferences sharedPreferences,
-                                       SharedPreferences nsfwAndSpoilerSharedPreferences,
-                                       CommentRecyclerViewAdapterCallback commentRecyclerViewAdapterCallback) {
+                                    CustomThemeWrapper customThemeWrapper,
+                                    Executor executor, Retrofit retrofit, Retrofit oauthRetrofit,
+                                    @Nullable String accessToken, @NonNull String accountName,
+                                    Post post, Locale locale, String singleCommentId,
+                                    boolean isSingleCommentThreadMode,
+                                    SharedPreferences sharedPreferences,
+                                    SharedPreferences nsfwAndSpoilerSharedPreferences,
+                                    CommentRecyclerViewAdapterCallback commentRecyclerViewAdapterCallback) {
         mActivity = activity;
         mFragment = fragment;
         mExecutor = executor;
@@ -284,7 +287,6 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         mFullyCollapseComment = sharedPreferences.getBoolean(SharedPreferencesUtils.FULLY_COLLAPSE_COMMENT, false);
         mShowOnlyOneCommentLevelIndicator = sharedPreferences.getBoolean(SharedPreferencesUtils.SHOW_ONLY_ONE_COMMENT_LEVEL_INDICATOR, false);
         mShowAuthorAvatar = sharedPreferences.getBoolean(SharedPreferencesUtils.SHOW_AUTHOR_AVATAR, false);
-        mAlwaysShowChildCommentCount = sharedPreferences.getBoolean(SharedPreferencesUtils.ALWAYS_SHOW_CHILD_COMMENT_COUNT, false);
         mHideTheNumberOfVotes = sharedPreferences.getBoolean(SharedPreferencesUtils.HIDE_THE_NUMBER_OF_VOTES_IN_COMMENTS, false);
         mDepthThreshold = sharedPreferences.getInt(SharedPreferencesUtils.SHOW_FEWER_TOOLBAR_OPTIONS_THRESHOLD, 5);
 
@@ -509,17 +511,54 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     String topScoreText = "";
                     if (comment.isScoreHidden()) {
                         commentText = mActivity.getString(R.string.hidden);
+                        topScoreText = mActivity.getString(R.string.hidden);
+                        ((CommentBaseViewHolder) holder).scoreTextView.setTextColor(mCommentIconAndInfoColor); // Use default color when hidden
+                        ((CommentBaseViewHolder) holder).topScoreTextView.setTextColor(mSecondaryTextColor);
                     } else {
                         commentText = Utils.getNVotes(mShowAbsoluteNumberOfVotes,
                                 comment.getScore() + comment.getVoteType());
                         topScoreText = mActivity.getString(R.string.top_score,
                                 Utils.getNVotes(mShowAbsoluteNumberOfVotes,
                                         comment.getScore() + comment.getVoteType()));
+                        // Set score text color based on vote type
+                        int scoreColor = mCommentIconAndInfoColor;
+                        int topScoreColor = mSecondaryTextColor;
+                        switch (comment.getVoteType()) {
+                            case Comment.VOTE_TYPE_UPVOTE:
+                                scoreColor = mUpvotedColor;
+                                topScoreColor = mUpvotedColor;
+                                break;
+                            case Comment.VOTE_TYPE_DOWNVOTE:
+                                scoreColor = mDownvotedColor;
+                                topScoreColor = mDownvotedColor;
+                                break;
+                        }
+                        if (mPost.isArchived()) { // Archived posts override vote color
+                            scoreColor = mVoteAndReplyUnavailableVoteButtonColor;
+                            topScoreColor = mVoteAndReplyUnavailableVoteButtonColor;
+                        }
+                        ((CommentBaseViewHolder) holder).scoreTextView.setTextColor(scoreColor);
+                        ((CommentBaseViewHolder) holder).topScoreTextView.setTextColor(topScoreColor);
                     }
-                    ((CommentBaseViewHolder) holder).scoreTextView.setText(commentText);
-                    ((CommentBaseViewHolder) holder).topScoreTextView.setText(topScoreText);
+                    ((CommentBaseViewHolder) holder).scoreTextView.setText(commentText); // Set text without prefix
+                    ((CommentBaseViewHolder) holder).topScoreTextView.setText(topScoreText); // Set text without prefix
+
+                    // Handle Child Count Views
+                    // Restore original visibility logic (to be applied next)
+                    if (comment.hasReply() && comment.getChildCount() > 0) {
+                        String childCountString = "+" + comment.getChildCount();
+                        ((CommentBaseViewHolder) holder).topChildCountTextView.setText(childCountString);
+
+                        // Set visibility for both views based on collapsed state
+                        boolean showCount = !comment.isExpanded();
+                        ((CommentBaseViewHolder) holder).topChildCountTextView.setVisibility(showCount ? View.VISIBLE : View.INVISIBLE);
+                    } else {
+                        ((CommentBaseViewHolder) holder).topChildCountTextView.setVisibility(View.INVISIBLE);
+                    }
                 } else {
                     ((CommentBaseViewHolder) holder).scoreTextView.setText(mActivity.getString(R.string.vote));
+                    ((CommentBaseViewHolder) holder).topScoreTextView.setText(""); // Hide top score if all votes hidden
+                    ((CommentBaseViewHolder) holder).topChildCountTextView.setVisibility(View.INVISIBLE); // Hide child count too
                 }
 
                 if (comment.isEdited()) {
@@ -539,9 +578,6 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 }
 
                 if (comment.hasReply()) {
-                    if (comment.getChildCount() > 0 && (mAlwaysShowChildCommentCount || !comment.isExpanded())) {
-                        ((CommentBaseViewHolder) holder).expandButton.setText("+" + comment.getChildCount());
-                    }
                     if (comment.isExpanded()) {
                         ((CommentBaseViewHolder) holder).expandButton.setCompoundDrawablesWithIntrinsicBounds(collapseDrawable, null, null, null);
                     } else {
@@ -554,14 +590,10 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     case Comment.VOTE_TYPE_UPVOTE:
                         ((CommentBaseViewHolder) holder).upvoteButton.setIconResource(R.drawable.ic_upvote_filled_24dp);
                         ((CommentBaseViewHolder) holder).upvoteButton.setIconTint(ColorStateList.valueOf(mUpvotedColor));
-                        ((CommentBaseViewHolder) holder).scoreTextView.setTextColor(mUpvotedColor);
-                        ((CommentBaseViewHolder) holder).topScoreTextView.setTextColor(mUpvotedColor);
                         break;
                     case Comment.VOTE_TYPE_DOWNVOTE:
                         ((CommentBaseViewHolder) holder).downvoteButton.setIconResource(R.drawable.ic_downvote_filled_24dp);
                         ((CommentBaseViewHolder) holder).downvoteButton.setIconTint(ColorStateList.valueOf(mDownvotedColor));
-                        ((CommentBaseViewHolder) holder).scoreTextView.setTextColor(mDownvotedColor);
-                        ((CommentBaseViewHolder) holder).topScoreTextView.setTextColor(mDownvotedColor);
                         break;
                 }
 
@@ -640,8 +672,12 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     ((CommentFullyCollapsedViewHolder) holder).binding.timeTextViewItemCommentFullyCollapsed.setText(Utils.getFormattedTime(mLocale, comment.getCommentTimeMillis(), mTimeFormatPattern));
                 }
                 if (!comment.isScoreHidden() && !mHideTheNumberOfVotes) {
-                    ((CommentFullyCollapsedViewHolder) holder).binding.scoreTextViewItemCommentFullyCollapsed.setText(mActivity.getString(R.string.top_score,
-                            Utils.getNVotes(mShowAbsoluteNumberOfVotes, comment.getScore() + comment.getVoteType())));
+                    String scoreText = mActivity.getString(R.string.top_score,
+                            Utils.getNVotes(mShowAbsoluteNumberOfVotes, comment.getScore() + comment.getVoteType()));
+                    if (comment.getChildCount() > 0) {
+                        scoreText = "+" + comment.getChildCount() + " | " + scoreText;
+                    }
+                    ((CommentFullyCollapsedViewHolder) holder).binding.scoreTextViewItemCommentFullyCollapsed.setText(scoreText);
                 } else if (mHideTheNumberOfVotes) {
                     ((CommentFullyCollapsedViewHolder) holder).binding.scoreTextViewItemCommentFullyCollapsed.setText(mActivity.getString(R.string.vote));
                 } else {
@@ -694,9 +730,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                                 mAccountName, parentComment.getMoreChildrenIds(),
                                 mExpandChildren, mPost.getFullName(), sortType, new FetchComment.FetchMoreCommentListener() {
                                     @Override
-                                    public void onFetchMoreCommentSuccess(ArrayList<Comment> topLevelComments,
-                                                                          ArrayList<Comment> expandedComments,
-                                                                          ArrayList<String> moreChildrenIds) {
+                                    public void onFetchMoreCommentSuccess(ArrayList<Comment> topLevelComments, ArrayList<Comment> expandedComments, ArrayList<String> moreChildrenIds) {
                                         if (mVisibleComments.size() > parentPosition
                                                 && parentComment.getFullName().equals(mVisibleComments.get(parentPosition).getFullName())) {
                                             if (mVisibleComments.get(parentPosition).isExpanded()) {
@@ -834,6 +868,44 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     }
                 });
             }
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
+        if (!payloads.isEmpty() && payloads.contains(PAYLOAD_EXPANSION_CHANGED) && holder instanceof CommentBaseViewHolder) {
+            // Partial bind: Only update expansion-related views
+            Comment comment = getCurrentComment(position);
+            CommentBaseViewHolder baseViewHolder = (CommentBaseViewHolder) holder;
+            if (comment != null) {
+                // Update expand button drawable
+                if (comment.hasReply()) {
+                    baseViewHolder.expandButton.setCompoundDrawablesWithIntrinsicBounds(
+                            comment.isExpanded() ? collapseDrawable : expandDrawable, null, null, null);
+                    baseViewHolder.expandButton.setVisibility(View.VISIBLE);
+                } else {
+                    baseViewHolder.expandButton.setVisibility(View.GONE);
+                }
+
+                // Update child count visibility
+                if (!mHideTheNumberOfVotes && comment.hasReply() && comment.getChildCount() > 0) {
+                    boolean showCount = !comment.isExpanded();
+                    baseViewHolder.topChildCountTextView.setVisibility(showCount ? View.VISIBLE : View.INVISIBLE);
+                    // Need to re-check toolbar hidden state for top count
+                    if (mCommentToolbarHidden) {
+                        boolean shouldShowTopChildCount = showCount;
+                        baseViewHolder.topChildCountTextView.setVisibility(shouldShowTopChildCount ? View.VISIBLE : View.INVISIBLE);
+                    } else {
+                        baseViewHolder.topChildCountTextView.setVisibility(View.INVISIBLE);
+                    }
+                } else {
+                    baseViewHolder.topChildCountTextView.setVisibility(View.INVISIBLE);
+                }
+
+            }
+        } else {
+            // Full bind: Call the existing two-argument version
+            onBindViewHolder(holder, position);
         }
     }
 
@@ -1279,6 +1351,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         TextView authorFlairTextView;
         TextView commentTimeTextView;
         TextView topScoreTextView;
+        TextView topChildCountTextView;
         RecyclerView commentMarkdownView;
         TextView editedTextView;
         ConstraintLayout bottomConstraintLayout;
@@ -1299,30 +1372,32 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         }
 
         void setBaseView(LinearLayout linearLayout,
-                         ImageView authorIconImageView,
-                         TextView authorTextView,
-                         TextView authorFlairTextView,
-                         TextView commentTimeTextView,
-                         TextView topScoreTextView,
-                         RecyclerView commentMarkdownView,
-                         TextView editedTextView,
-                         ConstraintLayout bottomConstraintLayout,
-                         MaterialButton upvoteButton,
-                         TextView scoreTextView,
-                         MaterialButton downvoteButton,
-                         View placeholder,
-                         MaterialButton moreButton,
-                         MaterialButton saveButton,
-                         TextView expandButton,
-                         MaterialButton replyButton,
-                         CommentIndentationView commentIndentationView,
-                         View commentDivider) {
+                        ImageView authorIconImageView,
+                        TextView authorTextView,
+                        TextView authorFlairTextView,
+                        TextView commentTimeTextView,
+                        TextView topScoreTextView,
+                        TextView topChildCountTextView, // Pass new view
+                        RecyclerView commentMarkdownView,
+                        TextView editedTextView,
+                        ConstraintLayout bottomConstraintLayout,
+                        MaterialButton upvoteButton,
+                        TextView scoreTextView,
+                        MaterialButton downvoteButton,
+                        View placeholder,
+                        MaterialButton moreButton,
+                        MaterialButton saveButton,
+                        TextView expandButton,
+                        MaterialButton replyButton,
+                        CommentIndentationView commentIndentationView,
+                        View commentDivider) {
             this.linearLayout = linearLayout;
             this.authorIconImageView = authorIconImageView;
             this.authorTextView = authorTextView;
             this.authorFlairTextView = authorFlairTextView;
             this.commentTimeTextView = commentTimeTextView;
             this.topScoreTextView = topScoreTextView;
+            this.topChildCountTextView = topChildCountTextView;
             this.commentMarkdownView = commentMarkdownView;
             this.editedTextView = editedTextView;
             this.bottomConstraintLayout = bottomConstraintLayout;
@@ -1417,20 +1492,39 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             mMarkwonAdapter = MarkdownUtils.createCustomTablesAndImagesAdapter(mActivity, mImageAndGifEntry);
             commentMarkdownView.setAdapter(mMarkwonAdapter);
 
+            // Create rounded corner background
+            GradientDrawable childCountBackgroundDrawable = new GradientDrawable();
+            childCountBackgroundDrawable.setShape(GradientDrawable.RECTANGLE);
+            childCountBackgroundDrawable.setCornerRadius(Utils.convertDpToPixel(8, mActivity)); // 8dp radius
+            childCountBackgroundDrawable.setColor(mUsernameColor);
+
+            // Calculate padding
+            int horizontalPadding = (int) Utils.convertDpToPixel(4, mActivity); // 4dp
+            int verticalPadding = (int) Utils.convertDpToPixel(2, mActivity); // 2dp
+
             itemView.setBackgroundColor(mCommentBackgroundColor);
             authorTextView.setTextColor(mUsernameColor);
             commentTimeTextView.setTextColor(mSecondaryTextColor);
             authorFlairTextView.setTextColor(mAuthorFlairTextColor);
-            topScoreTextView.setTextColor(mSecondaryTextColor);
             editedTextView.setTextColor(mSecondaryTextColor);
             commentDivider.setBackgroundColor(mDividerColor);
             upvoteButton.setIconTint(ColorStateList.valueOf(mCommentIconAndInfoColor));
-            scoreTextView.setTextColor(mCommentIconAndInfoColor);
             downvoteButton.setIconTint(ColorStateList.valueOf(mCommentIconAndInfoColor));
             moreButton.setIconTint(ColorStateList.valueOf(mCommentIconAndInfoColor));
             expandButton.setTextColor(mCommentIconAndInfoColor);
             saveButton.setIconTint(ColorStateList.valueOf(mCommentIconAndInfoColor));
             replyButton.setIconTint(ColorStateList.valueOf(mCommentIconAndInfoColor));
+
+            // Apply background and padding to top child count view with inset
+            int insetPx = (int) Utils.convertDpToPixel(1, mActivity); // 1dp inset
+            InsetDrawable insetChildCountBackground = new InsetDrawable(childCountBackgroundDrawable, insetPx);
+            topChildCountTextView.setBackground(insetChildCountBackground);
+            topChildCountTextView.setPadding(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding);
+            topChildCountTextView.setTextColor(mCommentBackgroundColor); // Set text color for contrast
+
+            // Restore default text colors for score views (will be set in onBindViewHolder based on vote)
+            scoreTextView.setTextColor(mCommentIconAndInfoColor);
+            topScoreTextView.setTextColor(mSecondaryTextColor);
 
             authorFlairTextView.setOnClickListener(view -> authorTextView.performClick());
 
@@ -1749,6 +1843,8 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     if (comment != null) {
                         if (mVisibleComments.get(commentPosition).isExpanded()) {
                             collapseChildren(commentPosition);
+                            // Notify that the parent item itself changed (its expanded state), using payload
+                            notifyItemChanged(mIsSingleCommentThreadMode ? commentPosition + 1 : commentPosition, PAYLOAD_EXPANSION_CHANGED);
                             if (comment.getChildCount() > 0) {
                                 expandButton.setText("+" + comment.getChildCount());
                             }
@@ -1765,11 +1861,9 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                             } else {
                                 notifyItemRangeInserted(commentPosition + 1, newList.size());
                             }
-                            if (mAlwaysShowChildCommentCount && comment.getChildCount() > 0) {
-                                expandButton.setText("+" + comment.getChildCount());
-                            } else {
-                                expandButton.setText("");
-                            }
+                            // Notify that the parent item itself changed (its expanded state), using payload
+                            notifyItemChanged(mIsSingleCommentThreadMode ? commentPosition + 1 : commentPosition, PAYLOAD_EXPANSION_CHANGED);
+                            expandButton.setText("");
                             expandButton.setCompoundDrawablesWithIntrinsicBounds(collapseDrawable, null, null, null);
                         }
                     }
@@ -1868,6 +1962,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     binding.authorFlairTextViewItemPostComment,
                     binding.commentTimeTextViewItemPostComment,
                     binding.topScoreTextViewItemPostComment,
+                    binding.topChildCountTextViewItemPostComment, // Pass new view
                     binding.commentMarkdownViewItemPostComment,
                     binding.editedTextViewItemPostComment,
                     binding.bottomConstraintLayoutItemPostComment,

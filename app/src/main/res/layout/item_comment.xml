@@ -82,12 +82,25 @@
                 android:textSize="?attr/font_default"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/top_score_text_view_item_post_comment"
+                app:layout_constraintEnd_toStartOf="@id/topChildCountTextViewItemPostComment"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/topChildCountTextViewItemPostComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:visibility="gone"
+                android:textSize="?attr/font_default"
+                tools:text="+99"
+                tools:visibility="visible"
+                app:layout_constraintTop_toTopOf="@+id/top_score_text_view_item_post_comment"
+                app:layout_constraintBottom_toBottomOf="@+id/top_score_text_view_item_post_comment"
+                app:layout_constraintEnd_toStartOf="@+id/top_score_text_view_item_post_comment" />
+
+            <TextView
                 android:id="@+id/top_score_text_view_item_post_comment"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:fontFamily="?attr/font_family"
@@ -154,14 +167,30 @@
                 app:iconSize="24dp"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/score_text_view_item_post_comment"
+                app:layout_constraintEnd_toStartOf="@+id/childCountTextViewItemPostComment"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/childCountTextViewItemPostComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:visibility="gone"
+                android:textSize="?attr/font_12"
+                android:textStyle="bold"
+                android:fontFamily="?attr/font_family"
+                tools:text="+99"
+                tools:visibility="visible"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/score_text_view_item_post_comment"
+                app:layout_constraintStart_toEndOf="@+id/upvote_button_item_post_comment" />
+
+            <TextView
                 android:id="@+id/score_text_view_item_post_comment"
-                android:layout_width="64dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textSize="?attr/font_12"
@@ -170,7 +199,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/downvote_button_item_post_comment"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/upvote_button_item_post_comment"
+                app:layout_constraintStart_toEndOf="@+id/childCountTextViewItemPostComment"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.button.MaterialButton
