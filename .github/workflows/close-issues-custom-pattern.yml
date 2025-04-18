@@ -15,6 +15,7 @@ jobs:
   close-issues:
     runs-on: ubuntu-24.04
     permissions:
+      actions: read
       issues: write
       packages: read
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
