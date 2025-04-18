@@ -453,9 +453,6 @@ public abstract class BaseActivity extends AppCompatActivity implements CustomFo
             case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_GO_TO_USER:
                 fab.setContentDescription(getString(R.string.content_description_go_to_user));
                 break;
-            case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_RANDOM:
-                fab.setContentDescription(getString(R.string.content_description_random));
-                break;
             case SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_HIDE_READ_POSTS:
                 fab.setContentDescription(getString(R.string.content_description_hide_read_posts));
                 break;

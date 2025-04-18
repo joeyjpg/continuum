@@ -325,14 +325,13 @@ public class SharedPreferencesUtils {
     public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_SEARCH = 8;
     public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_GO_TO_SUBREDDIT = 9;
     public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_GO_TO_USER = 10;
-    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_RANDOM = 11;
-    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_HIDE_READ_POSTS = 12;
-    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_FILTER_POSTS = 13;
-    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_UPVOTED = 14;
-    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_DOWNVOTED = 15;
-    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_HIDDEN = 16;
-    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_SAVED = 17;
-    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_GO_TO_TOP = 18;
+    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_HIDE_READ_POSTS = 11;
+    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_FILTER_POSTS = 12;
+    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_UPVOTED = 13;
+    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_DOWNVOTED = 14;
+    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_HIDDEN = 15;
+    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_SAVED = 16;
+    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_GO_TO_TOP = 17;
 
     public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB_SUBMIT_POSTS = 0;
     public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB_REFRESH = 1;
@@ -341,10 +340,9 @@ public class SharedPreferencesUtils {
     public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB_SEARCH = 4;
     public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB_GO_TO_SUBREDDIT = 5;
     public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB_GO_TO_USER = 6;
-    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB_RANDOM = 7;
-    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB_HIDE_READ_POSTS = 8;
-    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB_FILTER_POSTS = 9;
-    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB_GO_TO_TOP = 10;
+    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB_HIDE_READ_POSTS = 7;
+    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB_FILTER_POSTS = 8;
+    public static final int MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB_GO_TO_TOP = 9;
 
     public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_HOME = 0;
     public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_SUBSCRIPTIONS = 1;
@@ -358,14 +356,13 @@ public class SharedPreferencesUtils {
     public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_SEARCH = 9;
     public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_GO_TO_SUBREDDIT = 10;
     public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_GO_TO_USER = 11;
-    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_RANDOM = 12;
-    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_HIDE_READ_POSTS = 13;
-    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_FILTER_POSTS = 14;
-    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_UPVOTED = 15;
-    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_DOWNVOTED = 16;
-    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_HIDDEN = 17;
-    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_SAVED = 18;
-    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_GO_TO_TOP = 19;
+    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_HIDE_READ_POSTS = 12;
+    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_FILTER_POSTS = 13;
+    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_UPVOTED = 14;
+    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_DOWNVOTED = 15;
+    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_HIDDEN = 16;
+    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_SAVED = 17;
+    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_GO_TO_TOP = 18;
     public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_SUBMIT_POSTS = 0;
     public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_REFRESH = 1;
     public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_CHANGE_SORT_TYPE = 2;
@@ -373,10 +370,9 @@ public class SharedPreferencesUtils {
     public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_SEARCH = 4;
     public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_GO_TO_SUBREDDIT = 5;
     public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_GO_TO_USER = 6;
-    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_RANDOM = 7;
-    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_HIDE_READ_POSTS = 8;
-    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_FILTER_POSTS = 9;
-    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_GO_TO_TOP = 10;
+    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_HIDE_READ_POSTS = 7;
+    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_FILTER_POSTS = 8;
+    public static final int OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB_GO_TO_TOP = 9;
 
     public static final String NSFW_AND_SPOILER_SHARED_PREFERENCES_FILE = "ml.docilealligator.infinityforreddit.nsfw_and_spoiler";
     public static final String NSFW_BASE = "_nsfw";
