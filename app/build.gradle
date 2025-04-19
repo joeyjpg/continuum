@@ -241,6 +241,9 @@ dependencies {
 
     implementation 'com.giphy.sdk:ui:2.3.15'
 
+    // QR code scanner
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+
 
 /**** Builds and flavors ****/
     // debugImplementation because LeakCanary should only run in debug builds.

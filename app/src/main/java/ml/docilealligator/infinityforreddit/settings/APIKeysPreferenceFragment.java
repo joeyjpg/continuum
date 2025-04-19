@@ -1,6 +1,7 @@
 package ml.docilealligator.infinityforreddit.settings;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -9,8 +10,13 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
@@ -21,6 +27,7 @@ import javax.inject.Named;
 
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
+import ml.docilealligator.infinityforreddit.activities.QRCodeScannerActivity;
 import ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceFragmentCompat;
 import ml.docilealligator.infinityforreddit.utils.AppRestartHelper;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
@@ -35,7 +42,36 @@ public class APIKeysPreferenceFragment extends CustomFontPreferenceFragmentCompa
     @Named("default")
     SharedPreferences mSharedPreferences;
 
+    private ActivityResultLauncher<Intent> qrCodeScannerLauncher;
+    private EditTextPreference clientIdPref;
+    private EditText currentClientIdEditText;
+
     public APIKeysPreferenceFragment() {}
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Initialize the launcher for QR code scanning
+        qrCodeScannerLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == android.app.Activity.RESULT_OK && result.getData() != null) {
+                        String qrCodeResult = result.getData().getStringExtra(QRCodeScannerActivity.EXTRA_QR_CODE_RESULT);
+                        if (qrCodeResult != null && qrCodeResult.length() == CLIENT_ID_LENGTH) {
+                            // Just set the text in the dialog EditText if it's available
+                            if (currentClientIdEditText != null) {
+                                currentClientIdEditText.setText(qrCodeResult);
+                                Toast.makeText(requireContext(), R.string.qr_code_scanned_press_ok, Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(requireContext(), R.string.qr_code_scanned_dialog_closed, Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(requireContext(), "Invalid QR code. Client ID must be " + CLIENT_ID_LENGTH + " characters.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
 
     @Override
     public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
@@ -50,12 +86,16 @@ public class APIKeysPreferenceFragment extends CustomFontPreferenceFragmentCompa
     }
 
     private void setupClientIdPreference() {
-        EditTextPreference clientIdPref = findPreference(SharedPreferencesUtils.CLIENT_ID_PREF_KEY);
+        clientIdPref = findPreference(SharedPreferencesUtils.CLIENT_ID_PREF_KEY);
         if (clientIdPref != null) {
             // Set input type to visible password to prevent suggestions, but allow any string
             clientIdPref.setOnBindEditTextListener(editText -> {
                 editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 editText.setSingleLine(true);
+
+                // Store a reference to the current EditText
+                currentClientIdEditText = editText;
+
                 // Get current and default values
                 String currentValue = clientIdPref.getText();
                 String defaultValue = editText.getContext().getString(R.string.default_client_id);
@@ -68,6 +108,50 @@ public class APIKeysPreferenceFragment extends CustomFontPreferenceFragmentCompa
 
                 // Setup validation for the specific length
                 setupLengthValidation(editText, CLIENT_ID_LENGTH);
+
+                // Add QR code scanning button to dialog
+                View rootView = editText.getRootView();
+                if (rootView != null) {
+                    // Find the parent container for the EditText
+                    View parent = (View) editText.getParent();
+                    if (parent instanceof LinearLayout) {
+                        LinearLayout layout = (LinearLayout) parent;
+
+                        // Create a horizontal layout
+                        LinearLayout horizontalLayout = new LinearLayout(getContext());
+                        horizontalLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+                        // Setup layout params
+                        LinearLayout.LayoutParams editTextParams = new LinearLayout.LayoutParams(
+                                0, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
+                        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                        // Remove the EditText from its current parent
+                        layout.removeView(editText);
+
+                        // Create a scan button
+                        ImageButton scanButton = new ImageButton(getContext());
+                        scanButton.setImageResource(android.R.drawable.ic_menu_camera);
+                        scanButton.setContentDescription(getString(R.string.content_description_scan_qr_code));
+
+                        // Set onClick listener for the scan button
+                        scanButton.setOnClickListener(v -> {
+                            Intent intent = new Intent(getActivity(), QRCodeScannerActivity.class);
+                            // Launch QR code scanner as a result activity
+                            qrCodeScannerLauncher.launch(intent);
+                        });
+
+                        // Add EditText and button to horizontal layout
+                        horizontalLayout.addView(editText, editTextParams);
+                        horizontalLayout.addView(scanButton, buttonParams);
+
+                        // Add the horizontal layout to the original parent
+                        layout.addView(horizontalLayout, new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT));
+                    }
+                }
             });
 
             // Set a summary provider that hides the default value but shows custom ones
@@ -84,6 +168,9 @@ public class APIKeysPreferenceFragment extends CustomFontPreferenceFragmentCompa
             });
 
             clientIdPref.setOnPreferenceChangeListener(((preference, newValue) -> {
+                // Reset the current EditText reference since the dialog will be dismissed
+                currentClientIdEditText = null;
+
                 String value = (String) newValue;
 
                 // Final validation check (redundant due to button state, but safe)
@@ -112,6 +199,13 @@ public class APIKeysPreferenceFragment extends CustomFontPreferenceFragmentCompa
                 // Return false because we handled the saving manually (or attempted to)
                 return false;
             }));
+
+            // Add dialog click listener to reset the current EditText reference when dialog is canceled
+            clientIdPref.setOnPreferenceClickListener(preference -> {
+                // This will be called before the dialog appears
+                // We'll set the EditText reference in setOnBindEditTextListener
+                return false; // Return false to allow normal processing
+            });
         } else {
             Log.e(TAG, "Could not find Client ID preference: " + SharedPreferencesUtils.CLIENT_ID_PREF_KEY);
         }

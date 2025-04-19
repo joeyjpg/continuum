@@ -1532,6 +1532,7 @@
     <string name="content_description_downvoted">Downvoted</string>
     <string name="content_description_hidden">Hidden</string>
     <string name="content_description_saved">Saved</string>
+    <string name="content_description_scan_qr_code">Scan QR code</string>
 
     <string name="comment">Comment</string>
     <string name="enable_reply_notifications">Receive reply notifications</string>
@@ -1540,6 +1541,12 @@
     <string name="reply_notifications_disabled">Reply notifications disabled</string>
     <string name="toggle_reply_notifications_failed">Toggle reply notifications failed</string>
     <string name="cannot_find_comment">Cannot find comment</string>
+
+    <string name="scan_qr_code">Scan QR Code</string>
+    <string name="align_qr_code">Align QR code within the frame</string>
+    <string name="camera_permission_required">Camera permission is required to scan QR codes</string>
+    <string name="qr_code_scanned_press_ok">QR code scanned successfully. Press OK to apply.</string>
+    <string name="qr_code_scanned_dialog_closed">QR code scanned, but dialog was closed. Please try again.</string>
 
     <string name="download_image">Download Image</string>
     <string name="download_gif">Download Gif</string>
