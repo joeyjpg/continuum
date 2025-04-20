@@ -655,7 +655,7 @@
     <string name="settings_proxy_port">Port</string>
 
     <!-- API keys-->
-    <string name="settings_api_keys_title">API keys</string>
+    <string name="settings_api_keys_title">API Keys</string>
     <string name="settings_api_keys_summary">Enter your own API keys, including your Client ID</string>
     <string name="client_id_pref_key" translatable="false">client_id_pref_key</string>
     <string name="settings_client_id_title">Reddit API Client ID</string>
@@ -668,7 +668,7 @@
     <string name="tap_to_set_giphy_api_key">Tap to set custom Giphy API key (optional)</string>
     <string name="giphy_api_key_pref_key" translatable="false">giphy_api_key_pref_key</string>
     <string name="default_giphy_api_key" translatable="false">hWXuPJZ2h1pxE0nV4iUBpKsZ7jRB8qsM</string>
-    <string name="giphy_api_key_length_error">Giphy API Key must be 32 characters long.</string>
+    <string name="giphy_api_key_length_error">Giphy API key must be 32 characters long.</string>
 
     <string name="settings_hide_fab_in_post_details">Hide Floating Action Button</string>
 
@@ -1450,9 +1450,7 @@
     <string name="restore_subscription_purchase">Restore subscription purchase</string>
 
     <string name="important_info_title">Please re-login your account</string>
-    <string name="important_info">Continuum with subscription uses a new API key from Reddit and you have to re-login to continue using the app.\n\nJust
-        open the navigation drawer and click your account header and select \"Add an account\" to login to Reddit using the same account again.
-        Otherwise, Continuum may not load posts at all. Sorry for the inconvenience.</string>
+    <string name="important_info">Continuum uses a Client ID(API key) from Reddit and you have to re-login to continue using the app.\n\nJust open the navigation drawer and click your account header and select \"Add an account\" to login to Reddit using the same account again. Otherwise, Continuum may not load posts at all. Sorry for the inconvenience.</string>
     <string name="i_understand">I understand</string>
 
     <string name="add_to_comment_filter">Add to Comment Filter</string>
