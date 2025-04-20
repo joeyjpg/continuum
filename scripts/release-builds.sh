@@ -18,19 +18,11 @@ DATE="$(date +%Y-%-m-%-d)"
 COMMIT_MESSAGE_PREFIX='    '
 COMMIT_MESSAGE_SPECIAL_PREFIX='\* '
 
-# Get the most recent tag reachable from the current branch
-LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null)
-
-if [ -z "$LAST_TAG" ]; then
-  echo "Error: No tags found in history of current branch."
-  exit 1
-fi
 # Grab commit messages since that tag, matching specific format
-RELEVANT_COMMIT_MESSAGES=$(git log ${LAST_TAG}..HEAD --pretty=format:"%s" | grep "^${COMMIT_MESSAGE_SPECIAL_PREFIX}" | sed "s/^${COMMIT_MESSAGE_SPECIAL_PREFIX}//g")
+RELEVANT_COMMIT_MESSAGES=`git log $(git describe --tags --abbrev=0)..HEAD | grep "^${COMMIT_MESSAGE_PREFIX}${COMMIT_MESSAGE_SPECIAL_PREFIX}" | sed "s/^${COMMIT_MESSAGE_PREFIX}//g"`
 
 if [ -z "$RELEVANT_COMMIT_MESSAGES" ]; then
-  echo "Warning: No relevant commit messages found after $LAST_TAG"
-  exit 1
+  echo "Warning: No relevant commit messages found after latest tag"
 fi
 
 
