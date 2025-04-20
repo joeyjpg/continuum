@@ -119,4 +119,9 @@ app/lint-baseline.xml
 keystore.properties
 
 backup/
+
+# Github token
+
+github.properties
+
 # End of https://www.gitignore.io/api/androidstudio
