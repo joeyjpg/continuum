@@ -1,5 +1,8 @@
 plugins {
     id 'com.android.application'
+    id 'com.gladed.androidgitversion' version '0.4.14'
+    id 'com.github.ben-manes.versions' version '0.42.0'
+    id 'com.github.breadmoirai.github-release' version '2.5.2'
     id 'com.diffplug.spotless' version '7.0.2'
 }
 
@@ -19,7 +22,7 @@ android {
             }
         }
     } else {
-        println("Warning: keystore.properties file not found. Skipping signing configuration for withGPlay.")
+        println("Warning: keystore.properties file not found. Skipping signing configuration.")
     }
 
     applicationVariants.all { variant ->
@@ -71,6 +74,9 @@ android {
             } else {
                 println("Warning: keystore.properties file not found. Skipping signing configuration for release.")
             }
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "app_name", "Continuum"
         }
         minifiedRelease {
             initWith buildTypes.release
@@ -78,10 +84,12 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue "string", "app_name", "Continuum minified"
         }
         debug {
             applicationIdSuffix '.debug'
             versionNameSuffix '-debug'
+            resValue "string", "app_name", "Continuum Debug"
         }
     }
 
@@ -104,6 +112,43 @@ android {
     namespace 'ml.docilealligator.infinityforreddit'
 }
 
+configurations {
+    all {
+        exclude module: 'httpclient'
+    }
+}
+
+def githubPropertiesFile = rootProject.file("github.properties")
+
+if (githubPropertiesFile.exists()) {
+    def githubProperties = new Properties()
+    githubProperties.load(new FileInputStream(githubPropertiesFile))
+
+    githubRelease {
+        def releaseNotes = System.getenv("RELEASE_NOTES") ?: "Automated release of version ${android.defaultConfig.versionName ?: "default-version"}"
+
+        token = githubProperties["githubToken"]
+        owner = "cygnusx-1-org"
+        repo = "continuum"
+        tagName = android.defaultConfig.versionName ?: "default-version"
+        targetCommitish = "master"
+        releaseName = "Release ${android.defaultConfig.versionName ?: "default-version"}"
+        body = "$releaseNotes"
+        draft = false
+        prerelease = false
+        overwrite = false
+
+        // Dynamically set releaseAssets by searching the APK path
+        def apkFiles = fileTree(dir: "build/outputs/apk/release/", include: "*.apk").files.toList()
+        if (apkFiles.isEmpty()) {
+            println("Warning: No APK files found in the directory 'build/outputs/apk/release/'.")
+        } else {
+            releaseAssets = apkFiles
+        }
+    }
+} else {
+    println("Warning: github.properties file not found. Skipping GitHub release configuration.")
+}
 dependencies {
 /** AndroidX **/
     implementation 'androidx.appcompat:appcompat:1.7.0'
