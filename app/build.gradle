@@ -84,7 +84,6 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            resValue "string", "app_name", "Continuum minified"
         }
         debug {
             applicationIdSuffix '.debug'
