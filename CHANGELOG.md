@@ -2,6 +2,16 @@
 
 ---
 
+7.4.4.4 / 2025-4-20
+============
+* Added support for inputting the client ID via a QR code
+* Added child comment count next to comment score when the comment is collapsed
+* Fixed Make the comments more compact #18
+* Enabled "Swap Tap and Long Press Comments" by default
+* Fixed Incorrect FAB icon and action in bottom bar customization #39
+* Fixed Sensible download names #13  
+* Fixed Simplify download path #38
+
 7.4.4.3 / 2025-4-16
 ===================
 * Changed internal name to org.cygnusx1.continuum #7
