@@ -18,13 +18,18 @@ DATE="$(date +%Y-%-m-%-d)"
 COMMIT_MESSAGE_PREFIX='    '
 COMMIT_MESSAGE_SPECIAL_PREFIX='\* '
 
-# Grab commit messages since that tag, matching specific format
-RELEVANT_COMMIT_MESSAGES=`git log $(git describe --tags --abbrev=0)..HEAD | grep "^${COMMIT_MESSAGE_PREFIX}${COMMIT_MESSAGE_SPECIAL_PREFIX}" | sed "s/^${COMMIT_MESSAGE_PREFIX}//g"`
+CHANGELOG_OVERRIDE_FILENAME="changelog_override.txt"
 
-if [ -z "$RELEVANT_COMMIT_MESSAGES" ]; then
-  echo "Warning: No relevant commit messages found after latest tag"
+if [ ! -f ${CHANGELOG_OVERRIDE_FILENAME} ]; then
+  # Grab commit messages since that tag, matching specific format
+  RELEVANT_COMMIT_MESSAGES=`git log $(git describe --tags --abbrev=0)..HEAD | grep "^${COMMIT_MESSAGE_PREFIX}${COMMIT_MESSAGE_SPECIAL_PREFIX}" | sed "s/^${COMMIT_MESSAGE_PREFIX}//g"`
+
+  if [ -z "$RELEVANT_COMMIT_MESSAGES" ]; then
+    echo "Warning: No relevant commit messages found after latest tag"
+  fi
+else
+  RELEVANT_COMMIT_MESSAGES=`cat ${CHANGELOG_OVERRIDE_FILENAME}`
 fi
-
 
 SEPARATOR='---'
 
@@ -64,7 +69,7 @@ git commit -m "${COMMIT_MESSAGE}"
 git tag -a "${VERSION_NAME}" -m "Version ${VERSION_NAME}"
 
 # Push tags to the git repository
-git push --tags origin feature/automate_github_releases
+git push --tags
 
 # Creating apk in app/build/outputs/apk/Release
 ./gradlew assembleRelease
