@@ -57,8 +57,25 @@ use [Revanced Manager](https://github.com/ReVanced/revanced-manager).
 # Setup
 See [SETUP.md](/SETUP.md)
 
-# Updates
-See [UPDATES.md](/UPDATES.md)
+# Installation
+<p align="left">
+  <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/cygnusx-1-org/continuum/">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/badges/obtainium.png" height="60">
+      <img alt="Get it on Obtainium" src="assets/badges/obtainium.png" height="60">
+    </picture>
+  </a>
+  </a>&nbsp;&nbsp;&nbsp;
+  <a href="https://github.com/cygnusx-1-org/continuum/releases/latest">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/badges/github.png" height="60">
+      <img alt="Get it on Github" src="assets/badges/github.png" height="60">
+    </picture>
+  </a>
+</p>
+To see how to keep the app updated see <a href="/UPDATES.md">UPDATES.md</a>
+
+
 
 # About The Project
 
