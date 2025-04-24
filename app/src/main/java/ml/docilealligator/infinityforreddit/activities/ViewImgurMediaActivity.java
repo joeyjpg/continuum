@@ -329,6 +329,41 @@ public class ViewImgurMediaActivity extends AppCompatActivity implements SetAsWa
             finish();
             return true;
         } else if (item.getItemId() == R.id.action_download_all_imgur_album_media_view_imgur_media_activity) {
+            // Check if download locations are set for all media types
+            // Imgur album can contain images and videos
+            String imageDownloadLocation = sharedPreferences.getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
+            String videoDownloadLocation = sharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
+            String nsfwDownloadLocation = "";
+
+            boolean needsNsfwLocation = isNsfw &&
+                    sharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false);
+
+            if (needsNsfwLocation) {
+                nsfwDownloadLocation = sharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
+                if (nsfwDownloadLocation == null || nsfwDownloadLocation.isEmpty()) {
+                    Toast.makeText(this, R.string.download_location_not_set, Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            } else {
+                // Check for required download locations based on the album content
+                boolean hasImage = false;
+                boolean hasVideo = false;
+
+                for (ImgurMedia media : mImages) {
+                    if (media.getType() == ImgurMedia.TYPE_VIDEO) {
+                        hasVideo = true;
+                    } else {
+                        hasImage = true;
+                    }
+                }
+
+                if ((hasImage && (imageDownloadLocation == null || imageDownloadLocation.isEmpty())) ||
+                    (hasVideo && (videoDownloadLocation == null || videoDownloadLocation.isEmpty()))) {
+                    Toast.makeText(this, R.string.download_location_not_set, Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            }
+
             JobInfo jobInfo = DownloadMediaService.constructImgurAlbumDownloadAllMediaJobInfo(this, 5000000L * mImages.size(), mImages, subredditName, isNsfw, title);
             ((JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
 

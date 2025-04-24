@@ -1000,39 +1000,63 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
     private void download() {
         isDownloading = false;
 
-        PersistableBundle extras = new PersistableBundle();
-
-        if (post != null) {
-            subredditName = post.getSubredditName();
-            String title = post.getTitle();
-            String sanitizedTitle = title.replaceAll("[\\\\/:*?\"<>|]", "_").replaceAll("[\\s_]+", "_").replaceAll("^_+|_+$", "");
-            if (sanitizedTitle.length() > 100) sanitizedTitle = sanitizedTitle.substring(0, 100).replaceAll("_+$", "");
-            if (sanitizedTitle.isEmpty()) sanitizedTitle = "reddit_video_" + System.currentTimeMillis();
-
-            if (post.getPostType() == Post.GIF_TYPE) {
-                extras.putString(DownloadMediaService.EXTRA_URL, post.getVideoUrl());
-                extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, DownloadMediaService.EXTRA_MEDIA_TYPE_GIF);
-                extras.putString(DownloadMediaService.EXTRA_FILE_NAME, sanitizedTitle + ".gif");
-            } else {
-                extras.putString(DownloadMediaService.EXTRA_URL, videoDownloadUrl);
-                extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO);
-                extras.putString(DownloadMediaService.EXTRA_FILE_NAME, sanitizedTitle + ".mp4");
-            }
-
-            extras.putString(DownloadMediaService.EXTRA_SUBREDDIT_NAME, subredditName);
-            extras.putInt(DownloadMediaService.EXTRA_IS_NSFW, isNSFW ? 1 : 0);
-
-            //TODO: contentEstimatedBytes
-            JobInfo jobInfo = DownloadMediaService.constructJobInfo(this, 5000000, extras);
-            ((JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
-            Toast.makeText(this, R.string.download_started, Toast.LENGTH_SHORT).show();
-        } else {
+        if (post == null) {
             // Handle the case where post is null, maybe log an error or show a message
             Log.e("ViewVideoActivity", "Download failed: Post object is null when videoType != VIDEO_TYPE_NORMAL");
             Toast.makeText(this, R.string.downloading_reddit_video_failed_cannot_download_video, Toast.LENGTH_SHORT).show();
-
             return; // Exit the download method if post is null
         }
+
+        // Check if download location is set
+        String downloadLocation;
+        int mediaType;
+
+        if (post.getPostType() == Post.GIF_TYPE) {
+            mediaType = DownloadMediaService.EXTRA_MEDIA_TYPE_GIF;
+        } else {
+            mediaType = DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO;
+        }
+
+        if (isNSFW && mSharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false)) {
+            downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
+        } else {
+            if (mediaType == DownloadMediaService.EXTRA_MEDIA_TYPE_GIF) {
+                downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION, "");
+            } else {
+                downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
+            }
+        }
+
+        if (downloadLocation == null || downloadLocation.isEmpty()) {
+            Toast.makeText(this, R.string.download_location_not_set, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        PersistableBundle extras = new PersistableBundle();
+
+        subredditName = post.getSubredditName();
+        String title = post.getTitle();
+        String sanitizedTitle = title.replaceAll("[\\\\/:*?\"<>|]", "_").replaceAll("[\\s_]+", "_").replaceAll("^_+|_+$", "");
+        if (sanitizedTitle.length() > 100) sanitizedTitle = sanitizedTitle.substring(0, 100).replaceAll("_+$", "");
+        if (sanitizedTitle.isEmpty()) sanitizedTitle = "reddit_video_" + System.currentTimeMillis();
+
+        if (post.getPostType() == Post.GIF_TYPE) {
+            extras.putString(DownloadMediaService.EXTRA_URL, post.getVideoUrl());
+            extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, DownloadMediaService.EXTRA_MEDIA_TYPE_GIF);
+            extras.putString(DownloadMediaService.EXTRA_FILE_NAME, sanitizedTitle + ".gif");
+        } else {
+            extras.putString(DownloadMediaService.EXTRA_URL, videoDownloadUrl);
+            extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO);
+            extras.putString(DownloadMediaService.EXTRA_FILE_NAME, sanitizedTitle + ".mp4");
+        }
+
+        extras.putString(DownloadMediaService.EXTRA_SUBREDDIT_NAME, subredditName);
+        extras.putInt(DownloadMediaService.EXTRA_IS_NSFW, isNSFW ? 1 : 0);
+
+        //TODO: contentEstimatedBytes
+        JobInfo jobInfo = DownloadMediaService.constructJobInfo(this, 5000000, extras);
+        ((JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
+        Toast.makeText(this, R.string.download_started, Toast.LENGTH_SHORT).show();
     }
 
     @Override

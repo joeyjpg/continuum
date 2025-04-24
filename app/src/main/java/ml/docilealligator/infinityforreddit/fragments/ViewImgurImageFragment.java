@@ -5,6 +5,7 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -51,6 +52,7 @@ import ml.docilealligator.infinityforreddit.bottomsheetfragments.SetAsWallpaperB
 import ml.docilealligator.infinityforreddit.databinding.FragmentViewImgurImageBinding;
 import ml.docilealligator.infinityforreddit.post.ImgurMedia;
 import ml.docilealligator.infinityforreddit.services.DownloadMediaService;
+import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class ViewImgurImageFragment extends Fragment {
@@ -225,6 +227,29 @@ public class ViewImgurImageFragment extends Fragment {
         String subredditName = getArguments().getString(ViewImgurMediaActivity.EXTRA_SUBREDDIT_NAME);
         boolean isNsfw = getArguments().getBoolean(ViewImgurMediaActivity.EXTRA_IS_NSFW);
         String title = getArguments().getString(ViewImgurMediaActivity.EXTRA_POST_TITLE_KEY);
+
+        // Check if download location is set
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(SharedPreferencesUtils.SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE);
+        String downloadLocation;
+
+        int mediaType = imgurMedia.getType() == ImgurMedia.TYPE_VIDEO ?
+                DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO :
+                DownloadMediaService.EXTRA_MEDIA_TYPE_IMAGE;
+
+        if (isNsfw && sharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false)) {
+            downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
+        } else {
+            if (mediaType == DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO) {
+                downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
+            } else {
+                downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
+            }
+        }
+
+        if (downloadLocation == null || downloadLocation.isEmpty()) {
+            Toast.makeText(activity, R.string.download_location_not_set, Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         //TODO: contentEstimatedBytes
         JobInfo jobInfo = DownloadMediaService.constructJobInfo(activity, 5000000, imgurMedia, subredditName, isNsfw, title);

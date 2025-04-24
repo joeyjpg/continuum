@@ -20,6 +20,13 @@ import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
+// Imports for long click handling
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class DownloadLocationPreferenceFragment extends CustomFontPreferenceFragmentCompat {
     private static final int IMAGE_DOWNLOAD_LOCATION_REQUEST_CODE = 10;
     private static final int GIF_DOWNLOAD_LOCATION_REQUEST_CODE = 11;
@@ -33,6 +40,9 @@ public class DownloadLocationPreferenceFragment extends CustomFontPreferenceFrag
     @Inject
     @Named("default")
     SharedPreferences sharedPreferences;
+
+    // Flag to track if a long press occurred
+    private boolean isLongPressing = false;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -48,6 +58,8 @@ public class DownloadLocationPreferenceFragment extends CustomFontPreferenceFrag
             String downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
             if (!downloadLocation.equals("")) {
                 nsfwDownloadLocationPreference.setSummary(formatDownloadPath(downloadLocation));
+            } else {
+                nsfwDownloadLocationPreference.setSummary(R.string.settings_download_location_not_set);
             }
 
             nsfwDownloadLocationPreference.setOnPreferenceClickListener(preference -> {
@@ -55,11 +67,14 @@ public class DownloadLocationPreferenceFragment extends CustomFontPreferenceFrag
                 startActivityForResult(intent, NSFW_DOWNLOAD_LOCATION_REQUEST_CODE);
                 return true;
             });
+            // No long click for NSFW location for now, can be added if needed.
         }
         if (imageDownloadLocationPreference != null) {
             String downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
             if (!downloadLocation.equals("")) {
                 imageDownloadLocationPreference.setSummary(formatDownloadPath(downloadLocation));
+            } else {
+                imageDownloadLocationPreference.setSummary(R.string.settings_download_location_not_set);
             }
 
             imageDownloadLocationPreference.setOnPreferenceClickListener(preference -> {
@@ -73,6 +88,8 @@ public class DownloadLocationPreferenceFragment extends CustomFontPreferenceFrag
             String downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION, "");
             if (!downloadLocation.equals("")) {
                 gifDownloadLocationPreference.setSummary(formatDownloadPath(downloadLocation));
+            } else {
+                gifDownloadLocationPreference.setSummary(R.string.settings_download_location_not_set);
             }
 
             gifDownloadLocationPreference.setOnPreferenceClickListener(preference -> {
@@ -86,6 +103,8 @@ public class DownloadLocationPreferenceFragment extends CustomFontPreferenceFrag
             String downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
             if (!downloadLocation.equals("")) {
                 videoDownloadLocationPreference.setSummary(formatDownloadPath(downloadLocation));
+            } else {
+                videoDownloadLocationPreference.setSummary(R.string.settings_download_location_not_set);
             }
 
             videoDownloadLocationPreference.setOnPreferenceClickListener(preference -> {
@@ -149,5 +168,86 @@ public class DownloadLocationPreferenceFragment extends CustomFontPreferenceFrag
         }
         // Return original string if prefix doesn't match
         return uriString;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        final RecyclerView recyclerView = getListView();
+        if (recyclerView != null) {
+            GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    View childView = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                    if (childView != null) {
+                        int position = recyclerView.getChildAdapterPosition(childView);
+                        if (position != RecyclerView.NO_POSITION) {
+                            Preference preference = getPreferenceScreen().getPreference(position);
+                            if (preference != null) {
+                                String key = preference.getKey();
+                                boolean handled = false;
+                                if (SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION.equals(key)) {
+                                    sharedPreferences.edit().remove(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION).apply();
+                                    preference.setSummary(R.string.settings_download_location_not_set);
+                                    handled = true;
+                                } else if (SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION.equals(key)) {
+                                    sharedPreferences.edit().remove(SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION).apply();
+                                    preference.setSummary(R.string.settings_download_location_not_set);
+                                    handled = true;
+                                } else if (SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION.equals(key)) {
+                                    sharedPreferences.edit().remove(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION).apply();
+                                    preference.setSummary(R.string.settings_download_location_not_set);
+                                    handled = true;
+                                } else if (SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION.equals(key)) {
+                                    sharedPreferences.edit().remove(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION).apply();
+                                    preference.setSummary(R.string.settings_download_location_not_set);
+                                    handled = true;
+                                }
+                                if (handled) {
+                                    isLongPressing = true; // Set the flag when long press is handled
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+                @Override
+                public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                    // Let the GestureDetector analyze the event first.
+                    boolean detected = gestureDetector.onTouchEvent(e);
+
+                    // IMPORTANT: Reset flag on ACTION_DOWN to start fresh for each gesture.
+                    if (e.getAction() == MotionEvent.ACTION_DOWN) {
+                        isLongPressing = false;
+                    }
+
+                    // If gesture detector detected something OR if we are in a long press state,
+                    // intercept the event (especially the ACTION_UP after the long press).
+                    // Returning true consumes the event and prevents children (like the preference item)
+                    // from receiving it.
+                    return isLongPressing || detected; // Let's try just isLongPressing for interception
+                }
+
+                @Override
+                public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                    // Let the GestureDetector handle the event.
+                    gestureDetector.onTouchEvent(e);
+
+                    // If a long press was handled (flag is set) and the event is ACTION_UP or ACTION_CANCEL,
+                    // we simply reset the flag. Returning true from onInterceptTouchEvent should handle consumption.
+                    if (isLongPressing && (e.getAction() == MotionEvent.ACTION_UP || e.getAction() == MotionEvent.ACTION_CANCEL)) {
+                        isLongPressing = false;
+                    }
+                }
+
+                @Override
+                public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+                    // No-op
+                }
+            });
+        }
     }
 }

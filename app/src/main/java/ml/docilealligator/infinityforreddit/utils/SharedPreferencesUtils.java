@@ -271,6 +271,8 @@ public class SharedPreferencesUtils {
     }
 
     public static final String DEFAULT_PREFERENCES_FILE = "ml.docilealligator.infinityforreddit_preferences";
+    public static final String SHARED_PREFERENCES_FILE = DEFAULT_PREFERENCES_FILE;
+    public static final String SUBSCRIBE_TO_SUB_WHEN_SCROLLING_THROUGH_POSTS_AFTER_SUB_BROWSING_HISTORY_KEY = "subscribe_to_subs_when_scrolling_through_posts_after_sub_browsing_history";
     public static final String MAIN_PAGE_TABS_SHARED_PREFERENCES_FILE = "ml.docilealligator.infinityforreddit.main_page_tabs";
     public static final String MAIN_PAGE_TAB_COUNT = "_main_page_tab_count";
     public static final String MAIN_PAGE_SHOW_TAB_NAMES = "_main_page_show_tab_names";

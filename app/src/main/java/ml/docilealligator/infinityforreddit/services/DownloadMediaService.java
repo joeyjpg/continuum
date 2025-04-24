@@ -552,7 +552,24 @@ public class DownloadMediaService extends JobService {
 
         mExecutor.execute(() -> {
             String subredditName = extras.getString(EXTRA_SUBREDDIT_NAME);
-            boolean isNsfw = extras.getBoolean(EXTRA_IS_NSFW, false);
+            // Remove the direct getBoolean call:
+            // boolean isNsfw = extras.getBoolean(EXTRA_IS_NSFW, false);
+
+            // Explicitly get the object and check its type:
+            Object nsfwValue = extras.get(EXTRA_IS_NSFW);
+            boolean isNsfw = false; // Default value
+            if (nsfwValue instanceof Boolean) {
+                isNsfw = (Boolean) nsfwValue;
+            } else if (nsfwValue instanceof Integer) {
+                // Correctly handle the Integer case based on the value (1 for true, 0 for false)
+                isNsfw = ((Integer) nsfwValue) != 0;
+                // Optional: Log a warning if you still want to know this happened, but it's handled now.
+                // Log.w("DownloadMediaService", "Received Integer for EXTRA_IS_NSFW, handled correctly.");
+            } else if (nsfwValue != null) {
+                // Optional: Handle unexpected types if necessary
+                // Log.w("DownloadMediaService", "Unexpected type for EXTRA_IS_NSFW: " + nsfwValue.getClass().getName());
+            }
+            // If nsfwValue is null, isNsfw remains the default 'false'
 
             if (extras.containsKey(EXTRA_ALL_GALLERY_IMAGE_URLS)) {
                 // Download all images in a gallery post
@@ -699,58 +716,63 @@ public class DownloadMediaService extends JobService {
             response = retrofit.create(DownloadFile.class).downloadFile(fileUrl).execute();
             if (response.isSuccessful() && response.body() != null) {
                 String destinationFileDirectory = getDownloadLocation(mediaType, isNsfw);
-                    isDefaultDestination = false;
-                    DocumentFile picFile;
-                    DocumentFile dir;
+                if (destinationFileDirectory == null || destinationFileDirectory.isEmpty()) {
+                    downloadFinished(params, builder, mediaType, randomNotificationIdOffset, mimeType,
+                            null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, multipleDownloads);
+                    return false;
+                }
+                isDefaultDestination = false;
+                DocumentFile picFile;
+                DocumentFile dir;
 
-                    if (separateDownloadFolder && subredditName != null && !subredditName.equals("")) {
-                        dir = DocumentFile.fromTreeUri(DownloadMediaService.this, Uri.parse(destinationFileDirectory));
-                        if (dir == null) {
-                            downloadFinished(params, builder, mediaType, randomNotificationIdOffset, mimeType,
-                                    null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, multipleDownloads);
-
-                            return false;
-                        }
-                        dir = dir.findFile(subredditName);
-                        if (dir == null) {
-                            dir = DocumentFile.fromTreeUri(DownloadMediaService.this, Uri.parse(destinationFileDirectory)).createDirectory(subredditName);
-                            if (dir == null) {
-                                downloadFinished(params, builder, mediaType, randomNotificationIdOffset, mimeType,
-                                        null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, multipleDownloads);
-
-                                return false;
-                            }
-                        }
-                    } else {
-                        dir = DocumentFile.fromTreeUri(DownloadMediaService.this, Uri.parse(destinationFileDirectory));
-                        if (dir == null) {
-                            downloadFinished(params, builder, mediaType, randomNotificationIdOffset, mimeType,
-                                    null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, multipleDownloads);
-
-                            return false;
-                        }
-                    }
-
-                    DocumentFile checkForDuplicates = dir.findFile(fileName);
-                    int extensionPosition = fileName.lastIndexOf('.');
-                    String extension = fileName.substring(extensionPosition);
-                    int num = 1;
-
-                    while (checkForDuplicates != null) {
-                        fileName = fileName.substring(0, extensionPosition) + " (" + num + ")" + extension;
-                        checkForDuplicates = dir.findFile(fileName);
-                        num++;
-                    }
-
-                    picFile = dir.createFile(mimeType, fileName);
-
-                    if (picFile == null) {
+                if (separateDownloadFolder && subredditName != null && !subredditName.equals("")) {
+                    dir = DocumentFile.fromTreeUri(DownloadMediaService.this, Uri.parse(destinationFileDirectory));
+                    if (dir == null) {
                         downloadFinished(params, builder, mediaType, randomNotificationIdOffset, mimeType,
                                 null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, multipleDownloads);
+
                         return false;
                     }
+                    dir = dir.findFile(subredditName);
+                    if (dir == null) {
+                        dir = DocumentFile.fromTreeUri(DownloadMediaService.this, Uri.parse(destinationFileDirectory)).createDirectory(subredditName);
+                        if (dir == null) {
+                            downloadFinished(params, builder, mediaType, randomNotificationIdOffset, mimeType,
+                                    null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, multipleDownloads);
 
-                    destinationFileUriString = picFile.getUri().toString();
+                            return false;
+                        }
+                    }
+                } else {
+                    dir = DocumentFile.fromTreeUri(DownloadMediaService.this, Uri.parse(destinationFileDirectory));
+                    if (dir == null) {
+                        downloadFinished(params, builder, mediaType, randomNotificationIdOffset, mimeType,
+                                null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, multipleDownloads);
+
+                        return false;
+                    }
+                }
+
+                DocumentFile checkForDuplicates = dir.findFile(fileName);
+                int extensionPosition = fileName.lastIndexOf('.');
+                String extension = fileName.substring(extensionPosition);
+                int num = 1;
+
+                while (checkForDuplicates != null) {
+                    fileName = fileName.substring(0, extensionPosition) + " (" + num + ")" + extension;
+                    checkForDuplicates = dir.findFile(fileName);
+                    num++;
+                }
+
+                picFile = dir.createFile(mimeType, fileName);
+
+                if (picFile == null) {
+                    downloadFinished(params, builder, mediaType, randomNotificationIdOffset, mimeType,
+                            null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, multipleDownloads);
+                    return false;
+                }
+
+                destinationFileUriString = picFile.getUri().toString();
             } else {
                 downloadFinished(params, builder, mediaType, randomNotificationIdOffset, mimeType, null,
                         ERROR_FILE_CANNOT_DOWNLOAD, multipleDownloads);

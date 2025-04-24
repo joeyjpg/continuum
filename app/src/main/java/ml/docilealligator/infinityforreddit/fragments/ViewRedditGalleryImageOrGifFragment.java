@@ -5,6 +5,7 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -63,6 +64,7 @@ import ml.docilealligator.infinityforreddit.bottomsheetfragments.UrlMenuBottomSh
 import ml.docilealligator.infinityforreddit.databinding.FragmentViewRedditGalleryImageOrGifBinding;
 import ml.docilealligator.infinityforreddit.post.Post;
 import ml.docilealligator.infinityforreddit.services.DownloadMediaService;
+import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class ViewRedditGalleryImageOrGifFragment extends Fragment {
@@ -379,8 +381,40 @@ public class ViewRedditGalleryImageOrGifFragment extends Fragment {
 
         if (parentPost == null) {
             Toast.makeText(activity, R.string.downloading_media_failed_cannot_download_media, Toast.LENGTH_SHORT).show();
-
             return; // Cannot proceed without the parent post object
+        }
+
+        // Check if download location is set
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(SharedPreferencesUtils.SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE);
+        String downloadLocation;
+
+        // Determine which download location to use
+        boolean isNsfw = getArguments().getBoolean(EXTRA_IS_NSFW, false);
+        int mediaType;
+
+        if (media.mediaType == Post.Gallery.TYPE_GIF) {
+            mediaType = DownloadMediaService.EXTRA_MEDIA_TYPE_GIF;
+        } else if (media.mediaType == Post.Gallery.TYPE_VIDEO) {
+            mediaType = DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO;
+        } else {
+            mediaType = DownloadMediaService.EXTRA_MEDIA_TYPE_IMAGE;
+        }
+
+        if (isNsfw && sharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false)) {
+            downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
+        } else {
+            if (mediaType == DownloadMediaService.EXTRA_MEDIA_TYPE_GIF) {
+                downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION, "");
+            } else if (mediaType == DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO) {
+                downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
+            } else {
+                downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
+            }
+        }
+
+        if (downloadLocation == null || downloadLocation.isEmpty()) {
+            Toast.makeText(activity, R.string.download_location_not_set, Toast.LENGTH_SHORT).show();
+            return;
         }
 
         //TODO: contentEstimatedBytes

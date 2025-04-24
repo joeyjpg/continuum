@@ -359,9 +359,27 @@ public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWa
     private void download() {
         isDownloading = false;
 
+        // Check if download location is set
+        String downloadLocation;
+        int mediaType = isGif ? DownloadMediaService.EXTRA_MEDIA_TYPE_GIF : DownloadMediaService.EXTRA_MEDIA_TYPE_IMAGE;
+
+        if (isNsfw && mSharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false)) {
+            downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
+        } else {
+            if (isGif) {
+                downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION, "");
+            } else {
+                downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
+            }
+        }
+
+        if (downloadLocation == null || downloadLocation.isEmpty()) {
+            Toast.makeText(this, R.string.download_location_not_set, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         PersistableBundle extras = new PersistableBundle();
         extras.putString(DownloadMediaService.EXTRA_URL, mImageUrl);
-        int mediaType = isGif ? DownloadMediaService.EXTRA_MEDIA_TYPE_GIF : DownloadMediaService.EXTRA_MEDIA_TYPE_IMAGE;
         extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, mediaType);
         extras.putString(DownloadMediaService.EXTRA_SUBREDDIT_NAME, mSubredditName);
         extras.putInt(DownloadMediaService.EXTRA_IS_NSFW, isNsfw ? 1 : 0);

@@ -262,6 +262,21 @@ public class ViewImgurVideoFragment extends Fragment {
         boolean isNsfw = getArguments().getBoolean(ViewImgurMediaActivity.EXTRA_IS_NSFW);
         String title = getArguments().getString(ViewImgurMediaActivity.EXTRA_POST_TITLE_KEY);
 
+        // Check if download location is set
+        String downloadLocation;
+
+        // Imgur videos should be saved to video location
+        if (isNsfw && mSharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false)) {
+            downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
+        } else {
+            downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
+        }
+
+        if (downloadLocation == null || downloadLocation.isEmpty()) {
+            Toast.makeText(activity, R.string.download_location_not_set, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         //TODO: contentEstimatedBytes
         JobInfo jobInfo = DownloadMediaService.constructJobInfo(activity, 5000000, imgurMedia, subredditName, isNsfw, title);
         ((JobScheduler) activity.getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);

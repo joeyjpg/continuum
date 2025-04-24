@@ -263,8 +263,23 @@ public class ViewRedditGalleryVideoFragment extends Fragment {
 
         if (parentPost == null) {
             Toast.makeText(activity, R.string.downloading_media_failed_cannot_download_media, Toast.LENGTH_SHORT).show();
-
             return; // Cannot proceed without the parent post object
+        }
+
+        // Check if download location is set
+        String downloadLocation;
+        boolean isNsfw = getArguments().getBoolean(EXTRA_IS_NSFW, false);
+
+        // Gallery videos should be saved to video location
+        if (isNsfw && mSharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false)) {
+            downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
+        } else {
+            downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
+        }
+
+        if (downloadLocation == null || downloadLocation.isEmpty()) {
+            Toast.makeText(activity, R.string.download_location_not_set, Toast.LENGTH_SHORT).show();
+            return;
         }
 
         // Call the constructJobInfo overload that takes the Post object and index
