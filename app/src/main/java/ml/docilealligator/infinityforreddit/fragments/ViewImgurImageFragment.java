@@ -41,6 +41,7 @@ import java.io.File;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import ml.docilealligator.infinityforreddit.BuildConfig;
 import ml.docilealligator.infinityforreddit.Infinity;
@@ -64,6 +65,10 @@ public class ViewImgurImageFragment extends Fragment {
 
     @Inject
     Executor mExecutor;
+
+    @Inject
+    @Named("default")
+    SharedPreferences mSharedPreferences;
 
     private ViewImgurMediaActivity activity;
     private RequestManager glide;
@@ -228,25 +233,60 @@ public class ViewImgurImageFragment extends Fragment {
         boolean isNsfw = getArguments().getBoolean(ViewImgurMediaActivity.EXTRA_IS_NSFW);
         String title = getArguments().getString(ViewImgurMediaActivity.EXTRA_POST_TITLE_KEY);
 
+        android.util.Log.d("ImgurDownload", "ViewImgurImageFragment - Starting download of image, isNsfw=" + isNsfw);
+
         // Check if download location is set
-        SharedPreferences sharedPreferences = activity.getSharedPreferences(SharedPreferencesUtils.SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE);
         String downloadLocation;
 
         int mediaType = imgurMedia.getType() == ImgurMedia.TYPE_VIDEO ?
                 DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO :
                 DownloadMediaService.EXTRA_MEDIA_TYPE_IMAGE;
 
-        if (isNsfw && sharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false)) {
-            downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
+        android.util.Log.d("ImgurDownload", "Media type: " + mediaType +
+                  " (" + (mediaType == DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO ? "VIDEO" :
+                          mediaType == DownloadMediaService.EXTRA_MEDIA_TYPE_GIF ? "GIF" : "IMAGE") + ")");
+
+        String defaultSharedPrefsFile = "ml.docilealligator.infinityforreddit_preferences";
+
+        // Check for the location in both SharedPreferences - this will help identify the issue
+        String imageLoc1 = mSharedPreferences.getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
+        String imageLoc2 = activity.getSharedPreferences(SharedPreferencesUtils.SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE)
+                .getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
+        String imageLoc3 = activity.getSharedPreferences(defaultSharedPrefsFile, Context.MODE_PRIVATE)
+                .getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
+
+        android.util.Log.d("ImgurDownload", "Image location from injected prefs: " +
+                (imageLoc1.isEmpty() ? "EMPTY" : imageLoc1));
+        android.util.Log.d("ImgurDownload", "Image location from SHARED_PREFERENCES_FILE: " +
+                (imageLoc2.isEmpty() ? "EMPTY" : imageLoc2));
+        android.util.Log.d("ImgurDownload", "Image location from default_preferences: " +
+                (imageLoc3.isEmpty() ? "EMPTY" : imageLoc3));
+
+        if (isNsfw && mSharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false)) {
+            downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
+            android.util.Log.d("ImgurDownload", "Using NSFW download location: " +
+                  (downloadLocation.isEmpty() ? "EMPTY" : "SET"));
         } else {
             if (mediaType == DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO) {
-                downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
+                downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
+                android.util.Log.d("ImgurDownload", "Using VIDEO download location: " +
+                      (downloadLocation.isEmpty() ? "EMPTY" : "SET"));
             } else {
-                downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
+                downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
+                android.util.Log.d("ImgurDownload", "Using IMAGE download location: " +
+                      (downloadLocation.isEmpty() ? "EMPTY" : "SET"));
+
+                // If the location is empty, try the other SharedPreferences
+                if (downloadLocation == null || downloadLocation.isEmpty()) {
+                    downloadLocation = imageLoc2.isEmpty() ? imageLoc3 : imageLoc2;
+                    android.util.Log.d("ImgurDownload", "Image location was empty, trying backup location: " +
+                          (downloadLocation.isEmpty() ? "EMPTY" : downloadLocation));
+                }
             }
         }
 
         if (downloadLocation == null || downloadLocation.isEmpty()) {
+            android.util.Log.e("ImgurDownload", "Download location not set!");
             Toast.makeText(activity, R.string.download_location_not_set, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -254,6 +294,8 @@ public class ViewImgurImageFragment extends Fragment {
         //TODO: contentEstimatedBytes
         JobInfo jobInfo = DownloadMediaService.constructJobInfo(activity, 5000000, imgurMedia, subredditName, isNsfw, title);
         ((JobScheduler) activity.getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
+
+        android.util.Log.d("ImgurDownload", "Download job scheduled successfully for single image");
 
         Toast.makeText(activity, R.string.download_started, Toast.LENGTH_SHORT).show();
     }
