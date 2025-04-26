@@ -50,8 +50,8 @@ android {
         applicationId "org.cygnusx1.continuum"
         minSdk 21
         targetSdk 34
-        versionCode 191
-        versionName "7.4.4.4"
+        versionCode 192
+        versionName "7.5.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
@@ -184,6 +184,7 @@ dependencies {
     implementation "androidx.media3:media3-exoplayer-hls:$media3_version"
     implementation "androidx.media3:media3-ui:$media3_version"
     implementation "androidx.media3:media3-exoplayer-smoothstreaming:$media3_version"
+    implementation "androidx.media3:media3-datasource-okhttp:$media3_version"
 
 /** Third-party **/
 
