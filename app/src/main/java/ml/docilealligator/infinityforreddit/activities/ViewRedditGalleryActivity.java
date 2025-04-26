@@ -376,7 +376,7 @@ public class ViewRedditGalleryActivity extends AppCompatActivity implements SetA
                 bundle.putString(ViewRedditGalleryImageOrGifFragment.EXTRA_SUBREDDIT_NAME, subredditName);
                 bundle.putInt(ViewRedditGalleryImageOrGifFragment.EXTRA_INDEX, position);
                 bundle.putInt(ViewRedditGalleryImageOrGifFragment.EXTRA_MEDIA_COUNT, gallery.size());
-                bundle.putBoolean(ViewRedditGalleryImageOrGifFragment.EXTRA_IS_NSFW, false);
+                bundle.putBoolean(ViewRedditGalleryImageOrGifFragment.EXTRA_IS_NSFW, isNsfw);
                 fragment.setArguments(bundle);
                 return fragment;
             }

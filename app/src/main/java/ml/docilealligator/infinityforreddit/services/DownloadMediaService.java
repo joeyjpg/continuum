@@ -248,7 +248,13 @@ public class DownloadMediaService extends JobService {
             extras.putString(EXTRA_SUBREDDIT_NAME, post.getSubredditName());
             extras.putBoolean(EXTRA_IS_NSFW, post.isNSFW());
         } else if (post.getPostType() == Post.GALLERY_TYPE) {
+            Log.d("GalleryDownload", "DownloadMediaService.constructJobInfo(Gallery): galleryIndex=" + galleryIndex);
+            if (post.getGallery() == null || galleryIndex < 0 || galleryIndex >= post.getGallery().size()) {
+                 Log.e("GalleryDownload", "DownloadMediaService.constructJobInfo(Gallery): Invalid gallery index or gallery is null.");
+                 return null; // Cannot construct job with invalid index
+            }
             Post.Gallery media = post.getGallery().get(galleryIndex);
+            Log.d("GalleryDownload", "DownloadMediaService.constructJobInfo(Gallery): media.mediaType=" + media.mediaType + ", post.isNSFW()=" + post.isNSFW());
             if (media.mediaType == Post.Gallery.TYPE_VIDEO) {
                 url = media.url;
                 currentMediaType = EXTRA_MEDIA_TYPE_VIDEO;
@@ -563,6 +569,7 @@ public class DownloadMediaService extends JobService {
         }
 
         mExecutor.execute(() -> {
+            Log.d("GalleryDownload", "DownloadMediaService.onStartJob(): Job started. Extras: " + extras.toString());
             String subredditName = extras.getString(EXTRA_SUBREDDIT_NAME);
             // Remove the direct getBoolean call:
             // boolean isNsfw = extras.getBoolean(EXTRA_IS_NSFW, false);
@@ -696,9 +703,15 @@ public class DownloadMediaService extends JobService {
                             NotificationCompat.Builder builder, int mediaType, int randomNotificationIdOffset,
                             String fileName, String mimeType, String subredditName, boolean isNsfw,
                             boolean multipleDownloads, DownloadProgressResponseBody.ProgressListener progressListener) {
-        Log.d("ImgurDownload", "downloadMedia - mediaType=" + mediaType +
-              " (" + (mediaType == EXTRA_MEDIA_TYPE_VIDEO ? "VIDEO" :
-                      mediaType == EXTRA_MEDIA_TYPE_GIF ? "GIF" : "IMAGE") + ")" +
+      Log.d("GalleryDownload", "DownloadMediaService.downloadMedia(): Starting download. " +
+            "mediaType=" + mediaType +
+            ", isNsfw=" + isNsfw +
+            ", fileName=" + fileName +
+            ", fileUrl=" + (fileUrl == null ? "NULL (will fetch)" : fileUrl) +
+            ", multipleDownloads=" + multipleDownloads);
+      Log.d("ImgurDownload", "downloadMedia - mediaType=" + mediaType +
+            " (" + (mediaType == EXTRA_MEDIA_TYPE_VIDEO ? "VIDEO" :
+                    mediaType == EXTRA_MEDIA_TYPE_GIF ? "GIF" : "IMAGE") + ")" +
               ", fileName=" + fileName + ", isNsfw=" + isNsfw);
 
         if (fileUrl == null) {
@@ -940,6 +953,7 @@ public class DownloadMediaService extends JobService {
         String gifLoc = mSharedPreferences.getString(SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION, "");
         String vidLoc = mSharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
 
+        Log.d("GalleryDownload", "DownloadMediaService.getDownloadLocation(): Checking locations for mediaType=" + mediaType + ", isNsfw=" + isNsfw);
         Log.d("ImgurDownload", "DownloadMediaService getDownloadLocation - mediaType=" + mediaType +
               ", isNsfw=" + isNsfw +
               ", prefs contain - IMAGE: " + (imgLoc.isEmpty() ? "EMPTY" : "SET") +
@@ -956,22 +970,31 @@ public class DownloadMediaService extends JobService {
         }
 
         if (isNsfw && mSharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false)) {
-            // If NSFW is empty but this is an NSFW image, try to fall back to regular image location
-            if (nsfwLoc.isEmpty() && mediaType == EXTRA_MEDIA_TYPE_IMAGE) {
-                Log.d("ImgurDownload", "NSFW location empty, falling back to image location");
-                return imgLoc;
+            // If NSFW location is set, return it. Otherwise, return empty string to indicate not set.
+            if (!nsfwLoc.isEmpty()) {
+                 Log.d("ImgurDownload", "Using NSFW location: " + nsfwLoc);
+                 return nsfwLoc;
+            } else {
+                 Log.d("GalleryDownload", "NSFW location requested but not set, returning empty.");
+                 return ""; // Explicitly return empty if NSFW location is not set
             }
-            return nsfwLoc;
         }
 
+        // If not using separate NSFW folder, proceed with type-specific locations
+        String finalLocation;
         switch (mediaType) {
             case EXTRA_MEDIA_TYPE_GIF:
-                return gifLoc.isEmpty() ? imgLoc : gifLoc; // Fallback to image location if GIF is not set
+                finalLocation = gifLoc.isEmpty() ? imgLoc : gifLoc; // Fallback to image location if GIF is not set
+                break;
             case EXTRA_MEDIA_TYPE_VIDEO:
-                return vidLoc.isEmpty() ? imgLoc : vidLoc; // Fallback to image location if VIDEO is not set
-            default:
-                return imgLoc;
+                finalLocation = vidLoc.isEmpty() ? imgLoc : vidLoc; // Fallback to image location if VIDEO is not set
+                break;
+            default: // EXTRA_MEDIA_TYPE_IMAGE
+                finalLocation = imgLoc;
+                break;
         }
+        Log.d("GalleryDownload", "DownloadMediaService.getDownloadLocation(): Returning final location: " + (finalLocation == null || finalLocation.isEmpty() ? "EMPTY" : finalLocation));
+        return finalLocation;
     }
 
     private Uri writeResponseBodyToDisk(ResponseBody body, boolean isDefaultDestination, String destinationFileUriString, String destinationFileName, int mediaType) throws IOException {
