@@ -48,7 +48,7 @@ android {
 
     defaultConfig {
         applicationId "org.cygnusx1.continuum"
-        minSdk 29
+        minSdk 21
         targetSdk 34
         versionCode 192
         versionName "7.5.0.1"
