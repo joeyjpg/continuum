@@ -2,6 +2,12 @@
 
 ---
 
+7.5.0.1 / 2025-5-12
+============
+* Fixed Downloaded video contains no sound #57
+* Fixed Reduce the size of the placeholder preview image #53
+* Synced with upstream to 7.5.0
+
 7.4.4.4 / 2025-4-20
 ============
 * Added support for inputting the client ID via a QR code
