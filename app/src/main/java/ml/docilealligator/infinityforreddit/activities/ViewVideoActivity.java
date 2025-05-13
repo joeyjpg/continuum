@@ -108,6 +108,7 @@ import ml.docilealligator.infinityforreddit.font.TitleFontFamily;
 import ml.docilealligator.infinityforreddit.font.TitleFontStyle;
 import ml.docilealligator.infinityforreddit.post.Post;
 import ml.docilealligator.infinityforreddit.services.DownloadMediaService;
+import ml.docilealligator.infinityforreddit.services.DownloadRedditVideoService;
 import ml.docilealligator.infinityforreddit.thing.StreamableVideo;
 import ml.docilealligator.infinityforreddit.utils.APIUtils;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
@@ -1014,6 +1015,21 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
             if (sanitizedTitle.length() > 100) sanitizedTitle = sanitizedTitle.substring(0, 100).replaceAll("_+$", "");
             if (sanitizedTitle.isEmpty()) sanitizedTitle = "reddit_video_" + System.currentTimeMillis();
 
+            // For Reddit videos (not Redgifs, Streamable, or Imgur), use DownloadRedditVideoService
+            if (videoType == VIDEO_TYPE_NORMAL && !post.isRedgifs() && !post.isStreamable() && !post.isImgur()) {
+                extras.putString(DownloadRedditVideoService.EXTRA_VIDEO_URL, videoDownloadUrl);
+                extras.putString(DownloadRedditVideoService.EXTRA_POST_ID, post.getId());
+                extras.putString(DownloadRedditVideoService.EXTRA_SUBREDDIT, subredditName);
+                extras.putInt(DownloadRedditVideoService.EXTRA_IS_NSFW, isNSFW ? 1 : 0);
+                extras.putString(DownloadRedditVideoService.EXTRA_FILE_NAME, sanitizedTitle + ".mp4");
+
+                JobInfo jobInfo = DownloadRedditVideoService.constructJobInfo(this, 5000000, extras);
+                ((JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
+                Toast.makeText(this, R.string.download_started, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // For other video types (or GIFs), continue using DownloadMediaService
             if (post.getPostType() == Post.GIF_TYPE) {
                 extras.putString(DownloadMediaService.EXTRA_URL, post.getVideoUrl());
                 extras.putInt(DownloadMediaService.EXTRA_MEDIA_TYPE, DownloadMediaService.EXTRA_MEDIA_TYPE_GIF);
