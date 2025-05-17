@@ -66,6 +66,7 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import ml.docilealligator.infinityforreddit.Constants;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.RecyclerViewContentScrollingInterface;
@@ -865,7 +866,7 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
         binding.navDrawerRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManagerBugFixed(this));
         binding.navDrawerRecyclerViewMainActivity.setAdapter(adapter.getConcatAdapter());
 
-        int tabCount = mMainActivityTabsSharedPreferences.getInt((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_COUNT, 3);
+        int tabCount = mMainActivityTabsSharedPreferences.getInt((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_COUNT, Constants.MAX_TAB_COUNT);
         mShowFavoriteMultiReddits = mMainActivityTabsSharedPreferences.getBoolean((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.MAIN_PAGE_SHOW_FAVORITE_MULTIREDDITS, false);
         mShowMultiReddits = mMainActivityTabsSharedPreferences.getBoolean((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.MAIN_PAGE_SHOW_MULTIREDDITS, false);
         mShowFavoriteSubscribedSubreddits = mMainActivityTabsSharedPreferences.getBoolean((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.MAIN_PAGE_SHOW_FAVORITE_SUBSCRIBED_SUBREDDITS, false);
@@ -890,6 +891,15 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
                         break;
                     case 2:
                         Utils.setTitleWithCustomFontToTab(typeface, tab, mMainActivityTabsSharedPreferences.getString((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_3_TITLE, getString(R.string.all)));
+                        break;
+                    case 3:
+                        Utils.setTitleWithCustomFontToTab(typeface, tab, mMainActivityTabsSharedPreferences.getString((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_4_TITLE, getString(R.string.all))); // Assuming default title 'All'
+                        break;
+                    case 4:
+                        Utils.setTitleWithCustomFontToTab(typeface, tab, mMainActivityTabsSharedPreferences.getString((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_5_TITLE, getString(R.string.all))); // Assuming default title 'All'
+                        break;
+                    case 5:
+                        Utils.setTitleWithCustomFontToTab(typeface, tab, mMainActivityTabsSharedPreferences.getString((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_6_TITLE, getString(R.string.all))); // Assuming default title 'All'
                         break;
                 }
                 if (position >= tabCount && (mShowFavoriteMultiReddits || mShowMultiReddits ||
@@ -1616,58 +1626,95 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            if (position == 0) {
-                int postType = mMainActivityTabsSharedPreferences.getInt((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_1_POST_TYPE, SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_HOME);
-                String name = mMainActivityTabsSharedPreferences.getString((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_1_NAME, "");
-                return generatePostFragment(postType, name);
-            } else {
-                if (showFavoriteMultiReddits) {
-                    if (position >= tabCount && position - tabCount < favoriteMultiReddits.size()) {
-                        int postType = SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_MULTIREDDIT;
-                        String name = favoriteMultiReddits.get(position - tabCount).getPath();
-                        return generatePostFragment(postType, name);
-                    }
+            // First, handle the fixed tabs based on their position
+            if (position < tabCount) {
+                String tabPostTypeKey;
+                String tabNameKey;
+                int defaultPostType;
+                String defaultName = ""; // Default name is usually empty or a generic term
+
+                switch (position) {
+                    case 0:
+                        tabPostTypeKey = SharedPreferencesUtils.MAIN_PAGE_TAB_1_POST_TYPE;
+                        tabNameKey = SharedPreferencesUtils.MAIN_PAGE_TAB_1_NAME;
+                        defaultPostType = SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_HOME;
+                        // Default name for Home is often not needed or handled by MAIN_PAGE_TAB_POST_TYPE_HOME
+                        break;
+                    case 1:
+                        tabPostTypeKey = SharedPreferencesUtils.MAIN_PAGE_TAB_2_POST_TYPE;
+                        tabNameKey = SharedPreferencesUtils.MAIN_PAGE_TAB_2_NAME;
+                        defaultPostType = SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_POPULAR;
+                        break;
+                    case 2:
+                        tabPostTypeKey = SharedPreferencesUtils.MAIN_PAGE_TAB_3_POST_TYPE;
+                        tabNameKey = SharedPreferencesUtils.MAIN_PAGE_TAB_3_NAME;
+                        defaultPostType = SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_ALL;
+                        break;
+                    case 3:
+                        tabPostTypeKey = SharedPreferencesUtils.MAIN_PAGE_TAB_4_POST_TYPE;
+                        tabNameKey = SharedPreferencesUtils.MAIN_PAGE_TAB_4_NAME;
+                        defaultPostType = SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_ALL; // Default to 'All' or similar
+                        break;
+                    case 4:
+                        tabPostTypeKey = SharedPreferencesUtils.MAIN_PAGE_TAB_5_POST_TYPE;
+                        tabNameKey = SharedPreferencesUtils.MAIN_PAGE_TAB_5_NAME;
+                        defaultPostType = SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_ALL; // Default to 'All' or similar
+                        break;
+                    case 5:
+                        tabPostTypeKey = SharedPreferencesUtils.MAIN_PAGE_TAB_6_POST_TYPE;
+                        tabNameKey = SharedPreferencesUtils.MAIN_PAGE_TAB_6_NAME;
+                        defaultPostType = SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_ALL; // Default to 'All' or similar
+                        break;
+                    default:
+                        // Should not happen if getItemCount() is correct
+                        // Return a default/fallback fragment or throw an error
+                        return generatePostFragment(SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_POPULAR, "");
                 }
 
-                if (showMultiReddits) {
-                    if (position >= tabCount && position - tabCount - favoriteMultiReddits.size() < multiReddits.size()) {
-                        int postType = SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_MULTIREDDIT;
-                        String name = multiReddits.get(position - tabCount - favoriteMultiReddits.size()).getPath();
-                        return generatePostFragment(postType, name);
-                    }
-                }
-
-                if (showFavoriteSubscribedSubreddits) {
-                    if (position >= tabCount && position - tabCount - favoriteMultiReddits.size()
-                            - multiReddits.size() < favoriteSubscribedSubreddits.size()) {
-                        int postType = SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_SUBREDDIT;
-                        String name = favoriteSubscribedSubreddits.get(position - tabCount
-                                - favoriteMultiReddits.size()
-                                - multiReddits.size()).getName();
-                        return generatePostFragment(postType, name);
-                    }
-                }
-                if (showSubscribedSubreddits) {
-                    if (position >= tabCount && position - tabCount - favoriteMultiReddits.size()
-                            - multiReddits.size() - favoriteSubscribedSubreddits.size() < subscribedSubreddits.size()) {
-                        int postType = SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_SUBREDDIT;
-                        String name = subscribedSubreddits.get(position - tabCount - favoriteMultiReddits.size()
-                                - multiReddits.size() - favoriteSubscribedSubreddits.size()).getName();
-                        return generatePostFragment(postType, name);
-                    }
-                }
-
-                int postType;
-                String name;
-                if (position == 1) {
-                     postType = mMainActivityTabsSharedPreferences.getInt((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_2_POST_TYPE, SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_POPULAR);
-                     name = mMainActivityTabsSharedPreferences.getString((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_2_NAME, "");
-                } else {
-                    postType = mMainActivityTabsSharedPreferences.getInt((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_3_POST_TYPE, SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_ALL);
-                    name = mMainActivityTabsSharedPreferences.getString((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_3_NAME, "");
-                }
+                int postType = mMainActivityTabsSharedPreferences.getInt((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + tabPostTypeKey, defaultPostType);
+                String name = mMainActivityTabsSharedPreferences.getString((accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + tabNameKey, defaultName);
                 return generatePostFragment(postType, name);
             }
+
+            // Handle dynamic tabs (favorites, multireddits, etc.) that appear after the fixed tabs
+            // The position here is relative to the end of the fixed tabs
+            int dynamicPosition = position - tabCount;
+
+            if (showFavoriteMultiReddits) {
+                if (dynamicPosition < favoriteMultiReddits.size()) {
+                    int postType = SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_MULTIREDDIT;
+                    String name = favoriteMultiReddits.get(dynamicPosition).getPath();
+                    return generatePostFragment(postType, name);
+                }
+                dynamicPosition -= favoriteMultiReddits.size();
+            }
+
+            if (showMultiReddits) {
+                if (dynamicPosition < multiReddits.size()) {
+                    int postType = SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_MULTIREDDIT;
+                    String name = multiReddits.get(dynamicPosition).getPath();
+                    return generatePostFragment(postType, name);
+                }
+                dynamicPosition -= multiReddits.size();
+            }
+
+            if (showFavoriteSubscribedSubreddits) {
+                if (dynamicPosition < favoriteSubscribedSubreddits.size()) {
+                    int postType = SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_SUBREDDIT;
+                    String name = favoriteSubscribedSubreddits.get(dynamicPosition).getName();
+                    return generatePostFragment(postType, name);
+                }
+                dynamicPosition -= favoriteSubscribedSubreddits.size();
+            }
+            if (showSubscribedSubreddits) {
+                if (dynamicPosition < subscribedSubreddits.size()) {
+                    int postType = SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_SUBREDDIT;
+                    String name = subscribedSubreddits.get(dynamicPosition).getName();
+                    return generatePostFragment(postType, name);
+                }
+            }
+            // Fallback if position is out of bounds for dynamic tabs, though getItemCount should prevent this.
+            return generatePostFragment(SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_POPULAR, ""); // Default fallback
         }
 
         public void setFavoriteMultiReddits(List<MultiReddit> favoriteMultiReddits) {

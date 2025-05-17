@@ -11,16 +11,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/info_text_view_customize_main_page_tabs_fragment"
+        <Button
+            android:id="@+id/restart_button_customize_main_page_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:drawablePadding="32dp"
-            android:text="@string/restart_app_see_changes"
-            android:gravity="center_vertical"
-            android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family" />
+            android:layout_margin="16dp"
+            android:text="@string/restart_app_to_apply_changes"
+            android:visibility="gone"
+            app:icon="@android:drawable/ic_menu_rotate" />
+
 
         <View
             android:layout_width="match_parent"
@@ -453,7 +452,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="?attr/font_default"
                 android:fontFamily="?attr/font_family"
-                app:layout_constraintTop_toBottomOf="@id/tab_3_name_title_text_view_customize_main_page_tabs_fragment"
+                app:layout_constraintTop_toBottomOf="@+id/tab_3_name_title_text_view_customize_main_page_tabs_fragment"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tab_3_name_add_image_view_customize_main_page_tabs_fragment" />
@@ -475,6 +474,387 @@
 
         <View
             android:id="@+id/divider_4_customize_main_page_tabs_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividerColor" />
+
+        <TextView
+            android:id="@+id/tab_4_group_summary_customize_main_page_tabs_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingStart="72dp"
+            android:paddingEnd="16dp"
+            android:text="@string/settings_tab_4_summary"
+            android:textSize="?attr/font_default"
+            android:fontFamily="?attr/font_family" />
+
+        <LinearLayout
+            android:id="@+id/tab_4_title_linear_layout_customize_main_page_tabs_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="72dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:id="@+id/tab_4_title_title_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_tab_title"
+                android:textSize="?attr/font_16"
+                android:fontFamily="?attr/font_family" />
+
+            <TextView
+                android:id="@+id/tab_4_title_summary_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="?attr/font_default"
+                android:fontFamily="?attr/font_family" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_4_type_linear_layout_customize_main_page_tabs_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="72dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:id="@+id/tab_4_type_title_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_tab_post_type"
+                android:textSize="?attr/font_16"
+                android:fontFamily="?attr/font_family" />
+
+            <TextView
+                android:id="@+id/tab_4_type_summary_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="?attr/font_default"
+                android:fontFamily="?attr/font_family" />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tab_4_name_constraint_layout_customize_main_page_tabs_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="72dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tab_4_name_title_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="?attr/font_16"
+                android:fontFamily="?attr/font_family"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tab_4_name_add_image_view_customize_main_page_tabs_fragment" />
+
+            <TextView
+                android:id="@+id/tab_4_name_summary_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="?attr/font_default"
+                android:fontFamily="?attr/font_family"
+                app:layout_constraintTop_toBottomOf="@+id/tab_4_name_title_text_view_customize_main_page_tabs_fragment"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tab_4_name_add_image_view_customize_main_page_tabs_fragment" />
+
+            <ImageView
+                android:id="@+id/tab_4_name_add_image_view_customize_main_page_tabs_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:src="@drawable/ic_add_day_night_24dp"
+                android:background="?actionBarItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/divider_5_customize_main_page_tabs_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividerColor" />
+
+        <TextView
+            android:id="@+id/tab_5_group_summary_customize_main_page_tabs_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingStart="72dp"
+            android:paddingEnd="16dp"
+            android:text="@string/settings_tab_5_summary"
+            android:textSize="?attr/font_default"
+            android:fontFamily="?attr/font_family" />
+
+        <LinearLayout
+            android:id="@+id/tab_5_title_linear_layout_customize_main_page_tabs_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="72dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:id="@+id/tab_5_title_title_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_tab_title"
+                android:textSize="?attr/font_16"
+                android:fontFamily="?attr/font_family" />
+
+            <TextView
+                android:id="@+id/tab_5_title_summary_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="?attr/font_default"
+                android:fontFamily="?attr/font_family" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_5_type_linear_layout_customize_main_page_tabs_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="72dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:id="@+id/tab_5_type_title_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_tab_post_type"
+                android:textSize="?attr/font_16"
+                android:fontFamily="?attr/font_family" />
+
+            <TextView
+                android:id="@+id/tab_5_type_summary_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="?attr/font_default"
+                android:fontFamily="?attr/font_family" />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tab_5_name_constraint_layout_customize_main_page_tabs_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="72dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tab_5_name_title_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="?attr/font_16"
+                android:fontFamily="?attr/font_family"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tab_5_name_add_image_view_customize_main_page_tabs_fragment" />
+
+            <TextView
+                android:id="@+id/tab_5_name_summary_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="?attr/font_default"
+                android:fontFamily="?attr/font_family"
+                app:layout_constraintTop_toBottomOf="@+id/tab_5_name_title_text_view_customize_main_page_tabs_fragment"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tab_5_name_add_image_view_customize_main_page_tabs_fragment" />
+
+            <ImageView
+                android:id="@+id/tab_5_name_add_image_view_customize_main_page_tabs_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:src="@drawable/ic_add_day_night_24dp"
+                android:background="?actionBarItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/divider_6_customize_main_page_tabs_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividerColor" />
+
+        <TextView
+            android:id="@+id/tab_6_group_summary_customize_main_page_tabs_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingStart="72dp"
+            android:paddingEnd="16dp"
+            android:text="@string/settings_tab_6_summary"
+            android:textSize="?attr/font_default"
+            android:fontFamily="?attr/font_family" />
+
+        <LinearLayout
+            android:id="@+id/tab_6_title_linear_layout_customize_main_page_tabs_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="72dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:id="@+id/tab_6_title_title_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_tab_title"
+                android:textSize="?attr/font_16"
+                android:fontFamily="?attr/font_family" />
+
+            <TextView
+                android:id="@+id/tab_6_title_summary_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="?attr/font_default"
+                android:fontFamily="?attr/font_family" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_6_type_linear_layout_customize_main_page_tabs_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="72dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:id="@+id/tab_6_type_title_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_tab_post_type"
+                android:textSize="?attr/font_16"
+                android:fontFamily="?attr/font_family" />
+
+            <TextView
+                android:id="@+id/tab_6_type_summary_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="?attr/font_default"
+                android:fontFamily="?attr/font_family" />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tab_6_name_constraint_layout_customize_main_page_tabs_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="72dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tab_6_name_title_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="?attr/font_16"
+                android:fontFamily="?attr/font_family"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tab_6_name_add_image_view_customize_main_page_tabs_fragment" />
+
+            <TextView
+                android:id="@+id/tab_6_name_summary_text_view_customize_main_page_tabs_fragment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="?attr/font_default"
+                android:fontFamily="?attr/font_family"
+                app:layout_constraintTop_toBottomOf="@+id/tab_6_name_title_text_view_customize_main_page_tabs_fragment"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tab_6_name_add_image_view_customize_main_page_tabs_fragment" />
+
+            <ImageView
+                android:id="@+id/tab_6_name_add_image_view_customize_main_page_tabs_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:src="@drawable/ic_add_day_night_24dp"
+                android:background="?actionBarItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/divider_7_customize_main_page_tabs_fragment"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/dividerColor" />
