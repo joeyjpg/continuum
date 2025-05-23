@@ -25,7 +25,7 @@ Steps to reproduce the behavior:
 **Smartphone (please complete the following information):**
 - Device: [e.g. A72]
 - OS: [e.g. One UI]
-- Version [e.g. 1.4.5]
+- Version: [e.g. 7.4.0.5]
 
 **Additional context**
 <!-- Add any other context about the problem here. -->
