@@ -61,7 +61,7 @@ android {
         targetSdk 34
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         versionCode 192
-        versionName "7.5.0.1"
+        versionName "7.5.0.2"
     }
 
     buildFeatures {
