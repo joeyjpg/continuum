@@ -2,7 +2,7 @@
 
 ---
 
-7.5.0.1 / 2025-5-24
+7.5.0.2 / 2025-5-24
 ============
 Note v8a is the 64-bit build, and should be considered the default choose.
 
