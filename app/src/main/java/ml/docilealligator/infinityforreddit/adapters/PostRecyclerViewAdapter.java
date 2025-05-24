@@ -398,11 +398,6 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
         if (mPostLayout == SharedPreferencesUtils.POST_LAYOUT_CARD) {
             Post post = getItem(position);
             if (post != null) {
-                // Check if post has no previews and use compact layout instead
-                if (post.getPreviews() == null || post.getPreviews().isEmpty()) {
-                    return VIEW_TYPE_POST_COMPACT;
-                }
-
                 switch (post.getPostType()) {
                     case Post.VIDEO_TYPE:
                         if (mAutoplay) {
@@ -467,8 +462,6 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                             return VIEW_TYPE_POST_CARD_3_WITH_PREVIEW_TYPE;
                         case SharedPreferencesUtils.POST_LAYOUT_GALLERY:
                             return VIEW_TYPE_POST_GALLERY;
-                        case SharedPreferencesUtils.POST_LAYOUT_COMPACT:
-                            return VIEW_TYPE_POST_COMPACT;
                     }
                 }
             }
@@ -478,17 +471,15 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
             if (post != null) {
                 if (post.getPostType() == Post.GALLERY_TYPE) {
                     return VIEW_TYPE_POST_GALLERY_GALLERY_TYPE;
+                } else {
+                    return VIEW_TYPE_POST_GALLERY;
                 }
+            } else {
+                return VIEW_TYPE_POST_GALLERY;
             }
-            return VIEW_TYPE_POST_GALLERY;
         } else if (mPostLayout == SharedPreferencesUtils.POST_LAYOUT_CARD_2) {
             Post post = getItem(position);
             if (post != null) {
-                // Check if post has no previews and use compact layout instead
-                if (post.getPreviews() == null || post.getPreviews().isEmpty()) {
-                    return VIEW_TYPE_POST_COMPACT;
-                }
-
                 switch (post.getPostType()) {
                     case Post.VIDEO_TYPE:
                         if (mAutoplay) {
@@ -526,11 +517,6 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
         } else {
             Post post = getItem(position);
             if (post != null) {
-                // Check if post has no previews and use compact layout instead
-                if (post.getPreviews() == null || post.getPreviews().isEmpty()) {
-                    return VIEW_TYPE_POST_COMPACT;
-                }
-
                 switch (post.getPostType()) {
                     case Post.VIDEO_TYPE:
                         if (mAutoplay) {
