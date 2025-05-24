@@ -501,6 +501,8 @@ https://play.google.com/store/"</string>
     <string name="delete_multi_reddit_success">"Xoá thành công"</string>
     <string name="delete_multi_reddit_failed">"Xoá thất bại"</string>
     <string name="delete_multi_reddit_dialog_message">"Bạn có chắc không?"</string>
+    <string name="enable_nsfw">"Bật NSFW"</string>
+    <string name="disable_nsfw">"Tắt NSFW"</string>
     <string name="cannot_save_image">"Không thể lưu hình ảnh"</string>
     <string name="cannot_save_gif">"Không thể lưu gif"</string>
     <string name="cannot_get_storage">"Không thể truy cập bộ nhớ ứng dụng"</string>

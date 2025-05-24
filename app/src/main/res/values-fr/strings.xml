@@ -553,6 +553,8 @@ https://play.google.com/store/"</string>
     <!-- Removed '/!\'  because it was causing weird characters inside the app
 
 https://s3.eu-west-1.amazonaws.com/po-pub/i/dFZKKms9HbrDGOlcgW9QTcwF.jpg -->
+    <string name="enable_nsfw">"Activer NSFW"</string>
+    <string name="disable_nsfw">"Désactiver NSFW ?"</string>
     <string name="cannot_save_image">"Ne peut pas enregistrer l'image"</string>
     <string name="cannot_save_gif">"Ne peut pas enregistrer le gif"</string>
     <string name="cannot_get_storage">"Ne peut pas accéder au stockage"</string>

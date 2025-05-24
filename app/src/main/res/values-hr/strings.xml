@@ -510,6 +510,8 @@
     <string name="delete_multi_reddit_success">"Brisanje uspješno"</string>
     <string name="delete_multi_reddit_failed">"Brisanje nije uspjelo"</string>
     <string name="delete_multi_reddit_dialog_message">"Jeste li sigurni?"</string>
+    <string name="enable_nsfw">"Omogući NSFW"</string>
+    <string name="disable_nsfw">"Onemogući NSFW"</string>
     <string name="cannot_save_image">"Nije moguće spremiti sliku"</string>
     <string name="cannot_save_gif">"Nije moguće spremiti gif"</string>
     <string name="cannot_get_storage">"Nije moguće pristupiti spremniku aplikacije"</string>

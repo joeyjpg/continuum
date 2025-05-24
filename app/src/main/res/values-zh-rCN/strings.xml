@@ -491,6 +491,8 @@
     <string name="delete_multi_reddit_success">"删除成功"</string>
     <string name="delete_multi_reddit_failed">"删除失败"</string>
     <string name="delete_multi_reddit_dialog_message">"您确定吗？"</string>
+    <string name="enable_nsfw">"允许 NSFW"</string>
+    <string name="disable_nsfw">"禁止 NSFW"</string>
     <string name="cannot_save_image">"无法保存图像"</string>
     <string name="cannot_save_gif">"无法保存动图"</string>
     <string name="cannot_get_storage">"无法访问应用存储"</string>

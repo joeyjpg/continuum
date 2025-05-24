@@ -494,6 +494,8 @@ Naciśnij, aby spróbować ponownie."</string>
     <string name="delete_multi_reddit_success">"Usunięto pomyślnie"</string>
     <string name="delete_multi_reddit_failed">"Nie udało się usunąć"</string>
     <string name="delete_multi_reddit_dialog_message">"Jesteś pewny?"</string>
+    <string name="enable_nsfw">"Włącz NSFW"</string>
+    <string name="disable_nsfw">"Wyłącz NSFW"</string>
     <string name="cannot_save_image">"Nie można zapisać obrazu"</string>
     <string name="cannot_save_gif">"Nie można zapisać gif'a"</string>
     <string name="cannot_get_storage">"Nie można uzyskać dostępu do pamięci aplikacji"</string>

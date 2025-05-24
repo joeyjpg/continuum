@@ -503,6 +503,8 @@ https://play.google.com/store/"</string>
     <string name="delete_multi_reddit_success">"Eliminado com sucesso"</string>
     <string name="delete_multi_reddit_failed">"Falha ao eliminar"</string>
     <string name="delete_multi_reddit_dialog_message">"Tem a certeza?"</string>
+    <string name="enable_nsfw">"Ativar 18+"</string>
+    <string name="disable_nsfw">"Desativar 18+"</string>
     <string name="cannot_save_image">"Não é possível guardar a imagem"</string>
     <string name="cannot_save_gif">"Não é possível guardar o gif"</string>
     <string name="cannot_get_storage">"Não é possível aceder ao armazenamento da aplicação"</string>

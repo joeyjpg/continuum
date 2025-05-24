@@ -445,6 +445,8 @@
     <string name="delete_multi_reddit_success">"Διαγράφηκε επιτυχώς"</string>
     <string name="delete_multi_reddit_failed">"Η διαγραφή απέτυχε"</string>
     <string name="delete_multi_reddit_dialog_message">"Είστε σίγουρος;"</string>
+    <string name="enable_nsfw">"Ενεργοποίηση NSFW"</string>
+    <string name="disable_nsfw">"Απενεργοποίηση NSFW"</string>
     <string name="cannot_save_image">"Αδυναμία αποθήκευσης της εικόνας"</string>
     <string name="cannot_save_gif">"Αδυναμία αποθήκευσης gif"</string>
     <string name="cannot_get_storage">"Αδυναμία πρόσβασης αποθηκευτικού χώρου εφαρμογής"</string>

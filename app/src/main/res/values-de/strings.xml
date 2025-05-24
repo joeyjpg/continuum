@@ -497,6 +497,8 @@ Tippen für Neuversuch."</string>
     <string name="delete_multi_reddit_success">"Löschen erfolgreich"</string>
     <string name="delete_multi_reddit_failed">"Löschen fehlgeschlagen"</string>
     <string name="delete_multi_reddit_dialog_message">"Bist du sicher?"</string>
+    <string name="enable_nsfw">"NSFW aktivieren"</string>
+    <string name="disable_nsfw">"NSFW deaktivieren"</string>
     <string name="cannot_save_image">"Kann das Bild nicht speichern"</string>
     <string name="cannot_save_gif">"Kann das GIF nicht speichern"</string>
     <string name="cannot_get_storage">"Kann nicht auf den App-Speicher zugreifen"</string>

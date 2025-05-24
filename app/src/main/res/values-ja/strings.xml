@@ -546,6 +546,8 @@ https://play.google.com/store/"</string>
     <string name="delete_multi_reddit_success">"削除が完了しました"</string>
     <string name="delete_multi_reddit_failed">"削除できませんでした"</string>
     <string name="delete_multi_reddit_dialog_message">"よろしいですか？"</string>
+    <string name="enable_nsfw">"NSFWを有効化"</string>
+    <string name="disable_nsfw">"NSFWを無効化"</string>
     <string name="cannot_save_image">"画像を保存できませんでした"</string>
     <string name="cannot_save_gif">"GIFを保存できませんでした"</string>
     <string name="cannot_get_storage">"アプリストレージにアクセスできませんでした"</string>
