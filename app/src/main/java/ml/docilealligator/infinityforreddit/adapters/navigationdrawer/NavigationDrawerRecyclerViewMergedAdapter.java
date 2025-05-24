@@ -55,7 +55,7 @@ public class NavigationDrawerRecyclerViewMergedAdapter {
         postSectionRecyclerViewAdapter = new PostSectionRecyclerViewAdapter(baseActivity, customThemeWrapper,
                 navigationDrawerSharedPreferences, !accountName.equals(Account.ANONYMOUS_ACCOUNT), itemClickListener);
         preferenceSectionRecyclerViewAdapter = new PreferenceSectionRecyclerViewAdapter(baseActivity, customThemeWrapper,
-                navigationDrawerSharedPreferences, itemClickListener);
+                accountName, nsfwAndSpoilerSharedPreferences, navigationDrawerSharedPreferences, itemClickListener);
         favoriteSubscribedSubredditsSectionRecyclerViewAdapter = new FavoriteSubscribedSubredditsSectionRecyclerViewAdapter(
                 baseActivity, glide, customThemeWrapper, navigationDrawerSharedPreferences, itemClickListener);
         subscribedSubredditsRecyclerViewAdapter = new SubscribedSubredditsRecyclerViewAdapter(baseActivity, glide,
@@ -121,6 +121,10 @@ public class NavigationDrawerRecyclerViewMergedAdapter {
 
     public void setInboxCount(int inboxCount) {
         accountSectionRecyclerViewAdapter.setInboxCount(inboxCount);
+    }
+
+    public void setNSFWEnabled(boolean isNSFWEnabled) {
+        preferenceSectionRecyclerViewAdapter.setNSFWEnabled(isNSFWEnabled);
     }
 
     public void setFavoriteSubscribedSubreddits(List<SubscribedSubredditData> favoriteSubscribedSubreddits) {
