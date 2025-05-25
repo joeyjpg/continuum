@@ -146,7 +146,7 @@ public class PreferenceSectionRecyclerViewAdapter extends RecyclerView.Adapter<R
 
     public void setNSFWEnabled(boolean isNSFWEnabled) {
         this.isNSFWEnabled = isNSFWEnabled;
-        notifyItemChanged(3);
+        notifyItemChanged(2);
     }
 
     class MenuGroupTitleViewHolder extends RecyclerView.ViewHolder {

@@ -799,6 +799,14 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
                             } else {
                                 mCustomThemeWrapper.setThemeType(CustomThemeSharedPreferencesUtils.DARK);
                             }
+                        } else if (stringId == R.string.enable_nsfw) {
+                            String nsfwKey = (accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.NSFW_BASE;
+                            mNsfwAndSpoilerSharedPreferences.edit().putBoolean(nsfwKey, true).apply();
+                            EventBus.getDefault().post(new ChangeNSFWEvent(true));
+                        } else if (stringId == R.string.disable_nsfw) {
+                            String nsfwKey = (accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : accountName) + SharedPreferencesUtils.NSFW_BASE;
+                            mNsfwAndSpoilerSharedPreferences.edit().putBoolean(nsfwKey, false).apply();
+                            EventBus.getDefault().post(new ChangeNSFWEvent(false));
                         } else if (stringId == R.string.settings) {
                             intent = new Intent(MainActivity.this, SettingsActivity.class);
                         } else if (stringId == R.string.add_account) {
