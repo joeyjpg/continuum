@@ -105,7 +105,7 @@ public class CustomizeMainPageTabsFragment extends Fragment {
             typeValues = activity.getResources().getStringArray(R.array.settings_tab_post_type);
         }
 
-        tabCount = mainActivityTabsSharedPreferences.getInt((activity.accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : activity.accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_COUNT, Constants.MAX_TAB_COUNT);
+        tabCount = mainActivityTabsSharedPreferences.getInt((activity.accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : activity.accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_COUNT, Constants.DEFAULT_TAB_COUNT);
         binding.tabCountTextViewCustomizeMainPageTabsFragment.setText(Integer.toString(tabCount));
         binding.tabCountLinearLayoutCustomizeMainPageTabsFragment.setOnClickListener(view -> {
             new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogTheme)
@@ -419,7 +419,7 @@ public class CustomizeMainPageTabsFragment extends Fragment {
 
         binding.tab3NameAddImageViewCustomizeMainPageTabsFragment.setOnClickListener(view -> selectName(2));
 
-        tab4CurrentTitle = mainActivityTabsSharedPreferences.getString((activity.accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : activity.accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_4_TITLE, getString(R.string.all));
+        tab4CurrentTitle = mainActivityTabsSharedPreferences.getString((activity.accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : activity.accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_4_TITLE, getString(R.string.upvoted));
         tab4CurrentPostType = mainActivityTabsSharedPreferences.getInt((activity.accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : activity.accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_4_POST_TYPE, SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_ALL);
         if (!activity.accountName.equals(Account.ANONYMOUS_ACCOUNT)) {
             tab4CurrentPostType = Utils.fixIndexOutOfBoundsUsingPredetermined(typeValues, tab4CurrentPostType, 1);
@@ -514,7 +514,7 @@ public class CustomizeMainPageTabsFragment extends Fragment {
 
         binding.tab4NameAddImageViewCustomizeMainPageTabsFragment.setOnClickListener(view -> selectName(3));
 
-        tab5CurrentTitle = mainActivityTabsSharedPreferences.getString((activity.accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : activity.accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_5_TITLE, getString(R.string.all));
+        tab5CurrentTitle = mainActivityTabsSharedPreferences.getString((activity.accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : activity.accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_5_TITLE, getString(R.string.downvoted));
         tab5CurrentPostType = mainActivityTabsSharedPreferences.getInt((activity.accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : activity.accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_5_POST_TYPE, SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_ALL);
         if (!activity.accountName.equals(Account.ANONYMOUS_ACCOUNT)) {
             tab5CurrentPostType = Utils.fixIndexOutOfBoundsUsingPredetermined(typeValues, tab5CurrentPostType, 1);
@@ -609,7 +609,7 @@ public class CustomizeMainPageTabsFragment extends Fragment {
 
         binding.tab5NameAddImageViewCustomizeMainPageTabsFragment.setOnClickListener(view -> selectName(4));
 
-        tab6CurrentTitle = mainActivityTabsSharedPreferences.getString((activity.accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : activity.accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_6_TITLE, getString(R.string.all));
+        tab6CurrentTitle = mainActivityTabsSharedPreferences.getString((activity.accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : activity.accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_6_TITLE, getString(R.string.saved));
         tab6CurrentPostType = mainActivityTabsSharedPreferences.getInt((activity.accountName.equals(Account.ANONYMOUS_ACCOUNT) ? "" : activity.accountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_6_POST_TYPE, SharedPreferencesUtils.MAIN_PAGE_TAB_POST_TYPE_ALL);
         if (!activity.accountName.equals(Account.ANONYMOUS_ACCOUNT)) {
             tab6CurrentPostType = Utils.fixIndexOutOfBoundsUsingPredetermined(typeValues, tab6CurrentPostType, 1);
