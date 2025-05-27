@@ -1079,8 +1079,6 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
             return;
         }
 
-        PersistableBundle extras = new PersistableBundle();
-
         subredditName = post.getSubredditName();
         String title = post.getTitle();
         String sanitizedTitle = title.replaceAll("[\\\\/:*?\"<>|]", "_").replaceAll("[\\s_]+", "_").replaceAll("^_+|_+$", "");
