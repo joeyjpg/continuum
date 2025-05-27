@@ -49,19 +49,16 @@ android {
 
     defaultConfig {
         applicationId "org.cygnusx1.continuum"
-
+        minSdk 21
+        targetSdk 34
+        versionCode 193
+        versionName "7.5.1.1"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [eventBusIndex: 'ml.docilealligator.infinityforreddit.EventBusIndex']
             }
         }
-
-        minSdk 21
-
-        targetSdk 34
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        versionCode 192
-        versionName "7.5.0.2"
     }
 
     buildFeatures {
