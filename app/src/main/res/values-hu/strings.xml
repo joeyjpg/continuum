@@ -467,6 +467,8 @@ https://play.google.com/store/"</string>
     <string name="delete_multi_reddit_success">"Törlés sikeres"</string>
     <string name="delete_multi_reddit_failed">"Törlés nem sikerült"</string>
     <string name="delete_multi_reddit_dialog_message">"Biztos vagy benne?"</string>
+    <string name="enable_nsfw">"NSFW engedélyezése"</string>
+    <string name="disable_nsfw">"NSFW tiltása"</string>
     <string name="cannot_save_image">"Nem lehet menteni a képet"</string>
     <string name="cannot_save_gif">"Nem lehet menteni a gifet"</string>
     <string name="cannot_get_storage">"Nem lehet hozzáférni az app tárhelyéhez"</string>

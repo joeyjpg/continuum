@@ -2,6 +2,21 @@
 
 ---
 
+7.5.0.2 / 2025-5-24
+============
+Note v8a is the 64-bit build, and should be considered the default choose.
+
+* Reverted "* Fixed Reduce the size of the placeholder preview image #53"
+* Fixed NSFW toggle button #73 via reverting the change by Infinity
+* Fixed Please add the ability to have extra tabs at the top of the main page #64
+* Changing app/build.gradle to build v7a and v8a builds
+
+7.5.0.1 / 2025-5-12
+============
+* Fixed Downloaded video contains no sound #57
+* Fixed Reduce the size of the placeholder preview image #53
+* Synced with upstream to 7.5.0
+
 7.4.4.4 / 2025-4-20
 ============
 * Added support for inputting the client ID via a QR code

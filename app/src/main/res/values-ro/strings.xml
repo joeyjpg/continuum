@@ -488,6 +488,8 @@ https://play.google.com/store/"</string>
     <string name="delete_multi_reddit_success">"Șters cu succes"</string>
     <string name="delete_multi_reddit_failed">"Ștergerea a eșuat"</string>
     <string name="delete_multi_reddit_dialog_message">"Sunteți sigur?"</string>
+    <string name="enable_nsfw">"Activați NSFW"</string>
+    <string name="disable_nsfw">"Dezactivați NSFW"</string>
     <string name="cannot_save_image">"Nu se poate salva imaginea"</string>
     <string name="cannot_save_gif">"Nu se poate salva gif-ul"</string>
     <string name="cannot_get_storage">"Nu se poate accesa memoria aplicației"</string>

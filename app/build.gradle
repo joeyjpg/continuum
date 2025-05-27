@@ -28,15 +28,16 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
             def appName = "continuum"
+            def baseAbiVersion = output.getFilter(com.android.build.OutputFile.ABI)
             def buildType = variant.buildType
             def versionCode = variant.versionCode
             def versionName = variant.versionName
             def artifactName = "${appName}-${versionName}(${versionCode})"
 
             if (buildType == "debug") {
-                artifactName = "${appName}-${buildType}-${versionName}"
+                artifactName = "${appName}-${buildType}-${baseAbiVersion}-${versionName}"
             } else {
-                artifactName = "${appName}-${versionName}"
+                artifactName = "${appName}-${baseAbiVersion}-${versionName}"
             }
 
             // Assign the apk filename
@@ -44,20 +45,23 @@ android {
         }
     }
 
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "org.cygnusx1.continuum"
-        minSdk 21
-        targetSdk 34
-        versionCode 192
-        versionName "7.5.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [eventBusIndex: 'ml.docilealligator.infinityforreddit.EventBusIndex']
             }
         }
+
+        minSdk 21
+
+        targetSdk 34
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionCode 192
+        versionName "7.5.0.2"
     }
 
     buildFeatures {
@@ -99,8 +103,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 
     lint {
@@ -109,6 +113,15 @@ android {
     }
 
     namespace 'ml.docilealligator.infinityforreddit'
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi-v7a', 'arm64-v8a'
+            universalApk false  // Set to true if you also want a universal APK
+        }
+    }
 }
 
 configurations {

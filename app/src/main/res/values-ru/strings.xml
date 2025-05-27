@@ -504,6 +504,8 @@ https://play.google.com/store/"</string>
     <string name="delete_multi_reddit_success">"Успешно удалено"</string>
     <string name="delete_multi_reddit_failed">"Ошибка удаления"</string>
     <string name="delete_multi_reddit_dialog_message">"Вы уверены?"</string>
+    <string name="enable_nsfw">"Включить NSFW"</string>
+    <string name="disable_nsfw">"Отключить NSFW"</string>
     <string name="cannot_save_image">"Невозможно сохранить изображение"</string>
     <string name="cannot_save_gif">"Невозможно сохранить GIF"</string>
     <string name="cannot_get_storage">"Нет доступа к хранилищу"</string>

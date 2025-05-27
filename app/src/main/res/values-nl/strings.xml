@@ -504,6 +504,8 @@ https://play.google.com/store/"</string>
     <string name="delete_multi_reddit_success">"Het verwijderen is voltooid"</string>
     <string name="delete_multi_reddit_failed">"Het verwijderen is mislukt"</string>
     <string name="delete_multi_reddit_dialog_message">"Weet je het zeker?"</string>
+    <string name="enable_nsfw">"NSFW inschakelen"</string>
+    <string name="disable_nsfw">"NSFW uitschakelen"</string>
     <string name="cannot_save_image">"De afbeelding kan niet worden opgeslagen"</string>
     <string name="cannot_save_gif">"De GIF kan niet worden opgeslagen"</string>
     <string name="cannot_get_storage">"Geen toegang tot de app-opslagruimte"</string>

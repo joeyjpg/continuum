@@ -415,6 +415,8 @@
     <string name="delete_multi_reddit_success">"அழித்தல் வெற்றி"</string>
     <string name="delete_multi_reddit_failed">"அழித்தல் தோல்வி"</string>
     <string name="delete_multi_reddit_dialog_message">"நீங்கள் உறுதியா?"</string>
+    <string name="enable_nsfw">"NSFWஐ இயக்கு"</string>
+    <string name="disable_nsfw">"NSFWஐ முடக்கு"</string>
     <string name="cannot_save_image">"படத்தைச் சேமிக்கவியலா"</string>
     <string name="save_image_first">"படத்தைச் சேமிக்கிறது. காத்திருக்கவும்."</string>
     <string name="theme_name_description">"இத்தோற்றத்தின் பெயரை மாற்ற தட்டு."</string>

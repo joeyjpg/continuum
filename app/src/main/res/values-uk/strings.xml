@@ -492,6 +492,8 @@ https://play.google.com/store/"</string>
     <string name="delete_multi_reddit_success">"Вдало видалено"</string>
     <string name="delete_multi_reddit_failed">"Не вдалося видалити"</string>
     <string name="delete_multi_reddit_dialog_message">"Ви впевнені?"</string>
+    <string name="enable_nsfw">"Дозволити НБДР"</string>
+    <string name="disable_nsfw">"Заборонити НБДР"</string>
     <string name="cannot_save_image">"Не можливо зберегти зображення"</string>
     <string name="cannot_save_gif">"Не можливо зберегти gif"</string>
     <string name="cannot_get_storage">"Нема доступу до сховища програми"</string>

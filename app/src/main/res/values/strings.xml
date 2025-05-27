@@ -503,11 +503,15 @@
     <string name="settings_delete_all_legacy_settings_title">Delete All Legacy Settings</string>
     <string name="settings_reset_all_settings_title">Reset All Settings</string>
     <string name="restart_app_see_changes">Restart the app to see the changes</string>
+    <string name="app_will_restart">If you go back to the previous screen after changing the configuration, the app will restart</string>
     <string name="settings_tab_count">Tab Count</string>
     <string name="settings_show_tab_names">Show Tab Names</string>
     <string name="settings_tab_1_summary">Tab 1</string>
     <string name="settings_tab_2_summary">Tab 2</string>
     <string name="settings_tab_3_summary">Tab 3</string>
+    <string name="settings_tab_4_summary">Tab 4</string>
+    <string name="settings_tab_5_summary">Tab 5</string>
+    <string name="settings_tab_6_summary">Tab 6</string>
     <string name="settings_more_tabs_summary">More Tabs</string>
     <string name="settings_more_tabs_info_summary">Enabling the following options will cause an unintended behaviour:\nTabs may lose all the content after switching to others. This is the same as refreshing the page.</string>
     <string name="settings_more_tabs_show_favorite_multireddits_title">Show Favorite Multireddits</string>
@@ -775,6 +779,9 @@
     <string name="delete_multi_reddit_success">Deleted successfully</string>
     <string name="delete_multi_reddit_failed">Delete failed</string>
     <string name="delete_multi_reddit_dialog_message">Are you sure?</string>
+
+    <string name="enable_nsfw">Enable NSFW</string>
+    <string name="disable_nsfw">Disable NSFW</string>
 
     <string name="cannot_save_image">Cannot save the image</string>
     <string name="cannot_save_gif">Cannot save the gif</string>
@@ -1562,4 +1569,5 @@
 
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="restart_app_to_apply_changes">Press here to restart the app to apply changes</string>
 </resources>

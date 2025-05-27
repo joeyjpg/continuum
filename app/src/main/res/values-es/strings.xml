@@ -519,6 +519,8 @@ Premio means prize, so it's better suited the first word instead of the second o
     <string name="delete_multi_reddit_success">"Borrado correctamente"</string>
     <string name="delete_multi_reddit_failed">"Borrado fallido"</string>
     <string name="delete_multi_reddit_dialog_message">"¿Seguro?"</string>
+    <string name="enable_nsfw">"Activar NSFW"</string>
+    <string name="disable_nsfw">"Desactivar NSFW"</string>
     <string name="cannot_save_image">"No fue posible guardar la imagen"</string>
     <string name="cannot_save_gif">"No fue posible guardar el GIF"</string>
     <string name="cannot_get_storage">"No fue posible acceder al almacenamiento de la app"</string>
