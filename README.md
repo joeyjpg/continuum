@@ -51,8 +51,8 @@ A Reddit client on Android written in Java. It does not have any ads and it feat
 # Fork
 This project is a fork of [Infinity for Reddit](https://github.com/Docile-Alligator/Infinity-For-Reddit).
 
-One major enhancement is that it lets you set your own `Client ID` as a setting. This means you don't need to recompile it, or to
-use [Revanced Manager](https://github.com/ReVanced/revanced-manager).
+One major enhancement is that it lets you set your own `Client ID` as a setting.
+This means you don't need to recompile it each time.
 
 # Setup
 See [SETUP.md](/SETUP.md)
@@ -79,31 +79,34 @@ To see how to keep the app updated see <a href="/UPDATES.md">UPDATES.md</a>
 
 # About The Project
 
-<table>
-<tr>
-<td>
+Unique features of **Continuum**:
 
-Key features of **Continuum**:
+- Use your own `Client ID`.
+- Allow using Giphy gifs.
+- Backs up your acounts.
+- Increased main page tabs to 6.
+- Sensible download names.
+- Bug fixes and more...
 
-- Lazy mode: Automatic scrolling of posts enables you to enjoy amazing posts without moving your thumb.
-- Browsing posts
-- View comments
-- Expand and collapse comments section
-- Vote posts and comments
-- Save posts
-- Write comments
-- Edit comments and delete comments
-- Submit posts (text, link, image and video)
-- Edit posts (mark and unmark NSFW and spoiler and edit flair) and delete posts
-- See all the subscribed subreddits and followed users
-- View the messages
-- Get notifications of unread messages
-- etc...
+<details>
+  <summary>Features from <b>Infinity</b></summary>
+  
+* Lazy mode: Automatic scrolling of posts enables you to enjoy amazing posts without moving your thumb.
+* Browsing posts
+* View comments
+* Expand and collapse comments section
+* Vote posts and comments
+* Save posts
+* Write comments
+* Edit comments and delete comments
+* Submit posts (text, link, image and video)
+* Edit posts (mark and unmark NSFW and spoiler and edit flair) and delete posts
+* See all the subscribed subreddits and followed users
+* View the messages
+* Get notifications of unread messages
+* etc...
 
-</td>
-</tr>
-</table>
-
+</details>
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 # Contributing
