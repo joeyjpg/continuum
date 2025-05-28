@@ -2,6 +2,16 @@
 
 ---
 
+7.5.1.1 / 2025-5-28
+============
+Note v8a is the 64-bit build, and should be considered the default choose.
+
+* Synced with upstream to 7.5.1
+* Fixed Bug: Failed to download Tumblr videos #48
+* Fxied App crashes while trying to download an image #78
+* Fixed Crash when trying to download an image without the download location set #77
+* Fixed 4x All as default #75
+
 7.5.0.2 / 2025-5-24
 ============
 Note v8a is the 64-bit build, and should be considered the default choose.
