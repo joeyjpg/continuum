@@ -50,6 +50,7 @@ public class Post implements Parcelable {
     private boolean isImgur;
     private boolean isRedgifs;
     private boolean isStreamable;
+    private boolean isTumblr;
     private boolean loadRedgifsOrStreamableVideoSuccess;
     private final String permalink;
     private String flair;
@@ -175,6 +176,7 @@ public class Post implements Parcelable {
         isImgur = in.readByte() != 0;
         isRedgifs = in.readByte() != 0;
         isStreamable = in.readByte() != 0;
+        isTumblr = in.readByte() != 0;
         loadRedgifsOrStreamableVideoSuccess = in.readByte() != 0;
         permalink = in.readString();
         flair = in.readString();
@@ -380,6 +382,14 @@ public class Post implements Parcelable {
         this.isStreamable = isStreamable;
     }
 
+    public boolean isTumblr() {
+        return isTumblr;
+    }
+
+    public void setIsTumblr(boolean isTumblr) {
+        this.isTumblr = isTumblr;
+    }
+
     public boolean isLoadRedgifsOrStreamableVideoSuccess() {
         return loadRedgifsOrStreamableVideoSuccess;
     }
@@ -506,6 +516,7 @@ public class Post implements Parcelable {
         dest.writeByte((byte) (isImgur ? 1 : 0));
         dest.writeByte((byte) (isRedgifs ? 1 : 0));
         dest.writeByte((byte) (isStreamable ? 1 : 0));
+        dest.writeByte((byte) (isTumblr ? 1 : 0));
         dest.writeByte((byte) (loadRedgifsOrStreamableVideoSuccess ? 1 : 0));
         dest.writeString(permalink);
         dest.writeString(flair);

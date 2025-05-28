@@ -226,18 +226,18 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     private boolean canPlayVideo = true;
 
     public PostDetailRecyclerViewAdapter(@NonNull BaseActivity activity, ViewPostDetailFragment fragment,
-                                         Executor executor, CustomThemeWrapper customThemeWrapper,
-                                         Retrofit oauthRetrofit, Retrofit retrofit,
-                                         Retrofit redgifsRetrofit, Provider<StreamableAPI> streamableApiProvider,
-                                         RedditDataRoomDatabase redditDataRoomDatabase, RequestManager glide,
-                                         boolean separatePostAndComments, @Nullable String accessToken,
-                                         @NonNull String accountName, Post post, Locale locale,
-                                         SharedPreferences sharedPreferences,
-                                         SharedPreferences currentAccountSharedPreferences,
-                                         SharedPreferences nsfwAndSpoilerSharedPreferences,
-                                         SharedPreferences postDetailsSharedPreferences,
-                                         ExoCreator exoCreator,
-                                         PostDetailRecyclerViewAdapterCallback postDetailRecyclerViewAdapterCallback) {
+                                        Executor executor, CustomThemeWrapper customThemeWrapper,
+                                        Retrofit oauthRetrofit, Retrofit retrofit,
+                                        Retrofit redgifsRetrofit, Provider<StreamableAPI> streamableApiProvider,
+                                        RedditDataRoomDatabase redditDataRoomDatabase, RequestManager glide,
+                                        boolean separatePostAndComments, @Nullable String accessToken,
+                                        @NonNull String accountName, Post post, Locale locale,
+                                        SharedPreferences sharedPreferences,
+                                        SharedPreferences currentAccountSharedPreferences,
+                                        SharedPreferences nsfwAndSpoilerSharedPreferences,
+                                        SharedPreferences postDetailsSharedPreferences,
+                                        ExoCreator exoCreator,
+                                        PostDetailRecyclerViewAdapterCallback postDetailRecyclerViewAdapterCallback) {
         mActivity = activity;
         mFragment = fragment;
         mExecutor = executor;
@@ -1052,6 +1052,8 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                 } else if (post.isRedgifs()) {
                     intent.putExtra(ViewVideoActivity.EXTRA_VIDEO_TYPE, ViewVideoActivity.VIDEO_TYPE_REDGIFS);
                     intent.putExtra(ViewVideoActivity.EXTRA_REDGIFS_ID, post.getRedgifsId());
+                    intent.putExtra(ViewVideoActivity.EXTRA_SUBREDDIT, post.getSubredditName());
+                    intent.putExtra(ViewVideoActivity.EXTRA_ID, post.getId());
                     if (post.isLoadRedgifsOrStreamableVideoSuccess()) {
                         intent.setData(Uri.parse(post.getVideoUrl()));
                         intent.putExtra(ViewVideoActivity.EXTRA_VIDEO_DOWNLOAD_URL, post.getVideoDownloadUrl());
@@ -1059,6 +1061,8 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                 } else if (post.isStreamable()) {
                     intent.putExtra(ViewVideoActivity.EXTRA_VIDEO_TYPE, ViewVideoActivity.VIDEO_TYPE_STREAMABLE);
                     intent.putExtra(ViewVideoActivity.EXTRA_STREAMABLE_SHORT_CODE, post.getStreamableShortCode());
+                    intent.putExtra(ViewVideoActivity.EXTRA_SUBREDDIT, post.getSubredditName());
+                    intent.putExtra(ViewVideoActivity.EXTRA_ID, post.getId());
                     if (post.isLoadRedgifsOrStreamableVideoSuccess()) {
                         intent.setData(Uri.parse(post.getVideoUrl()));
                         intent.putExtra(ViewVideoActivity.EXTRA_VIDEO_DOWNLOAD_URL, post.getVideoDownloadUrl());
@@ -1213,27 +1217,27 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         }
 
         void setBaseView(AspectRatioGifImageView iconGifImageView,
-                         TextView subredditTextView,
-                         TextView userTextView,
-                         TextView authorFlairTextView,
-                         TextView postTimeTextView,
-                         TextView titleTextView,
-                         CustomTextView typeTextView,
-                         ImageView crosspostImageView,
-                         ImageView archivedImageView,
-                         ImageView lockedImageView,
-                         CustomTextView nSFWTextView,
-                         CustomTextView spoilerTextView,
-                         CustomTextView flairTextView,
-                         TextView upvoteRatioTextView,
-                         RecyclerView contentMarkdownView,
-                         ConstraintLayout bottomConstraintLayout,
-                         MaterialButton upvoteButton,
-                         TextView scoreTextView,
-                         MaterialButton downvoteButton,
-                         MaterialButton commentsCountButton,
-                         MaterialButton saveButton,
-                         MaterialButton shareButton) {
+                        TextView subredditTextView,
+                        TextView userTextView,
+                        TextView authorFlairTextView,
+                        TextView postTimeTextView,
+                        TextView titleTextView,
+                        CustomTextView typeTextView,
+                        ImageView crosspostImageView,
+                        ImageView archivedImageView,
+                        ImageView lockedImageView,
+                        CustomTextView nSFWTextView,
+                        CustomTextView spoilerTextView,
+                        CustomTextView flairTextView,
+                        TextView upvoteRatioTextView,
+                        RecyclerView contentMarkdownView,
+                        ConstraintLayout bottomConstraintLayout,
+                        MaterialButton upvoteButton,
+                        TextView scoreTextView,
+                        MaterialButton downvoteButton,
+                        MaterialButton commentsCountButton,
+                        MaterialButton saveButton,
+                        MaterialButton shareButton) {
             this.iconGifImageView = iconGifImageView;
             this.subredditTextView = subredditTextView;
             this.userTextView = userTextView;
@@ -1728,36 +1732,36 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         private Drawable pauseDrawable;
 
         public PostDetailBaseVideoAutoplayViewHolder(@NonNull View itemView,
-                                                     AspectRatioGifImageView iconGifImageView,
-                                                     TextView subredditTextView,
-                                                     TextView userTextView,
-                                                     TextView authorFlairTextView,
-                                                     TextView postTimeTextView,
-                                                     TextView titleTextView,
-                                                     CustomTextView typeTextView,
-                                                     ImageView crosspostImageView,
-                                                     ImageView archivedImageView,
-                                                     ImageView lockedImageView,
-                                                     CustomTextView nsfwTextView,
-                                                     CustomTextView spoilerTextView,
-                                                     CustomTextView flairTextView,
-                                                     TextView upvoteRatioTextView,
-                                                     AspectRatioFrameLayout aspectRatioFrameLayout,
-                                                     PlayerView playerView,
-                                                     GifImageView previewImageView,
-                                                     ImageView errorLoadingRedgifsImageView,
-                                                     ImageView muteButton,
-                                                     ImageView fullscreenButton,
-                                                     ImageView playPauseButton,
-                                                     DefaultTimeBar progressBar,
-                                                     RecyclerView contentMarkdownView,
-                                                     ConstraintLayout bottomConstraintLayout,
-                                                     MaterialButton upvoteButton,
-                                                     TextView scoreTextView,
-                                                     MaterialButton downvoteButton,
-                                                     MaterialButton commentsCountButton,
-                                                     MaterialButton saveButton,
-                                                     MaterialButton shareButton) {
+                                                    AspectRatioGifImageView iconGifImageView,
+                                                    TextView subredditTextView,
+                                                    TextView userTextView,
+                                                    TextView authorFlairTextView,
+                                                    TextView postTimeTextView,
+                                                    TextView titleTextView,
+                                                    CustomTextView typeTextView,
+                                                    ImageView crosspostImageView,
+                                                    ImageView archivedImageView,
+                                                    ImageView lockedImageView,
+                                                    CustomTextView nsfwTextView,
+                                                    CustomTextView spoilerTextView,
+                                                    CustomTextView flairTextView,
+                                                    TextView upvoteRatioTextView,
+                                                    AspectRatioFrameLayout aspectRatioFrameLayout,
+                                                    PlayerView playerView,
+                                                    GifImageView previewImageView,
+                                                    ImageView errorLoadingRedgifsImageView,
+                                                    ImageView muteButton,
+                                                    ImageView fullscreenButton,
+                                                    ImageView playPauseButton,
+                                                    DefaultTimeBar progressBar,
+                                                    RecyclerView contentMarkdownView,
+                                                    ConstraintLayout bottomConstraintLayout,
+                                                    MaterialButton upvoteButton,
+                                                    TextView scoreTextView,
+                                                    MaterialButton downvoteButton,
+                                                    MaterialButton commentsCountButton,
+                                                    MaterialButton saveButton,
+                                                    MaterialButton shareButton) {
             super(itemView);
             setBaseView(iconGifImageView,
                     subredditTextView,

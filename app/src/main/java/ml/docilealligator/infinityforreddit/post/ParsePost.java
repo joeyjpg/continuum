@@ -120,8 +120,7 @@ public class ParsePost {
         }
     }
 
-    public static void parseRandomPost(Executor executor, Handler handler, String response, boolean isNSFW,
-                                       ParseRandomPostListener parseRandomPostListener) {
+    public static void parseRandomPost(Executor executor, Handler handler, String response, boolean isNSFW, ParseRandomPostListener parseRandomPostListener) {
         executor.execute(() -> {
             try {
                 JSONArray postsArray = new JSONObject(response).getJSONObject(JSONUtils.DATA_KEY).getJSONArray(JSONUtils.CHILDREN_KEY);
@@ -255,15 +254,11 @@ public class ParsePost {
         }
     }
 
-    private static Post parseData(JSONObject data, String permalink, String id, String fullName,
-                                  String subredditName, String subredditNamePrefixed, String author,
-                                  String authorFlair, String authorFlairHTML, long postTimeMillis, String title,
-                                  ArrayList<Post.Preview> previews, Map<String, MediaMetadata> mediaMetadataMap,
-                                  int score, int voteType, int nComments, int upvoteRatio, String flair,
-                                  boolean hidden, boolean spoiler, boolean nsfw,
-                                  boolean stickied, boolean archived, boolean locked, boolean saved,
-                                  boolean deleted, boolean removed, boolean isCrosspost,
-                                  String distinguished, String suggestedSort) throws JSONException {
+    private static Post parseData(JSONObject data, String permalink, String id, String fullName, String subredditName, String subredditNamePrefixed, String author,
+                                String authorFlair, String authorFlairHTML, long postTimeMillis, String title, ArrayList<Post.Preview> previews, Map<String, MediaMetadata> mediaMetadataMap,
+                                int score, int voteType, int nComments, int upvoteRatio, String flair, boolean hidden, boolean spoiler, boolean nsfw,
+                                boolean stickied, boolean archived, boolean locked, boolean saved, boolean deleted, boolean removed, boolean isCrosspost,
+                                String distinguished, String suggestedSort) throws JSONException {
         Post post;
 
         boolean isVideo = data.getBoolean(JSONUtils.IS_VIDEO_KEY);
@@ -318,10 +313,8 @@ public class ParsePost {
                     } else {
                         //No preview link post
                         int postType = Post.NO_PREVIEW_LINK_TYPE;
-                        post = new Post(id, fullName, subredditName, subredditNamePrefixed, author,
-                                authorFlair, authorFlairHTML, postTimeMillis, title, url, permalink, score,
-                                postType, voteType, nComments, upvoteRatio, flair, hidden,
-                                spoiler, nsfw, stickied, archived, locked, saved, isCrosspost, distinguished, suggestedSort);
+                        post = new Post(id, fullName, subredditName, subredditNamePrefixed, author, authorFlair, authorFlairHTML, postTimeMillis, title, url, permalink, score,
+                                postType, voteType, nComments, upvoteRatio, flair, hidden, spoiler, nsfw, stickied, archived, locked, saved, isCrosspost, distinguished, suggestedSort);
                         if (data.isNull(JSONUtils.SELFTEXT_KEY)) {
                             post.setSelfText("");
                         } else {
@@ -343,6 +336,10 @@ public class ParsePost {
                                 post.setIsStreamable(true);
                                 post.setVideoUrl(url);
                                 post.setStreamableShortCode(shortCode);
+                            } else if (authority.contains("tumblr.com") && path.endsWith(".mp4")) {
+                                post.setPostType(Post.VIDEO_TYPE);
+                                post.setIsTumblr(true);
+                                post.setVideoUrl(url);
                             }
                         }
                     }
