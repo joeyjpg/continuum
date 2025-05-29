@@ -1,0 +1,5 @@
+app:
+  name: Continuum 
+  description: A Reddit client on Android written in Java. It does not have any ads and it features a clean UI and smooth browsing experience. 
+  releases:
+    url: https://github.com/cygnusx-1-org/continuum/releases
