@@ -52,7 +52,7 @@ A Reddit client on Android written in Java. It does not have any ads and it feat
 This project is a fork of [Infinity for Reddit](https://github.com/Docile-Alligator/Infinity-For-Reddit).
 
 One major enhancement is that it lets you set your own `Client ID` as a setting.
-This means you don't need to recompile it each time.
+This means you don't need to recompile it each time, or to use [ReVanced Manager](https://github.com/ReVanced/revanced-manager).
 
 # Setup
 See [SETUP.md](/SETUP.md)
@@ -81,10 +81,10 @@ To see how to keep the app updated see <a href="/UPDATES.md">UPDATES.md</a>
 
 Unique features of **Continuum**:
 
-- Use your own `Client ID`.
-- Allow using Giphy gifs.
-- Backs up your acounts.
-- Increased main page tabs to 6.
+- Ability to use your own `Client ID`.
+- Ability to use your own Giphy gifs API key.
+- Ability to backup your acounts.
+- The max number of main page tabs has been increased to six.
 - Sensible download names.
 - Bug fixes and more...
 
