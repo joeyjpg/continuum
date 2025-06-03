@@ -7,7 +7,7 @@
       media="(prefers-color-scheme: dark)"
       srcset="assets/logo/space_alien.png"
     >
-    <img 
+    <img
       width="256px"
       src="assets/logo/space_alien.png"
     >
@@ -58,11 +58,11 @@ This means you don't need to recompile it each time, or to use [ReVanced Manager
 See [SETUP.md](/SETUP.md)
 
 # Installation
+You can easily install and update Continuum with [Discoverium](https://github.com/cygnusx-1-org/Discoverium/) via it's search button.
 <p align="left">
-  <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/cygnusx-1-org/continuum/">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/badges/obtainium.png" height="60">
-      <img alt="Get it on Obtainium" src="assets/badges/obtainium.png" height="60">
+      <source media="(prefers-color-scheme: dark)" srcset="assets/badges/discoverium.png" height="60">
+      <img alt="Get it on Discoverium" src="assets/badges/discoverium.png" height="60">
     </picture>
   </a>
   </a>&nbsp;&nbsp;&nbsp;
@@ -73,7 +73,6 @@ See [SETUP.md](/SETUP.md)
     </picture>
   </a>
 </p>
-To see how to keep the app updated see <a href="/UPDATES.md">UPDATES.md</a>
 
 
 
@@ -89,8 +88,8 @@ Unique features of **Continuum**:
 - Bug fixes and more...
 
 <details>
-  <summary>Features from <b>Infinity</b></summary>
-  
+<summary>Features from <b>Infinity</b></summary>
+
 * Lazy mode: Automatic scrolling of posts enables you to enjoy amazing posts without moving your thumb.
 * Browsing posts
 * View comments
