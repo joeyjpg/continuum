@@ -134,6 +134,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     private final boolean mFullyCollapseComment;
     private final boolean mShowOnlyOneCommentLevelIndicator;
     private final boolean mShowAuthorAvatar;
+    private final boolean mShowUserPrefix;
     private final boolean mHideTheNumberOfVotes;
     private final int mDepthThreshold;
     private final CommentRecyclerViewAdapterCallback mCommentRecyclerViewAdapterCallback;
@@ -287,6 +288,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         mFullyCollapseComment = sharedPreferences.getBoolean(SharedPreferencesUtils.FULLY_COLLAPSE_COMMENT, false);
         mShowOnlyOneCommentLevelIndicator = sharedPreferences.getBoolean(SharedPreferencesUtils.SHOW_ONLY_ONE_COMMENT_LEVEL_INDICATOR, false);
         mShowAuthorAvatar = sharedPreferences.getBoolean(SharedPreferencesUtils.SHOW_AUTHOR_AVATAR, false);
+        mShowUserPrefix = sharedPreferences.getBoolean(SharedPreferencesUtils.SHOW_USER_PREFIX, false);
         mHideTheNumberOfVotes = sharedPreferences.getBoolean(SharedPreferencesUtils.HIDE_THE_NUMBER_OF_VOTES_IN_COMMENTS, false);
         mDepthThreshold = sharedPreferences.getInt(SharedPreferencesUtils.SHOW_FEWER_TOOLBAR_OPTIONS_THRESHOLD, 5);
 
@@ -426,8 +428,11 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     holder.itemView.setBackgroundColor(mSingleCommentThreadBackgroundColor);
                 }
 
-                String authorPrefixed = "u/" + comment.getAuthor();
-                ((CommentBaseViewHolder) holder).authorTextView.setText(authorPrefixed);
+                String authorText = comment.getAuthor();
+                if (mShowUserPrefix) { //adding prefix
+                    authorText = "u/" + authorText;
+                }
+                ((CommentBaseViewHolder) holder).authorTextView.setText(authorText);
 
                 if (comment.getAuthorFlairHTML() != null && !comment.getAuthorFlairHTML().equals("")) {
                     ((CommentBaseViewHolder) holder).authorFlairTextView.setVisibility(View.VISIBLE);
@@ -628,8 +633,12 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         } else if (holder instanceof CommentFullyCollapsedViewHolder) {
             Comment comment = getCurrentComment(position);
             if (comment != null) {
-                String authorWithPrefix = "u/" + comment.getAuthor();
-                ((CommentFullyCollapsedViewHolder) holder).binding.userNameTextViewItemCommentFullyCollapsed.setText(authorWithPrefix);
+
+                String authorText = comment.getAuthor();
+                if (mShowUserPrefix) { //adding prefix
+                    authorText = "u/" + authorText;
+                }
+                ((CommentFullyCollapsedViewHolder) holder).binding.userNameTextViewItemCommentFullyCollapsed.setText(authorText);
 
                 if (mShowAuthorAvatar) {
                     if (comment.getAuthorIconUrl() == null) {
