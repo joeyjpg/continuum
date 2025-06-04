@@ -943,7 +943,7 @@ Videó autómatikus lejátszása le van tiltva."</string>
     <string name="anonymous_front_page_no_subscriptions">"Csatlakozz egy subreddithez!"</string>
 
     <!-- Fuzzy -->
-    <string name="backup_settings_success">"Sikeresen exportálás a célmappába. A generált zip fájl jelszava 123321. Kérlek ne módosítsd a fájlt."</string>
+    <string name="backup_settings_success">"Sikeresen exportálás a célmappába."</string>
     <string name="create_zip_in_destination_directory_failed">"Nem lehet lehet létrehozni visszaállítási zip fájlt a célmappában."</string>
     <string name="backup_some_settings_failed">"Egyes beállítások biztonsági mentése nem sikerült, de másokat sikeresen exportáltunk a célkönyvtárba"</string>
     <string name="restore_settings_success">"A beállítások sikeresen visszaállítva. A változások érvénybelépéséhez indítsa újra az alkalmazást."</string>

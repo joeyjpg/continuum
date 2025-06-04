@@ -963,7 +963,7 @@ Reprodução automática de vídeos desativada."</string>
     <string name="anonymous_front_page_no_subscriptions">"Comece por se juntar a uma comunidade!"</string>
 
     <!-- Fuzzy -->
-    <string name="backup_settings_success">"As definições foram exportadas para o diretório de destino com sucesso. A palavra-chave do ficheiro zip gerado é 123321. Por favor não modifique o ficheiro zip."</string>
+    <string name="backup_settings_success">"As definições foram exportadas para o diretório de destino com sucesso."</string>
     <string name="create_zip_in_destination_directory_failed">"Não foi possível criar a cópia de segurança zip no diretório de destino"</string>
     <string name="backup_some_settings_failed">"Não foi possível copiar algumas definições mas outras foram exportadas com sucesso para o diretório de destino"</string>
     <string name="restore_settings_success">"Definições restauradas com sucesso. Reinicie a aplicação para ver as alterações."</string>

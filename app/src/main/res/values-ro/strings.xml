@@ -958,7 +958,7 @@ Redarea automată a videoclipurilor este dezactivată."</string>
     <string name="anonymous_front_page_no_subscriptions">"Începe prin a te alătura unui subreddit!"</string>
 
     <!-- Fuzzy -->
-    <string name="backup_settings_success">"A fost exportat cu succes setările în directorul de destinație. Parola fișierului zip generat este 123321. Vă rugăm să nu modificați fișierul zip."</string>
+    <string name="backup_settings_success">"A fost exportat cu succes setările în directorul de destinație."</string>
     <string name="create_zip_in_destination_directory_failed">"Nu s-a putut crea fișierul zip de rezervă în directorul de destinație"</string>
     <string name="backup_some_settings_failed">"Nu s-a putut include în copia de rezervă unele setări, dar celelalte au fost exportate cu succes în directorul de destinație"</string>
     <string name="restore_settings_success">"Setările au fost restaurate cu succes. Repornește aplicația pentru a vedea modificările."</string>

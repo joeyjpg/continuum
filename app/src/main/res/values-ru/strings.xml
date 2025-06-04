@@ -974,7 +974,7 @@ https://play.google.com/store/"</string>
     <string name="anonymous_front_page_no_subscriptions">"Начните с присоединения к сабреддиту!"</string>
 
     <!-- Fuzzy -->
-    <string name="backup_settings_success">"Настройки успешно экспортированы в выбранную папку. Пароль созданного zip-архива – 123321. Пожалуйста, не изменяйте zip-файл."</string>
+    <string name="backup_settings_success">"Настройки успешно экспортированы в выбранную папку."</string>
     <string name="create_zip_in_destination_directory_failed">"Невозможно создать zip-архив с резервной копией настроек в выбранной папке."</string>
     <string name="backup_some_settings_failed">"Невозможно создать резервную копию некоторых настроек, но другие были успешно экспортированы в выбранную папку."</string>
     <string name="restore_settings_success">"Настройки успешно восстановлены. Перезапустите приложение, чтобы увидеть изменения."</string>
@@ -1218,7 +1218,7 @@ https://play.google.com/store/"</string>
     <string name="action_block_user">"Заблокировать пользователя"</string>
     <string name="action_create_github_issue">"Создать проблему на GitHub"</string>
     <string name="action_more_options">"Ещё…"</string>
-    <string name="settings_backup_settings_summary">"Пароль файла резервной копии «123321»."</string>
+    <string name="settings_backup_settings_summary">"Включает учетные записи, Client ID и Giphy API Key. Вам будет предложено ввести пароль при создании резервной копии."</string>
     <string name="settings_navigation_drawer_enable_hide_karma_title">"Скрыть карму аккаунта"</string>
     <string name="settings_hide_fab_in_post_feed">"Скрыть плавающую кнопку действий в ленте сообщений"</string>
     <string name="settings_comment_divider_type">"Тип разделителя комментариев"</string>

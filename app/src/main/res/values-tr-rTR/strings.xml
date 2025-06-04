@@ -984,7 +984,7 @@ Otomatik video oynatma kapatılır."</string>
     <string name="anonymous_front_page_no_subscriptions">"Bir subreddit'e katılarak başla!"</string>
 
     <!-- Fuzzy -->
-    <string name="backup_settings_success">"Ayarlar hedef dizine başarıyla aktarıldı. Oluşturulan zip dosyasının şifresi 123321. Lütfen zip dosyasında değişiklik yapmayın."</string>
+    <string name="backup_settings_success">"Ayarlar hedef dizine başarıyla aktarıldı."</string>
     <string name="create_zip_in_destination_directory_failed">"Hedef dizinde yedek zip oluşturulamadı"</string>
     <string name="backup_some_settings_failed">"Bazı ayarlar yedeklenemedi, ancak diğerleri başarıyla hedef dizine aktarıldı"</string>
     <string name="restore_settings_success">"Ayarlar başarıyla geri yüklendi. Değişiklikleri görmek için uygulamayı yeniden başlatın."</string>
@@ -1228,7 +1228,7 @@ Tekrar denemek için tıklayın."</string>
     <string name="action_block_user">"Kullanıcıyı Engelle"</string>
     <string name="action_create_github_issue">"GitHub Konusu Oluştur"</string>
     <string name="action_more_options">"Daha Fazla Seçenek"</string>
-    <string name="settings_backup_settings_summary">"Yedekleme dosyası şifresi: \"123321\"."</string>
+    <string name="settings_backup_settings_summary">"Hesaplar, İstemci Kimliği ve Giphy API Anahtarı içerir. Yedeklemeyi oluştururken bir parola girmeniz istenecektir."</string>
     <string name="settings_navigation_drawer_enable_hide_karma_title">"Hesap Karmasını Gizle"</string>
 
     <!-- What is FAB? -->

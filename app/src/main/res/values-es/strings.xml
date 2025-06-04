@@ -1011,7 +1011,7 @@ https://s3.eu-west-1.amazonaws.com/po-pub/i/hJAe7sMhrfJzqjhp9VkDQOVC.PNG -->
     <string name="anonymous_front_page_no_subscriptions">"¡Comienza uniéndote a un subreddit!"</string>
 
     <!-- Fuzzy -->
-    <string name="backup_settings_success">"Configuración exportada con éxito al directorio de destino. La contraseña del archivo zip generado es 123321. Por favor no modifique el archivo zip."</string>
+    <string name="backup_settings_success">"Configuración exportada con éxito al directorio de destino."</string>
     <string name="create_zip_in_destination_directory_failed">"No se ha podido crear el zip del respaldo en el directorio de destino"</string>
     <string name="backup_some_settings_failed">"No se ha podido respaldar algunos ajustes pero otros fueron respaldados correctamente al directorio de destino"</string>
     <string name="restore_settings_success">"Ajustes restaurados correctamente. Reinicia la aplicación para ver los cambios."</string>

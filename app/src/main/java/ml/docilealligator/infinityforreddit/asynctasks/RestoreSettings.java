@@ -48,6 +48,7 @@ import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 public class RestoreSettings {
     public static void restoreSettings(Context context, Executor executor, Handler handler,
                                 ContentResolver contentResolver, Uri zipFileUri,
+                                String password,
                                 RedditDataRoomDatabase redditDataRoomDatabase,
                                 SharedPreferences defaultSharedPreferences,
                                 SharedPreferences currentAccountSharedPreferences,
@@ -92,7 +93,7 @@ public class RestoreSettings {
                     zipCacheOutputStream.write(fileReader, 0, read);
                 }
 
-                new ZipFile(cachePath + "restore.zip", "123321".toCharArray()).extractAll(cachePath);
+                new ZipFile(cachePath + "restore.zip", password.toCharArray()).extractAll(cachePath);
                 new File(cachePath + "restore.zip").delete();
                 File[] files = new File(cachePath).listFiles();
                 if (files == null || files.length <= 0) {

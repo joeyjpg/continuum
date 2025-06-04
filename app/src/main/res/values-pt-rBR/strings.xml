@@ -952,7 +952,7 @@ A reprodução automática de vídeos fica desativada."</string>
     <string name="anonymous_front_page_no_subscriptions">"Comece se unindo a um subreddit!"</string>
 
     <!-- Fuzzy -->
-    <string name="backup_settings_success">"Êxito ao exportar ajustes para a pasta destinada. A senha do arquivo zip gerado é 123321. Por favor, não mude o arquivo zip."</string>
+    <string name="backup_settings_success">"Êxito ao exportar ajustes para a pasta destinada."</string>
     <string name="create_zip_in_destination_directory_failed">"Não pôde criar a cópia de segurança do zip na pasta destinada"</string>
     <string name="backup_some_settings_failed">"Não pôde fazer a cópia de segurança dalguns ajustes; outros tiveram êxito ao exportar para a pasta destinada"</string>
     <string name="restore_settings_success">"Êxito ao restaurar ajustes. Reinicie o aplicativo para ver as mudanças."</string>
@@ -1186,7 +1186,7 @@ Toque para tentar de novo."</string>
     <string name="action_block_user">"Bloquear Usuário"</string>
     <string name="action_create_github_issue">"Criar um problema no GitHub"</string>
     <string name="action_more_options">"Mais Opções"</string>
-    <string name="settings_backup_settings_summary">"A senha do arquivo de backup é \"123321\"."</string>
+    <string name="settings_backup_settings_summary">"Inclui contas, ID do cliente e chave da API do Giphy. Você será solicitado a inserir uma senha ao criar o backup."</string>
     <string name="settings_comment_divider_type">"Tipo divisor de comentário"</string>
     <string name="block_user">"Bloquear Usuário"</string>
     <string name="block_user_success">"Bloqueado"</string>

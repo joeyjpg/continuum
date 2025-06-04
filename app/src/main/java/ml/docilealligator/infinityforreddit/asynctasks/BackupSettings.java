@@ -49,6 +49,7 @@ import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 public class BackupSettings {
     public static void backupSettings(Context context, Executor executor, Handler handler,
                                     ContentResolver contentResolver, Uri destinationDirUri,
+                                    String password,
                                     RedditDataRoomDatabase redditDataRoomDatabase,
                                     SharedPreferences defaultSharedPreferences,
                                     SharedPreferences lightThemeSharedPreferences,
@@ -145,7 +146,7 @@ public class BackupSettings {
             boolean res23 = saveDatabaseTableToFile(accountsJson, databaseDirFile.getAbsolutePath(), "/accounts.json");
 
 
-            boolean zipRes = zipAndMoveToDestinationDir(context, contentResolver, destinationDirUri);
+            boolean zipRes = zipAndMoveToDestinationDir(context, contentResolver, destinationDirUri, password);
 
             try {
                 FileUtils.deleteDirectory(new File(context.getExternalCacheDir() + "/Backup/"));
@@ -208,14 +209,14 @@ public class BackupSettings {
         return true;
     }
 
-    private static boolean zipAndMoveToDestinationDir(Context context, ContentResolver contentResolver, Uri destinationDirUri) {
+    private static boolean zipAndMoveToDestinationDir(Context context, ContentResolver contentResolver, Uri destinationDirUri, String password) {
         OutputStream outputStream = null;
         boolean result = false;
         try {
             String time = new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date(System.currentTimeMillis()));
             String fileName = "Continuum_Settings_Backup_v" + BuildConfig.VERSION_NAME + "-" + BuildConfig.VERSION_CODE + "-" + time + ".zip";
             String filePath = context.getExternalCacheDir() + "/Backup/" + fileName;
-            ZipFile zip = new ZipFile(filePath, "123321".toCharArray());
+            ZipFile zip = new ZipFile(filePath, password.toCharArray());
             ZipParameters zipParameters = new ZipParameters();
             zipParameters.setEncryptFiles(true);
             zipParameters.setEncryptionMethod(EncryptionMethod.AES);

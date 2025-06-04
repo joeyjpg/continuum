@@ -1137,7 +1137,7 @@
     <string name="action_block_user">"Αποκλεισμός Χρήστη"</string>
     <string name="action_create_github_issue">"Δημιουργία GitHub Issue"</string>
     <string name="action_more_options">"Περισσότερες επιλογές"</string>
-    <string name="settings_backup_settings_summary">"Ο κωδικός αρχείου αντιγράφου ασφαλείας είναι \"123321\"."</string>
+    <string name="settings_backup_settings_summary">"Περιλαμβάνει λογαριασμούς, Client ID και Giphy API Key. Θα σας ζητηθεί να εισαγάγετε έναν κωδικό πρόσβασης κατά τη δημιουργία του αντιγράφου ασφαλείας."</string>
     <string name="settings_navigation_drawer_enable_hide_karma_title">"Απόκρυψη Κάρμα Λογαριασμού"</string>
     <string name="settings_hide_fab_in_post_feed">"Απόκρυψη FAB στην ροή Αναρτήσεων"</string>
     <string name="settings_comment_divider_type">"Τύπος Διαχωριστή Σχολίων"</string>
