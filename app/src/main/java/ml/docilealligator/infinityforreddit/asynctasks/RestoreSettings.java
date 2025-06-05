@@ -48,6 +48,7 @@ import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 public class RestoreSettings {
     public static void restoreSettings(Context context, Executor executor, Handler handler,
                                 ContentResolver contentResolver, Uri zipFileUri,
+                                String password,
                                 RedditDataRoomDatabase redditDataRoomDatabase,
                                 SharedPreferences defaultSharedPreferences,
                                 SharedPreferences currentAccountSharedPreferences,
@@ -92,11 +93,11 @@ public class RestoreSettings {
                     zipCacheOutputStream.write(fileReader, 0, read);
                 }
 
-                new ZipFile(cachePath + "restore.zip", "123321".toCharArray()).extractAll(cachePath);
+                new ZipFile(cachePath + "restore.zip", password.toCharArray()).extractAll(cachePath);
                 new File(cachePath + "restore.zip").delete();
                 File[] files = new File(cachePath).listFiles();
                 if (files == null || files.length <= 0) {
-                    handler.post(() -> restoreSettingsListener.failed(context.getString(R.string.restore_settings_failed_file_corrupted)));
+                    handler.post(() -> restoreSettingsListener.failedWithWrongPassword(context.getString(R.string.restore_settings_failed_file_corrupted)));
                 } else {
                     File restoreFilesDir = files[0];
                     File[] restoreFiles = restoreFilesDir.listFiles();
@@ -244,7 +245,11 @@ public class RestoreSettings {
             } catch (IOException e) {
                 e.printStackTrace();
 
-                handler.post(() -> restoreSettingsListener.failed(context.getString(R.string.restore_settings_partially_failed)));
+                if (e instanceof net.lingala.zip4j.exception.ZipException && e.getMessage() != null && e.getMessage().contains("Wrong Password")) {
+                    handler.post(() -> restoreSettingsListener.failedWithWrongPassword(context.getString(R.string.restore_settings_failed_wrong_password)));
+                } else {
+                    handler.post(() -> restoreSettingsListener.failed(context.getString(R.string.restore_settings_partially_failed)));
+                }
             }
         });
     }
@@ -307,5 +312,6 @@ public class RestoreSettings {
     public interface RestoreSettingsListener {
         void success();
         void failed(String errorMessage);
+        void failedWithWrongPassword(String errorMessage);
     }
 }

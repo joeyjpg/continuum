@@ -1074,7 +1074,7 @@ Les onglets pourraient perdre tout leur contenu quand vous passez d'un onglet à
     <string name="anonymous_front_page_no_subscriptions">"Commence en rejoignant un subreddit !"</string>
 
     <!-- Fuzzy -->
-    <string name="backup_settings_success">"Paramètres exportés avec succès vers le répertoire de destination. Le mot de passe du fichier zip généré est 123321. Veuillez ne pas modifier le fichier zip."</string>
+    <string name="backup_settings_success">"Paramètres exportés avec succès vers le répertoire de destination."</string>
     <string name="create_zip_in_destination_directory_failed">"Impossible de créer un zip de sauvegarde dans ce dossier"</string>
     <string name="backup_some_settings_failed">"Impossible de sauvegarder certains paramètres mais d'autres ont été exportés avec succès vers le répertoire de destination"</string>
     <string name="restore_settings_success">"Paramètres restaurés avec succès. Redémarre l'application pour voir les changements"</string>
@@ -1335,7 +1335,7 @@ Cliquer pour réessayer."</string>
     <string name="action_block_user">"Bloquer l'utilisateur"</string>
     <string name="action_create_github_issue">"Créer une Issue GitHub"</string>
     <string name="action_more_options">"Plus d'options"</string>
-    <string name="settings_backup_settings_summary">"Le mot de passe de la sauvegarde est \"123321\"."</string>
+    <string name="settings_backup_settings_summary">"Inclut les comptes, l'identifiant client et la clé API Giphy. Un mot de passe vous sera demandé lors de la création de la sauvegarde."</string>
     <string name="settings_navigation_drawer_enable_hide_karma_title">"Masquer le karma du compte"</string>
     <string name="settings_hide_fab_in_post_feed">"Masquer le bouton d'actions flottant dans le fil d'actualités"</string>
     <string name="settings_comment_divider_type">"Type de Diviseur de Commentaire"</string>

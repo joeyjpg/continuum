@@ -482,7 +482,7 @@
     <string name="action_block_user">"유저차단"</string>
     <string name="action_create_github_issue">"깃허브 문제 생성"</string>
     <string name="action_more_options">"더많은 설정"</string>
-    <string name="settings_backup_settings_summary">"백업 파일 비밀번호는 \"123321\"."</string>
+    <string name="settings_backup_settings_summary">"계정, 클라이언트 ID, Giphy API 키가 포함됩니다. 백업을 생성할 때 비밀번호를 입력하라는 메시지가 표시됩니다."</string>
     <string name="settings_navigation_drawer_enable_hide_karma_title">"계정 카르마 숨기기"</string>
     <string name="settings_hide_fab_in_post_feed">"게시글 피드에 FAB 숨기기"</string>
     <string name="block_user">"유저 차단"</string>

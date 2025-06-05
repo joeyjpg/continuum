@@ -1224,7 +1224,7 @@ Reddit 视频分辨率较低。
     <string name="action_block_user">"屏蔽用户"</string>
     <string name="action_create_github_issue">"创建 Github Issue"</string>
     <string name="action_more_options">"更多选项"</string>
-    <string name="settings_backup_settings_summary">"备份文件的密码为“123321”。"</string>
+    <string name="settings_backup_settings_summary">"包含帐户、客户端 ID 和 Giphy API 密钥。创建备份时，系统将提示您输入密码。"</string>
     <string name="settings_navigation_drawer_enable_hide_karma_title">"隐藏账户声望"</string>
     <string name="settings_hide_fab_in_post_feed">"在帖子列表中隐藏悬浮动作按钮"</string>
     <string name="settings_comment_divider_type">"评论分隔符类型"</string>

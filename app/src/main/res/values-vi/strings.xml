@@ -973,7 +973,7 @@ Tự động phát video bị tắt."</string>
     <string name="anonymous_front_page_no_subscriptions">"Hãy bắt đầu bằng cách tham gia một subreddit!"</string>
 
     <!-- Fuzzy -->
-    <string name="backup_settings_success">"Xuất cài đặt ra thư mục đích thành công. Mật khẩu của tệp zip được tạo ra là 123321. Vui lòng đừng sửa đổi tệp zip đó."</string>
+    <string name="backup_settings_success">"Xuất cài đặt ra thư mục đích thành công."</string>
     <string name="create_zip_in_destination_directory_failed">"Không thể tạo tệp zip sao lưu trong thư mục đích"</string>
     <string name="backup_some_settings_failed">"Không thể sao lưu một số cài đặt nhưng các cài đặt khác đã được xuất ra thư mục đích thành công"</string>
     <string name="restore_settings_success">"Khôi phục cài đặt thành công. Hãy khởi động lại ứng dụng để thấy các thay đổi."</string>

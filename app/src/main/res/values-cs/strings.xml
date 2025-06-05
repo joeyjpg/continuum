@@ -965,7 +965,7 @@ Automatické přehrávání videí je zakázáno."</string>
     <string name="anonymous_front_page_no_subscriptions">"Začněte připojením se do subredditu!"</string>
 
     <!-- Fuzzy -->
-    <string name="backup_settings_success">"Nastavení byla úspěšně exportována do cílového adresáře. Heslo vygenerovaného zip souboru je 123321. Neupravujte prosím daný zip soubor."</string>
+    <string name="backup_settings_success">"Nastavení byla úspěšně exportována do cílového adresáře."</string>
     <string name="create_zip_in_destination_directory_failed">"Nelze vytvořit záložní zip v cílovém adresáři"</string>
     <string name="backup_some_settings_failed">"Některá nastavení nebyla zálohována, ale ostatní byla exportována do cílového adresáře"</string>
     <string name="restore_settings_success">"Nastavení úspěšně obnovena. Restartujte aplikaci pro zobrazení změn."</string>
@@ -1207,7 +1207,7 @@ Pokud ano, přejmenujte je, než povolíte Material You."</string>
     <string name="action_block_user">"Zablokovat uživatele"</string>
     <string name="action_create_github_issue">"Vytvořit problém na GitHubu"</string>
     <string name="action_more_options">"Další možnosti"</string>
-    <string name="settings_backup_settings_summary">"Heslo souboru se zálohou je „123321“."</string>
+    <string name="settings_backup_settings_summary">"Zahrnuje účty, ID klienta a klíč Giphy API. Při vytváření zálohy budete vyzváni k zadání hesla."</string>
     <string name="settings_navigation_drawer_enable_hide_karma_title">"Skrýt karmu účtu"</string>
     <string name="settings_hide_fab_in_post_feed">"Skrýt FAB v seznamu příspěvků"</string>
     <string name="settings_comment_divider_type">"Typ oddělovače komentářů"</string>

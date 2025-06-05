@@ -962,7 +962,7 @@ https://play.google.com/store/"</string>
     <string name="anonymous_front_page_no_subscriptions">"Розпочніть долучившись до сабредиту!"</string>
 
     <!-- Fuzzy -->
-    <string name="backup_settings_success">"Налаштування вдало експортовані в призначений каталог. Пароль для створеного zip-файлу — 123321. Будь ласка, не змінюйте файл zip."</string>
+    <string name="backup_settings_success">"Налаштування вдало експортовані в призначений каталог."</string>
     <string name="create_zip_in_destination_directory_failed">"Не вдалося створити резервну zip-копію в призначеному каталозі"</string>
     <string name="backup_some_settings_failed">"Не вдалося зарезервувати деякі налаштування, але інші вдало експортовано в призначений каталог"</string>
     <string name="restore_settings_success">"Налаштування вдало відновлено. Перезапустіть застосунок, щоб зміни ввійшли в дію."</string>

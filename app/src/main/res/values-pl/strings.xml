@@ -960,7 +960,7 @@ użytkownika / multireddita"</string>
     <string name="anonymous_front_page_no_subscriptions">"Zacznij dołączając do subreddita!"</string>
 
     <!-- Fuzzy -->
-    <string name="backup_settings_success">"Pomyślnie wyeksportowano ustawienia. Hasło do wygenerowanego Archiwum to 123321. Proszę nie modyfikować Archiwum."</string>
+    <string name="backup_settings_success">"Pomyślnie wyeksportowano ustawienia."</string>
     <string name="create_zip_in_destination_directory_failed">"Nie można stworzyć backupu w podanej ścieżce"</string>
 
     <!-- Fuzzy -->

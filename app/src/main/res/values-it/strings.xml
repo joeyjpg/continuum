@@ -1142,7 +1142,7 @@ Premi per riprovare."</string>
     <string name="action_block_user">"Blocca utente"</string>
     <string name="action_create_github_issue">"Crea una issue su GitHub"</string>
     <string name="action_more_options">"Più opzioni"</string>
-    <string name="settings_backup_settings_summary">"La password del file di backup è \"123321\"."</string>
+    <string name="settings_backup_settings_summary">"Include account, ID cliente e chiave API Giphy. Ti verrà richiesto di inserire una password durante la creazione del backup."</string>
     <string name="settings_navigation_drawer_enable_hide_karma_title">"Nascondi il karma dell'account"</string>
     <string name="settings_hide_fab_in_post_feed">"Nascondi pulsante fluttuante nel Feed dei Post"</string>
     <string name="settings_comment_divider_type">"Tipo di divisore dei commenti"</string>

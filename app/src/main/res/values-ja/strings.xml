@@ -1026,7 +1026,7 @@ https://play.google.com/store/"</string>
     <string name="anonymous_front_page_no_subscriptions">"Subredditに参加して始めましょう！"</string>
 
     <!-- Fuzzy -->
-    <string name="backup_settings_success">"設定を目的のディレクトリに正常にエクスポートしました。生成されたzipファイルのパスワードは123321です。zipファイルは変更しないでください。"</string>
+    <string name="backup_settings_success">"設定を目的のディレクトリに正常にエクスポートしました。"</string>
     <string name="create_zip_in_destination_directory_failed">"目的のディレクトリにバックアップzipファイルを作成することができませんでした"</string>
     <string name="backup_some_settings_failed">"一部の設定をバックアップできませんでしたが、他の設定は目的ディレクトリに正常にエクスポートされました"</string>
     <string name="restore_settings_success">"設定を正常に復元しました。変更を確認するにはアプリを再起動してください。"</string>

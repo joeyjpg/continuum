@@ -1006,7 +1006,7 @@ Automatisches Abspielen von Videos ist deaktiviert."</string>
     <string name="anonymous_front_page_no_subscriptions">"Beginne, indem du einem Subreddit beitrittst!"</string>
 
     <!-- Fuzzy -->
-    <string name="backup_settings_success">"Die Einstellungen wurden erfolgreich in den Zielordner exportiert. Das Passwort der generierten ZIP-Datei ist 123321. Die ZIP-Datei bitte nicht bearbeiten."</string>
+    <string name="backup_settings_success">"Die Einstellungen wurden erfolgreich in den Zielordner exportiert."</string>
     <string name="create_zip_in_destination_directory_failed">"Konnte keine ZIP-Datei im Zielordner erstellen"</string>
     <string name="backup_some_settings_failed">"Nicht alle Einstellungen konnten exportiert werden, aber alle anderen wurden erfolgreich in den Zielordner exportiert"</string>
     <string name="restore_settings_success">"Einstellungen erfolgreich wiederhergestellt. Starte die Anwendung neu, um die Änderungen zu sehen."</string>
@@ -1254,7 +1254,7 @@ Antippen zum Wiederholen."</string>
     <string name="action_block_user">"Benutzer blockieren"</string>
     <string name="action_create_github_issue">"GitHub-Issue erstellen"</string>
     <string name="action_more_options">"Mehr Einstellungen"</string>
-    <string name="settings_backup_settings_summary">"Das Passwort der Backup-Datei ist \"123321\"."</string>
+    <string name="settings_backup_settings_summary">"Enthält Konten, Client-ID und Giphy-API-Schlüssel. Beim Erstellen des Backups werden Sie aufgefordert, ein Kennwort einzugeben."</string>
     <string name="settings_navigation_drawer_enable_hide_karma_title">"Kontokarma verstecken"</string>
     <string name="settings_hide_fab_in_post_feed">"Verstecke schwebenden Aktionsknopf im Beitragsfeed"</string>
     <string name="settings_comment_divider_type">"Kommentar-Trennleisten-Typ"</string>
