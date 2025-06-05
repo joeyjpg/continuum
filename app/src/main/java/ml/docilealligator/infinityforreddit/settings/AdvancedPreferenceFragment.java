@@ -363,7 +363,7 @@ public class AdvancedPreferenceFragment extends CustomFontPreferenceFragmentComp
         }
     }
 
-            private void showPasswordDialog() {
+    private void showPasswordDialog() {
         EditText passwordEditText = new EditText(activity);
         passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         passwordEditText.setHint(R.string.enter_backup_password);
@@ -381,28 +381,57 @@ public class AdvancedPreferenceFragment extends CustomFontPreferenceFragmentComp
 
         LinearLayout layout = new LinearLayout(activity);
         layout.setOrientation(LinearLayout.VERTICAL);
+        int padding = (int) (16 * getResources().getDisplayMetrics().density); // 16dp
+        layout.setPadding(padding, padding, padding, padding);
         layout.addView(passwordEditText);
         layout.addView(showPasswordCheckBox);
 
-        new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogTheme)
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogTheme)
                 .setTitle(R.string.backup_password_dialog_title)
                 .setMessage(R.string.backup_password_dialog_message)
                 .setView(layout)
                 .setPositiveButton(R.string.ok, (dialog, which) -> {
                     String password = passwordEditText.getText().toString().trim();
-                    if (password.isEmpty()) {
-                        Toast.makeText(activity, R.string.password_cannot_be_empty, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+                    // Password length validation is now handled by enabling/disabling the button
                     backupPassword = password;
                     Intent intent = new Intent(ACTION_OPEN_DOCUMENT_TREE);
                     startActivityForResult(intent, SELECT_BACKUP_SETTINGS_DIRECTORY_REQUEST_CODE);
                 })
-                .setNegativeButton(R.string.cancel, null)
-                .show();
+                .setNegativeButton(R.string.cancel, null);
+
+        androidx.appcompat.app.AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+        // Initially disable the OK button
+        dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+
+        passwordEditText.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(android.text.Editable s) {
+                String password = s.toString().trim();
+                boolean isValid = password.length() >= 6 && password.length() <= 32;
+                dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setEnabled(isValid);
+                if (!isValid && password.length() > 0) { // Show error only if user has typed something and it's invalid
+                    if (password.length() < 6) {
+                        passwordEditText.setError(getString(R.string.password_too_short_error, 6));
+                    } else if (password.length() > 32) {
+                        passwordEditText.setError(getString(R.string.password_too_long_error, 32));
+                    }
+                } else {
+                    passwordEditText.setError(null); // Clear error when valid or empty
+                }
+            }
+        });
     }
 
-        private void showRestorePasswordDialog() {
+    private void showRestorePasswordDialog() {
         EditText passwordEditText = new EditText(activity);
         passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         passwordEditText.setHint(R.string.enter_restore_password);
@@ -420,24 +449,53 @@ public class AdvancedPreferenceFragment extends CustomFontPreferenceFragmentComp
 
         LinearLayout layout = new LinearLayout(activity);
         layout.setOrientation(LinearLayout.VERTICAL);
+        int padding = (int) (16 * getResources().getDisplayMetrics().density); // 16dp
+        layout.setPadding(padding, padding, padding, padding);
         layout.addView(passwordEditText);
         layout.addView(showPasswordCheckBox);
 
-        new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogTheme)
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogTheme)
                 .setTitle(R.string.restore_password_dialog_title)
                 .setMessage(R.string.restore_password_dialog_message)
                 .setView(layout)
                 .setPositiveButton(R.string.ok, (dialog, which) -> {
                     String password = passwordEditText.getText().toString().trim();
-                    if (password.isEmpty()) {
-                        Toast.makeText(activity, R.string.password_cannot_be_empty, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+                    // Password length validation is now handled by enabling/disabling the button
                     restorePassword = password;
                     performRestore();
                 })
-                .setNegativeButton(R.string.cancel, null)
-                .show();
+                .setNegativeButton(R.string.cancel, null);
+
+        androidx.appcompat.app.AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+        // Initially disable the OK button
+        dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+
+        passwordEditText.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(android.text.Editable s) {
+                String password = s.toString().trim();
+                boolean isValid = password.length() >= 6 && password.length() <= 32;
+                dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setEnabled(isValid);
+                if (!isValid && password.length() > 0) { // Show error only if user has typed something and it's invalid
+                    if (password.length() < 6) {
+                        passwordEditText.setError(getString(R.string.password_too_short_error, 6));
+                    } else if (password.length() > 32) {
+                        passwordEditText.setError(getString(R.string.password_too_long_error, 32));
+                    }
+                } else {
+                    passwordEditText.setError(null); // Clear error when valid or empty
+                }
+            }
+        });
     }
 
     private void performRestore() {
@@ -462,6 +520,14 @@ public class AdvancedPreferenceFragment extends CustomFontPreferenceFragmentComp
                         // Clear the password from memory after use
                         restorePassword = null;
                         restoreFileUri = null;
+                    }
+
+                    @Override
+                    public void failedWithWrongPassword(String errorMessage) {
+                        Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG).show();
+                        // Don't clear restoreFileUri so it can be reused
+                        restorePassword = null;
+                        showRestorePasswordDialog();
                     }
                 });
     }

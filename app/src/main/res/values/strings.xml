@@ -1038,7 +1038,7 @@
     <string name="flair_preview">Flair</string>
     <string name="awards_preview">4 Awards</string>
     <string name="author_flair_preview">Author Flair</string>
-    <string name="comment_content_preview">I got my girlfriend a “Get better soon” card.\nShe\'s not ill or anything, but she could definitely get better.</string>
+    <string name="comment_content_preview">I got my girlfriend a "Get better soon" card.\nShe\'s not ill or anything, but she could definitely get better.</string>
 
     <string name="copy_multi_reddit_path">Copy Multireddit\'s Path</string>
     <string name="copy_multi_reddit_path_failed">Unable to copy multireddit\'s path</string>
@@ -1242,9 +1242,10 @@
     <string name="create_zip_in_destination_directory_failed">Could not create backup zip in the destination directory</string>
     <string name="backup_some_settings_failed">Could not backup some settings but others were successfully exported to the destination directory</string>
     <string name="restore_settings_success">Successfully restored settings.</string>
-    <string name="restore_settings_partially_failed">Some settings may not be restored successfully. Restart the app to see the changes.</string>
-    <string name="restore_settings_failed_file_corrupted">Cannot restore settings. The file may be corrupted.</string>
-    <string name="restore_settings_failed_cannot_get_file">Cannot access the file</string>
+    <string name="restore_settings_partially_failed">Restoring settings partially failed</string>
+    <string name="restore_settings_failed_file_corrupted">File corrupted or invalid format. Please select a valid backup file.</string>
+    <string name="restore_settings_failed_cannot_get_file">Cannot get the file. Please try again.</string>
+    <string name="restore_settings_failed_wrong_password">Incorrect password or corrupted backup file. Please try again.</string>
 
     <string name="suicide_prevention_quote">If you are looking for a sign not to kill yourself, this is it.\u2764</string>
     <string name="do_not_show_this_again">Don\'t show this again</string>
@@ -1569,7 +1570,7 @@
     <string name="settings_backup_accounts_client_id_summary">Include user accounts and Client ID in the backup file (recommended)</string>
 
     <string name="backup_password_dialog_title">Enter Backup Password</string>
-    <string name="backup_password_dialog_message">Please enter a password to encrypt your backup file. Remember this password - you will need it to restore your settings.</string>
+    <string name="backup_password_dialog_message">Please enter a 6-32 character password to encrypt your backup file. Remember this password - you will need it to restore your settings.</string>
     <string name="enter_backup_password">Enter password</string>
     <string name="password_cannot_be_empty">Password cannot be empty</string>
 
@@ -1581,4 +1582,9 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_login">Sign in</string>
     <string name="restart_app_to_apply_changes">Press here to restart the app to apply changes</string>
+
+    <string name="subreddits_hidden_by_default_removed_message">Subreddits hidden by default removed</string>
+
+    <string name="password_too_short_error" translatable="false">Password must be at least %d characters long.</string>
+    <string name="password_too_long_error" translatable="false">Password must be no more than %d characters long.</string>
 </resources>
