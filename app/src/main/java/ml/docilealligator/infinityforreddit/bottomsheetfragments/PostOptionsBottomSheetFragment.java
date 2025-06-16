@@ -65,9 +65,6 @@ public class PostOptionsBottomSheetFragment extends LandscapeExpandedRoundedBott
     @Inject
     @Named("oauth")
     Retrofit mOauthRetrofit;
-    @Inject
-    @Named("default")
-    SharedPreferences mSharedPreferences;
 
     @Inject
     @Named("default")
