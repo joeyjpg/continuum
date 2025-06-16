@@ -1,10 +1,13 @@
 package ml.docilealligator.infinityforreddit.bottomsheetfragments;
 
+import android.Manifest;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.LayoutInflater;
@@ -13,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -50,14 +54,21 @@ public class PostOptionsBottomSheetFragment extends LandscapeExpandedRoundedBott
     private static final String EXTRA_POST = "EP";
     private static final String EXTRA_POST_LIST_POSITION = "EPLP";
     private static final String EXTRA_GALLERY_INDEX = "EGI";
+    private static final int PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE = 0;
 
     private BaseActivity mBaseActivity;
     private Post mPost;
     private FragmentPostOptionsBottomSheetBinding binding;
+    private boolean isDownloading = false;
+    private boolean isDownloadingGallery = false;
 
     @Inject
     @Named("oauth")
     Retrofit mOauthRetrofit;
+    @Inject
+    @Named("default")
+    SharedPreferences mSharedPreferences;
+
     @Inject
     @Named("default")
     SharedPreferences mSharedPreferences;
@@ -127,125 +138,24 @@ public class PostOptionsBottomSheetFragment extends LandscapeExpandedRoundedBott
 
             if (binding.downloadTextViewPostOptionsBottomSheetFragment.getVisibility() == View.VISIBLE) {
                 binding.downloadTextViewPostOptionsBottomSheetFragment.setOnClickListener(view -> {
-                    // Check if download location is set
-                    String downloadLocation;
-                    boolean isNsfw = mPost.isNSFW();
-
-                    int mediaType;
-                    switch (mPost.getPostType()) {
-                        case Post.VIDEO_TYPE:
-                            mediaType = DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO;
-                            break;
-                        case Post.GIF_TYPE:
-                            mediaType = DownloadMediaService.EXTRA_MEDIA_TYPE_GIF;
-                            break;
-                        default:
-                            mediaType = DownloadMediaService.EXTRA_MEDIA_TYPE_IMAGE;
-                            break;
-                    }
-
-                    if (isNsfw && mSharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false)) {
-                        downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
-                    } else {
-                        if (mediaType == DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO) {
-                            downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
-                        } else if (mediaType == DownloadMediaService.EXTRA_MEDIA_TYPE_GIF) {
-                            downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION, "");
-                        } else {
-                            downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
-                        }
-                    }
-
-                    if (downloadLocation == null || downloadLocation.isEmpty()) {
-                        Toast.makeText(mBaseActivity, R.string.download_location_not_set, Toast.LENGTH_SHORT).show();
-                        dismiss();
+                    if (isDownloading) {
                         return;
                     }
 
-                    Toast.makeText(mBaseActivity, R.string.download_started, Toast.LENGTH_SHORT).show();
-                    if (mPost.getPostType() == Post.VIDEO_TYPE) {
-                        if (!mPost.isRedgifs() && !mPost.isStreamable() && !mPost.isImgur()) {
-                            PersistableBundle extras = new PersistableBundle();
-                            extras.putString(DownloadRedditVideoService.EXTRA_VIDEO_URL, mPost.getVideoDownloadUrl());
-                            extras.putString(DownloadRedditVideoService.EXTRA_POST_ID, mPost.getId());
-                            extras.putString(DownloadRedditVideoService.EXTRA_SUBREDDIT, mPost.getSubredditName());
-                            extras.putInt(DownloadRedditVideoService.EXTRA_IS_NSFW, mPost.isNSFW() ? 1 : 0);
-
-
-                            String title = (mPost != null) ? mPost.getTitle() : "reddit_video"; // Get title or use default
-                            String sanitizedTitle = title.replaceAll("[\\\\/:*?\"<>|]", "_").replaceAll("[\\s_]+", "_").replaceAll("^_+|_+$", "");
-                            if (sanitizedTitle.length() > 100) sanitizedTitle = sanitizedTitle.substring(0, 100).replaceAll("_+$", "");
-                            if (sanitizedTitle.isEmpty()) sanitizedTitle = "reddit_video_" + System.currentTimeMillis();
-
-                            String finalFileName = sanitizedTitle + ".mp4";
-                            extras.putString(DownloadRedditVideoService.EXTRA_FILE_NAME, finalFileName);
-
-                            //TODO: contentEstimatedBytes
-                            JobInfo jobInfo = DownloadRedditVideoService.constructJobInfo(mBaseActivity, 5000000, extras);
-                            ((JobScheduler) mBaseActivity.getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
-
-                            dismiss();
-                            return;
-                        }
-                    }
-
-                    JobInfo jobInfo = DownloadMediaService.constructJobInfo(mBaseActivity, 5000000, mPost, getArguments().getInt(EXTRA_GALLERY_INDEX, 0));
-                    ((JobScheduler) mBaseActivity.getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
-
-                    dismiss();
+                    isDownloading = true;
+                    requestPermissionAndDownload();
                 });
             }
 
             if (mPost.getPostType() == Post.GALLERY_TYPE) {
                 binding.downloadAllTextViewPostOptionsBottomSheetFragment.setVisibility(View.VISIBLE);
                 binding.downloadAllTextViewPostOptionsBottomSheetFragment.setOnClickListener(view -> {
-                    // Check if download locations are set for all media types
-                    String imageDownloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
-                    String gifDownloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION, "");
-                    String videoDownloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
-                    String nsfwDownloadLocation = "";
-
-                    boolean needsNsfwLocation = mPost.isNSFW() &&
-                            mSharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false);
-
-                    if (needsNsfwLocation) {
-                        nsfwDownloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
-                        if (nsfwDownloadLocation == null || nsfwDownloadLocation.isEmpty()) {
-                            Toast.makeText(mBaseActivity, R.string.download_location_not_set, Toast.LENGTH_SHORT).show();
-                            dismiss();
-                            return;
-                        }
-                    } else {
-                        // Check for required download locations based on the gallery content
-                        boolean hasImage = false;
-                        boolean hasGif = false;
-                        boolean hasVideo = false;
-
-                        ArrayList<Post.Gallery> gallery = mPost.getGallery();
-                        for (Post.Gallery galleryItem : gallery) {
-                            if (galleryItem.mediaType == Post.Gallery.TYPE_VIDEO) {
-                                hasVideo = true;
-                            } else if (galleryItem.mediaType == Post.Gallery.TYPE_GIF) {
-                                hasGif = true;
-                            } else {
-                                hasImage = true;
-                            }
-                        }
-
-                        if ((hasImage && (imageDownloadLocation == null || imageDownloadLocation.isEmpty())) ||
-                            (hasGif && (gifDownloadLocation == null || gifDownloadLocation.isEmpty())) ||
-                            (hasVideo && (videoDownloadLocation == null || videoDownloadLocation.isEmpty()))) {
-                            Toast.makeText(mBaseActivity, R.string.download_location_not_set, Toast.LENGTH_SHORT).show();
-                            dismiss();
-                            return;
-                        }
+                    if (isDownloadingGallery) {
+                        return;
                     }
 
-                    Toast.makeText(mBaseActivity, R.string.download_started, Toast.LENGTH_SHORT).show();
-                    JobInfo jobInfo = DownloadMediaService.constructGalleryDownloadAllMediaJobInfo(mBaseActivity, 5000000, mPost);
-                    ((JobScheduler) mBaseActivity.getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
-
-                    dismiss();
+                    isDownloadingGallery = true;
+                    requestPermissionAndDownloadGallery();
                 });
             }
 
@@ -347,5 +257,185 @@ public class PostOptionsBottomSheetFragment extends LandscapeExpandedRoundedBott
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mBaseActivity = (BaseActivity) context;
+    }
+
+    private void requestPermissionAndDownload() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            if (ContextCompat.checkSelfPermission(mBaseActivity,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Permission is not granted
+                // No explanation needed; request the permission
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE);
+            } else {
+                // Permission has already been granted
+                download();
+            }
+        } else {
+            download();
+        }
+    }
+
+    private void requestPermissionAndDownloadGallery() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            if (ContextCompat.checkSelfPermission(mBaseActivity,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Permission is not granted
+                // No explanation needed; request the permission
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE);
+            } else {
+                // Permission has already been granted
+                downloadGallery();
+            }
+        } else {
+            downloadGallery();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE && grantResults.length > 0) {
+            if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                Toast.makeText(mBaseActivity, R.string.no_storage_permission, Toast.LENGTH_SHORT).show();
+                isDownloading = false;
+                isDownloadingGallery = false;
+            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (isDownloading) {
+                    download();
+                } else if (isDownloadingGallery) {
+                    downloadGallery();
+                }
+            }
+        }
+    }
+
+    private void download() {
+        isDownloading = false;
+
+        // Check if download location is set
+        SharedPreferences sharedPreferences = mSharedPreferences;
+        String downloadLocation;
+        boolean isNsfw = mPost.isNSFW();
+
+        int mediaType;
+        switch (mPost.getPostType()) {
+            case Post.VIDEO_TYPE:
+                mediaType = DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO;
+                break;
+            case Post.GIF_TYPE:
+                mediaType = DownloadMediaService.EXTRA_MEDIA_TYPE_GIF;
+                break;
+            default:
+                mediaType = DownloadMediaService.EXTRA_MEDIA_TYPE_IMAGE;
+                break;
+        }
+
+        if (isNsfw && sharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false)) {
+            downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
+        } else {
+            if (mediaType == DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO) {
+                downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
+            } else if (mediaType == DownloadMediaService.EXTRA_MEDIA_TYPE_GIF) {
+                downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION, "");
+            } else {
+                downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
+            }
+        }
+
+        if (downloadLocation == null || downloadLocation.isEmpty()) {
+            Toast.makeText(mBaseActivity, R.string.download_location_not_set, Toast.LENGTH_SHORT).show();
+            dismiss();
+            return;
+        }
+
+        Toast.makeText(mBaseActivity, R.string.download_started, Toast.LENGTH_SHORT).show();
+        if (mPost.getPostType() == Post.VIDEO_TYPE) {
+            if (!mPost.isRedgifs() && !mPost.isStreamable() && !mPost.isImgur()) {
+                PersistableBundle extras = new PersistableBundle();
+                extras.putString(DownloadRedditVideoService.EXTRA_VIDEO_URL, mPost.getVideoDownloadUrl());
+                extras.putString(DownloadRedditVideoService.EXTRA_POST_ID, mPost.getId());
+                extras.putString(DownloadRedditVideoService.EXTRA_SUBREDDIT, mPost.getSubredditName());
+                extras.putInt(DownloadRedditVideoService.EXTRA_IS_NSFW, mPost.isNSFW() ? 1 : 0);
+
+
+                String title = (mPost != null) ? mPost.getTitle() : "reddit_video"; // Get title or use default
+                String sanitizedTitle = title.replaceAll("[\\\\/:*?\"<>|]", "_").replaceAll("[\\s_]+", "_").replaceAll("^_+|_+$", "");
+                if (sanitizedTitle.length() > 100) sanitizedTitle = sanitizedTitle.substring(0, 100).replaceAll("_+$", "");
+                if (sanitizedTitle.isEmpty()) sanitizedTitle = "reddit_video_" + System.currentTimeMillis();
+
+                String finalFileName = sanitizedTitle + ".mp4";
+                extras.putString(DownloadRedditVideoService.EXTRA_FILE_NAME, finalFileName);
+
+                //TODO: contentEstimatedBytes
+                JobInfo jobInfo = DownloadRedditVideoService.constructJobInfo(mBaseActivity, 5000000, extras);
+                ((JobScheduler) mBaseActivity.getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
+
+                dismiss();
+                return;
+            }
+        }
+
+        JobInfo jobInfo = DownloadMediaService.constructJobInfo(mBaseActivity, 5000000, mPost, getArguments().getInt(EXTRA_GALLERY_INDEX, 0));
+        ((JobScheduler) mBaseActivity.getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
+
+        dismiss();
+    }
+
+    private void downloadGallery() {
+        isDownloadingGallery = false;
+
+        // Check if download locations are set for all media types
+        SharedPreferences sharedPreferences = mSharedPreferences;
+        String imageDownloadLocation = sharedPreferences.getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
+        String gifDownloadLocation = sharedPreferences.getString(SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION, "");
+        String videoDownloadLocation = sharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
+        String nsfwDownloadLocation = "";
+
+        boolean needsNsfwLocation = mPost.isNSFW() &&
+                sharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false);
+
+        if (needsNsfwLocation) {
+            nsfwDownloadLocation = sharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
+            if (nsfwDownloadLocation == null || nsfwDownloadLocation.isEmpty()) {
+                Toast.makeText(mBaseActivity, R.string.download_location_not_set, Toast.LENGTH_SHORT).show();
+                dismiss();
+                return;
+            }
+        } else {
+            // Check for required download locations based on the gallery content
+            boolean hasImage = false;
+            boolean hasGif = false;
+            boolean hasVideo = false;
+
+            ArrayList<Post.Gallery> gallery = mPost.getGallery();
+            for (Post.Gallery galleryItem : gallery) {
+                if (galleryItem.mediaType == Post.Gallery.TYPE_VIDEO) {
+                    hasVideo = true;
+                } else if (galleryItem.mediaType == Post.Gallery.TYPE_GIF) {
+                    hasGif = true;
+                } else {
+                    hasImage = true;
+                }
+            }
+
+            if ((hasImage && (imageDownloadLocation == null || imageDownloadLocation.isEmpty())) ||
+                (hasGif && (gifDownloadLocation == null || gifDownloadLocation.isEmpty())) ||
+                (hasVideo && (videoDownloadLocation == null || videoDownloadLocation.isEmpty()))) {
+                Toast.makeText(mBaseActivity, R.string.download_location_not_set, Toast.LENGTH_SHORT).show();
+                dismiss();
+                return;
+            }
+        }
+
+        Toast.makeText(mBaseActivity, R.string.download_started, Toast.LENGTH_SHORT).show();
+        JobInfo jobInfo = DownloadMediaService.constructGalleryDownloadAllMediaJobInfo(mBaseActivity, 5000000, mPost);
+        ((JobScheduler) mBaseActivity.getSystemService(Context.JOB_SCHEDULER_SERVICE)).schedule(jobInfo);
+
+        dismiss();
     }
 }
