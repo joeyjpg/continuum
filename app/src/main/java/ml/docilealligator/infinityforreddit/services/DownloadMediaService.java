@@ -250,8 +250,8 @@ public class DownloadMediaService extends JobService {
         } else if (post.getPostType() == Post.GALLERY_TYPE) {
             Log.d("GalleryDownload", "DownloadMediaService.constructJobInfo(Gallery): galleryIndex=" + galleryIndex);
             if (post.getGallery() == null || galleryIndex < 0 || galleryIndex >= post.getGallery().size()) {
-                 Log.e("GalleryDownload", "DownloadMediaService.constructJobInfo(Gallery): Invalid gallery index or gallery is null.");
-                 return null; // Cannot construct job with invalid index
+                Log.e("GalleryDownload", "DownloadMediaService.constructJobInfo(Gallery): Invalid gallery index or gallery is null.");
+                return null; // Cannot construct job with invalid index
             }
             Post.Gallery media = post.getGallery().get(galleryIndex);
             Log.d("GalleryDownload", "DownloadMediaService.constructJobInfo(Gallery): media.mediaType=" + media.mediaType + ", post.isNSFW()=" + post.isNSFW());
@@ -612,8 +612,8 @@ public class DownloadMediaService extends JobService {
                     int individualMediaType = Integer.parseInt(mediaTypes[i]);
 
                     Log.d("ImgurDownload", "Processing item " + i + ": mediaType=" + individualMediaType +
-                          " (" + (individualMediaType == EXTRA_MEDIA_TYPE_VIDEO ? "VIDEO" :
-                                 individualMediaType == EXTRA_MEDIA_TYPE_GIF ? "GIF" : "IMAGE") + ")");
+                        " (" + (individualMediaType == EXTRA_MEDIA_TYPE_VIDEO ? "VIDEO" :
+                        individualMediaType == EXTRA_MEDIA_TYPE_GIF ? "GIF" : "IMAGE") + ")");
 
                     // Create a new PersistableBundle for each individual download to ensure correct mediaType
                     PersistableBundle itemExtras = new PersistableBundle(extras);
@@ -652,26 +652,26 @@ public class DownloadMediaService extends JobService {
                 String mimeType = mediaType == EXTRA_MEDIA_TYPE_VIDEO ? "video/*" : "image/*";
 
                 Log.d("ImgurDownload", "Processing single download: mediaType=" + mediaType +
-                      " (" + (mediaType == EXTRA_MEDIA_TYPE_VIDEO ? "VIDEO" :
-                              mediaType == EXTRA_MEDIA_TYPE_GIF ? "GIF" : "IMAGE") + ")");
+                    " (" + (mediaType == EXTRA_MEDIA_TYPE_VIDEO ? "VIDEO" :
+                    mediaType == EXTRA_MEDIA_TYPE_GIF ? "GIF" : "IMAGE") + ")");
 
                 downloadMedia(params, fileUrl, extras, builder, mediaType, randomNotificationIdOffset, fileName,
-                        mimeType, subredditName, isNsfw, false, new DownloadProgressResponseBody.ProgressListener() {
-                            long time = 0;
-                            @Override
-                            public void update(long bytesRead, long contentLength, boolean done) {
-                                if (!done) {
-                                    if (contentLength != -1) {
-                                        long currentTime = System.currentTimeMillis();
-                                        if (currentTime - time > 1000) {
-                                            time = currentTime;
-                                            updateNotification(builder, mediaType, 0,
-                                                    (int) ((100 * bytesRead) / contentLength), randomNotificationIdOffset, null, null);
-                                        }
+                    mimeType, subredditName, isNsfw, false, new DownloadProgressResponseBody.ProgressListener() {
+                        long time = 0;
+                        @Override
+                        public void update(long bytesRead, long contentLength, boolean done) {
+                            if (!done) {
+                                if (contentLength != -1) {
+                                    long currentTime = System.currentTimeMillis();
+                                    if (currentTime - time > 1000) {
+                                        time = currentTime;
+                                        updateNotification(builder, mediaType, 0,
+                                                (int) ((100 * bytesRead) / contentLength), randomNotificationIdOffset, null, null);
                                     }
                                 }
                             }
-                        });
+                        }
+                    });
             }
         });
 
@@ -703,16 +703,16 @@ public class DownloadMediaService extends JobService {
                             NotificationCompat.Builder builder, int mediaType, int randomNotificationIdOffset,
                             String fileName, String mimeType, String subredditName, boolean isNsfw,
                             boolean multipleDownloads, DownloadProgressResponseBody.ProgressListener progressListener) {
-      Log.d("GalleryDownload", "DownloadMediaService.downloadMedia(): Starting download. " +
-            "mediaType=" + mediaType +
-            ", isNsfw=" + isNsfw +
-            ", fileName=" + fileName +
-            ", fileUrl=" + (fileUrl == null ? "NULL (will fetch)" : fileUrl) +
-            ", multipleDownloads=" + multipleDownloads);
-      Log.d("ImgurDownload", "downloadMedia - mediaType=" + mediaType +
-            " (" + (mediaType == EXTRA_MEDIA_TYPE_VIDEO ? "VIDEO" :
-                    mediaType == EXTRA_MEDIA_TYPE_GIF ? "GIF" : "IMAGE") + ")" +
-              ", fileName=" + fileName + ", isNsfw=" + isNsfw);
+    Log.d("GalleryDownload", "DownloadMediaService.downloadMedia(): Starting download. " +
+        "mediaType=" + mediaType +
+        ", isNsfw=" + isNsfw +
+        ", fileName=" + fileName +
+        ", fileUrl=" + (fileUrl == null ? "NULL (will fetch)" : fileUrl) +
+        ", multipleDownloads=" + multipleDownloads);
+    Log.d("ImgurDownload", "downloadMedia - mediaType=" + mediaType +
+        " (" + (mediaType == EXTRA_MEDIA_TYPE_VIDEO ? "VIDEO" :
+        mediaType == EXTRA_MEDIA_TYPE_GIF ? "GIF" : "IMAGE") + ")" +
+        ", fileName=" + fileName + ", isNsfw=" + isNsfw);
 
         if (fileUrl == null) {
             // Only Redgifs and Streamble video can go inside this if clause.
@@ -766,8 +766,7 @@ public class DownloadMediaService extends JobService {
             response = retrofit.create(DownloadFile.class).downloadFile(fileUrl).execute();
             if (response.isSuccessful() && response.body() != null) {
                 String destinationFileDirectory = getDownloadLocation(mediaType, isNsfw);
-                Log.d("ImgurDownload", "Got download location: " + destinationFileDirectory +
-                      " for mediaType=" + mediaType + ", isNsfw=" + isNsfw);
+                Log.d("ImgurDownload", "Got download location: " + destinationFileDirectory + " for mediaType=" + mediaType + ", isNsfw=" + isNsfw);
 
                 if (destinationFileDirectory == null || destinationFileDirectory.isEmpty()) {
                     Log.e("ImgurDownload", "Download location is empty! mediaType=" + mediaType + ", isNsfw=" + isNsfw);
@@ -955,28 +954,28 @@ public class DownloadMediaService extends JobService {
 
         Log.d("GalleryDownload", "DownloadMediaService.getDownloadLocation(): Checking locations for mediaType=" + mediaType + ", isNsfw=" + isNsfw);
         Log.d("ImgurDownload", "DownloadMediaService getDownloadLocation - mediaType=" + mediaType +
-              ", isNsfw=" + isNsfw +
-              ", prefs contain - IMAGE: " + (imgLoc.isEmpty() ? "EMPTY" : "SET") +
-              ", GIF: " + (gifLoc.isEmpty() ? "EMPTY" : "SET") +
-              ", VIDEO: " + (vidLoc.isEmpty() ? "EMPTY" : "SET") +
-              ", NSFW: " + (nsfwLoc.isEmpty() ? "EMPTY" : "SET"));
+            ", isNsfw=" + isNsfw +
+            ", prefs contain - IMAGE: " + (imgLoc.isEmpty() ? "EMPTY" : "SET") +
+            ", GIF: " + (gifLoc.isEmpty() ? "EMPTY" : "SET") +
+            ", VIDEO: " + (vidLoc.isEmpty() ? "EMPTY" : "SET") +
+            ", NSFW: " + (nsfwLoc.isEmpty() ? "EMPTY" : "SET"));
 
         // Try alternate SharedPreferences file if image location is empty
         if (imgLoc.isEmpty()) {
             imgLoc = getApplicationContext().getSharedPreferences(defaultSharedPrefsFile, MODE_PRIVATE)
                     .getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
             Log.d("ImgurDownload", "Tried alternate SharedPreferences, IMAGE: " +
-                  (imgLoc.isEmpty() ? "EMPTY" : "SET"));
+                (imgLoc.isEmpty() ? "EMPTY" : "SET"));
         }
 
         if (isNsfw && mSharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false)) {
             // If NSFW location is set, return it. Otherwise, return empty string to indicate not set.
             if (!nsfwLoc.isEmpty()) {
-                 Log.d("ImgurDownload", "Using NSFW location: " + nsfwLoc);
-                 return nsfwLoc;
+                Log.d("ImgurDownload", "Using NSFW location: " + nsfwLoc);
+                return nsfwLoc;
             } else {
-                 Log.d("GalleryDownload", "NSFW location requested but not set, returning empty.");
-                 return ""; // Explicitly return empty if NSFW location is not set
+                Log.d("GalleryDownload", "NSFW location requested but not set, returning empty.");
+                return ""; // Explicitly return empty if NSFW location is not set
             }
         }
 

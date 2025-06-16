@@ -58,6 +58,9 @@ public class PostOptionsBottomSheetFragment extends LandscapeExpandedRoundedBott
     @Inject
     @Named("oauth")
     Retrofit mOauthRetrofit;
+    @Inject
+    @Named("default")
+    SharedPreferences mSharedPreferences;
 
     public PostOptionsBottomSheetFragment() {
         // Required empty public constructor
@@ -125,7 +128,6 @@ public class PostOptionsBottomSheetFragment extends LandscapeExpandedRoundedBott
             if (binding.downloadTextViewPostOptionsBottomSheetFragment.getVisibility() == View.VISIBLE) {
                 binding.downloadTextViewPostOptionsBottomSheetFragment.setOnClickListener(view -> {
                     // Check if download location is set
-                    SharedPreferences sharedPreferences = mBaseActivity.getSharedPreferences(SharedPreferencesUtils.SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE);
                     String downloadLocation;
                     boolean isNsfw = mPost.isNSFW();
 
@@ -142,15 +144,15 @@ public class PostOptionsBottomSheetFragment extends LandscapeExpandedRoundedBott
                             break;
                     }
 
-                    if (isNsfw && sharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false)) {
-                        downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
+                    if (isNsfw && mSharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false)) {
+                        downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
                     } else {
                         if (mediaType == DownloadMediaService.EXTRA_MEDIA_TYPE_VIDEO) {
-                            downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
+                            downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
                         } else if (mediaType == DownloadMediaService.EXTRA_MEDIA_TYPE_GIF) {
-                            downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION, "");
+                            downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION, "");
                         } else {
-                            downloadLocation = sharedPreferences.getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
+                            downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
                         }
                     }
 
@@ -198,17 +200,16 @@ public class PostOptionsBottomSheetFragment extends LandscapeExpandedRoundedBott
                 binding.downloadAllTextViewPostOptionsBottomSheetFragment.setVisibility(View.VISIBLE);
                 binding.downloadAllTextViewPostOptionsBottomSheetFragment.setOnClickListener(view -> {
                     // Check if download locations are set for all media types
-                    SharedPreferences sharedPreferences = mBaseActivity.getSharedPreferences(SharedPreferencesUtils.SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE);
-                    String imageDownloadLocation = sharedPreferences.getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
-                    String gifDownloadLocation = sharedPreferences.getString(SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION, "");
-                    String videoDownloadLocation = sharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
+                    String imageDownloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.IMAGE_DOWNLOAD_LOCATION, "");
+                    String gifDownloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.GIF_DOWNLOAD_LOCATION, "");
+                    String videoDownloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
                     String nsfwDownloadLocation = "";
 
                     boolean needsNsfwLocation = mPost.isNSFW() &&
-                            sharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false);
+                            mSharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false);
 
                     if (needsNsfwLocation) {
-                        nsfwDownloadLocation = sharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
+                        nsfwDownloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
                         if (nsfwDownloadLocation == null || nsfwDownloadLocation.isEmpty()) {
                             Toast.makeText(mBaseActivity, R.string.download_location_not_set, Toast.LENGTH_SHORT).show();
                             dismiss();

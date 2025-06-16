@@ -1021,6 +1021,20 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
     private void download() {
         isDownloading = false;
 
+                // Check download location before starting download
+        String downloadLocation = "";
+
+        if (isNSFW && mSharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false)) {
+            downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
+        } else {
+            downloadLocation = mSharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
+        }
+
+        if (downloadLocation == null || downloadLocation.isEmpty()) {
+            Toast.makeText(this, R.string.download_location_not_set, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         PersistableBundle extras = new PersistableBundle();
 
         if (post != null) {

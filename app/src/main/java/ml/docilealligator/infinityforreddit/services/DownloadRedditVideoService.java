@@ -198,43 +198,60 @@ public class DownloadRedditVideoService extends JobService {
 
                 try {
                     Response<ResponseBody> videoResponse = downloadFileRetrofit.downloadFile(videoUrl).execute();
+
                     if (videoResponse.isSuccessful() && videoResponse.body() != null) {
                         String externalCacheDirectoryPath = externalCacheDirectory.getAbsolutePath() + "/";
                         String destinationFileDirectory;
+
                         if (isNsfw && sharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_NSFW_MEDIA_IN_DIFFERENT_FOLDER, false)) {
                             destinationFileDirectory = sharedPreferences.getString(SharedPreferencesUtils.NSFW_DOWNLOAD_LOCATION, "");
                         } else {
                             destinationFileDirectory = sharedPreferences.getString(SharedPreferencesUtils.VIDEO_DOWNLOAD_LOCATION, "");
                         }
+
                         String destinationFileUriString;
+
+                        // Backup validation in case empty directory somehow gets through
+                        if (destinationFileDirectory == null || destinationFileDirectory.isEmpty()) {
+                            downloadFinished(params, builder, null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, randomNotificationIdOffset);
+                            return;
+                        }
+
                         boolean isDefaultDestination;
                         isDefaultDestination = false;
                         DocumentFile picFile;
                         DocumentFile dir;
 
-                        if (separateDownloadFolder) {
-                            dir = DocumentFile.fromTreeUri(DownloadRedditVideoService.this, Uri.parse(destinationFileDirectory));
-                            if (dir == null) {
-                                downloadFinished(params, builder, null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, randomNotificationIdOffset);
+                        try {
+                            if (separateDownloadFolder) {
+                                dir = DocumentFile.fromTreeUri(DownloadRedditVideoService.this, Uri.parse(destinationFileDirectory));
+                                if (dir == null) {
+                                    downloadFinished(params, builder, null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, randomNotificationIdOffset);
 
-                                return;
-                            }
-                            dir = dir.findFile(subredditName);
-                            if (dir == null) {
-                                dir = DocumentFile.fromTreeUri(DownloadRedditVideoService.this, Uri.parse(destinationFileDirectory)).createDirectory(subredditName);
+                                    return;
+                                }
+                                dir = dir.findFile(subredditName);
+                                if (dir == null) {
+                                    dir = DocumentFile.fromTreeUri(DownloadRedditVideoService.this, Uri.parse(destinationFileDirectory)).createDirectory(subredditName);
+                                    if (dir == null) {
+                                        downloadFinished(params, builder, null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, randomNotificationIdOffset);
+
+                                        return;
+                                    }
+                                }
+                            } else {
+                                dir = DocumentFile.fromTreeUri(DownloadRedditVideoService.this, Uri.parse(destinationFileDirectory));
                                 if (dir == null) {
                                     downloadFinished(params, builder, null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, randomNotificationIdOffset);
 
                                     return;
                                 }
                             }
-                        } else {
-                            dir = DocumentFile.fromTreeUri(DownloadRedditVideoService.this, Uri.parse(destinationFileDirectory));
-                            if (dir == null) {
-                                downloadFinished(params, builder, null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, randomNotificationIdOffset);
-
-                                return;
-                            }
+                        } catch (IllegalArgumentException e) {
+                            // Handle invalid URI format as backup
+                            e.printStackTrace();
+                            downloadFinished(params, builder, null, ERROR_CANNOT_GET_DESTINATION_DIRECTORY, randomNotificationIdOffset);
+                            return;
                         }
 
                         DocumentFile checkForDuplicates = dir.findFile(destinationFileName);
