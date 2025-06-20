@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Executor;
@@ -809,15 +810,28 @@ public class DownloadMediaService extends JobService {
                     }
                 }
 
-                DocumentFile checkForDuplicates = dir.findFile(fileName);
-                int extensionPosition = fileName.lastIndexOf('.');
-                String extension = fileName.substring(extensionPosition);
-                int num = 1;
+                int dotIndex = fileName.lastIndexOf('.');
+                final String baseName = (dotIndex == -1) ? fileName : fileName.substring(0, dotIndex);
+                final String extension = (dotIndex == -1) ? "" : fileName.substring(dotIndex);
 
-                while (checkForDuplicates != null) {
-                    fileName = fileName.substring(0, extensionPosition) + " (" + num + ")" + extension;
-                    checkForDuplicates = dir.findFile(fileName);
-                    num++;
+                DocumentFile[] files = dir.listFiles();
+                HashSet<String> existingFileNames = new HashSet<>();
+                if (files != null) {
+                    for (DocumentFile file : files) {
+                        if (file.getName() != null) {
+                            existingFileNames.add(file.getName().toLowerCase());
+                        }
+                    }
+                }
+
+                if (existingFileNames.contains(fileName.toLowerCase())) {
+                    int num = 1;
+                    String newFileName;
+                    do {
+                        newFileName = baseName + " (" + num + ")" + extension;
+                        num++;
+                    } while (existingFileNames.contains(newFileName.toLowerCase()));
+                    fileName = newFileName;
                 }
 
                 picFile = dir.createFile(mimeType, fileName);
