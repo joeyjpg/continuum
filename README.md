@@ -58,7 +58,7 @@ This means you don't need to recompile it each time, or to use [ReVanced Manager
 See [SETUP.md](/SETUP.md)
 
 # Installation
-You can easily install and update Continuum with [Discoverium](https://github.com/cygnusx-1-org/Discoverium/) via it's search button.
+You can easily install and update Continuum with [Discoverium](https://github.com/cygnusx-1-org/Discoverium/) via its search button.
 <p align="left">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="assets/badges/discoverium.png" height="60">
