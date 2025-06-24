@@ -27,7 +27,7 @@ in the notes of your entry for Reddit in your password manager.
 
 ![Client ID](assets/screenshots/client_id.png)
 
-> [!NOTES]
+> [!NOTE]
 >
 > This is just an example Client ID. It was created and deleted. Keep
 > yours private.
