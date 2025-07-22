@@ -31,6 +31,8 @@ in the notes of your entry for Reddit in your password manager.
 >
 > This is just an example Client ID. It was created and deleted. Keep
 > yours private.
+>
+> *It is reccomended to create the Client ID using a non banned account.*
 
 ### Adding a Reddit Client ID to Continuum
 The method of adding a Client ID to Continuum depends on whether this is the
@@ -58,11 +60,21 @@ It is best to copy and paste it.
 
 6. Press `OK` and Wait for Continuum to restart
 
-# Common errors
-The most likely cause for this is the `redirect uri` is set incorrectly. The
-big tell is if you can view Reddit in guest mode, aka without logging in.
+> [!NOTE]
+>
+> *This is only needed once, even if you have multiple accounts.*
 
-## Correct username and password does not work
+  
+# Common errors
+
+
+> [!NOTE]
+>
+> *The most likely cause for this is the `redirect uri` is set incorrectly. The
+> big tell is if you can view Reddit in guest mode, aka without logging in.*
+
+
+### Correct username and password does not work
 Continuum depends on
 [Android System Webview](https://play.google.com/store/apps/details?id=com.google.android.webview)
 by default for logging into Reddit. So if having the login issue, your best
@@ -80,7 +92,7 @@ The current and known good version of
 [Android System Webview](https://play.google.com/store/apps/details?id=com.google.android.webview)
 is `131.0.6778.135`.
 
-### WebView updating
+#### WebView updating
 Updating
 [Android System Webview](https://play.google.com/store/apps/details?id=com.google.android.webview)
 can be tricky. You likely can't search and see it in the
@@ -96,7 +108,7 @@ take you directly to
 listing in the [Google Play Store](https://play.google.com/store/games) app. If
 there is an update available it will be shown.
 
-### Alternative versions of WebView
+#### Alternative versions of WebView
 There are
 [Dev](https://play.google.com/store/apps/details?id=com.google.android.webview.dev),
 [Beta](https://play.google.com/store/apps/details?id=com.google.android.webview.beta),
