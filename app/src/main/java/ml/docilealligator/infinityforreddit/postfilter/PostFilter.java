@@ -227,7 +227,7 @@ public class PostFilter implements Parcelable {
         if (postFilter.excludeFlairs != null && !postFilter.excludeFlairs.equals("")) {
             String[] flairs = postFilter.excludeFlairs.split(",", 0);
             for (String f : flairs) {
-                if (!f.trim().equals("") && post.getFlair().equalsIgnoreCase(f.trim())) {
+                if (!f.trim().equals("") && post.getFlair().trim().equalsIgnoreCase(f.trim())) {
                     return false;
                 }
             }
@@ -264,7 +264,7 @@ public class PostFilter implements Parcelable {
                     if (flair.equals("") && i == flairs.length - 1) {
                        return false;
                     }
-                    if (!flair.equals("") && post.getFlair().equalsIgnoreCase(flair)) {
+                    if (!flair.equals("") && post.getFlair().trim().equalsIgnoreCase(flair)) {
                         match = true;
                         break;
                     }
