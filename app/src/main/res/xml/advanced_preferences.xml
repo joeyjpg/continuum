@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceCategory
-        app:title="Delete Alls" />
+        app:title="Delete All actions" />
 
     <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
         app:key="delete_all_subreddits_data_in_database"
@@ -39,7 +39,7 @@
         app:title="@string/settings_delete_all_legacy_settings_title" />
 
     <ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceCategory
-        app:title="Resets" />
+        app:title="Reset actions" />
 
     <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
         app:key="reset_all_settings"
