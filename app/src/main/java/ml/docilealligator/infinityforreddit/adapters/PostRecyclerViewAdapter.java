@@ -401,11 +401,6 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
             if (post != null) {
                 switch (post.getPostType()) {
                     case Post.VIDEO_TYPE:
-                        // Check if post has no previews and use compact layout instead
-                        if (post.getPreviews() == null || post.getPreviews().isEmpty()) {
-                            return VIEW_TYPE_POST_COMPACT;
-                        }
-
                         if (mAutoplay) {
                             if ((!mAutoplayNsfwVideos && post.isNSFW()) || post.isSpoiler()) {
                                 return VIEW_TYPE_POST_CARD_WITH_PREVIEW_TYPE;
@@ -416,26 +411,11 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                         return VIEW_TYPE_POST_CARD_WITH_PREVIEW_TYPE;
                     case Post.GIF_TYPE:
                     case Post.IMAGE_TYPE:
-                        // Check if post has no previews and use compact layout instead
-                        if (post.getPreviews() == null || post.getPreviews().isEmpty()) {
-                            return VIEW_TYPE_POST_COMPACT;
-                        }
-
                         return VIEW_TYPE_POST_CARD_WITH_PREVIEW_TYPE;
                     case Post.GALLERY_TYPE:
-                        // Check if post has no previews and use compact layout instead
-                        if (post.getPreviews() == null || post.getPreviews().isEmpty()) {
-                            return VIEW_TYPE_POST_COMPACT;
-                        }
-
                         return VIEW_TYPE_POST_CARD_GALLERY_TYPE;
                     case Post.LINK_TYPE:
                     case Post.NO_PREVIEW_LINK_TYPE:
-                        // Check if post has no previews and use compact layout instead
-                        if (post.getPreviews() == null || post.getPreviews().isEmpty()) {
-                            return VIEW_TYPE_POST_COMPACT;
-                        }
-
                         switch (mDefaultLinkPostLayout) {
                             case SharedPreferencesUtils.POST_LAYOUT_CARD_2:
                                 return VIEW_TYPE_POST_CARD_2_WITH_PREVIEW_TYPE;
@@ -506,11 +486,6 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
             if (post != null) {
                 switch (post.getPostType()) {
                     case Post.VIDEO_TYPE:
-                        // Check if post has no previews and use compact layout instead
-                        if (post.getPreviews() == null || post.getPreviews().isEmpty()) {
-                            return VIEW_TYPE_POST_COMPACT;
-                        }
-
                         if (mAutoplay) {
                             if ((!mAutoplayNsfwVideos && post.isNSFW()) || post.isSpoiler()) {
                                 return VIEW_TYPE_POST_CARD_2_WITH_PREVIEW_TYPE;
@@ -521,25 +496,12 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                         return VIEW_TYPE_POST_CARD_2_WITH_PREVIEW_TYPE;
                     case Post.GIF_TYPE:
                     case Post.IMAGE_TYPE:
-                        // Check if post has no previews and use compact layout instead
-                        if (post.getPreviews() == null || post.getPreviews().isEmpty()) {
-                            return VIEW_TYPE_POST_COMPACT;
-                        }
-
                         return VIEW_TYPE_POST_CARD_2_WITH_PREVIEW_TYPE;
                     case Post.GALLERY_TYPE:
-                        // Check if post has no previews and use compact layout instead
-                        if (post.getPreviews() == null || post.getPreviews().isEmpty()) {
-                            return VIEW_TYPE_POST_COMPACT;
-                        }
 
                         return VIEW_TYPE_POST_CARD_2_GALLERY_TYPE;
                     case Post.LINK_TYPE:
                     case Post.NO_PREVIEW_LINK_TYPE:
-                        // Check if post has no previews and use compact layout instead
-                        if (post.getPreviews() == null || post.getPreviews().isEmpty()) {
-                            return VIEW_TYPE_POST_COMPACT;
-                        }
 
                         switch (mDefaultLinkPostLayout) {
                             case SharedPreferencesUtils.POST_LAYOUT_CARD:
@@ -564,11 +526,6 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
             if (post != null) {
                 switch (post.getPostType()) {
                     case Post.VIDEO_TYPE:
-                        // Check if post has no previews and use compact layout instead
-                        if (post.getPreviews() == null || post.getPreviews().isEmpty()) {
-                            return VIEW_TYPE_POST_COMPACT;
-                        }
-
                         if (mAutoplay) {
                             if ((!mAutoplayNsfwVideos && post.isNSFW()) || post.isSpoiler()) {
                                 return VIEW_TYPE_POST_CARD_3_WITH_PREVIEW_TYPE;
@@ -579,25 +536,13 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                         return VIEW_TYPE_POST_CARD_3_WITH_PREVIEW_TYPE;
                     case Post.GIF_TYPE:
                     case Post.IMAGE_TYPE:
-                        // Check if post has no previews and use compact layout instead
-                        if (post.getPreviews() == null || post.getPreviews().isEmpty()) {
-                            return VIEW_TYPE_POST_COMPACT;
-                        }
 
                         return VIEW_TYPE_POST_CARD_3_WITH_PREVIEW_TYPE;
                     case Post.GALLERY_TYPE:
-                        // Check if post has no previews and use compact layout instead
-                        if (post.getPreviews() == null || post.getPreviews().isEmpty()) {
-                            return VIEW_TYPE_POST_COMPACT;
-                        }
 
                         return VIEW_TYPE_POST_CARD_3_GALLERY_TYPE;
                     case Post.LINK_TYPE:
                     case Post.NO_PREVIEW_LINK_TYPE:
-                        // Check if post has no previews and use compact layout instead
-                        if (post.getPreviews() == null || post.getPreviews().isEmpty()) {
-                            return VIEW_TYPE_POST_COMPACT;
-                        }
 
                         switch (mDefaultLinkPostLayout) {
                             case SharedPreferencesUtils.POST_LAYOUT_CARD:
@@ -917,7 +862,7 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
 
                 if (holder instanceof PostBaseVideoAutoplayViewHolder) {
                     ((PostBaseVideoAutoplayViewHolder) holder).toroPlayer.previewImageView.setVisibility(View.VISIBLE);
-                    Post.Preview preview = getSuitablePreview(post.getPreviews());
+                    Post.Preview preview = getSuitablePreviewWithThumbnailFallback(post.getPreviews(), post.getThumbnailUrl());
                     if (!mFixedHeightPreviewInCard && preview != null) {
                         ((PostBaseVideoAutoplayViewHolder) holder).toroPlayer.aspectRatioFrameLayout.setAspectRatio((float) preview.getPreviewWidth() / preview.getPreviewHeight());
                         mGlide.load(preview.getPreviewUrl()).centerInside().downsample(mSaveMemoryCenterInsideDownsampleStrategy).into(((PostBaseVideoAutoplayViewHolder) holder).toroPlayer.previewImageView);
@@ -986,7 +931,10 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                             ((PostWithPreviewTypeViewHolder) holder).imageViewNoPreviewGallery.setImageResource(R.drawable.ic_image_day_night_24dp);
                             ((PostWithPreviewTypeViewHolder) holder).videoOrGifIndicator.setVisibility(View.GONE);
                         } else {
-                            Post.Preview preview = getSuitablePreview(post.getPreviews());
+                            System.out.println("************************************");
+                            System.out.println("PostAdapter: About to call getSuitablePreviewWithThumbnailFallback for PostWithPreviewTypeViewHolder");
+                            System.out.println("************************************");
+                            Post.Preview preview = getSuitablePreviewWithThumbnailFallback(post.getPreviews(), post.getThumbnailUrl());
                             ((PostWithPreviewTypeViewHolder) holder).preview = preview;
                             if (preview != null) {
                                 if (((PostWithPreviewTypeViewHolder) holder).imageWrapperFrameLayout != null) {
@@ -1008,6 +956,11 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                                         loadImage(holder);
                                     }
                                 });
+                                // Hide placeholder since we have a preview (including thumbnail fallback)
+                                System.out.println("************************************");
+                                System.out.println("PostAdapter: Hiding placeholder, preview URL: " + preview.getPreviewUrl());
+                                System.out.println("************************************");
+                                ((PostWithPreviewTypeViewHolder) holder).imageViewNoPreviewGallery.setVisibility(View.GONE);
                             } else {
                                 ((PostWithPreviewTypeViewHolder) holder).imageViewNoPreviewGallery.setVisibility(View.VISIBLE);
                                 if (post.getPostType() == Post.VIDEO_TYPE) {
@@ -1031,7 +984,7 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                     } else {
                         ((PostBaseGalleryTypeViewHolder) holder).frameLayout.setVisibility(View.VISIBLE);
                         ((PostBaseGalleryTypeViewHolder) holder).imageIndexTextView.setText(mActivity.getString(R.string.image_index_in_gallery, 1, post.getGallery().size()));
-                        Post.Preview preview = getSuitablePreview(post.getPreviews());
+                        Post.Preview preview = getSuitablePreviewWithThumbnailFallback(post.getPreviews(), post.getThumbnailUrl());
                         if (preview != null) {
                             if (mFixedHeightPreviewInCard || (preview.getPreviewWidth() <= 0 || preview.getPreviewHeight() <= 0)) {
                                 ((PostBaseGalleryTypeViewHolder) holder).adapter.setRatio(-1);
@@ -1218,7 +1171,7 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                 } else {
                     switch (post.getPostType()) {
                         case Post.IMAGE_TYPE: {
-                            Post.Preview preview = getSuitablePreview(post.getPreviews());
+                            Post.Preview preview = getSuitablePreviewWithThumbnailFallback(post.getPreviews(), post.getThumbnailUrl());
                             ((PostGalleryViewHolder) holder).preview = preview;
                             if (preview != null) {
                                 ((PostGalleryViewHolder) holder).binding.imageViewItemPostGallery.setVisibility(View.VISIBLE);
@@ -1238,6 +1191,8 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                                         loadImage(holder);
                                     }
                                 });
+                                // Hide placeholder since we have a preview (including thumbnail fallback)
+                                ((PostGalleryViewHolder) holder).binding.imageViewNoPreviewItemPostGallery.setVisibility(View.GONE);
                             } else {
                                 ((PostGalleryViewHolder) holder).binding.imageViewNoPreviewItemPostGallery.setVisibility(View.VISIBLE);
                                 ((PostGalleryViewHolder) holder).binding.imageViewNoPreviewItemPostGallery.setImageResource(R.drawable.ic_image_day_night_24dp);
@@ -1249,7 +1204,7 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                                 ((PostGalleryViewHolder) holder).binding.imageViewNoPreviewItemPostGallery.setVisibility(View.VISIBLE);
                                 ((PostGalleryViewHolder) holder).binding.imageViewNoPreviewItemPostGallery.setImageResource(R.drawable.ic_image_day_night_24dp);
                             } else {
-                                Post.Preview preview = getSuitablePreview(post.getPreviews());
+                                Post.Preview preview = getSuitablePreviewWithThumbnailFallback(post.getPreviews(), post.getThumbnailUrl());
                                 ((PostGalleryViewHolder) holder).preview = preview;
                                 if (preview != null) {
                                     ((PostGalleryViewHolder) holder).binding.imageViewItemPostGallery.setVisibility(View.VISIBLE);
@@ -1279,7 +1234,7 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                             break;
                         }
                         case Post.VIDEO_TYPE: {
-                            Post.Preview preview = getSuitablePreview(post.getPreviews());
+                            Post.Preview preview = getSuitablePreviewWithThumbnailFallback(post.getPreviews(), post.getThumbnailUrl());
                             ((PostGalleryViewHolder) holder).preview = preview;
                             if (preview != null) {
                                 ((PostGalleryViewHolder) holder).binding.imageViewItemPostGallery.setVisibility(View.VISIBLE);
@@ -1301,6 +1256,8 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                                         loadImage(holder);
                                     }
                                 });
+                                // Hide placeholder since we have a preview (including thumbnail fallback)
+                                ((PostGalleryViewHolder) holder).binding.imageViewNoPreviewItemPostGallery.setVisibility(View.GONE);
                             } else {
                                 ((PostGalleryViewHolder) holder).binding.imageViewNoPreviewItemPostGallery.setVisibility(View.VISIBLE);
                                 ((PostGalleryViewHolder) holder).binding.imageViewNoPreviewItemPostGallery.setImageResource(R.drawable.ic_video_day_night_24dp);
@@ -1308,7 +1265,7 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                             break;
                         }
                         case Post.LINK_TYPE: {
-                            Post.Preview preview = getSuitablePreview(post.getPreviews());
+                            Post.Preview preview = getSuitablePreviewWithThumbnailFallback(post.getPreviews(), post.getThumbnailUrl());
                             ((PostGalleryViewHolder) holder).preview = preview;
                             if (preview != null) {
                                 ((PostGalleryViewHolder) holder).binding.imageViewItemPostGallery.setVisibility(View.VISIBLE);
@@ -1330,6 +1287,8 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                                         loadImage(holder);
                                     }
                                 });
+                                // Hide placeholder since we have a preview (including thumbnail fallback)
+                                ((PostGalleryViewHolder) holder).binding.imageViewNoPreviewItemPostGallery.setVisibility(View.GONE);
                             } else {
                                 ((PostGalleryViewHolder) holder).binding.imageViewNoPreviewItemPostGallery.setVisibility(View.VISIBLE);
                                 ((PostGalleryViewHolder) holder).binding.imageViewNoPreviewItemPostGallery.setImageResource(R.drawable.ic_link_day_night_24dp);
@@ -1362,7 +1321,7 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                     ((PostGalleryBaseGalleryTypeViewHolder) holder).noPreviewImageView.setVisibility(View.VISIBLE);
                     ((PostGalleryBaseGalleryTypeViewHolder) holder).noPreviewImageView.setImageResource(R.drawable.ic_gallery_day_night_24dp);
                 } else {
-                    Post.Preview preview = getSuitablePreview(post.getPreviews());
+                    Post.Preview preview = getSuitablePreviewWithThumbnailFallback(post.getPreviews(), post.getThumbnailUrl());
                     ((PostGalleryBaseGalleryTypeViewHolder) holder).preview = preview;
 
                     ((PostGalleryBaseGalleryTypeViewHolder) holder).frameLayout.setVisibility(View.VISIBLE);
@@ -1409,6 +1368,23 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
         return null;
     }
 
+    private Post.Preview getSuitablePreviewWithThumbnailFallback(ArrayList<Post.Preview> previews, String thumbnailUrl) {
+        Post.Preview preview = getSuitablePreview(previews);
+        System.out.println("************************************");
+        System.out.println("PostAdapter: getSuitablePreviewWithThumbnailFallback called");
+        System.out.println("PostAdapter: previews.size() = " + (previews != null ? previews.size() : "null"));
+        System.out.println("PostAdapter: preview = " + (preview != null ? preview.getPreviewUrl() : "null"));
+        System.out.println("PostAdapter: thumbnailUrl = " + thumbnailUrl);
+        System.out.println("************************************");
+        if (preview == null && thumbnailUrl != null && !thumbnailUrl.isEmpty() && !thumbnailUrl.equals("self") && !thumbnailUrl.equals("default") && !thumbnailUrl.equals("nsfw") && !thumbnailUrl.equals("spoiler") && !thumbnailUrl.equals("image") && thumbnailUrl.startsWith("http")) {
+            System.out.println("************************************");
+            System.out.println("PostAdapter: Using thumbnail as fallback: " + thumbnailUrl);
+            System.out.println("************************************");
+            return new Post.Preview(thumbnailUrl, 0, 0, "", "");
+        }
+        return preview;
+    }
+
     private void loadImage(final RecyclerView.ViewHolder holder) {
         if (holder instanceof PostWithPreviewTypeViewHolder) {
             ((PostWithPreviewTypeViewHolder) holder).progressBar.setVisibility(View.VISIBLE);
@@ -1432,7 +1408,7 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
             }
         } else if (holder instanceof PostCompactBaseViewHolder) {
             Post post = ((PostCompactBaseViewHolder) holder).post;
-            String postCompactThumbnailPreviewUrl;
+            String postCompactThumbnailPreviewUrl = null;
             ArrayList<Post.Preview> previews = post.getPreviews();
             if (previews != null && !previews.isEmpty()) {
                 if (previews.size() >= 2) {
@@ -1440,7 +1416,18 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                 } else {
                     postCompactThumbnailPreviewUrl = previews.get(0).getPreviewUrl();
                 }
+            } else {
+                // Use thumbnail as fallback for compact view
+                String thumbnailUrl = post.getThumbnailUrl();
+                if (thumbnailUrl != null && !thumbnailUrl.isEmpty() && !thumbnailUrl.equals("self") && !thumbnailUrl.equals("default") && !thumbnailUrl.equals("nsfw") && !thumbnailUrl.equals("spoiler") && !thumbnailUrl.equals("image") && thumbnailUrl.startsWith("http")) {
+                    System.out.println("************************************");
+                    System.out.println("PostAdapter: Using thumbnail as fallback for compact view: " + thumbnailUrl);
+                    System.out.println("************************************");
+                    postCompactThumbnailPreviewUrl = thumbnailUrl;
+                }
+            }
 
+            if (postCompactThumbnailPreviewUrl != null) {
                 RequestBuilder<Drawable> imageRequestBuilder = mGlide.load(postCompactThumbnailPreviewUrl)
                         .error(R.drawable.ic_error_outline_black_day_night_24dp).listener(((PostCompactBaseViewHolder) holder).requestListener);
                 if ((post.isNSFW() && mNeedBlurNsfw && !(mDoNotBlurNsfwInNsfwSubreddits && mFragment != null && mFragment.getIsNsfwSubreddit())) || (post.isSpoiler() && mNeedBlurSpoiler)) {

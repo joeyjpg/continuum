@@ -211,6 +211,11 @@ public class ParsePost {
 
         String permalink = Html.fromHtml(data.getString(JSONUtils.PERMALINK_KEY)).toString();
 
+        String thumbnailUrl = data.isNull(JSONUtils.THUMBNAIL_KEY) ? "" : data.getString(JSONUtils.THUMBNAIL_KEY);
+        System.out.println("************************************");
+        System.out.println("ParsePost: Extracted thumbnail URL: " + thumbnailUrl);
+        System.out.println("************************************");
+
         ArrayList<Post.Preview> previews = new ArrayList<>();
         if (data.has(JSONUtils.PREVIEW_KEY)) {
             JSONObject images = data.getJSONObject(JSONUtils.PREVIEW_KEY).getJSONArray(JSONUtils.IMAGES_KEY).getJSONObject(0);
@@ -234,14 +239,53 @@ public class ParsePost {
         if (data.has(JSONUtils.CROSSPOST_PARENT_LIST)) {
             //Cross post
             //data.getJSONArray(JSONUtils.CROSSPOST_PARENT_LIST).getJSONObject(0) out of bounds????????????
-            data = data.getJSONArray(JSONUtils.CROSSPOST_PARENT_LIST).getJSONObject(0);
-            Post crosspostParent = parseBasicData(data);
-            Post post = parseData(data, permalink, id, fullName, subredditName, subredditNamePrefixed,
+            JSONObject parentData = data.getJSONArray(JSONUtils.CROSSPOST_PARENT_LIST).getJSONObject(0);
+
+            // Extract previews from parent post if available
+            ArrayList<Post.Preview> parentPreviews = new ArrayList<>();
+            if (parentData.has(JSONUtils.PREVIEW_KEY)) {
+                JSONObject images = parentData.getJSONObject(JSONUtils.PREVIEW_KEY).getJSONArray(JSONUtils.IMAGES_KEY).getJSONObject(0);
+                String previewUrl = images.getJSONObject(JSONUtils.SOURCE_KEY).getString(JSONUtils.URL_KEY);
+                int previewWidth = images.getJSONObject(JSONUtils.SOURCE_KEY).getInt(JSONUtils.WIDTH_KEY);
+                int previewHeight = images.getJSONObject(JSONUtils.SOURCE_KEY).getInt(JSONUtils.HEIGHT_KEY);
+                parentPreviews.add(new Post.Preview(previewUrl, previewWidth, previewHeight, "", ""));
+
+                JSONArray thumbnailPreviews = images.getJSONArray(JSONUtils.RESOLUTIONS_KEY);
+                for (int i = 0; i < thumbnailPreviews.length(); i++) {
+                    JSONObject thumbnailPreview = thumbnailPreviews.getJSONObject(i);
+                    String thumbnailPreviewUrl = thumbnailPreview.getString(JSONUtils.URL_KEY);
+                    int thumbnailPreviewWidth = thumbnailPreview.getInt(JSONUtils.WIDTH_KEY);
+                    int thumbnailPreviewHeight = thumbnailPreview.getInt(JSONUtils.HEIGHT_KEY);
+
+                    parentPreviews.add(new Post.Preview(thumbnailPreviewUrl, thumbnailPreviewWidth, thumbnailPreviewHeight, "", ""));
+                }
+            }
+
+            // Use parent previews if current post doesn't have any
+            if (previews.isEmpty() && !parentPreviews.isEmpty()) {
+                previews = parentPreviews;
+            }
+
+            // Use parent thumbnail if current post doesn't have a valid thumbnail
+            String parentThumbnailUrl = parentData.isNull(JSONUtils.THUMBNAIL_KEY) ? "" : parentData.getString(JSONUtils.THUMBNAIL_KEY);
+            System.out.println("************************************");
+            System.out.println("ParsePost: Crosspost parent thumbnail URL: " + parentThumbnailUrl);
+            System.out.println("************************************");
+            if ((thumbnailUrl == null || thumbnailUrl.isEmpty() || thumbnailUrl.equals("self") || thumbnailUrl.equals("default"))
+                && parentThumbnailUrl != null && !parentThumbnailUrl.isEmpty() && !parentThumbnailUrl.equals("self") && !parentThumbnailUrl.equals("default")) {
+                System.out.println("************************************");
+                System.out.println("ParsePost: Using parent thumbnail URL for crosspost: " + parentThumbnailUrl);
+                System.out.println("************************************");
+                thumbnailUrl = parentThumbnailUrl;
+            }
+
+            Post crosspostParent = parseBasicData(parentData);
+            Post post = parseData(parentData, permalink, id, fullName, subredditName, subredditNamePrefixed,
                     author, authorFlair, authorFlairHTMLBuilder.toString(),
                     postTime, title, previews, mediaMetadataMap,
                     score, voteType, nComments, upvoteRatio, flair, hidden,
                     spoiler, nsfw, stickied, archived, locked, saved, deleted, removed, true,
-                    distinguished, suggestedSort);
+                    distinguished, suggestedSort, thumbnailUrl);
             post.setCrosspostParentId(crosspostParent.getId());
             return post;
         } else {
@@ -250,7 +294,7 @@ public class ParsePost {
                     postTime, title, previews, mediaMetadataMap,
                     score, voteType, nComments, upvoteRatio, flair, hidden,
                     spoiler, nsfw, stickied, archived, locked, saved, deleted, removed, false,
-                    distinguished, suggestedSort);
+                    distinguished, suggestedSort, thumbnailUrl);
         }
     }
 
@@ -258,7 +302,7 @@ public class ParsePost {
                                 String authorFlair, String authorFlairHTML, long postTimeMillis, String title, ArrayList<Post.Preview> previews, Map<String, MediaMetadata> mediaMetadataMap,
                                 int score, int voteType, int nComments, int upvoteRatio, String flair, boolean hidden, boolean spoiler, boolean nsfw,
                                 boolean stickied, boolean archived, boolean locked, boolean saved, boolean deleted, boolean removed, boolean isCrosspost,
-                                String distinguished, String suggestedSort) throws JSONException {
+                                String distinguished, String suggestedSort, String thumbnailUrl) throws JSONException {
         Post post;
 
         boolean isVideo = data.getBoolean(JSONUtils.IS_VIDEO_KEY);
@@ -733,6 +777,7 @@ public class ParsePost {
             }
         }
 
+        post.setThumbnailUrl(thumbnailUrl);
         post.setMediaMetadataMap(mediaMetadataMap);
         return post;
     }

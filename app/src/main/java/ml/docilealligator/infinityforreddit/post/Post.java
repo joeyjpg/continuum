@@ -45,6 +45,7 @@ public class Post implements Parcelable {
     private String videoDownloadUrl;
     @Nullable
     private String videoFallBackDirectUrl;
+    private String thumbnailUrl;
     private String redgifsId;
     private String streamableShortCode;
     private boolean isImgur;
@@ -171,6 +172,7 @@ public class Post implements Parcelable {
         videoUrl = in.readString();
         videoDownloadUrl = in.readString();
         videoFallBackDirectUrl = in.readString();
+        thumbnailUrl = in.readString();
         redgifsId = in.readString();
         streamableShortCode = in.readString();
         isImgur = in.readByte() != 0;
@@ -342,6 +344,14 @@ public class Post implements Parcelable {
         this.videoFallBackDirectUrl = videoFallBackDirectUrl;
     }
 
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
+    }
+
     public String getRedgifsId() {
         return redgifsId;
     }
@@ -511,6 +521,7 @@ public class Post implements Parcelable {
         dest.writeString(videoUrl);
         dest.writeString(videoDownloadUrl);
         dest.writeString(videoFallBackDirectUrl);
+        dest.writeString(thumbnailUrl);
         dest.writeString(redgifsId);
         dest.writeString(streamableShortCode);
         dest.writeByte((byte) (isImgur ? 1 : 0));
