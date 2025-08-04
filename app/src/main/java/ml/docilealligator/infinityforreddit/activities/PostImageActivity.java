@@ -1,11 +1,13 @@
 package ml.docilealligator.infinityforreddit.activities;
 
+import android.Manifest;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
@@ -18,8 +20,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -110,6 +115,7 @@ public class PostImageActivity extends BaseActivity implements FlairBottomSheetF
     private boolean isPosting;
     private Uri imageUri;
     private int primaryTextColor;
+    private ActivityResultLauncher<String> requestCameraPermissionLauncher;
     private int flairBackgroundColor;
     private int flairTextColor;
     private int spoilerBackgroundColor;
@@ -133,6 +139,15 @@ public class PostImageActivity extends BaseActivity implements FlairBottomSheetF
         setImmersiveModeNotApplicable();
 
         super.onCreate(savedInstanceState);
+
+        requestCameraPermissionLauncher = registerForActivityResult(
+                new ActivityResultContracts.RequestPermission(), isGranted -> {
+                    if (isGranted) {
+                        captureImage();
+                    } else {
+                        Snackbar.make(binding.coordinatorLayoutPostImageActivity, R.string.camera_permission_required, Snackbar.LENGTH_SHORT).show();
+                    }
+                });
 
         binding = ActivityPostImageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -312,16 +327,10 @@ public class PostImageActivity extends BaseActivity implements FlairBottomSheetF
         });
 
         binding.captureFabPostImageActivity.setOnClickListener(view -> {
-            Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            try {
-                imageUri = FileProvider.getUriForFile(this, getPackageName() + ".provider",
-                        File.createTempFile("temp_img", ".jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES)));
-                pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                startActivityForResult(pictureIntent, CAPTURE_IMAGE_REQUEST_CODE);
-            } catch (IOException ex) {
-                Snackbar.make(binding.coordinatorLayoutPostImageActivity, R.string.error_creating_temp_file, Snackbar.LENGTH_SHORT).show();
-            } catch (ActivityNotFoundException e) {
-                Snackbar.make(binding.coordinatorLayoutPostImageActivity, R.string.no_camera_available, Snackbar.LENGTH_SHORT).show();
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                captureImage();
+            } else {
+                requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA);
             }
         });
 
@@ -716,6 +725,20 @@ public class PostImageActivity extends BaseActivity implements FlairBottomSheetF
                     .into(binding.accountIconGifImageViewPostImageActivity);
 
             binding.accountNameTextViewPostImageActivity.setText(selectedAccount.getAccountName());
+        }
+    }
+
+    private void captureImage() {
+        Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        try {
+            imageUri = FileProvider.getUriForFile(this, getPackageName() + ".provider",
+                    File.createTempFile("temp_img", ".jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES)));
+            pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            startActivityForResult(pictureIntent, CAPTURE_IMAGE_REQUEST_CODE);
+        } catch (IOException ex) {
+            Snackbar.make(binding.coordinatorLayoutPostImageActivity, R.string.error_creating_temp_file, Snackbar.LENGTH_SHORT).show();
+        } catch (ActivityNotFoundException e) {
+            Snackbar.make(binding.coordinatorLayoutPostImageActivity, R.string.no_camera_available, Snackbar.LENGTH_SHORT).show();
         }
     }
 
