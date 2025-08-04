@@ -548,7 +548,19 @@ public class PostImageActivity extends BaseActivity implements FlairBottomSheetF
             intent.putExtra(SubmitPostService.EXTRA_IS_NSFW, isNSFW);
             intent.putExtra(SubmitPostService.EXTRA_RECEIVE_POST_REPLY_NOTIFICATIONS, binding.receivePostReplyNotificationsSwitchMaterialPostImageActivity.isChecked());
             String mimeType = getContentResolver().getType(imageUri);
+            boolean isGif = false;
+
+            // Check MIME type first
             if (mimeType != null && mimeType.contains("gif")) {
+                isGif = true;
+            }
+
+            // Fallback: check file extension if MIME type detection fails
+            if (!isGif && imageUri.toString().toLowerCase().endsWith(".gif")) {
+                isGif = true;
+            }
+
+            if (isGif) {
                 intent.putExtra(SubmitPostService.EXTRA_POST_TYPE, SubmitPostService.EXTRA_POST_TYPE_VIDEO);
             } else {
                 intent.putExtra(SubmitPostService.EXTRA_POST_TYPE, SubmitPostService.EXTRA_POST_TYPE_IMAGE);
@@ -579,7 +591,19 @@ public class PostImageActivity extends BaseActivity implements FlairBottomSheetF
             extras.putInt(SubmitPostService.EXTRA_IS_NSFW, isNSFW ? 1 : 0);
             extras.putInt(SubmitPostService.EXTRA_RECEIVE_POST_REPLY_NOTIFICATIONS, binding.receivePostReplyNotificationsSwitchMaterialPostImageActivity.isChecked() ? 1 : 0);
             String mimeType = getContentResolver().getType(imageUri);
+            boolean isGif = false;
+
+            // Check MIME type first
             if (mimeType != null && mimeType.contains("gif")) {
+                isGif = true;
+            }
+
+            // Fallback: check file extension if MIME type detection fails
+            if (!isGif && imageUri.toString().toLowerCase().endsWith(".gif")) {
+                isGif = true;
+            }
+
+            if (isGif) {
                 extras.putInt(SubmitPostService.EXTRA_POST_TYPE, SubmitPostService.EXTRA_POST_TYPE_VIDEO);
             } else {
                 extras.putInt(SubmitPostService.EXTRA_POST_TYPE, SubmitPostService.EXTRA_POST_TYPE_IMAGE);
