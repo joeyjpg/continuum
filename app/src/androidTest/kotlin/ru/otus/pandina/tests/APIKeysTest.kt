@@ -9,42 +9,16 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.UiSelector
 import ml.docilealligator.infinityforreddit.activities.MainActivity
 import org.hamcrest.Matchers.endsWith
 import org.junit.Test
 import ru.otus.pandina.screens.MainScreen
 import ru.otus.pandina.screens.navigation.NavigationViewLayout
 import ru.otus.pandina.screens.navigation.settings.SettingsScreen
+import ru.otus.pandina.utils.NotificationDialogHelper
 
 class APIKeysTest : BaseTest() {
 
-    private fun handleNotificationDialog() {
-        val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-        
-        Thread.sleep(3000) // Wait for app and dialog to fully load
-        
-        // Try to find and click "Don't allow" or similar buttons first
-        val dontAllowButton = device.findObject(UiSelector().text("Don't allow"))
-        val allowButton = device.findObject(UiSelector().text("Allow"))
-        
-        when {
-            dontAllowButton.exists() -> {
-                dontAllowButton.click()
-                Thread.sleep(1000)
-            }
-            allowButton.exists() -> {
-                // If only "Allow" is visible, click it to proceed (we can test without notifications)
-                allowButton.click()
-                Thread.sleep(1000)
-            }
-            else -> {
-                // If no dialog buttons found, the dialog might have been dismissed already
-                Thread.sleep(1000)
-            }
-        }
-    }
 
     fun openSettings() {
         run {
@@ -78,9 +52,9 @@ class APIKeysTest : BaseTest() {
     @Test
     fun addRedditClientIdTest() {
         val redditClientId = InstrumentationRegistry.getArguments().getString("REDDIT_CLIENT_ID") ?: "test_reddit_client_id_default"
-        
+
         // Handle notification dialog immediately after app starts
-        handleNotificationDialog()
+        NotificationDialogHelper.handleNotificationDialog()
 
         before {
             openSettings()

@@ -99,6 +99,10 @@ public class AccountManagementSectionRecyclerViewAdapter extends RecyclerView.Ad
             }
             int finalStringId = stringId;
             holder.itemView.setOnClickListener(view -> itemClickListener.onMenuClick(finalStringId));
+            holder.itemView.setOnLongClickListener(view -> {
+                itemClickListener.onMenuLongClick(finalStringId);
+                return true;
+            });
         }
     }
 

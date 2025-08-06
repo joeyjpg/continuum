@@ -6,12 +6,16 @@ import ru.otus.pandina.screens.MainScreen
 import ru.otus.pandina.screens.UserAgreementFragment
 import ru.otus.pandina.screens.navigation.LoginScreen
 import ru.otus.pandina.screens.navigation.NavigationViewLayout
+import ru.otus.pandina.utils.NotificationDialogHelper
 
 
 class LoginTest : BaseTest() {
 
     @Test
     fun loginTest() {
+        // Handle notification dialog immediately after app starts
+        NotificationDialogHelper.handleNotificationDialog()
+
         run {
             step("Open navigation") {
                 MainScreen {
@@ -44,7 +48,7 @@ class LoginTest : BaseTest() {
                     }
                     addAccountButton {
                         isVisible()
-                        click()
+                        longClick()
                     }
                 }
             }

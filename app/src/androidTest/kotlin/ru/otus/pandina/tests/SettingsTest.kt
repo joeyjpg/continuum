@@ -17,6 +17,7 @@ import ru.otus.pandina.screens.navigation.settings.font.FontPreviewScreen
 import ru.otus.pandina.screens.navigation.settings.font.FontScreen
 import ru.otus.pandina.screens.navigation.settings.interfaceScreen.InterfaceScreen
 import ru.otus.pandina.screens.navigation.settings.notification.NotificationScreen
+import ru.otus.pandina.utils.NotificationDialogHelper
 
 class SettingsTest : BaseTest() {
 
@@ -76,6 +77,9 @@ class SettingsTest : BaseTest() {
 
     @Test
     fun setFontTest() {
+        // Handle notification dialog immediately after app starts
+        NotificationDialogHelper.handleNotificationDialog()
+
         before {
             openSettings()
         }.after {

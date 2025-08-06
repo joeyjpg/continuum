@@ -5,12 +5,16 @@ import org.junit.Test
 import ru.otus.pandina.screens.CustomizePostFilterScreen
 import ru.otus.pandina.screens.FilteredPostsScreen
 import ru.otus.pandina.screens.MainScreen
+import ru.otus.pandina.utils.NotificationDialogHelper
 
 
 class MainTest : BaseTest() {
 
     @Test
     fun popularPostFilterTest() {
+        // Handle notification dialog immediately after app starts
+        NotificationDialogHelper.handleNotificationDialog()
+
         run {
             step("Main screen popular tab") {
                 MainScreen {
