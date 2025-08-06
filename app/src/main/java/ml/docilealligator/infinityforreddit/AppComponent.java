@@ -50,6 +50,7 @@ import ml.docilealligator.infinityforreddit.activities.SendPrivateMessageActivit
 import ml.docilealligator.infinityforreddit.activities.SettingsActivity;
 import ml.docilealligator.infinityforreddit.activities.SubmitCrosspostActivity;
 import ml.docilealligator.infinityforreddit.activities.SubredditMultiselectionActivity;
+import ml.docilealligator.infinityforreddit.activities.UserMultiselectionActivity;
 import ml.docilealligator.infinityforreddit.activities.SubscribedThingListingActivity;
 import ml.docilealligator.infinityforreddit.activities.SuicidePreventionActivity;
 import ml.docilealligator.infinityforreddit.activities.ViewImageOrGifActivity;
@@ -191,6 +192,8 @@ public interface AppComponent {
     void inject(CreateMultiRedditActivity createMultiRedditActivity);
 
     void inject(SubredditMultiselectionActivity subredditMultiselectionActivity);
+
+    void inject(UserMultiselectionActivity userMultiselectionActivity);
 
     void inject(ThemePreferenceFragment themePreferenceFragment);
 

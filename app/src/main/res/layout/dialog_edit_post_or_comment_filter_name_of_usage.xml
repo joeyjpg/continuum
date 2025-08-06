@@ -36,4 +36,15 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <ImageView
+        android:id="@+id/add_subreddits_users_image_view_customize_post_filter_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:padding="16dp"
+        android:background="?actionBarItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="@string/content_description_post_filter_add_subreddit_user" />
+
 </LinearLayout>

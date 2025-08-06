@@ -230,6 +230,11 @@
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".activities.UserMultiselectionActivity"
+            android:label="@string/user_multiselection_activity_label"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activities.CreateMultiRedditActivity"
             android:label="@string/create_multi_reddit_activity_label"
             android:parentActivityName=".activities.MainActivity"
