@@ -31,6 +31,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Random;
 
 import javax.inject.Inject;
@@ -712,8 +713,24 @@ public class PostFragment extends PostFragmentBase implements FragmentCommunicat
         if (activity instanceof ActivityToolbarInterface) {
             ((ActivityToolbarInterface) activity).displaySortType();
         }
-
+        where = getArguments().getString(EXTRA_USER_WHERE);
         if (!activity.accountName.equals(Account.ANONYMOUS_ACCOUNT)) {
+            if(Objects.equals(where, PostPagingSource.USER_WHERE_UPVOTED)){
+                usage = PostFilterUsage.UPVOTED_TYPE;
+                nameOfUsage = PostFilterUsage.NO_USAGE;
+            }
+            else if(Objects.equals(where, PostPagingSource.USER_WHERE_DOWNVOTED)){
+                usage = PostFilterUsage.DOWNVOTED_TYPE;
+                nameOfUsage = PostFilterUsage.NO_USAGE;
+            }
+            else if(Objects.equals(where, PostPagingSource.USER_WHERE_HIDDEN)){
+                usage = PostFilterUsage.HIDDEN_TYPE;
+                nameOfUsage = PostFilterUsage.NO_USAGE;
+            }
+            else if(Objects.equals(where, PostPagingSource.USER_WHERE_SAVED)){
+                usage = PostFilterUsage.SAVED_TYPE;
+                nameOfUsage = PostFilterUsage.NO_USAGE;
+            }
             if (postFilter == null) {
                 FetchPostFilterAndConcatenatedSubredditNames.fetchPostFilter(mRedditDataRoomDatabase, mExecutor,
                         new Handler(), usage, nameOfUsage, (postFilter) -> {

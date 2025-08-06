@@ -12,6 +12,7 @@ import java.util.List;
 
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
+import ml.docilealligator.infinityforreddit.adapters.PostFilterUsageRecyclerViewAdapter;
 import ml.docilealligator.infinityforreddit.databinding.ItemPostFilterUsageEmbeddedBinding;
 import ml.docilealligator.infinityforreddit.postfilter.PostFilterUsage;
 
@@ -65,6 +66,21 @@ public class PostFilterUsageEmbeddedRecyclerViewAdapter extends RecyclerView.Ada
                     } else {
                         holder.textView.setText(postFilterUsage.nameOfUsage);
                     }
+                    break;
+                case PostFilterUsage.HISTORY_TYPE:
+                    holder.textView.setText(R.string.post_filter_usage_history);
+                    break;
+                case PostFilterUsage.UPVOTED_TYPE:
+                    holder.textView.setText(R.string.post_filter_usage_upvoted);
+                    break;
+                case PostFilterUsage.DOWNVOTED_TYPE:
+                    holder.textView.setText(R.string.post_filter_usage_downvoted);
+                    break;
+                case PostFilterUsage.HIDDEN_TYPE:
+                    holder.textView.setText(R.string.post_filter_usage_hidden);
+                    break;
+                case PostFilterUsage.SAVED_TYPE:
+                    holder.textView.setText(R.string.post_filter_usage_saved);
                     break;
             }
         }

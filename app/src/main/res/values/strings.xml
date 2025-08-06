@@ -1183,6 +1183,11 @@
     <string name="duplicate_post_filter_dialog_message">Override it?</string>
     <string name="apply_to">Apply to</string>
     <string name="post_filter_usage_home">Home</string>
+    <string name="post_filter_usage_history">History</string>
+    <string name="post_filter_usage_upvoted">Upvoted</string>
+    <string name="post_filter_usage_downvoted">Downvoted</string>
+    <string name="post_filter_usage_hidden">Hidden</string>
+    <string name="post_filter_usage_saved">Saved</string>
     <string name="post_filter_usage_subreddit">Subreddit: %1$s</string>
     <string name="post_filter_usage_subreddit_all">Subreddit</string>
     <string name="post_filter_usage_embedded_subreddit_all">All subreddits</string>

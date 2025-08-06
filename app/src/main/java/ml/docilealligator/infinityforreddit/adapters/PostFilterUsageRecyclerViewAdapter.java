@@ -68,6 +68,22 @@ public class PostFilterUsageRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 break;
             case PostFilterUsage.SEARCH_TYPE:
                 ((PostFilterUsageViewHolder) holder).usageTextView.setText(R.string.post_filter_usage_search);
+                break;
+            case PostFilterUsage.HISTORY_TYPE:
+                ((PostFilterUsageViewHolder) holder).usageTextView.setText(R.string.post_filter_usage_history);
+                break;
+            case PostFilterUsage.UPVOTED_TYPE:
+                ((PostFilterUsageViewHolder) holder).usageTextView.setText(R.string.post_filter_usage_upvoted);
+                break;
+            case PostFilterUsage.DOWNVOTED_TYPE:
+                ((PostFilterUsageViewHolder) holder).usageTextView.setText(R.string.post_filter_usage_downvoted);
+                break;
+            case PostFilterUsage.HIDDEN_TYPE:
+                ((PostFilterUsageViewHolder) holder).usageTextView.setText(R.string.post_filter_usage_hidden);
+                break;
+            case PostFilterUsage.SAVED_TYPE:
+                ((PostFilterUsageViewHolder) holder).usageTextView.setText(R.string.post_filter_usage_saved);
+                break;
         }
     }
 

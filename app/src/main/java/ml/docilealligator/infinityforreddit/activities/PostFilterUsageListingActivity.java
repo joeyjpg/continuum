@@ -101,6 +101,11 @@ public class PostFilterUsageListingActivity extends BaseActivity {
         switch (type) {
             case PostFilterUsage.HOME_TYPE:
             case PostFilterUsage.SEARCH_TYPE:
+            case PostFilterUsage.HISTORY_TYPE:
+            case PostFilterUsage.UPVOTED_TYPE:
+            case PostFilterUsage.DOWNVOTED_TYPE:
+            case PostFilterUsage.HIDDEN_TYPE:
+            case PostFilterUsage.SAVED_TYPE:
                 PostFilterUsage postFilterUsage = new PostFilterUsage(postFilter.name, type, PostFilterUsage.NO_USAGE);
                 SavePostFilterUsage.savePostFilterUsage(redditDataRoomDatabase, executor, postFilterUsage);
                 break;
