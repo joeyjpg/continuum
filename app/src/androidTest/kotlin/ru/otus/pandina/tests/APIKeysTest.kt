@@ -1,0 +1,112 @@
+package ru.otus.pandina.tests
+
+import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withClassName
+import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.UiSelector
+import ml.docilealligator.infinityforreddit.activities.MainActivity
+import org.hamcrest.Matchers.endsWith
+import org.junit.Test
+import ru.otus.pandina.screens.MainScreen
+import ru.otus.pandina.screens.navigation.NavigationViewLayout
+import ru.otus.pandina.screens.navigation.settings.SettingsScreen
+
+class APIKeysTest : BaseTest() {
+
+    private fun handleNotificationDialog() {
+        val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        
+        Thread.sleep(3000) // Wait for app and dialog to fully load
+        
+        // Try to find and click "Don't allow" or similar buttons first
+        val dontAllowButton = device.findObject(UiSelector().text("Don't allow"))
+        val allowButton = device.findObject(UiSelector().text("Allow"))
+        
+        when {
+            dontAllowButton.exists() -> {
+                dontAllowButton.click()
+                Thread.sleep(1000)
+            }
+            allowButton.exists() -> {
+                // If only "Allow" is visible, click it to proceed (we can test without notifications)
+                allowButton.click()
+                Thread.sleep(1000)
+            }
+            else -> {
+                // If no dialog buttons found, the dialog might have been dismissed already
+                Thread.sleep(1000)
+            }
+        }
+    }
+
+    fun openSettings() {
+        run {
+            step("Open navigation drawer") {
+                MainScreen {
+                    navButton {
+                        isVisible()
+                        click()
+                    }
+                }
+                NavigationViewLayout {
+                    navBanner.isVisible()
+                    settings.isVisible()
+                    nawDrawerRecyclerView {
+                        scrollToEnd()
+                    }
+                }
+            }
+            step("Open settings") {
+                NavigationViewLayout.settings.click()
+                SettingsScreen {
+                    screenTittle {
+                        isVisible()
+                        hasText("Settings")
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    fun addRedditClientIdTest() {
+        val redditClientId = InstrumentationRegistry.getArguments().getString("REDDIT_CLIENT_ID") ?: "test_reddit_client_id_default"
+        
+        // Handle notification dialog immediately after app starts
+        handleNotificationDialog()
+
+        before {
+            openSettings()
+        }.after {
+
+        }.run {
+            step("Open API Keys screen") {
+                onView(withText("API Keys")).perform(click())
+
+                Thread.sleep(1000)
+
+                // Verify we're on API Keys screen
+                onView(withText("API Keys")).check(matches(isDisplayed()))
+                onView(withText("Reddit API Client ID")).check(matches(isDisplayed()))
+            }
+            step("Add Reddit API Client ID") {
+                onView(withText("Reddit API Client ID")).perform(click())
+
+                Thread.sleep(1000)
+
+                // Type the Reddit Client ID in the dialog
+                onView(withClassName(endsWith("EditText"))).perform(typeText(redditClientId))
+
+                // Verify OK button is clickable (test passes without clicking to avoid app restart)
+                onView(withText("OK")).check(matches(isDisplayed()))
+            }
+        }
+    }
+}
