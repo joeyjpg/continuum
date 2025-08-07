@@ -466,9 +466,6 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                 // Check if we have thumbnail fallback available
                 Post.Preview preview = getSuitablePreview(mPost.getPreviews());
                 if (preview != null) {
-                    System.out.println("************************************");
-                    System.out.println("PostDetailAdapter: NO_PREVIEW_LINK_TYPE with thumbnail fallback, using LINK view type");
-                    System.out.println("************************************");
                     return VIEW_TYPE_POST_DETAIL_LINK;
                 } else {
                     return VIEW_TYPE_POST_DETAIL_NO_PREVIEW_LINK;
@@ -900,14 +897,7 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
 
         // Thumbnail fallback for post detail view
         String thumbnailUrl = mPost.getThumbnailUrl();
-        System.out.println("************************************");
-        System.out.println("PostDetailAdapter: No previews found, checking thumbnail fallback");
-        System.out.println("PostDetailAdapter: thumbnailUrl = " + thumbnailUrl);
-        System.out.println("************************************");
         if (thumbnailUrl != null && !thumbnailUrl.isEmpty() && !thumbnailUrl.equals("self") && !thumbnailUrl.equals("default") && !thumbnailUrl.equals("nsfw") && !thumbnailUrl.equals("spoiler") && !thumbnailUrl.equals("image") && thumbnailUrl.startsWith("http")) {
-            System.out.println("************************************");
-            System.out.println("PostDetailAdapter: Using thumbnail as fallback: " + thumbnailUrl);
-            System.out.println("************************************");
             return new Post.Preview(thumbnailUrl, 0, 0, "", "");
         }
 
