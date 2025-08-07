@@ -955,9 +955,6 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                             ((PostWithPreviewTypeViewHolder) holder).imageViewNoPreviewGallery.setImageResource(R.drawable.ic_image_day_night_24dp);
                             ((PostWithPreviewTypeViewHolder) holder).videoOrGifIndicator.setVisibility(View.GONE);
                         } else {
-                            System.out.println("************************************");
-                            System.out.println("PostAdapter: About to call getSuitablePreviewWithThumbnailFallback for PostWithPreviewTypeViewHolder");
-                            System.out.println("************************************");
                             Post.Preview preview = getSuitablePreviewWithThumbnailFallback(post.getPreviews(), post.getThumbnailUrl());
                             ((PostWithPreviewTypeViewHolder) holder).preview = preview;
                             if (preview != null) {
@@ -981,9 +978,6 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                                     }
                                 });
                                 // Hide placeholder since we have a preview (including thumbnail fallback)
-                                System.out.println("************************************");
-                                System.out.println("PostAdapter: Hiding placeholder, preview URL: " + preview.getPreviewUrl());
-                                System.out.println("************************************");
                                 ((PostWithPreviewTypeViewHolder) holder).imageViewNoPreviewGallery.setVisibility(View.GONE);
                             } else {
                                 ((PostWithPreviewTypeViewHolder) holder).imageViewNoPreviewGallery.setVisibility(View.VISIBLE);
@@ -1394,16 +1388,7 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
 
     private Post.Preview getSuitablePreviewWithThumbnailFallback(ArrayList<Post.Preview> previews, String thumbnailUrl) {
         Post.Preview preview = getSuitablePreview(previews);
-        System.out.println("************************************");
-        System.out.println("PostAdapter: getSuitablePreviewWithThumbnailFallback called");
-        System.out.println("PostAdapter: previews.size() = " + (previews != null ? previews.size() : "null"));
-        System.out.println("PostAdapter: preview = " + (preview != null ? preview.getPreviewUrl() : "null"));
-        System.out.println("PostAdapter: thumbnailUrl = " + thumbnailUrl);
-        System.out.println("************************************");
         if (preview == null && thumbnailUrl != null && !thumbnailUrl.isEmpty() && !thumbnailUrl.equals("self") && !thumbnailUrl.equals("default") && !thumbnailUrl.equals("nsfw") && !thumbnailUrl.equals("spoiler") && !thumbnailUrl.equals("image") && thumbnailUrl.startsWith("http")) {
-            System.out.println("************************************");
-            System.out.println("PostAdapter: Using thumbnail as fallback: " + thumbnailUrl);
-            System.out.println("************************************");
             return new Post.Preview(thumbnailUrl, 0, 0, "", "");
         }
         return preview;
@@ -1452,9 +1437,6 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                 // Use thumbnail as fallback for compact view
                 String thumbnailUrl = post.getThumbnailUrl();
                 if (thumbnailUrl != null && !thumbnailUrl.isEmpty() && !thumbnailUrl.equals("self") && !thumbnailUrl.equals("default") && !thumbnailUrl.equals("nsfw") && !thumbnailUrl.equals("spoiler") && !thumbnailUrl.equals("image") && thumbnailUrl.startsWith("http")) {
-                    System.out.println("************************************");
-                    System.out.println("PostAdapter: Using thumbnail as fallback for compact view: " + thumbnailUrl);
-                    System.out.println("************************************");
                     postCompactThumbnailPreviewUrl = thumbnailUrl;
                 }
             }
