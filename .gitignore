@@ -117,6 +117,7 @@ fabric.properties
 app/lint-baseline.xml
 
 keystore.properties
+test.properties
 
 backup/
 

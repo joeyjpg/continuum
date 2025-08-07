@@ -4,6 +4,23 @@ plugins {
     id 'com.github.ben-manes.versions' version '0.42.0'
     id 'com.github.breadmoirai.github-release' version '2.5.2'
     id 'com.diffplug.spotless' version '7.0.2'
+    id 'org.jetbrains.kotlin.android'
+    id("io.qameta.allure") version "2.12.0"
+}
+
+def allureVersion = "2.16.0"
+def aspectJVersion = '1.9.21'
+
+configurations {
+    agent {
+        canBeResolved = true
+        canBeConsumed = true
+    }
+
+    all {
+        exclude module: 'httpclient'
+    }
+
 }
 
 android {
@@ -23,6 +40,15 @@ android {
         }
     } else {
         println("Warning: keystore.properties file not found. Skipping signing configuration.")
+    }
+
+    def testPropertiesFile = rootProject.file("test.properties")
+    def testProperties = new Properties()
+
+    if (testPropertiesFile.exists()) {
+        testProperties.load(new FileInputStream(testPropertiesFile))
+    } else {
+        println("Warning: test.properties file not found. Using default test values.")
     }
 
     applicationVariants.all { variant ->
@@ -49,16 +75,18 @@ android {
 
     defaultConfig {
         applicationId "org.cygnusx1.continuum"
-        minSdk 21
-        targetSdk 34
-        versionCode 193
-        versionName "7.5.1.2"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [eventBusIndex: 'ml.docilealligator.infinityforreddit.EventBusIndex']
             }
         }
+
+        minSdk 21
+        targetSdk 34
+        testInstrumentationRunner "com.kaspersky.kaspresso.runner.KaspressoRunner"
+        //testInstrumentationRunnerArguments.put("clearPackageData", "false")
+        testInstrumentationRunnerArguments.put("REDDIT_CLIENT_ID", testProperties['REDDIT_CLIENT_ID'] ?: 'test_reddit_client_id_default')
     }
 
     buildFeatures {
@@ -104,6 +132,20 @@ android {
         targetCompatibility JavaVersion.VERSION_21
     }
 
+    testOptions {
+        animationsDisabled true
+        //execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        unitTests.returnDefaultValues = true
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
+
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
+    }
+
     lint {
         baseline = file("lint-baseline.xml")
         disable 'MissingTranslation'
@@ -119,11 +161,9 @@ android {
             universalApk false  // Set to true if you also want a universal APK
         }
     }
-}
 
-configurations {
-    all {
-        exclude module: 'httpclient'
+    kotlinOptions {
+        jvmTarget = '21'
     }
 }
 
@@ -303,6 +343,19 @@ dependencies {
 /**** Builds and flavors ****/
     // debugImplementation because LeakCanary should only run in debug builds.
     //debugImplementation 'com.squareup.leakcanary:leakcanary-android:x.y'
+
+    testImplementation platform("io.qameta.allure:allure-bom:$allureVersion")
+    testImplementation "io.qameta.allure:allure-junit5"
+    agent "org.aspectj:aspectjweaver:$aspectJVersion"
+
+    androidTestImplementation "androidx.test.ext:junit:1.0.0"
+    androidTestImplementation "androidx.test:rules:1.5.0"
+    androidTestImplementation "androidx.test:runner:1.5.0"
+
+    androidTestImplementation 'com.kaspersky.android-components:kaspresso:1.5.3'
+    androidTestUtil "androidx.test:orchestrator:1.5.1"
+    // Allure support
+    androidTestImplementation "com.kaspersky.android-components:kaspresso-allure-support:1.5.3"
 }
 
 spotless {

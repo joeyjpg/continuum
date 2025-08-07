@@ -870,6 +870,15 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
                         .setNegativeButton(R.string.no, null)
                         .show();
             }
+
+            @Override
+            public void onMenuLongClick(int stringId) {
+                if (stringId == R.string.add_account) {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    binding.drawerLayout.closeDrawers();
+                }
+            }
         });
         setInboxCount();
         binding.navDrawerRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManagerBugFixed(this));
