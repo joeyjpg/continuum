@@ -516,12 +516,22 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                         return VIEW_TYPE_POST_CARD_2_WITH_PREVIEW_TYPE;
                     case Post.GIF_TYPE:
                     case Post.IMAGE_TYPE:
+                        if (shouldUseCompactLayout(post)) {
+                            return VIEW_TYPE_POST_COMPACT;
+                        }
+
                         return VIEW_TYPE_POST_CARD_2_WITH_PREVIEW_TYPE;
                     case Post.GALLERY_TYPE:
+                        if (shouldUseCompactLayout(post)) {
+                            return VIEW_TYPE_POST_COMPACT;
+                        }
 
                         return VIEW_TYPE_POST_CARD_2_GALLERY_TYPE;
                     case Post.LINK_TYPE:
                     case Post.NO_PREVIEW_LINK_TYPE:
+                        if (shouldUseCompactLayout(post)) {
+                            return VIEW_TYPE_POST_COMPACT;
+                        }
 
                         switch (mDefaultLinkPostLayout) {
                             case SharedPreferencesUtils.POST_LAYOUT_CARD:
@@ -560,13 +570,22 @@ public class PostRecyclerViewAdapter extends PagingDataAdapter<Post, RecyclerVie
                         return VIEW_TYPE_POST_CARD_3_WITH_PREVIEW_TYPE;
                     case Post.GIF_TYPE:
                     case Post.IMAGE_TYPE:
+                        if (shouldUseCompactLayout(post)) {
+                            return VIEW_TYPE_POST_COMPACT;
+                        }
 
                         return VIEW_TYPE_POST_CARD_3_WITH_PREVIEW_TYPE;
                     case Post.GALLERY_TYPE:
+                        if (shouldUseCompactLayout(post)) {
+                            return VIEW_TYPE_POST_COMPACT;
+                        }
 
                         return VIEW_TYPE_POST_CARD_3_GALLERY_TYPE;
                     case Post.LINK_TYPE:
                     case Post.NO_PREVIEW_LINK_TYPE:
+                        if (shouldUseCompactLayout(post)) {
+                            return VIEW_TYPE_POST_COMPACT;
+                        }
 
                         switch (mDefaultLinkPostLayout) {
                             case SharedPreferencesUtils.POST_LAYOUT_CARD:

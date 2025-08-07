@@ -210,13 +210,9 @@ public class ParsePost {
         }
 
         String permalink = Html.fromHtml(data.getString(JSONUtils.PERMALINK_KEY)).toString();
-
         String thumbnailUrl = data.isNull(JSONUtils.THUMBNAIL_KEY) ? "" : data.getString(JSONUtils.THUMBNAIL_KEY);
-        System.out.println("************************************");
-        System.out.println("ParsePost: Extracted thumbnail URL: " + thumbnailUrl);
-        System.out.println("************************************");
-
         ArrayList<Post.Preview> previews = new ArrayList<>();
+
         if (data.has(JSONUtils.PREVIEW_KEY)) {
             JSONObject images = data.getJSONObject(JSONUtils.PREVIEW_KEY).getJSONArray(JSONUtils.IMAGES_KEY).getJSONObject(0);
             String previewUrl = images.getJSONObject(JSONUtils.SOURCE_KEY).getString(JSONUtils.URL_KEY);
@@ -225,6 +221,7 @@ public class ParsePost {
             previews.add(new Post.Preview(previewUrl, previewWidth, previewHeight, "", ""));
 
             JSONArray thumbnailPreviews = images.getJSONArray(JSONUtils.RESOLUTIONS_KEY);
+
             for (int i = 0; i < thumbnailPreviews.length(); i++) {
                 JSONObject thumbnailPreview = thumbnailPreviews.getJSONObject(i);
                 String thumbnailPreviewUrl = thumbnailPreview.getString(JSONUtils.URL_KEY);
@@ -236,6 +233,7 @@ public class ParsePost {
         }
 
         Map<String, MediaMetadata> mediaMetadataMap = JSONUtils.parseMediaMetadata(data);
+
         if (data.has(JSONUtils.CROSSPOST_PARENT_LIST)) {
             //Cross post
             //data.getJSONArray(JSONUtils.CROSSPOST_PARENT_LIST).getJSONObject(0) out of bounds????????????
@@ -243,6 +241,7 @@ public class ParsePost {
 
             // Extract previews from parent post if available
             ArrayList<Post.Preview> parentPreviews = new ArrayList<>();
+
             if (parentData.has(JSONUtils.PREVIEW_KEY)) {
                 JSONObject images = parentData.getJSONObject(JSONUtils.PREVIEW_KEY).getJSONArray(JSONUtils.IMAGES_KEY).getJSONObject(0);
                 String previewUrl = images.getJSONObject(JSONUtils.SOURCE_KEY).getString(JSONUtils.URL_KEY);
@@ -251,6 +250,7 @@ public class ParsePost {
                 parentPreviews.add(new Post.Preview(previewUrl, previewWidth, previewHeight, "", ""));
 
                 JSONArray thumbnailPreviews = images.getJSONArray(JSONUtils.RESOLUTIONS_KEY);
+
                 for (int i = 0; i < thumbnailPreviews.length(); i++) {
                     JSONObject thumbnailPreview = thumbnailPreviews.getJSONObject(i);
                     String thumbnailPreviewUrl = thumbnailPreview.getString(JSONUtils.URL_KEY);
@@ -268,14 +268,9 @@ public class ParsePost {
 
             // Use parent thumbnail if current post doesn't have a valid thumbnail
             String parentThumbnailUrl = parentData.isNull(JSONUtils.THUMBNAIL_KEY) ? "" : parentData.getString(JSONUtils.THUMBNAIL_KEY);
-            System.out.println("************************************");
-            System.out.println("ParsePost: Crosspost parent thumbnail URL: " + parentThumbnailUrl);
-            System.out.println("************************************");
+
             if ((thumbnailUrl == null || thumbnailUrl.isEmpty() || thumbnailUrl.equals("self") || thumbnailUrl.equals("default"))
                 && parentThumbnailUrl != null && !parentThumbnailUrl.isEmpty() && !parentThumbnailUrl.equals("self") && !parentThumbnailUrl.equals("default")) {
-                System.out.println("************************************");
-                System.out.println("ParsePost: Using parent thumbnail URL for crosspost: " + parentThumbnailUrl);
-                System.out.println("************************************");
                 thumbnailUrl = parentThumbnailUrl;
             }
 
@@ -287,6 +282,7 @@ public class ParsePost {
                     spoiler, nsfw, stickied, archived, locked, saved, deleted, removed, true,
                     distinguished, suggestedSort, thumbnailUrl);
             post.setCrosspostParentId(crosspostParent.getId());
+
             return post;
         } else {
             return parseData(data, permalink, id, fullName, subredditName, subredditNamePrefixed,
@@ -338,6 +334,7 @@ public class ParsePost {
                     } else if ("i.redgifs.com".equals(uri.getAuthority())) {
                         post.setUrl(previews.get(previews.size() - 1).getPreviewUrl());
                     }
+
                     post.setPreviews(previews);
                 } else {
                     if (isVideo) {
@@ -429,6 +426,7 @@ public class ParsePost {
                 if (data.getJSONObject(JSONUtils.PREVIEW_KEY).has(JSONUtils.REDDIT_VIDEO_PREVIEW_KEY)) {
                     int postType = Post.VIDEO_TYPE;
                     String authority = uri.getAuthority();
+
                     // The hls stream inside REDDIT_VIDEO_PREVIEW_KEY can sometimes lack an audio track
                     if (authority.contains("imgur.com") && (path.endsWith(".gifv") || path.endsWith(".mp4"))) {
                         if (path.endsWith(".gifv")) {
@@ -555,6 +553,7 @@ public class ParsePost {
                                     postType, voteType, nComments, upvoteRatio, flair,
                                     hidden, spoiler, nsfw, stickied, archived, locked, saved, isCrosspost,
                                     distinguished, suggestedSort);
+
                             if (data.isNull(JSONUtils.SELFTEXT_KEY)) {
                                 post.setSelfText("");
                             } else {
@@ -654,6 +653,7 @@ public class ParsePost {
         if (post.getPostType() == Post.VIDEO_TYPE) {
             try {
                 String authority = uri.getAuthority();
+
                 if (authority != null) {
                     if (authority.contains("redgifs.com")) {
                         String redgifsId = url.substring(url.lastIndexOf("/") + 1);
@@ -677,11 +677,13 @@ public class ParsePost {
                 JSONArray galleryIdsArray = data.getJSONObject(JSONUtils.GALLERY_DATA_KEY).getJSONArray(JSONUtils.ITEMS_KEY);
                 JSONObject galleryObject = data.getJSONObject(JSONUtils.MEDIA_METADATA_KEY);
                 ArrayList<Post.Gallery> gallery = new ArrayList<>();
+
                 for (int i = 0; i < galleryIdsArray.length(); i++) {
                     String galleryId = galleryIdsArray.getJSONObject(i).getString(JSONUtils.MEDIA_ID_KEY);
                     JSONObject singleGalleryObject = galleryObject.getJSONObject(galleryId);
                     String mimeType = singleGalleryObject.getString(JSONUtils.M_KEY);
                     String galleryItemUrl;
+
                     if (mimeType.contains("jpg") || mimeType.contains("png")) {
                         galleryItemUrl = singleGalleryObject.getJSONObject(JSONUtils.S_KEY).getString(JSONUtils.U_KEY);
                     } else {
@@ -696,6 +698,7 @@ public class ParsePost {
                     JSONObject galleryItem = galleryIdsArray.getJSONObject(i);
                     String galleryItemCaption = "";
                     String galleryItemCaptionUrl = "";
+
                     if (galleryItem.has(JSONUtils.CAPTION_KEY)) {
                         galleryItemCaption = galleryItem.getString(JSONUtils.CAPTION_KEY).trim();
                     }
@@ -753,18 +756,22 @@ public class ParsePost {
             } else {
                 String selfText = Utils.parseRedditImagesBlock(Utils.modifyMarkdown(Utils.trimTrailingWhitespace(data.getString(JSONUtils.SELFTEXT_KEY))), mediaMetadataMap);
                 post.setSelfText(selfText);
+
                 if (data.isNull(JSONUtils.SELFTEXT_HTML_KEY)) {
                     post.setSelfTextPlainTrimmed("");
                 } else {
                     String selfTextPlain = Utils.trimTrailingWhitespace(
                             Html.fromHtml(data.getString(JSONUtils.SELFTEXT_HTML_KEY))).toString();
                     post.setSelfTextPlain(selfTextPlain);
+
                     if (selfTextPlain.length() > 250) {
                         selfTextPlain = selfTextPlain.substring(0, 250);
                     }
+
                     if (!selfText.equals("")) {
                         Pattern p = Pattern.compile(">!.+!<");
                         Matcher m = p.matcher(selfText.substring(0, Math.min(selfText.length(), 400)));
+
                         if (m.find()) {
                             post.setSelfTextPlainTrimmed("");
                         } else {
@@ -779,6 +786,7 @@ public class ParsePost {
 
         post.setThumbnailUrl(thumbnailUrl);
         post.setMediaMetadataMap(mediaMetadataMap);
+
         return post;
     }
 
