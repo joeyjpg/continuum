@@ -4,17 +4,6 @@
 
 7.5.1.2 / 2025-6-16
 ============
-Note v8a is the 64-bit build, and should be considered the default choose.
-
-* Ability to hide user prefix in comments
-* Fixed Make it so the user can choose the password for the backup and enter it for the restore #83
-* Removed padding from comments to make them more compact
-* Merged "Keep screen on when autoplaying videos" from upstream
-* Fixed Download issue #98
-* Fixed crash from not having a video location set
-
-7.5.1.2 / 2025-6-16
-============
 
 * Ability to hide user prefix in comments
 * Fixed Make it so the user can choose the password for the backup and enter it for the restore #83

@@ -65,7 +65,7 @@ public class UserMultiselectionActivity extends BaseActivity implements Activity
         super.onCreate(savedInstanceState);
 
         binding = ActivitySubscribedUsersMultiselectionBinding.inflate(getLayoutInflater());
-        
+
         setContentView(binding.getRoot());
 
         applyCustomTheme();

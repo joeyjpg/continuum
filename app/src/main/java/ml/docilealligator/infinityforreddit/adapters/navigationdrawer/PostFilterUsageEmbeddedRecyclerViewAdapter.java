@@ -12,7 +12,6 @@ import java.util.List;
 
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
-import ml.docilealligator.infinityforreddit.adapters.PostFilterUsageRecyclerViewAdapter;
 import ml.docilealligator.infinityforreddit.databinding.ItemPostFilterUsageEmbeddedBinding;
 import ml.docilealligator.infinityforreddit.postfilter.PostFilterUsage;
 
