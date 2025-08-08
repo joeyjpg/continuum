@@ -247,7 +247,7 @@ public class PostFilter implements Parcelable {
         if (postFilter.containUsers != null && !postFilter.containUsers.equals("")) {
             String[] users = postFilter.containUsers.split(",", 0);
             boolean hasRequiredUser = false;
-            String user = post.getSubredditName();
+            String user = post.getAuthor();
             for (String s : users) {
                 if (!s.trim().equals("") && user.equalsIgnoreCase(s.trim())) {
                     hasRequiredUser = true;
@@ -429,10 +429,10 @@ public class PostFilter implements Parcelable {
         parcel.writeString(postTitleContainsRegex);
         parcel.writeString(postTitleExcludesStrings);
         parcel.writeString(postTitleContainsStrings);
-        parcel.writeString(excludeSubreddits); // probably where the problem would happen, one solution will be to move it to the bottom
+        parcel.writeString(excludeSubreddits);
         parcel.writeString(containSubreddits);
-        parcel.writeString(containUsers);
         parcel.writeString(excludeUsers);
+        parcel.writeString(containUsers);
         parcel.writeString(containFlairs);
         parcel.writeString(excludeFlairs);
         parcel.writeString(excludeDomains);
