@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -92,12 +94,13 @@ public class AccountPostsActivity extends BaseActivity implements SortTypeSelect
         }
 
         mUserWhere = getIntent().getExtras().getString(EXTRA_USER_WHERE);
-        if (mUserWhere.equals(PostPagingSource.USER_WHERE_UPVOTED)) {
-            binding.accountPostsToolbar.setTitle(R.string.upvoted);
-        } else if (mUserWhere.equals(PostPagingSource.USER_WHERE_DOWNVOTED)) {
-            binding.accountPostsToolbar.setTitle(R.string.downvoted);
-        } else if (mUserWhere.equals(PostPagingSource.USER_WHERE_HIDDEN)) {
-            binding.accountPostsToolbar.setTitle(R.string.hidden);
+        switch (Objects.requireNonNull(mUserWhere)) {
+            case PostPagingSource.USER_WHERE_UPVOTED ->
+                    binding.accountPostsToolbar.setTitle(R.string.upvoted);
+            case PostPagingSource.USER_WHERE_DOWNVOTED ->
+                    binding.accountPostsToolbar.setTitle(R.string.downvoted);
+            case PostPagingSource.USER_WHERE_HIDDEN ->
+                    binding.accountPostsToolbar.setTitle(R.string.hidden);
         }
 
         setSupportActionBar(binding.accountPostsToolbar);

@@ -238,19 +238,11 @@ public class HistoryActivity extends BaseActivity implements ActivityToolbarInte
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            if (position == 0) {
-                HistoryPostFragment fragment = new HistoryPostFragment();
-                Bundle bundle = new Bundle();
-                bundle.putInt(HistoryPostFragment.EXTRA_HISTORY_TYPE, HistoryPostFragment.HISTORY_TYPE_READ_POSTS);
-                fragment.setArguments(bundle);
-                return fragment;
-            } else {
-                HistoryPostFragment fragment = new HistoryPostFragment();
-                Bundle bundle = new Bundle();
-                bundle.putInt(HistoryPostFragment.EXTRA_HISTORY_TYPE, HistoryPostFragment.HISTORY_TYPE_READ_POSTS);
-                fragment.setArguments(bundle);
-                return fragment;
-            }
+            HistoryPostFragment fragment = new HistoryPostFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(HistoryPostFragment.EXTRA_HISTORY_TYPE, HistoryPostFragment.HISTORY_TYPE_READ_POSTS);
+            fragment.setArguments(bundle);
+            return fragment;
         }
 
         @Nullable

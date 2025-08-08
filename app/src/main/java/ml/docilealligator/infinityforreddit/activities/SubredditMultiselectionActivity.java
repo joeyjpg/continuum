@@ -36,6 +36,8 @@ public class SubredditMultiselectionActivity extends BaseActivity implements Act
 
     static final String EXTRA_RETURN_SELECTED_SUBREDDITS = "ERSS";
 
+    public static final String EXTRA_GET_SELECTED_SUBREDDITS = "EGSS";
+
     private static final int SUBREDDIT_SEARCH_REQUEST_CODE = 1;
 
     @Inject
@@ -119,7 +121,7 @@ public class SubredditMultiselectionActivity extends BaseActivity implements Act
                 mGlide.clear(binding.noSubscriptionsImageViewSubscribedSubredditsMultiselectionActivity);
             }
 
-            mAdapter.setSubscribedSubreddits(subscribedSubredditData);
+            mAdapter.setSubscribedSubreddits(subscribedSubredditData, getIntent().getStringExtra(EXTRA_GET_SELECTED_SUBREDDITS));
         });
     }
 

@@ -1,11 +1,13 @@
 package ml.docilealligator.infinityforreddit.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
@@ -99,6 +101,11 @@ public class PostFilterUsageListingActivity extends BaseActivity {
         switch (type) {
             case PostFilterUsage.HOME_TYPE:
             case PostFilterUsage.SEARCH_TYPE:
+            case PostFilterUsage.HISTORY_TYPE:
+            case PostFilterUsage.UPVOTED_TYPE:
+            case PostFilterUsage.DOWNVOTED_TYPE:
+            case PostFilterUsage.HIDDEN_TYPE:
+            case PostFilterUsage.SAVED_TYPE:
                 PostFilterUsage postFilterUsage = new PostFilterUsage(postFilter.name, type, PostFilterUsage.NO_USAGE);
                 SavePostFilterUsage.savePostFilterUsage(redditDataRoomDatabase, executor, postFilterUsage);
                 break;
@@ -114,6 +121,15 @@ public class PostFilterUsageListingActivity extends BaseActivity {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_post_or_comment_filter_name_of_usage, null);
         TextInputLayout textInputLayout = dialogView.findViewById(R.id.text_input_layout_edit_post_or_comment_filter_name_of_usage_dialog);
         TextInputEditText textInputEditText = dialogView.findViewById(R.id.text_input_edit_text_edit_post_or_comment_filter_name_of_usage_dialog);
+        ImageView excludeIv = dialogView.findViewById(R.id.add_subreddits_users_image_view_customize_post_filter_activity);
+
+        int primaryIconColor = customThemeWrapper.getPrimaryIconColor();
+        excludeIv.setImageDrawable(
+                Utils.getTintedDrawable(this, R.drawable.ic_add_24dp, primaryIconColor));
+        excludeIv.setOnClickListener(v -> {
+            Intent intent = new Intent(this, SubredditMultiselectionActivity.class);
+            startActivityForResult(intent, 666);
+        });
         int primaryTextColor = customThemeWrapper.getPrimaryTextColor();
         textInputLayout.setBoxStrokeColor(primaryTextColor);
         textInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));

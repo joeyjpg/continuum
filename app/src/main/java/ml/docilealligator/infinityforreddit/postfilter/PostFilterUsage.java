@@ -18,6 +18,10 @@ public class PostFilterUsage implements Parcelable {
     public static final int MULTIREDDIT_TYPE = 4;
     public static final int SEARCH_TYPE = 5;
     public static final int HISTORY_TYPE = 6;
+    public static final int UPVOTED_TYPE = 7;
+    public static final int DOWNVOTED_TYPE = 8;
+    public static final int HIDDEN_TYPE = 9;
+    public static final int SAVED_TYPE = 10;
     public static final String HISTORY_TYPE_USAGE_READ_POSTS = "-read-posts";
     public static final String NO_USAGE = "--";
 

@@ -101,6 +101,95 @@
             android:focusable="true"
             android:background="?attr/selectableItemBackground" />
 
+        <TextView
+            android:id="@+id/history_text_view_new_post_filter_usage_bottom_sheet_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/history"
+            android:textColor="?attr/primaryTextColor"
+            android:textSize="?attr/font_default"
+            android:fontFamily="?attr/font_family"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            app:drawableStartCompat="@drawable/ic_history_day_night_24dp"
+            android:drawablePadding="48dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground" />
+
+        <TextView
+            android:id="@+id/upvoted_text_view_new_post_filter_usage_bottom_sheet_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/upvoted"
+            android:textColor="?attr/primaryTextColor"
+            android:textSize="?attr/font_default"
+            android:fontFamily="?attr/font_family"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            app:drawableStartCompat="@drawable/ic_upvote_24dp"
+            android:drawablePadding="48dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground" />
+
+        <TextView
+            android:id="@+id/downvoted_text_view_new_post_filter_usage_bottom_sheet_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/downvoted"
+            android:textColor="?attr/primaryTextColor"
+            android:textSize="?attr/font_default"
+            android:fontFamily="?attr/font_family"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            app:drawableStartCompat="@drawable/ic_downvote_24dp"
+            android:drawablePadding="48dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground" />
+
+        <TextView
+            android:id="@+id/hidden_text_view_new_post_filter_usage_bottom_sheet_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hidden"
+            android:textColor="?attr/primaryTextColor"
+            android:textSize="?attr/font_default"
+            android:fontFamily="?attr/font_family"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            app:drawableStartCompat="@drawable/ic_hide_read_posts_day_night_24dp"
+            android:drawablePadding="48dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground" />
+
+        <TextView
+            android:id="@+id/saved_text_view_new_post_filter_usage_bottom_sheet_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/saved"
+            android:textColor="?attr/primaryTextColor"
+            android:textSize="?attr/font_default"
+            android:fontFamily="?attr/font_family"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            app:drawableStartCompat="@drawable/ic_bookmarks_day_night_24dp"
+            android:drawablePadding="48dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground" />
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

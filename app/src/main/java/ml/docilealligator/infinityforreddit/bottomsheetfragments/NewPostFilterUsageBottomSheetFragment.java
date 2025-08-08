@@ -53,6 +53,30 @@ public class NewPostFilterUsageBottomSheetFragment extends LandscapeExpandedRoun
             dismiss();
         });
 
+        binding.historyTextViewNewPostFilterUsageBottomSheetFragment.setOnClickListener(view -> {
+            activity.newPostFilterUsage(PostFilterUsage.HISTORY_TYPE);
+            dismiss();
+        });
+
+        binding.upvotedTextViewNewPostFilterUsageBottomSheetFragment.setOnClickListener(view -> {
+            activity.newPostFilterUsage(PostFilterUsage.UPVOTED_TYPE);
+            dismiss();
+        });
+
+        binding.downvotedTextViewNewPostFilterUsageBottomSheetFragment.setOnClickListener(view -> {
+            activity.newPostFilterUsage(PostFilterUsage.DOWNVOTED_TYPE);
+            dismiss();
+        });
+
+        binding.hiddenTextViewNewPostFilterUsageBottomSheetFragment.setOnClickListener(view -> {
+            activity.newPostFilterUsage(PostFilterUsage.HIDDEN_TYPE);
+            dismiss();
+        });
+
+        binding.savedTextViewNewPostFilterUsageBottomSheetFragment.setOnClickListener(view -> {
+            activity.newPostFilterUsage(PostFilterUsage.SAVED_TYPE);
+            dismiss();
+        });
         if (activity.typeface != null) {
             Utils.setFontToAllTextViews(binding.getRoot(), activity.typeface);
         }

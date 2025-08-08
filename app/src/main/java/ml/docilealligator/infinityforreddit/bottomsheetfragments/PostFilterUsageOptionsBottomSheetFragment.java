@@ -32,7 +32,10 @@ public class PostFilterUsageOptionsBottomSheetFragment extends LandscapeExpanded
 
         PostFilterUsage postFilterUsage = getArguments().getParcelable(EXTRA_POST_FILTER_USAGE);
 
-        if (postFilterUsage.usage == PostFilterUsage.HOME_TYPE || postFilterUsage.usage == PostFilterUsage.SEARCH_TYPE) {
+        if (postFilterUsage.usage == PostFilterUsage.HOME_TYPE || postFilterUsage.usage == PostFilterUsage.SEARCH_TYPE
+                || postFilterUsage.usage == PostFilterUsage.HISTORY_TYPE || postFilterUsage.usage == PostFilterUsage.UPVOTED_TYPE
+                || postFilterUsage.usage == PostFilterUsage.DOWNVOTED_TYPE || postFilterUsage.usage == PostFilterUsage.HIDDEN_TYPE
+                || postFilterUsage.usage == PostFilterUsage.SAVED_TYPE) {
             binding.editTextViewPostFilterUsageOptionsBottomSheetFragment.setVisibility(View.GONE);
         } else {
             binding.editTextViewPostFilterUsageOptionsBottomSheetFragment.setOnClickListener(view -> {

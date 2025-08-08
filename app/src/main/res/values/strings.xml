@@ -18,6 +18,7 @@
     <string name="account_saved_thing_activity_label">Saved</string>
     <string name="create_multi_reddit_activity_label">Create Multireddit</string>
     <string name="subreddit_multiselection_activity_label">Select Subreddits</string>
+    <string name="user_multiselection_activity_label">Select Users</string>
     <string name="custom_theme_listing_activity_label">Custom Themes</string>
     <string name="customize_theme_activity_label">Customize Theme</string>
     <string name="customize_theme_activity_create_theme_label">Create Theme</string>
@@ -1163,7 +1164,9 @@
     <string name="title_excludes_regex_hint">Title: excludes regex</string>
     <string name="title_contains_regex_hint">Title: contains regex</string>
     <string name="exclude_subreddits_hint">Exclude subreddits (e.g. funny,AskReddit)</string>
+    <string name="contain_subreddits_hint">Contain subreddits (e.g. funny,AskReddit)</string>
     <string name="exclude_users_hint">Exclude users (e.g. edgan,random)</string>
+    <string name="contain_users_hint">Contain users (e.g. edgan,random)</string>
     <string name="exclude_flairs_hint">Exclude flairs (e.g. flair1,flair2)</string>
     <string name="contain_flairs_hint">Contain flairs (e.g. flair1,flair2)</string>
     <string name="exclude_domains_hint">Exclude domains</string>
@@ -1180,6 +1183,11 @@
     <string name="duplicate_post_filter_dialog_message">Override it?</string>
     <string name="apply_to">Apply to</string>
     <string name="post_filter_usage_home">Home</string>
+    <string name="post_filter_usage_history">History</string>
+    <string name="post_filter_usage_upvoted">Upvoted</string>
+    <string name="post_filter_usage_downvoted">Downvoted</string>
+    <string name="post_filter_usage_hidden">Hidden</string>
+    <string name="post_filter_usage_saved">Saved</string>
     <string name="post_filter_usage_subreddit">Subreddit: %1$s</string>
     <string name="post_filter_usage_subreddit_all">Subreddit</string>
     <string name="post_filter_usage_embedded_subreddit_all">All subreddits</string>
@@ -1203,7 +1211,9 @@
     <string name="post_filter_title_excludes_regex_explanation">Posts will be filtered out if their title matches the following regular expression.</string>
     <string name="post_filter_title_contains_regex_explanation">Posts will be filtered out if their title does not match the following regular expression.</string>
     <string name="post_filter_exclude_subreddits_explanation">Posts from the following subreddits will be filtered out.</string>
+    <string name="post_filter_contain_subreddits_explanation">Posts will be filtered out if they are not from the following subreddits.</string>
     <string name="post_filter_exclude_users_explanation">Posts submitted by the following users will be filtered out.</string>
+    <string name="post_filter_contain_users_explanation">Posts will be filtered out if they are not from the following users.</string>
     <string name="post_filter_exclude_flairs_explanation">Posts that have the following flairs will be filtered out.</string>
     <string name="post_filter_contain_flairs_explanation">Posts that do not have the following flairs will be filtered out.</string>
     <string name="post_filter_exclude_domains_explanation">Link posts that have the following urls will be filtered out.</string>
@@ -1271,7 +1281,9 @@
 
     <string name="select">Select</string>
     <string name="exclude_subreddit">Exclude this subreddit</string>
+    <string name="contain_subreddit">Contain this subreddit</string>
     <string name="exclude_user">Exclude this user</string>
+    <string name="contain_user">Contain this user</string>
     <string name="exclude_flair">Exclude this flair</string>
     <string name="contain_flair">Contain this flair</string>
     <string name="exclude_domain">Exclude this domain</string>
@@ -1496,6 +1508,7 @@
     <string name="content_description_add_post_filter_usage">Apply post filter to somewhere</string>
     <string name="content_description_post_filter_add_subreddit">Add a subreddit to post filter</string>
     <string name="content_description_post_filter_add_user">Add a user to post filter</string>
+    <string name="content_description_post_filter_add_subreddit_user">Add a user or subreddit to post filter</string>
     <string name="content_description_change_banner">Change banner</string>
     <string name="content_description_change_avatar">Change avatar</string>
     <string name="content_description_customize_post_filter">Customize post filter</string>

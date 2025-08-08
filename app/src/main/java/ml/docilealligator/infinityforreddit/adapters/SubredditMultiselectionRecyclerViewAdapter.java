@@ -12,7 +12,9 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import ml.docilealligator.infinityforreddit.R;
@@ -81,8 +83,22 @@ public class SubredditMultiselectionRecyclerViewAdapter extends RecyclerView.Ada
         }
     }
 
-    public void setSubscribedSubreddits(List<SubscribedSubredditData> subscribedSubreddits) {
+    public void setSubscribedSubreddits(List<SubscribedSubredditData> subscribedSubreddits, String selectedSubreddits) {
         this.subscribedSubreddits = SubredditWithSelection.convertSubscribedSubreddits(subscribedSubreddits);
+        Set<String> selectedSet = new HashSet<>();
+        if (selectedSubreddits != null && !selectedSubreddits.isEmpty()) {
+            for (String name : selectedSubreddits.split(",")) {
+                String trimmed = name.trim();
+                if (!trimmed.isEmpty()) {
+                    selectedSet.add(trimmed);
+                }
+            }
+        }
+
+        for (SubredditWithSelection s : this.subscribedSubreddits) {
+            s.setSelected(selectedSet.contains(s.getName()));
+        }
+
         notifyDataSetChanged();
     }
 
