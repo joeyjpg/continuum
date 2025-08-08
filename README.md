@@ -77,7 +77,6 @@ You can easily install and update Continuum with [Discoverium](https://github.co
 
 
 # About The Project
-
 Unique features of **Continuum**:
 
 - Ability to use your own `Client ID`.
@@ -109,7 +108,6 @@ Unique features of **Continuum**:
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 # Contributing
-
 First off, thanks for taking the time to contribute! Contributions are what makes the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request.
@@ -131,14 +129,15 @@ Here are other ways you can help:
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-# License
+# Related project
+[Slide](https://github.com/cygnusx-1-org/Slide) is another Android [Reddit](https://www.reddit.com/) client app. It is a fork of the original project. It is also in the [Google Play Store](https://play.google.com/store/apps/details?id=me.edgan.redditslide&hl=en_US).
 
+# License
 Distributed under the AGPL-3.0 License. See <a href="https://github.com/cygnusx-1-org/continuum/blob/master/LICENSE">LICENSE</a> for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 # Contact
-
 [u/edgan](https://www.reddit.com/user/edgan) -
 continuum@cygnusx-1.org (Owner)
 
