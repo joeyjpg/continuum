@@ -8,8 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import ml.docilealligator.infinityforreddit.apis.RedgifsAPI;
 import ml.docilealligator.infinityforreddit.utils.APIUtils;
@@ -29,22 +27,28 @@ public class RedgifsAccessTokenAuthenticator implements Interceptor {
     }
 
     private String refreshAccessToken() {
+        // Check if existing token is valid
+        APIUtils.RedgifsAuthToken currentToken = APIUtils.REDGIFS_TOKEN.get();
+        if (currentToken.isValid()) {
+            return currentToken.token;
+        }
+
+        // Get new token from API
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(APIUtils.REDGIFS_API_BASE_URI)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
         RedgifsAPI api = retrofit.create(RedgifsAPI.class);
 
-        Map<String, String> params = new HashMap<>();
-        params.put(APIUtils.GRANT_TYPE_KEY, APIUtils.GRANT_TYPE_CLIENT_CREDENTIALS);
-        params.put(APIUtils.CLIENT_ID_KEY, APIUtils.REDGIFS_CLIENT_ID);
-        params.put(APIUtils.CLIENT_SECRET_KEY, APIUtils.REDGIFS_CLIENT_SECRET);
-
-        Call<String> accessTokenCall = api.getRedgifsAccessToken(params);
+        Call<String> accessTokenCall = api.getRedgifsTemporaryToken();
         try {
             retrofit2.Response<String> response = accessTokenCall.execute();
             if (response.isSuccessful() && response.body() != null) {
-                String newAccessToken = new JSONObject(response.body()).getString(APIUtils.ACCESS_TOKEN_KEY);
+                String newAccessToken = new JSONObject(response.body()).getString("token");
+
+                // Update both the atomic reference and shared preferences
+                APIUtils.RedgifsAuthToken newToken = APIUtils.RedgifsAuthToken.expireIn1day(newAccessToken);
+                APIUtils.REDGIFS_TOKEN.set(newToken);
                 mCurrentAccountSharedPreferences.edit().putString(SharedPreferencesUtils.REDGIFS_ACCESS_TOKEN, newAccessToken).apply();
 
                 return newAccessToken;
