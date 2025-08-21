@@ -62,7 +62,7 @@ public class AccessTokenAuthenticator implements Authenticator {
                 if (accessToken.equals(accessTokenFromDatabase)) {
                     String newAccessToken = refreshAccessToken(account);
 
-                    if (!newAccessToken.equals("")) {
+                    if (!newAccessToken.isEmpty()) {
                         return response.request().newBuilder().headers(Headers.of(APIUtils.getOAuthHeader(newAccessToken))).build();
                     } else {
                         return null;

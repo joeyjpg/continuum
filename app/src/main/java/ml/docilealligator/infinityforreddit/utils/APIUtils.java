@@ -149,9 +149,15 @@ public class APIUtils {
         }
     }
 
+    public static final String SPAM_KEY = "spam";
+    public static final String HOW_KEY = "how";
+    public static final String HOW_YES = "yes";
+    public static final String HOW_NO = "no";
+
     public static Map<String, String> getHttpBasicAuthHeader(Context context) {
         // Ensure we use the application context to avoid potential lifecycle issues with the passed context
         Context appContext = context.getApplicationContext();
+
         Map<String, String> params = new HashMap<>();
         String clientId = getClientId(appContext);
         String credentials = String.format("%s:%s", clientId, "");

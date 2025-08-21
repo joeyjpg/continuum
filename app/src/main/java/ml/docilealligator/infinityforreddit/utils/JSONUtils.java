@@ -199,6 +199,12 @@ public class JSONUtils {
     public static final String SEND_REPLIES_KEY = "send_replies";
     public static final String PROFILE_IMG_KEY = "profile_img";
     public static final String AUTHOR_FULLNAME_KEY = "author_fullname";
+    public static final String IS_MOD_KEY = "is_mod";
+    public static final String CAN_MOD_POST_KEY = "can_mod_post";
+    public static final String APPROVED_KEY = "approved";
+    public static final String APPROVED_AT_UTC_KEY = "approved_at_utc";
+    public static final String APPROVED_BY_KEY = "approved_by";
+    public static final String SPAM_KEY = "spam";
 
     @Nullable
     public static Map<String, MediaMetadata> parseMediaMetadata(JSONObject data) {

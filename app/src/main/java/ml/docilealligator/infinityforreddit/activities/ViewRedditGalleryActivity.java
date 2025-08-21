@@ -30,6 +30,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
 
@@ -43,6 +46,7 @@ import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.SetAsWallpaperCallback;
 import ml.docilealligator.infinityforreddit.WallpaperSetter;
 import ml.docilealligator.infinityforreddit.databinding.ActivityViewRedditGalleryBinding;
+import ml.docilealligator.infinityforreddit.events.FinishViewMediaActivityEvent;
 import ml.docilealligator.infinityforreddit.font.ContentFontFamily;
 import ml.docilealligator.infinityforreddit.font.ContentFontStyle;
 import ml.docilealligator.infinityforreddit.font.FontFamily;
@@ -134,6 +138,8 @@ public class ViewRedditGalleryActivity extends AppCompatActivity implements SetA
 
         binding = ActivityViewRedditGalleryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        EventBus.getDefault().register(this);
 
         useBottomAppBar = sharedPreferences.getBoolean(SharedPreferencesUtils.USE_BOTTOM_TOOLBAR_IN_MEDIA_VIEWER, false);
 
@@ -347,6 +353,11 @@ public class ViewRedditGalleryActivity extends AppCompatActivity implements SetA
     // Add getter for the Post object
     public Post getPost() {
         return post;
+    }
+
+    @Subscribe
+    public void onFinishViewMediaActivityEvent(FinishViewMediaActivityEvent e) {
+        finish();
     }
 
     private class SectionsPagerAdapter extends FragmentStatePagerAdapter {

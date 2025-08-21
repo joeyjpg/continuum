@@ -84,7 +84,6 @@ public class FABMoreOptionsBottomSheetFragment extends LandscapeExpandedRoundedB
             dismiss();
         });
 
-
         binding.filterPostsTextViewFabMoreOptionsBottomSheetFragment.setOnClickListener(view -> {
             activity.fabOptionSelected(FAB_FILTER_POSTS);
             dismiss();

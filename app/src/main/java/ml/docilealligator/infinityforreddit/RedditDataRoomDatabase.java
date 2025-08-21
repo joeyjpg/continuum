@@ -8,11 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import ml.docilealligator.infinityforreddit.account.Account;
 import ml.docilealligator.infinityforreddit.account.AccountDao;
+import ml.docilealligator.infinityforreddit.comment.CommentDraft;
+import ml.docilealligator.infinityforreddit.comment.CommentDraftDao;
 import ml.docilealligator.infinityforreddit.commentfilter.CommentFilter;
 import ml.docilealligator.infinityforreddit.commentfilter.CommentFilterDao;
 import ml.docilealligator.infinityforreddit.commentfilter.CommentFilterUsage;
@@ -43,7 +46,8 @@ import ml.docilealligator.infinityforreddit.user.UserData;
 @Database(entities = {Account.class, SubredditData.class, SubscribedSubredditData.class, UserData.class,
         SubscribedUserData.class, MultiReddit.class, CustomTheme.class, RecentSearchQuery.class,
         ReadPost.class, PostFilter.class, PostFilterUsage.class, AnonymousMultiredditSubreddit.class,
-        CommentFilter.class, CommentFilterUsage.class}, version = 29, exportSchema = false)
+        CommentFilter.class, CommentFilterUsage.class, CommentDraft.class}, version = 29, exportSchema = false)
+@TypeConverters(Converters.class)
 public abstract class RedditDataRoomDatabase extends RoomDatabase {
 
     public static RedditDataRoomDatabase create(final Context context) {
@@ -86,6 +90,8 @@ public abstract class RedditDataRoomDatabase extends RoomDatabase {
     public abstract CommentFilterDao commentFilterDao();
 
     public abstract CommentFilterUsageDao commentFilterUsageDao();
+
+    public abstract CommentDraftDao commentDraftDao();
 
     private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
@@ -437,13 +443,17 @@ public abstract class RedditDataRoomDatabase extends RoomDatabase {
             database.execSQL("CREATE INDEX index_multi_reddits_username ON multi_reddits(username)");
         }
     };
+
     private static final Migration MIGRATION_28_29 = new Migration(28, 29) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-
-            database.execSQL("ALTER TABLE post_filter ADD COLUMN contain_users TEXT");
-            database.execSQL("ALTER TABLE post_filter ADD COLUMN contain_subreddits TEXT");
-
+            database.execSQL("ALTER TABLE accounts ADD COLUMN is_mod INTEGER DEFAULT 0 NOT NULL");
+            database.execSQL("CREATE TABLE comment_draft(" +
+                    "full_name TEXT NOT NULL, " +
+                    "content TEXT NOT NULL, " +
+                    "last_updated INTEGER NOT NULL," +
+                    "draft_type TEXT NOT NULL," +
+                    "PRIMARY KEY (full_name, draft_type))");
         }
     };
 }

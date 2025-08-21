@@ -429,4 +429,28 @@ public interface RedditAPI {
 
     @GET("/api/user_data_by_account_ids.json")
     Call<String> loadPartialUserData(@Query("ids") String commaSeparatedUserFullNames);
+
+    @FormUrlEncoded
+    @POST("/api/approve")
+    Call<String> approveThing(@HeaderMap Map<String, String> headers, @FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("/api/remove")
+    Call<String> removeThing(@HeaderMap Map<String, String> headers, @FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("/api/set_subreddit_sticky")
+    Call<String> toggleStickyPost(@HeaderMap Map<String, String> headers, @FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("/api/lock")
+    Call<String> lockThing(@HeaderMap Map<String, String> headers, @FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("/api/unlock")
+    Call<String> unLockThing(@HeaderMap Map<String, String> headers, @FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("/api/distinguish")
+    Call<String> toggleDistinguishedThing(@HeaderMap Map<String, String> headers, @FieldMap Map<String, String> params);
 }

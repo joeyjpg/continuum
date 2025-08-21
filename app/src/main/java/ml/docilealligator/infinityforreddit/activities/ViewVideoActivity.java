@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Matrix;
@@ -82,6 +83,8 @@ import com.otaliastudios.zoom.ZoomEngine;
 import com.otaliastudios.zoom.ZoomSurfaceView;
 
 import org.apache.commons.io.FilenameUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.concurrent.Executor;
 
@@ -100,6 +103,7 @@ import ml.docilealligator.infinityforreddit.bottomsheetfragments.PlaybackSpeedBo
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.databinding.ActivityViewVideoBinding;
 import ml.docilealligator.infinityforreddit.databinding.ActivityViewVideoZoomableBinding;
+import ml.docilealligator.infinityforreddit.events.FinishViewMediaActivityEvent;
 import ml.docilealligator.infinityforreddit.font.ContentFontFamily;
 import ml.docilealligator.infinityforreddit.font.ContentFontStyle;
 import ml.docilealligator.infinityforreddit.font.FontFamily;
@@ -277,6 +281,10 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
             binding = new ViewVideoActivityBindingAdapter(ActivityViewVideoBinding.inflate(getLayoutInflater()));
             setContentView(binding.getRoot());
         }
+
+        EventBus.getDefault().register(this);
+
+        applyCustomTheme();
 
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -544,7 +552,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
         MaterialButton playPauseButton = findViewById(R.id.exo_play_pause_button_exo_playback_control_view);
         Drawable playDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_play_arrow_24dp, null);
         Drawable pauseDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_pause_24dp, null);
-        playPauseButton.setOnClickListener(view -> {
+        binding.getPlayPauseButton().setOnClickListener(view -> {
             Util.handlePlayPauseButtonAction(player);
         });
 
@@ -555,7 +563,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                         Player.EVENT_PLAY_WHEN_READY_CHANGED,
                         Player.EVENT_PLAYBACK_STATE_CHANGED,
                         Player.EVENT_PLAYBACK_SUPPRESSION_REASON_CHANGED)) {
-                    playPauseButton.setIcon(Util.shouldShowPlayButton(player) ? playDrawable : pauseDrawable);
+                    binding.getPlayPauseButton().setIcon(Util.shouldShowPlayButton(player) ? playDrawable : pauseDrawable);
                 }
             }
 
@@ -701,7 +709,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
         }
 
         if (mVideoUri == null) {
-            binding.getProgressBar().setVisibility(View.VISIBLE);
+            binding.getLoadingIndicator().setVisibility(View.VISIBLE);
 
             VideoLinkFetcher.fetchVideoLink(mExecutor, new Handler(getMainLooper()), mRetrofit, mVReddItRetrofit,
                     mRedgifsRetrofit, mStreamableApiProvider, mCurrentAccountSharedPreferences, videoType,
@@ -713,7 +721,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                             videoType = VIDEO_TYPE_NORMAL;
                             videoFileName = fileName;
 
-                            binding.getProgressBar().setVisibility(View.GONE);
+                            binding.getLoadingIndicator().setVisibility(View.GONE);
                             mVideoUri = Uri.parse(post.getVideoUrl());
                             subredditName = post.getSubredditName();
                             id = post.getId();
@@ -731,7 +739,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                             videoType = VIDEO_TYPE_IMGUR;
                             videoFileName = fileName;
 
-                            binding.getProgressBar().setVisibility(View.GONE);
+                            binding.getLoadingIndicator().setVisibility(View.GONE);
                             mVideoUri = Uri.parse(videoUrl);
                             ViewVideoActivity.this.videoDownloadUrl = videoDownloadUrl;
                             videoFileName = "Imgur-" + FilenameUtils.getName(videoDownloadUrl);
@@ -745,7 +753,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                         public void onFetchRedgifsVideoLinkSuccess(String webm, String mp4) {
                             videoType = VIDEO_TYPE_REDGIFS;
 
-                            binding.getProgressBar().setVisibility(View.GONE);
+                            binding.getLoadingIndicator().setVisibility(View.GONE);
                             mVideoUri = Uri.parse(webm);
                             videoDownloadUrl = mp4;
                             preparePlayer(savedInstanceState);
@@ -757,7 +765,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                         public void onFetchStreamableVideoLinkSuccess(StreamableVideo streamableVideo) {
                             videoType = VIDEO_TYPE_STREAMABLE;
 
-                            binding.getProgressBar().setVisibility(View.GONE);
+                            binding.getLoadingIndicator().setVisibility(View.GONE);
 
                             if (streamableVideo.mp4 == null && streamableVideo.mp4Mobile == null) {
                                 Toast.makeText(ViewVideoActivity.this, R.string.fetch_streamable_video_failed, Toast.LENGTH_SHORT).show();
@@ -785,7 +793,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
 
                         @Override
                         public void failed(@Nullable Integer messageRes) {
-                            binding.getProgressBar().setVisibility(View.GONE);
+                            binding.getLoadingIndicator().setVisibility(View.GONE);
 
                             if (videoType == VIDEO_TYPE_V_REDD_IT) {
                                 if (messageRes != null) {
@@ -818,6 +826,11 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                 getOnBackPressedDispatcher().onBackPressed();
             }
         });
+    }
+
+    private void applyCustomTheme() {
+        binding.getPlayPauseButton().setBackgroundColor(mCustomThemeWrapper.getColorAccent());
+        binding.getPlayPauseButton().setIconTint(ColorStateList.valueOf(mCustomThemeWrapper.getFABIconColor()));
     }
 
     private void preparePlayer(Bundle savedInstanceState) {
@@ -921,6 +934,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
 
     @Override
     protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
         player.seekToDefaultPosition();
         player.stop();
@@ -1098,5 +1112,10 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
     @Override
     public void setCustomFont(Typeface typeface, Typeface titleTypeface, Typeface contentTypeface) {
         this.typeface = typeface;
+    }
+
+    @Subscribe
+    public void onFinishViewMediaActivityEvent(FinishViewMediaActivityEvent e) {
+        finish();
     }
 }

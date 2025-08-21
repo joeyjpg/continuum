@@ -88,7 +88,7 @@ import ml.docilealligator.infinityforreddit.asynctasks.LoadSubredditIcon;
 import ml.docilealligator.infinityforreddit.asynctasks.LoadUserData;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.CopyTextBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.PostOptionsBottomSheetFragment;
-import ml.docilealligator.infinityforreddit.bottomsheetfragments.ShareLinkBottomSheetFragment;
+import ml.docilealligator.infinityforreddit.bottomsheetfragments.ShareBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.UrlMenuBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.AspectRatioGifImageView;
@@ -351,7 +351,7 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                 textView.setOnLongClickListener(view -> {
                     if (textView.getSelectionStart() == -1 && textView.getSelectionEnd() == -1) {
                         CopyTextBottomSheetFragment.show(
-                                mActivity.getSupportFragmentManager(),
+                                mFragment.getChildFragmentManager(),
                                 mPost.getSelfTextPlain(), mPost.getSelfText()
                         );
                         return true;
@@ -382,7 +382,7 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                 Bundle bundle = new Bundle();
                 bundle.putString(UrlMenuBottomSheetFragment.EXTRA_URL, url);
                 urlMenuBottomSheetFragment.setArguments(bundle);
-                urlMenuBottomSheetFragment.show(activity.getSupportFragmentManager(), urlMenuBottomSheetFragment.getTag());
+                urlMenuBottomSheetFragment.show(fragment.getChildFragmentManager(), urlMenuBottomSheetFragment.getTag());
             }
             return true;
         };
@@ -1141,12 +1141,15 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     @Override
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         if (holder instanceof PostDetailBaseViewHolder) {
+            ((PostDetailBaseViewHolder) holder).userTextView.setTextColor(mUsernameColor);
+            ((PostDetailBaseViewHolder) holder).userTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             ((PostDetailBaseViewHolder) holder).upvoteButton.setIconResource(R.drawable.ic_upvote_24dp);
             ((PostDetailBaseViewHolder) holder).upvoteButton.setIconTint(ColorStateList.valueOf(mPostIconAndInfoColor));
             ((PostDetailBaseViewHolder) holder).scoreTextView.setTextColor(mPostIconAndInfoColor);
             ((PostDetailBaseViewHolder) holder).downvoteButton.setIconResource(R.drawable.ic_downvote_24dp);
             ((PostDetailBaseViewHolder) holder).downvoteButton.setIconTint(ColorStateList.valueOf(mPostIconAndInfoColor));
             ((PostDetailBaseViewHolder) holder).flairTextView.setVisibility(View.GONE);
+            ((PostDetailBaseViewHolder) holder).lockedImageView.setVisibility(View.GONE);
             ((PostDetailBaseViewHolder) holder).spoilerTextView.setVisibility(View.GONE);
             ((PostDetailBaseViewHolder) holder).nsfwTextView.setVisibility(View.GONE);
             ((PostDetailBaseViewHolder) holder).contentMarkdownView.setVisibility(View.GONE);
@@ -1283,7 +1286,7 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                 } else {
                     postOptionsBottomSheetFragment = PostOptionsBottomSheetFragment.newInstance(mPost, mFragment.getPostListPosition());
                 }
-                postOptionsBottomSheetFragment.show(mActivity.getSupportFragmentManager(), postOptionsBottomSheetFragment.getTag());
+                postOptionsBottomSheetFragment.show(mFragment.getChildFragmentManager(), postOptionsBottomSheetFragment.getTag());
                 return true;
             });
 
@@ -1360,7 +1363,7 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
 
             mMarkwonAdapter.setOnLongClickListener(v -> {
                 CopyTextBottomSheetFragment.show(
-                        mActivity.getSupportFragmentManager(),
+                        mFragment.getChildFragmentManager(),
                         mPost.getSelfTextPlain(), mPost.getSelfText()
                 );
                 return true;
@@ -1628,24 +1631,25 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
 
             this.shareButton.setOnClickListener(view -> {
                 Bundle bundle = new Bundle();
-                bundle.putString(ShareLinkBottomSheetFragment.EXTRA_POST_LINK, mPost.getPermalink());
+                bundle.putString(ShareBottomSheetFragment.EXTRA_POST_LINK, mPost.getPermalink());
                 if (mPost.getPostType() != Post.TEXT_TYPE) {
-                    bundle.putInt(ShareLinkBottomSheetFragment.EXTRA_MEDIA_TYPE, mPost.getPostType());
+                    bundle.putInt(ShareBottomSheetFragment.EXTRA_MEDIA_TYPE, mPost.getPostType());
                     switch (mPost.getPostType()) {
                         case Post.IMAGE_TYPE:
                         case Post.GIF_TYPE:
                         case Post.LINK_TYPE:
                         case Post.NO_PREVIEW_LINK_TYPE:
-                            bundle.putString(ShareLinkBottomSheetFragment.EXTRA_MEDIA_LINK, mPost.getUrl());
+                            bundle.putString(ShareBottomSheetFragment.EXTRA_MEDIA_LINK, mPost.getUrl());
                             break;
                         case Post.VIDEO_TYPE:
-                            bundle.putString(ShareLinkBottomSheetFragment.EXTRA_MEDIA_LINK, mPost.getVideoDownloadUrl());
+                            bundle.putString(ShareBottomSheetFragment.EXTRA_MEDIA_LINK, mPost.getVideoDownloadUrl());
                             break;
                     }
                 }
-                ShareLinkBottomSheetFragment shareLinkBottomSheetFragment = new ShareLinkBottomSheetFragment();
-                shareLinkBottomSheetFragment.setArguments(bundle);
-                shareLinkBottomSheetFragment.show(mActivity.getSupportFragmentManager(), shareLinkBottomSheetFragment.getTag());
+                bundle.putParcelable(ShareBottomSheetFragment.EXTRA_POST, mPost);
+                ShareBottomSheetFragment shareBottomSheetFragment = new ShareBottomSheetFragment();
+                shareBottomSheetFragment.setArguments(bundle);
+                shareBottomSheetFragment.show(mFragment.getChildFragmentManager(), shareBottomSheetFragment.getTag());
             });
 
             this.shareButton.setOnLongClickListener(view -> {
@@ -2126,7 +2130,7 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
 
             binding.videoOrGifIndicatorImageViewItemPostDetail.setColorFilter(mMediaIndicatorIconTint, PorterDuff.Mode.SRC_IN);
             binding.videoOrGifIndicatorImageViewItemPostDetail.setBackgroundTintList(ColorStateList.valueOf(mMediaIndicatorBackgroundColor));
-            binding.progressBarItemPostDetailVideoAndGifPreview.setIndeterminateTintList(ColorStateList.valueOf(mColorAccent));
+            binding.progressBarItemPostDetailVideoAndGifPreview.setIndicatorColor(mColorAccent);
             binding.loadImageErrorTextViewItemPostDetailVideoAndGifPreview.setTextColor(mPrimaryTextColor);
 
             binding.imageViewItemPostDetailVideoAndGifPreview.setOnClickListener(view -> {
@@ -2169,7 +2173,7 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                     binding.saveButtonItemPostDetailImageAndGifAutoplay,
                     binding.shareButtonItemPostDetailImageAndGifAutoplay);
 
-            binding.progressBarItemPostDetailImageAndGifAutoplay.setIndeterminateTintList(ColorStateList.valueOf(mColorAccent));
+            binding.progressBarItemPostDetailImageAndGifAutoplay.setIndicatorColor(mColorAccent);
             binding.loadImageErrorTextViewItemPostDetailImageAndGifAutoplay.setTextColor(mPrimaryTextColor);
 
             binding.imageViewItemPostDetailImageAndGifAutoplay.setOnClickListener(view -> {
@@ -2216,7 +2220,7 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                 binding.linkTextViewItemPostDetailLink.setTypeface(mActivity.typeface);
             }
             binding.linkTextViewItemPostDetailLink.setTextColor(mSecondaryTextColor);
-            binding.progressBarItemPostDetailLink.setIndeterminateTintList(ColorStateList.valueOf(mColorAccent));
+            binding.progressBarItemPostDetailLink.setIndicatorColor(mColorAccent);
             binding.loadImageErrorTextViewItemPostDetailLink.setTextColor(mPrimaryTextColor);
 
             binding.imageViewItemPostDetailLink.setOnClickListener(view -> {

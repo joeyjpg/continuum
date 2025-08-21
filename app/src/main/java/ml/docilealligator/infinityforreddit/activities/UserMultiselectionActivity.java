@@ -83,12 +83,14 @@ public class UserMultiselectionActivity extends BaseActivity implements Activity
                 } else {
                     window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
                 }
-                adjustToolbar(binding.toolbarSubscribedUsersMultiselectionActivity);
 
-                int navBarHeight = getNavBarHeight();
-                if (navBarHeight > 0) {
-                    binding.recyclerViewSubscribedSubscribedUsersMultiselectionActivity.setPadding(0, 0, 0, navBarHeight);
-                }
+                //adjustToolbar(binding.toolbarSubscribedUsersMultiselectionActivity);
+
+                //int navBarHeight = getNavBarHeight();
+
+                //if (navBarHeight > 0) {
+                //    binding.recyclerViewSubscribedSubscribedUsersMultiselectionActivity.setPadding(0, 0, 0, navBarHeight);
+                //}
             }
         }
 

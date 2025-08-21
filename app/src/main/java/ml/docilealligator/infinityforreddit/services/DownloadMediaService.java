@@ -212,14 +212,14 @@ public class DownloadMediaService extends JobService {
             extras.putString(EXTRA_URL, url);
             extras.putInt(EXTRA_MEDIA_TYPE, currentMediaType);
             extras.putString(EXTRA_SUBREDDIT_NAME, post.getSubredditName());
-            extras.putBoolean(EXTRA_IS_NSFW, post.isNSFW());
+            extras.putInt(EXTRA_IS_NSFW, post.isNSFW() ? 1 : 0);
         } else if (post.getPostType() == Post.GIF_TYPE) {
             url = post.getVideoUrl(); // GIFs often served as videos (mp4)
             currentMediaType = EXTRA_MEDIA_TYPE_GIF; // Keep original type for logic, but extension might be mp4
             extras.putString(EXTRA_URL, url);
             extras.putInt(EXTRA_MEDIA_TYPE, currentMediaType);
             extras.putString(EXTRA_SUBREDDIT_NAME, post.getSubredditName());
-            extras.putBoolean(EXTRA_IS_NSFW, post.isNSFW());
+            extras.putInt(EXTRA_IS_NSFW, post.isNSFW() ? 1 : 0);
         } else if (post.getPostType() == Post.VIDEO_TYPE) {
             currentMediaType = EXTRA_MEDIA_TYPE_VIDEO;
             if (post.isStreamable()) {
@@ -247,15 +247,17 @@ public class DownloadMediaService extends JobService {
             }
             extras.putInt(EXTRA_MEDIA_TYPE, currentMediaType);
             extras.putString(EXTRA_SUBREDDIT_NAME, post.getSubredditName());
-            extras.putBoolean(EXTRA_IS_NSFW, post.isNSFW());
+            extras.putInt(EXTRA_IS_NSFW, post.isNSFW() ? 1 : 0);
         } else if (post.getPostType() == Post.GALLERY_TYPE) {
             Log.d("GalleryDownload", "DownloadMediaService.constructJobInfo(Gallery): galleryIndex=" + galleryIndex);
             if (post.getGallery() == null || galleryIndex < 0 || galleryIndex >= post.getGallery().size()) {
                 Log.e("GalleryDownload", "DownloadMediaService.constructJobInfo(Gallery): Invalid gallery index or gallery is null.");
                 return null; // Cannot construct job with invalid index
             }
+
             Post.Gallery media = post.getGallery().get(galleryIndex);
             Log.d("GalleryDownload", "DownloadMediaService.constructJobInfo(Gallery): media.mediaType=" + media.mediaType + ", post.isNSFW()=" + post.isNSFW());
+
             if (media.mediaType == Post.Gallery.TYPE_VIDEO) {
                 url = media.url;
                 currentMediaType = EXTRA_MEDIA_TYPE_VIDEO;
@@ -267,8 +269,9 @@ public class DownloadMediaService extends JobService {
                 extras.putString(EXTRA_URL, url);
                 extras.putInt(EXTRA_MEDIA_TYPE, currentMediaType);
             }
+
             extras.putString(EXTRA_SUBREDDIT_NAME, post.getSubredditName());
-            extras.putBoolean(EXTRA_IS_NSFW, post.isNSFW());
+            extras.putInt(EXTRA_IS_NSFW, post.isNSFW() ? 1 : 0);
         }
 
         // Determine extension based on URL and media type
@@ -311,7 +314,7 @@ public class DownloadMediaService extends JobService {
         PersistableBundle extras = new PersistableBundle();
         if (post.getPostType() == Post.GALLERY_TYPE) {
             extras.putString(EXTRA_SUBREDDIT_NAME, post.getSubredditName());
-            extras.putBoolean(EXTRA_IS_NSFW, post.isNSFW());
+            extras.putInt(EXTRA_IS_NSFW, post.isNSFW() ? 1 : 0);
 
             ArrayList<Post.Gallery> gallery = post.getGallery();
 
@@ -358,7 +361,7 @@ public class DownloadMediaService extends JobService {
             extras.putString(EXTRA_ALL_GALLERY_IMAGE_URLS, concatUrlsBuilder.toString());
             extras.putString(EXTRA_ALL_GALLERY_IMAGE_MEDIA_TYPES, concatMediaTypesBuilder.toString());
             extras.putString(EXTRA_ALL_GALLERY_IMAGE_FILE_NAMES, concatFileNamesBuilder.toString());
-            extras.putBoolean(EXTRA_IS_ALL_GALLERY_MEDIA, true);
+            extras.putInt(EXTRA_IS_ALL_GALLERY_MEDIA, 1);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
@@ -532,7 +535,7 @@ public class DownloadMediaService extends JobService {
         int randomNotificationIdOffset = new Random().nextInt(10000);
         String notificationTitle = extras.containsKey(EXTRA_FILE_NAME) ?
                 extras.getString(EXTRA_FILE_NAME) :
-                (extras.getBoolean(EXTRA_IS_ALL_GALLERY_MEDIA, false) ?
+                (extras.getInt(EXTRA_IS_ALL_GALLERY_MEDIA, 0) == 1 ?
                         getString(R.string.download_all_gallery_media_notification_title) : getString(R.string.download_all_imgur_album_media_notification_title));
         switch (extras.getInt(EXTRA_MEDIA_TYPE, EXTRA_MEDIA_TYPE_IMAGE)) {
             case EXTRA_MEDIA_TYPE_GIF:
