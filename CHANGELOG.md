@@ -2,6 +2,14 @@
 
 ---
 
+8.0.0.1 / 2025-8-21
+============
+Note v8a is the 64-bit build, and should be considered the default choose.
+
+* Re-enabled redgifs
+* Upgraded to 8.0.0
+* Fix No sound in redgifs #129
+
 7.5.1.3 / 2025-8-8
 ===========
 Note v8a is the 64-bit build, and should be considered the default choose.
