@@ -1053,6 +1053,42 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
                     }
                 }
             }).attach();
+
+            // Add double-tap to scroll to top functionality for all tabs
+            binding.includedAppBar.tabLayoutMainActivity.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                private long lastTabClickTime = 0;
+                private int lastClickedTabPosition = -1;
+                private static final long DOUBLE_TAP_TIME_DELTA = 300; // milliseconds
+
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    handleTabClick(tab);
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {}
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+                    handleTabClick(tab);
+                }
+
+                private void handleTabClick(TabLayout.Tab tab) {
+                    int position = tab.getPosition();
+                    long currentTime = System.currentTimeMillis();
+
+                    if (position == lastClickedTabPosition &&
+                        currentTime - lastTabClickTime < DOUBLE_TAP_TIME_DELTA) {
+                        // Double tap detected on same tab
+                        scrollTabToTop(position);
+                        lastTabClickTime = 0; // Reset to prevent triple-tap
+                        lastClickedTabPosition = -1;
+                    } else {
+                        lastTabClickTime = currentTime;
+                        lastClickedTabPosition = position;
+                    }
+                }
+            });
         } else {
             binding.includedAppBar.tabLayoutMainActivity.setVisibility(View.GONE);
         }
@@ -1285,6 +1321,16 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
         if (postFragment != null) {
             SortTypeBottomSheetFragment sortTypeBottomSheetFragment = SortTypeBottomSheetFragment.getNewInstance(currentPostType != PostPagingSource.TYPE_FRONT_PAGE, postFragment.getSortType());
             sortTypeBottomSheetFragment.show(getSupportFragmentManager(), sortTypeBottomSheetFragment.getTag());
+        }
+    }
+
+    private void scrollTabToTop(int position) {
+        // Get the fragment at the specified position and scroll to top
+        if (sectionsPagerAdapter != null) {
+            PostFragment fragment = sectionsPagerAdapter.getFragmentAtPosition(position);
+            if (fragment != null) {
+                fragment.goBackToTop();
+            }
         }
     }
 
@@ -1926,6 +1972,18 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
                 return null;
             }
             Fragment fragment = fragmentManager.findFragmentByTag("f" + binding.includedAppBar.viewPagerMainActivity.getCurrentItem());
+            if (fragment instanceof PostFragment) {
+                return (PostFragment) fragment;
+            }
+            return null;
+        }
+
+        @Nullable
+        private PostFragment getFragmentAtPosition(int position) {
+            if (fragmentManager == null) {
+                return null;
+            }
+            Fragment fragment = fragmentManager.findFragmentByTag("f" + position);
             if (fragment instanceof PostFragment) {
                 return (PostFragment) fragment;
             }
