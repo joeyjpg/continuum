@@ -223,15 +223,22 @@ public class DownloadMediaService extends JobService {
         } else if (post.getPostType() == Post.VIDEO_TYPE) {
             currentMediaType = EXTRA_MEDIA_TYPE_VIDEO;
             if (post.isStreamable()) {
-                if (post.isLoadRedgifsOrStreamableVideoSuccess()) {
-                    url = post.getVideoUrl();
-                    extras.putString(EXTRA_URL, url);
+                if (post.isLoadedStreamableVideoAlready()) {
+                    extras.putString(EXTRA_URL, post.getVideoUrl());
+                } else {
+                    extras.putString(EXTRA_REDGIFS_ID, post.getRedgifsId());
+                }
+
+                extras.putString(EXTRA_FILE_NAME, "Streamable-" + post.getStreamableShortCode() + ".mp4");
+            } else if (post.isRedgifs()) {
+                if (post.isLoadedStreamableVideoAlready()) {
+                    extras.putString(EXTRA_URL, post.getVideoUrl());
                 } else {
                     extras.putString(EXTRA_STREAMABLE_SHORT_CODE, post.getStreamableShortCode());
                     // URL will be fetched later in downloadMedia if null
                 }
             } else if (post.isRedgifs()) {
-                if (post.isLoadRedgifsOrStreamableVideoSuccess()) {
+                if (post.isLoadedStreamableVideoAlready()) {
                     url = post.getVideoUrl();
                     extras.putString(EXTRA_URL, url);
                 } else {
@@ -255,6 +262,10 @@ public class DownloadMediaService extends JobService {
                 return null; // Cannot construct job with invalid index
             }
 
+            extras.putInt(EXTRA_MEDIA_TYPE, EXTRA_MEDIA_TYPE_VIDEO);
+            extras.putString(EXTRA_SUBREDDIT_NAME, post.getSubredditName());
+            extras.putInt(EXTRA_IS_NSFW, post.isNSFW() ? 1 : 0);
+        } else if (post.getPostType() == Post.GALLERY_TYPE) {
             Post.Gallery media = post.getGallery().get(galleryIndex);
             Log.d("GalleryDownload", "DownloadMediaService.constructJobInfo(Gallery): media.mediaType=" + media.mediaType + ", post.isNSFW()=" + post.isNSFW());
 

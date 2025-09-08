@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ml.docilealligator.infinityforreddit.customviews.preference.CustomFontPreferenceCategory
-        app:title="Delete All actions" />
-
     <ml.docilealligator.infinityforreddit.customviews.preference.CustomFontPreference
         app:key="delete_all_subreddits_data_in_database"
         app:title="@string/settings_delete_all_subreddits_data_in_database_title" />
@@ -38,19 +35,10 @@
         app:key="delete_all_legacy_settings"
         app:title="@string/settings_delete_all_legacy_settings_title" />
 
-    <ml.docilealligator.infinityforreddit.customviews.preference.CustomFontPreferenceCategory
-        app:title="Reset actions" />
-
     <ml.docilealligator.infinityforreddit.customviews.preference.CustomFontPreference
         app:key="reset_all_settings"
         app:title="@string/settings_reset_all_settings_title" />
 
-    <ml.docilealligator.infinityforreddit.customviews.preference.CustomFontPreferenceCategory
-        app:title="Crashes" />
-
-    <ml.docilealligator.infinityforreddit.customviews.preference.CustomFontPreference
-        app:title="@string/settings_crash_reports_title"
-        app:fragment="ml.docilealligator.infinityforreddit.settings.CrashReportsFragment" />
 
     <ml.docilealligator.infinityforreddit.customviews.preference.CustomFontPreferenceCategory
         app:title="Backup and Restore" />

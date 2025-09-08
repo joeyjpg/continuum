@@ -179,7 +179,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
     private boolean isDataSavingMode;
     private int dataSavingModeDefaultResolution;
     private int nonDataSavingModeDefaultResolution;
-    private boolean setNonDataSavingModeDefaultResolutionAlready = false;
+    private boolean setDefaultResolutionAlready = false;
     private Integer originalOrientation;
     private int playbackSpeed = 100;
     private boolean useBottomAppBar;
@@ -524,7 +524,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
             videoType = savedInstanceState.getInt(VIDEO_TYPE_STATE);
             subredditName = savedInstanceState.getString(SUBREDDIT_NAME_STATE);
             id = savedInstanceState.getString(ID_STATE);
-            setNonDataSavingModeDefaultResolutionAlready = savedInstanceState.getBoolean(SET_NON_DATA_SAVING_MODE_DEFAULT_RESOLUTION_ALREADY_STATE);
+            setDefaultResolutionAlready = savedInstanceState.getBoolean(SET_NON_DATA_SAVING_MODE_DEFAULT_RESOLUTION_ALREADY_STATE);
             setPlaybackSpeed(savedInstanceState.getInt(PLAYBACK_SPEED_STATE, 100));
         }
 
@@ -572,8 +572,8 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                 ImmutableList<Tracks.Group> trackGroups = tracks.getGroups();
                 if (!trackGroups.isEmpty()) {
                     if (videoType == VIDEO_TYPE_NORMAL) {
-                        binding.getHdButton().setVisibility(View.VISIBLE);
-                        binding.getHdButton().setOnClickListener(view -> {
+                        binding.getVideoQualityButton().setVisibility(View.VISIBLE);
+                        binding.getVideoQualityButton().setOnClickListener(view -> {
                             TrackSelectionDialogBuilder builder = new TrackSelectionDialogBuilder(ViewVideoActivity.this, getString(R.string.select_video_quality), player, C.TRACK_TYPE_VIDEO);
                             builder.setShowDisableOption(true);
                             builder.setAllowAdaptiveSelections(false);
@@ -586,7 +586,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                             }
                         });
 
-                        if (!setNonDataSavingModeDefaultResolutionAlready) {
+                        if (!setDefaultResolutionAlready) {
                             int desiredResolution = 0;
 
                             if (isDataSavingMode) {
@@ -636,7 +636,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                                     player.setTrackSelectionParameters(player.getTrackSelectionParameters().buildUpon().addOverride(trackSelectionOverride).build());
                                 }
                             }
-                            setNonDataSavingModeDefaultResolutionAlready = true;
+                            setDefaultResolutionAlready = true;
                         }
                     }
 
@@ -697,10 +697,9 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
             }
 
             redgifsId = intent.getStringExtra(EXTRA_REDGIFS_ID);
-
-            if (redgifsId != null && redgifsId.contains("-")) {
+            /*if (redgifsId != null && redgifsId.contains("-")) {
                 redgifsId = redgifsId.substring(0, redgifsId.indexOf('-'));
-            }
+            }*/
             videoFileName = "Redgifs-" + redgifsId + ".mp4";
         } else if (videoType == VIDEO_TYPE_DIRECT || videoType == VIDEO_TYPE_IMGUR) {
             videoDownloadUrl = mVideoUri.toString();
@@ -1106,7 +1105,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
         }
 
         outState.putInt(PLAYBACK_SPEED_STATE, playbackSpeed);
-        outState.putBoolean(SET_NON_DATA_SAVING_MODE_DEFAULT_RESOLUTION_ALREADY_STATE, setNonDataSavingModeDefaultResolutionAlready);
+        outState.putBoolean(SET_NON_DATA_SAVING_MODE_DEFAULT_RESOLUTION_ALREADY_STATE, setDefaultResolutionAlready);
     }
 
     @Override
