@@ -2,6 +2,15 @@
 
 ---
 
+8.0.2.1 / 2025-9-8
+===========
+Note v8a is the 64-bit build, and should be considered the default choose.
+
+* Keep pinned posts pinned even when filtering or hiding read posts 
+* Make double tapping tabs cause a scroll to the top #148
+* Fix the + button in apply post filter not working correctly
+* Upgraded to 8.0.2
+
 8.0.0.1 / 2025-8-21
 ============
 Note v8a is the 64-bit build, and should be considered the default choose.
