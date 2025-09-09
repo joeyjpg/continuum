@@ -132,6 +132,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import ml.docilealligator.infinityforreddit.activities.LoginNoWebviewActivity;
 
 public class MainActivity extends BaseActivity implements SortTypeSelectionCallback,
         PostTypeBottomSheetFragment.PostTypeSelectionCallback, PostLayoutBottomSheetFragment.PostLayoutSelectionCallback,
@@ -930,6 +931,18 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
                                         .show();
                             } else {
                                 intent = new Intent(MainActivity.this, LoginActivity.class);
+                            }
+                        } else if (stringId == R.string.add_another_account) {
+                            // Explicitly get default SharedPreferences with MODE_PRIVATE as requested
+                            SharedPreferences defaultPrefs = getSharedPreferences(SharedPreferencesUtils.DEFAULT_PREFERENCES_FILE, Context.MODE_PRIVATE);
+                            String currentClientId = defaultPrefs.getString(SharedPreferencesUtils.CLIENT_ID_PREF_KEY, getString(R.string.default_client_id));
+                            if (currentClientId.equals(getString(R.string.default_client_id))) {
+                                new MaterialAlertDialogBuilder(MainActivity.this, R.style.MaterialAlertDialogTheme)
+                                        .setMessage(R.string.set_client_id_dialog_message)
+                                        .setPositiveButton(R.string.ok, null)
+                                        .show();
+                            } else {
+                                intent = new Intent(MainActivity.this, LoginNoWebviewActivity.class);
                             }
                         } else if (stringId == R.string.anonymous_account) {
                             AccountManagement.switchToAnonymousMode(mRedditDataRoomDatabase, mCurrentAccountSharedPreferences,

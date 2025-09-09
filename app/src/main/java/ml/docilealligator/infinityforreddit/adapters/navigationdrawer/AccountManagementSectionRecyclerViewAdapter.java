@@ -88,8 +88,15 @@ public class AccountManagementSectionRecyclerViewAdapter extends RecyclerView.Ad
                     stringId = R.string.log_out;
                     drawableId = R.drawable.ic_log_out_day_night_24dp;
                 }
-            } else {
+                else if (position == offset + 3) {
+                    stringId = R.string.add_another_account;
+                    drawableId = R.drawable.ic_add_circle_outline_day_night_24dp;
+                }
+            } else if (position == 0) {
                 stringId = R.string.add_account;
+                drawableId = R.drawable.ic_add_circle_outline_day_night_24dp;
+            } else {
+                stringId = R.string.add_another_account;
                 drawableId = R.drawable.ic_add_circle_outline_day_night_24dp;
             }
 
@@ -110,15 +117,15 @@ public class AccountManagementSectionRecyclerViewAdapter extends RecyclerView.Ad
     public int getItemCount() {
         if (isLoggedIn) {
             if (accounts != null && !accounts.isEmpty()) {
-                return 3 + accounts.size();
+                return 4 + accounts.size();
             } else {
-                return 3;
+                return 4;
             }
         } else {
             if (accounts != null && !accounts.isEmpty()) {
-                return 1 + accounts.size();
+                return 2 + accounts.size();
             } else {
-                return 1;
+                return 2;
             }
         }
     }

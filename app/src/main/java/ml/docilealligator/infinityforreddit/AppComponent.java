@@ -109,6 +109,8 @@ import ml.docilealligator.infinityforreddit.settings.TranslationFragment;
 import ml.docilealligator.infinityforreddit.settings.VideoPreferenceFragment;
 import ml.docilealligator.infinityforreddit.worker.MaterialYouWorker;
 import ml.docilealligator.infinityforreddit.worker.PullNotificationWorker;
+import ml.docilealligator.infinityforreddit.activities.LoginNoWebviewActivity;
+
 
 @Singleton
 @Component(modules = {AppModule.class, NetworkModule.class})
@@ -319,6 +321,8 @@ public interface AppComponent {
     void inject(PostOptionsBottomSheetFragment postOptionsBottomSheetFragment);
 
     void inject(ProxyPreferenceFragment proxyPreferenceFragment);
+
+    void inject(LoginNoWebviewActivity activity);
 
     @Component.Factory
     interface Factory {

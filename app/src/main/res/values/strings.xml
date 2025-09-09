@@ -1,4 +1,5 @@
 <resources>
+    <string name="add_another_account">Add an account (No Webview)</string>
     <string name="application_name" translatable="false">Continuum</string>
     <string name="login_activity_label">Login</string>
     <string name="search_activity_label" translatable="false"> </string>
