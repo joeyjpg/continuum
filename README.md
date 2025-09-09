@@ -57,6 +57,8 @@ This means you don't need to recompile it each time, or to use [ReVanced Manager
 # Setup
 See [SETUP.md](/SETUP.md)
 
+To log in with the webview-less method, paste the oauth URL you get from continuum into a *MOBILE* browser (only been tested on firefox on android so far), log in, allow access, and when reddit tries to redirect you, tap on the page *once*. This should leave you on the "redirecting to (url)" page. If unsuccessful, simply repeat until successful. Copy the redirect URL, and paste it in continuum.
+
 # Installation
 You can easily install and update Continuum with [Discoverium](https://github.com/cygnusx-1-org/Discoverium/) via its search button.
 <p align="left">
